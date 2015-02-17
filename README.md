@@ -12,7 +12,7 @@ To update, `cd` into your local `dotfiles` repository and then:
 source bootstrap.sh
 ```
 
-### If `~/.extra` exists, it will be sourced along with the other files. 
+#### If `~/.extra` exists, it will be sourced along with the other files. 
 
 `~/.extra` looks something like this:
 
@@ -21,13 +21,13 @@ git config --global user.name "$GIT_AUTHOR_NAME"
 git config --global user.email "$GIT_AUTHOR_EMAIL"
 ```
 
-### Sensible OS X defaults
+#### Sensible OS X defaults
 
 ```bash
 ./.osx
 ```
 
-### Install Homebrew formulae
+#### Install Homebrew formulae
 
 ```bash
 ./brew.sh
