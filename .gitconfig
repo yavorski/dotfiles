@@ -1,0 +1,124 @@
+[alias]
+
+  # View abbreviated SHA, description, and history graph of the latest 20 commits
+  l = log --pretty=oneline -n 20 --graph --abbrev-commit
+  ll = log --pretty=oneline -n 100 --graph --abbrev-commit
+
+  # View the current working tree status
+  s = status
+
+  # Show changes between commits, commit and working tree, etc
+  d = diff
+
+  # Switch to a branch, creating it if necessary
+  go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+
+  # Shortcut to checkout
+  co = checkout 
+
+  # Show verbose output about tags, branches or remotes
+  tags = tag -l
+  br = branch
+  branches = branch -a
+  remotes = remote -v
+
+  # Remove branches that have already been merged with master
+  # a.k.a. ‘delete merged’
+  dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+
+  # Merge GitHub pull request on top of the `master` branch
+  mpr = "!f() { \
+    if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
+      git fetch origin refs/pull/$1/head:pr/$1 && \
+      git rebase master pr/$1 && \
+      git checkout master && \
+      git merge pr/$1 && \
+      git branch -D pr/$1 && \
+      git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
+    fi \
+  }; f"
+
+[apply]
+
+  # Detect whitespace errors when applying a patch
+  whitespace = fix
+
+[core]
+
+  # Treat spaces before tabs and all kinds of trailing whitespace as an error
+  # [default] trailing-space: looks for spaces at the end of a line
+  # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+  whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+  # Make `git rebase` safer on OS X
+  # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+  trustctime = false
+
+[color]
+
+  # Use colors in Git commands that are capable of colored output when
+  # outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
+  ui = auto
+
+[color "branch"]
+
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+
+  meta = yellow bold
+  frag = magenta bold # line info
+  old = red # deletions
+  new = green # additions
+
+[color "status"]
+
+  added = yellow
+  changed = green
+  untracked = cyan
+
+[diff]
+
+  # Detect copies as well as renames
+  renames = copies
+
+[help]
+
+  # Automatically correct and execute mistyped commands
+  autocorrect = 1
+
+[merge]
+
+  # Include summaries of merged commits in newly created merge commit messages
+  log = true
+
+[push]
+
+  # Use the Git 1.x.x default to avoid errors on machines with old Git
+  # installations. To use `simple` instead, add this to your `~/.extra` file:
+  # `git config --global push.default simple`. See http://git.io/mMah-w.
+  default = matching
+
+# URL shorthands
+
+[url "git@github.com:"]
+
+  insteadOf = "gh:"
+  pushInsteadOf = "github:"
+  pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+
+  insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+
+  insteadOf = "gst:"
+  pushInsteadOf = "gist:"
+  pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+
+  insteadOf = "gist:"

@@ -1,0 +1,18 @@
+{
+  "folders": [{
+    "follow_symlinks": true,
+    "path": "."
+  }],
+  "ternjs": {
+    "exclude": ["test/**", "node_modules/**", "app/bower_components/**", "dist/**"],
+    "libs": [
+      "ecma5",
+      "browser",
+      "jquery"
+    ],
+    "plugins": {
+      "node": {},
+      "angular": "./"
+    }
+  }
+}

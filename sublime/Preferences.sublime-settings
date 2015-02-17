@@ -1,0 +1,51 @@
+{
+  "theme": "Seti.sublime-theme",
+  "color_scheme": "Packages/Seti_UX/Seti.tmTheme",
+  "Seti_SB_bright": true,
+  "Seti_tabs_small": true,
+
+  "default_encoding": "UTF-8",
+  "font_face": "Monaco",
+  "font_size": 12,
+  "line_padding_bottom": 2,
+  "margin": 4,
+
+  "match_brackets": true,
+  "match_brackets_angle": true,
+
+  "caret_extra_bottom": 1,
+  "caret_extra_top": 1,
+  "caret_extra_width": 2,
+
+  "tab_size": 2,
+  "word_wrap": false,
+  "shift_tab_unindent": true,
+  "detect_indentation": true,
+  "draw_white_space": "all",
+  "indent_guide_options": ["draw_active"],
+  "translate_tabs_to_spaces": true,
+  "trim_automatic_white_space": true,
+  "trim_trailing_white_space_on_save": true,
+  "ensure_newline_at_eof_on_save": true,
+
+  "highlight_line": false,
+  "highlight_modified_tabs": true,
+
+  "bold_folder_labels": true,
+
+  "auto_complete": true,
+  "auto_complete_triggers": [
+    { "characters": "<", "selector": "text.html" },
+    { "characters": ".", "selector": "source.js" }
+  ],
+
+  "folder_exclude_patterns": ["node_modules", "bower_components", "coverage", ".sass-cache", ".svn", ".git", ".hg", "CVS", ".tmp"],
+
+  "tern_argument_hints": true,
+
+  "atomic_save": true,
+
+  "ignored_packages": [],
+  "vintage_ctrl_keys": true,
+  "vintage_start_in_command_mode": true
+}
