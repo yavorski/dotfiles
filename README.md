@@ -12,7 +12,7 @@ To update, `cd` into your local `dotfiles` repository and then:
 source bootstrap.sh
 ```
 
-## If `~/.extra` exists, it will be sourced along with the other files. 
+### If `~/.extra` exists, it will be sourced along with the other files. 
 
 `~/.extra` looks something like this:
 
