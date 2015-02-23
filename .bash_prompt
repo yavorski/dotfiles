@@ -56,6 +56,22 @@ prompt_git() {
     fi;
 }
 
+prompt_git_windows() {
+    # check if we're in a git repo
+    git rev-parse --is-inside-work-tree &>/dev/null || return
+
+    # quickest check for what branch we're on
+    branch=`git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||'`
+
+    # check if it's dirty (via github.com/sindresorhus/pure)
+    dirty=$(git diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ]&& echo -e "*")
+
+    [ -n "$s" ] && s=" [$s]"
+    printf "%s" "$1$branch$2$dirty"
+
+    return
+}
+
 if tput setaf 1 &> /dev/null; then
     tput sgr0; # reset colors
     bold=$(tput bold);
@@ -107,7 +123,11 @@ PS1+="\[${white}\] at ";
 PS1+="\[${hostStyle}\]\h"; # host
 PS1+="\[${white}\] in ";
 PS1+="\[${green}\]\w"; # working directory
-PS1+="\$(prompt_git \"${white} on ${violet}\")"; # Git repository details
+if [[ "$OSTYPE" == "msys" ]]; then
+    PS1+="\$(prompt_git_windows \"${white} on ${red}\")"; # Git repository details #windows
+else
+    PS1+="\$(prompt_git \"${white} on ${violet}\")"; # Git repository details #osx
+fi
 PS1+="\n";
 PS1+="\[${white}\]λ \[${reset}\]"; # `$` (and reset color)
 export PS1;
