@@ -4,7 +4,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias ~="cd ~" 
+alias ~="cd ~"
 
 # Shortcuts
 alias dl="cd ~/Downloads"
@@ -18,6 +18,10 @@ if ls --color > /dev/null 2>&1; then # GNU `ls`
   colorflag="--color"
 else # OS X `ls`
   colorflag="-G"
+fi
+
+if [[ "$OSTYPE" == "msys" ]]; then
+  colorflag="--color"
 fi
 
 # List all files colorized in long format

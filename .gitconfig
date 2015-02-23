@@ -14,7 +14,7 @@
   go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
 
   # Shortcut to checkout
-  co = checkout 
+  co = checkout
 
   # Show verbose output about tags, branches or remotes
   tags = tag -l
@@ -75,9 +75,9 @@
 
 [color "status"]
 
-  added = yellow
-  changed = green
-  untracked = cyan
+  added = green
+  changed = yellow bold
+  untracked = red
 
 [diff]
 
