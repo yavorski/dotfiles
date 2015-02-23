@@ -80,3 +80,7 @@ alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
 # Make Grunt print stack traces by default
 # command -v grunt > /dev/null && alias grunt="grunt --stack"
+
+if [[ "$OSTYPE" == "msys" ]]; then
+  alias sublime="/c/Program\ Files/Sublime\ Text\ 3/subl.exe"
+fi
