@@ -2,8 +2,6 @@
 
 cd "$(dirname "${BASH_SOURCE}")";
 
-git pull origin master;
-
 function doIt() {
   rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh"  --exclude "windows-setup.bat" \
   	--exclude "sublime/" --exclude "cmder_mini/" --exclude "README.md" --exclude "LICENSE-MIT.txt" -avh --no-perms . ~;
