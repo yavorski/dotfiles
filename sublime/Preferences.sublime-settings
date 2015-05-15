@@ -5,8 +5,9 @@
   "Seti_tabs_small": true,
 
   "default_encoding": "UTF-8",
-  "font_face": "Monaco",
-  "font_size": 12,
+  // mac
+  // "font_face": "Monaco",
+  // "font_size": 12,
   "line_padding_bottom": 2,
   "margin": 4,
 
