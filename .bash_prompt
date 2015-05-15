@@ -124,9 +124,11 @@ PS1+="\[${hostStyle}\]\h"; # host
 PS1+="\[${white}\] in ";
 PS1+="\[${green}\]\w"; # working directory
 if [[ "$OSTYPE" == "msys" ]]; then
-    PS1+="\$(prompt_git_windows \"${white} on ${red}\")"; # Git repository details #windows
+    # Git repository details #windows
+    PS1+="\$(prompt_git_windows \"${white} on ${red}\")"; 
 else
-    PS1+="\$(prompt_git \"${white} on ${violet}\")"; # Git repository details #osx
+    # Git repository details #osx
+    PS1+="\$(prompt_git \"${white} on ${red}\")";
 fi
 PS1+="\n";
 PS1+="\[${white}\]λ \[${reset}\]"; # `$` (and reset color)
