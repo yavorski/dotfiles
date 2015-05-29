@@ -28,6 +28,7 @@
   "trim_automatic_white_space": true,
   "trim_trailing_white_space_on_save": true,
   "ensure_newline_at_eof_on_save": true,
+  "show_line_endings": true,
 
   "highlight_line": false,
   "highlight_modified_tabs": true,
