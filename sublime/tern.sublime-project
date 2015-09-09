@@ -4,7 +4,7 @@
     "path": "."
   }],
   "ternjs": {
-    "exclude": ["test/**", "node_modules/**", "app/bower_components/**", "dist/**"],
+    "exclude": ["node_modules/**", "bower_components/**", "dist/**", "test/**"],
     "libs": [
       "ecma5",
       "browser",
