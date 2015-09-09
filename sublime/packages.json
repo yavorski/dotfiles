@@ -1,0 +1,19 @@
+{
+  "in_process_packages": [],
+  "installed_packages":
+  [
+    "Dotfiles Syntax Highlighting",
+    "EditorConfig",
+    "Emmet",
+    "JavaScriptNext - ES6 Syntax",
+    "JsFormat",
+    "Package Control",
+    "Pretty JSON",
+    "Seti_UI",
+    "Seti_UX",
+    "Stylus",
+    "Tag",
+    "TernJS",
+    "TypeScript"
+  ]
+}
