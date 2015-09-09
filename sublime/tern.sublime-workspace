@@ -1,0 +1,836 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"port",
+				"prototype	{}"
+			],
+			[
+				"place",
+				"placeholderClass	(str)"
+			],
+			[
+				"scrol",
+				"scrollY"
+			],
+			[
+				"requ",
+				"requestAnimationFrame"
+			],
+			[
+				"ele",
+				"element"
+			],
+			[
+				"request",
+				"requestTick()"
+			],
+			[
+				"eleme",
+				"elementRect"
+			],
+			[
+				"elemen",
+				"element	(?)"
+			],
+			[
+				"body",
+				"bodyTop	(num)"
+			],
+			[
+				"bod",
+				"bodyTop	(?)"
+			],
+			[
+				"Elem",
+				"elementRect"
+			],
+			[
+				"elem",
+				"element	(?)"
+			],
+			[
+				"__in",
+				"__input_stdin	(str)"
+			],
+			[
+				"se",
+				"serveDir	{}"
+			],
+			[
+				"mail",
+				"mailSender	{}"
+			],
+			[
+				"screen",
+				"screenshots"
+			],
+			[
+				"create",
+				"createWriteStream(path, options?)"
+			],
+			[
+				"inde",
+				"indexOf"
+			],
+			[
+				"inl",
+				"inline-block"
+			],
+			[
+				"fa",
+				"favoriteTapped"
+			],
+			[
+				"border",
+				"border-radius"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"req",
+				"requests	(?)"
+			],
+			[
+				"resp",
+				"responses	(num)"
+			],
+			[
+				"co",
+				"contentType	(?)"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 257.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"ss html",
+				"Set Syntax: HTML"
+			],
+			[
+				"ss js",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"settings",
+				"Preferences: Settings - User"
+			],
+			[
+				"html",
+				"Snippet: html"
+			],
+			[
+				"ss json",
+				"Set Syntax: JSON"
+			],
+			[
+				"upgrade",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"update",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"ss md",
+				"Set Syntax: Markdown"
+			],
+			[
+				"ss jsno",
+				"Set Syntax: JSON"
+			],
+			[
+				"ss css",
+				"Set Syntax: SCSS"
+			],
+			[
+				"ss java",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"sett",
+				"Preferences: Settings - User"
+			],
+			[
+				"intll",
+				"Package Control: Install Package"
+			],
+			[
+				"format",
+				"Format: Javascript"
+			],
+			[
+				"conver to sp",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"word",
+				"Word Wrap: Toggle"
+			],
+			[
+				"list pack",
+				"Package Control: List Packages"
+			],
+			[
+				"ss jsn",
+				"Set Syntax: JavaScript Next"
+			],
+			[
+				"install package",
+				"Package Control: Install Package"
+			],
+			[
+				"ss javas",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"list packag",
+				"Package Control: List Packages"
+			],
+			[
+				"spaces",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"list package",
+				"Package Control: List Packages"
+			],
+			[
+				"s js",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"remove packa",
+				"Package Control: Remove Package"
+			],
+			[
+				"reload",
+				"TernJS: Reload"
+			],
+			[
+				"ss shell",
+				"Set Syntax: Shell Script (Bash)"
+			],
+			[
+				"ss shel",
+				"Set Syntax: Shell Script (Bash)"
+			],
+			[
+				"ternj",
+				"TernJS: Reload"
+			],
+			[
+				"install packae",
+				"Package Control: Install Package"
+			],
+			[
+				"install pac",
+				"Package Control: Install Package"
+			],
+			[
+				"list packages",
+				"Package Control: List Packages"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 432.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2deb499853c4371624f5a07e27c334aa' + 'bf8c4e67d14fb0525ba4f89698a6d7e1'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/c/Users/yavorski/dev/dotfiles/sublime"
+	],
+	"file_history":
+	[
+		"/c/Users/yavorski/dev/your-account/src/modules/fixit/fixit.factory.js",
+		"/c/Users/yavorski/dev/your-account/src/stylus/modules/_lists.styl",
+		"/c/Users/yavorski/dev/your-account/src/modules/home/_home.styl",
+		"/c/Users/yavorski/dev/your-account/src/stylus/core/_normalize.styl",
+		"/c/Users/yavorski/dev/your-account/src/stylus/modules/_buttons.styl",
+		"/c/Users/yavorski/dev/your-account/src/stylus/modules/_forms.styl",
+		"/c/Users/yavorski/dev/your-account/src/stylus/modules/_bar.styl",
+		"/c/Users/yavorski/dev/your-account/src/stylus/core/_spacing.styl",
+		"/c/Users/yavorski/dev/your-account/src/index.html",
+		"/C/Users/yavorski/dev/sticky-element/src/example.js",
+		"/c/Users/yavorski/dev/sticky-element/package.json",
+		"/c/Users/yavorski/dev/sticky-element/.gitignore",
+		"/c/Users/yavorski/dev/sticky-element/src/sticky-element.js",
+		"/c/Users/yavorski/dev/sticky-element/src/style.css",
+		"/c/Users/yavorski/dev/sticky-element/.gitattributes",
+		"/C/Users/yavorski/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/c/Users/yavorski/dev/dotfiles/sublime/Preferences.sublime-settings",
+		"/C/Users/yavorski/Downloads/Frasier (Season 3)/15.srt",
+		"/C/Users/yavorski/Downloads/The.Big.Bang.Theory.S08E22.720p.HDTV.X264-DIMENSION.bak",
+		"/C/Users/yavorski/dev/pdf-to-html/package.json",
+		"/c/Users/yavorski/dev/screen-shooter/screenshot.js",
+		"/C/Users/yavorski/Downloads/Mad Men S07E11 HDTV XviD-FUM/Mad Men - 07x11 - Time & Life.DIMENSION.English.HI.C.orig.Addic7ed.com.srt",
+		"/c/Users/yavorski/dev/pdf-to-html/index.js",
+		"/C/Users/yavorski/dev/hacker-rank/second.js",
+		"/c/Users/yavorski/dev/screen-shooter/api/screenshots.js",
+		"/c/Users/yavorski/dev/screen-shooter/index.js",
+		"/c/Users/yavorski/dev/screen-shooter/public/modules/image-input.html",
+		"/c/Users/yavorski/dev/screen-shooter/public/modules/image-email.html",
+		"/c/Users/yavorski/dev/screen-shooter/public/modules/screenshot-header.html",
+		"/c/Users/yavorski/dev/screen-shooter/public/modules/route-button.html",
+		"/c/Users/yavorski/dev/screen-shooter/public/bower/font-roboto/roboto.html",
+		"/c/Users/yavorski/dev/screen-shooter/screenshots/readme.md",
+		"/c/Users/yavorski/dev/screen-shooter/routes/api-help.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/screenshot-stream/node_modules/phantom-bridge/node_modules/phantomjs/node_modules/adm-zip/headers/dataHeader.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/update-notifier/node_modules/configstore/node_modules/js-yaml/node_modules/argparse/node_modules/lodash/array/head.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/es5-shim/tests/spec/helpers-jasmine.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/hbs/node_modules/handlebars/node_modules/optimist/example/short.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/subarg/example/show.js",
+		"/c/Users/yavorski/dev/screen-shooter/mail.js",
+		"/c/Users/yavorski/dev/screen-shooter/views/error.hbs",
+		"/c/Users/yavorski/dev/screen-shooter/package.json",
+		"/c/Users/yavorski/dev/screen-shooter/routes/index.js",
+		"/c/Users/yavorski/dev/screen-shooter/views/index.hbs",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/express/lib/application.js",
+		"/c/Users/yavorski/dev/screen-shooter/public/bower/core-ajax/test/core-ajax-progress.html",
+		"/c/Users/yavorski/dev/screen-shooter/.modulusignore",
+		"/c/Users/yavorski/dev/screen-shooter/public/bower.json",
+		"/C/Users/yavorski/dev/screen-shooter/.modulusignore",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/.bin/bower",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/hbs/node_modules/handlebars/node_modules/uglify-js/lib/mozilla-ast.js",
+		"/c/Users/yavorski/dev/screen-shooter/views/layout.hbs",
+		"/c/Users/yavorski/dev/screen-shooter/public/modules/image-form.html",
+		"/c/Users/yavorski/dev/screen-shooter/api/zip.js",
+		"/C/Users/yavorski/Downloads/Frasier (Season 2)/1.srt",
+		"/c/Users/yavorski/dev/screen-shooter/public/modules/image-link-list.html",
+		"/C/Users/yavorski/dev/screen-shooter/api/zip.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/serve-index/index.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/serve-index/node_modules/accepts/index.js",
+		"/c/Users/yavorski/dev/screen-shooter/zip.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/body-parser/node_modules/bytes/Makefile",
+		"/c/Users/yavorski/dev/screen-shooter/public/bower/core-icons/maps-icons.html",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/serve-index/node_modules/accepts/package.json",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/update-notifier/node_modules/configstore/node_modules/js-yaml/node_modules/argparse/node_modules/lodash/internal/arrayMap.js",
+		"/c/Users/yavorski/dev/screen-shooter/public/modules/image-input-list.html",
+		"/c/Users/yavorski/dev/screen-shooter/public/css/ui.css",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/express/lib/utils.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/update-notifier/node_modules/configstore/node_modules/js-yaml/index.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/get-res/node_modules/w3counter/node_modules/cheerio/node_modules/htmlparser2/node_modules/domhandler/test/cases/16-normalize_whitespace.json",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/body-parser/node_modules/on-finished/README.md",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/body-parser/node_modules/debug/node.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/serve-index/node_modules/debug/node.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/update-notifier/node_modules/configstore/node_modules/js-yaml/node_modules/argparse/node_modules/lodash/internal/assignOwnDefaults.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/update-notifier/node_modules/configstore/node_modules/js-yaml/node_modules/argparse/node_modules/lodash/internal/indexOfNaN.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/update-notifier/node_modules/configstore/node_modules/js-yaml/node_modules/argparse/node_modules/lodash/lang/isObject.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/express/node_modules/utils-merge/index.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/update-notifier/node_modules/configstore/node_modules/js-yaml/node_modules/argparse/node_modules/lodash/lang/isMatch.js",
+		"/C/Users/yavorski/AppData/Local/Temp/7zO7C4B.tmp/S01E23 - Frasier Crane's Day Off.srt",
+		"/C/Users/yavorski/AppData/Local/Temp/7zO7766.tmp/S01E21 - Travels With Martin.srt",
+		"/C/Users/yavorski/AppData/Local/Temp/7zO7FCB.tmp/S01E19 - Give Him The Chair!.srt",
+		"/C/Users/yavorski/dev/screen-shooter/public/modules/route-button.html",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/async/lib/async.js",
+		"/c/Users/yavorski/dev/screen-shooter/public/scripts/main.js",
+		"/C/Users/yavorski/dev/screen-shooter/public/modules/screenshot-header.html",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/viewport-list/node_modules/get-proxy/node_modules/rc/LICENSE.APACHE2",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/async/LICENSE",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/es5-shim/tests/spec/s-array.js",
+		"/c/Users/yavorski/dev/modulus-demo/public/js/pulse.min.js",
+		"/c/Users/yavorski/dev/fix-polymer-tutorial/finished/post-card.html",
+		"/C/Users/yavorski/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/c/Users/yavorski/dev/fix-polymer-tutorial/finished/index.html",
+		"/c/Users/yavorski/dev/fix-polymer-tutorial/components/core-selector/.gitignore",
+		"/c/Users/yavorski/dev/fix-polymer-tutorial/components/core-selection/test/index.html",
+		"/c/Users/yavorski/dev/fix-polymer-tutorial/components/core-selection/test/multi.html",
+		"/c/Users/yavorski/dev/fix-polymer-tutorial/components/core-selector/test/template-repeat.html",
+		"/c/Users/yavorski/dev/fix-polymer-tutorial/components/core-selector/test/selected-attr-prop.html",
+		"/c/Users/yavorski/dev/fix-polymer-tutorial/components/core-icons/social-icons.html",
+		"/c/Users/yavorski/dev/fix-polymer-tutorial/api/posts.json",
+		"/c/Users/yavorski/dev/polymer-tutorial/api/posts.json",
+		"/c/Users/yavorski/dev/polymer-tutorial/my-starter/index.js",
+		"/c/Users/yavorski/dev/polymer-tutorial/components/core-icons/core-icons.html",
+		"/c/Users/yavorski/dev/polymer-tutorial/my-starter/post-card.html",
+		"/c/Users/yavorski/dev/polymer-tutorial/my-starter/index.css",
+		"/c/Users/yavorski/dev/polymer-tutorial/my-starter/post-list.html",
+		"/c/Users/yavorski/dev/polymer-tutorial/step-3/index.html",
+		"/c/Users/yavorski/dev/polymer-tutorial/post-service/post-service.html",
+		"/C/Users/yavorski/dev/polymer-tutorial/my-starter/index.js",
+		"/C/Users/yavorski/dev/polymer-tutorial/my-starter/index.css",
+		"/c/Users/yavorski/dev/polymer-tutorial/starter/index.html",
+		"/c/Users/yavorski/dev/grunt-pageres/node_modules/ava/index.js",
+		"/C/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/screenshot-stream/node_modules/phantom-bridge/node_modules/phantomjs/lib/phantom/examples/render_multi_url.js",
+		"/c/Users/yavorski/dev/grunt-pageres/Gruntfile.js",
+		"/c/Users/yavorski/dev/screen-shooter/.gitignore",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/update-notifier/node_modules/configstore/node_modules/js-yaml/node_modules/argparse/node_modules/lodash/internal/mapDelete.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/express/node_modules/type-is/node_modules/mime-types/node_modules/mime-db/db.json",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/es5-shim/tests/index.min.html",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/log-symbols/node_modules/chalk/node_modules/.bin/supports-color",
+		"/C/Users/yavorski/dev/phantomjs-quick-start/load-speed.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/lib/util.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/get-res/index.js",
+		"/c/Users/yavorski/dev/screen-shooter/node_modules/pageres/node_modules/.bin/get-res",
+		"/c/Users/yavorski/dev/phantomjs-quick-start/index.js",
+		"/c/Users/yavorski/dev/phantomjs-quick-start/load-speed.js",
+		"/c/Users/yavorski/dev/phantomjs-quick-start/show-page-title.js",
+		"/c/Users/yavorski/dev/blog-start-app/README.md",
+		"/c/Users/yavorski/dev/blog-start-app/package.json",
+		"/c/Users/yavorski/dev/ng-quickstart/package.json",
+		"/c/Users/yavorski/dev/ng-quickstart/index.html",
+		"/c/Users/yavorski/dev/ng-quickstart/app.es6"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 116.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"scrollTop",
+			"aside",
+			"scrollTop",
+			"raf",
+			"requestTick",
+			"line",
+			"postion",
+			")';\n",
+			"sticky ",
+			">\n",
+			"theme",
+			"\"color_scheme\"",
+			"\"theme\"",
+			"theme",
+			"pages",
+			"--font-suffix",
+			"font",
+			"html5",
+			"wishesh",
+			", { maxAge: 0 }",
+			"localhost",
+			"bower",
+			"bbower",
+			"core-header-panel",
+			"crop",
+			"express",
+			"paper-checkbox",
+			"paper-shadow.",
+			"/bower/polymer/polymer.html",
+			"route-button",
+			"screenshot-header",
+			"/bower/paper-button/paper-button.html",
+			"template",
+			"<paper-checkbox ",
+			"items",
+			"image-input-list",
+			"image-input",
+			"core-icon",
+			"image-input-list",
+			"input-list",
+			"layout",
+			"route-button/paper-button.html",
+			"main",
+			"url=\"/page2\"",
+			"button 1",
+			"paper-button",
+			"paper",
+			"paper-button",
+			"#nav",
+			"screenshot-header",
+			"badge",
+			">\n",
+			"paper-input-decorator",
+			"main",
+			"\"default_line_ending",
+			"core-icon-button",
+			":host([favorite]) core-icon-button {\n  color: #da4336;\n}",
+			"favorite",
+			"favo",
+			"favorite",
+			"<link rel=\"import\" href=\"post-list.html\">",
+			"<link rel=\"import\" href=\"../components/paper-tabs/paper-tabs.html\">",
+			"<link rel=\"import\" href=\"../components/core-toolbar/core-toolbar.html\">",
+			"<link rel=\"import\" href=\"../components/core-header-panel/core-header-panel.html\">",
+			"dest: 'dist'",
+			"dist",
+			"sizes: ['1200x800', '800x600'],",
+			"\n\n",
+			"\nscreenshots",
+			"<%= url %>-<%= size %><%= crop %>",
+			"lib",
+			"Pages",
+			"pages",
+			"Pages",
+			"\n  ",
+			"phantom",
+			"toggle",
+			"address",
+			"(",
+			"theme",
+			"color_scheme",
+			"!!!\n",
+			"\n*",
+			"dispattch",
+			"Service",
+			"modulus",
+			"orchestrate",
+			"theme",
+			" ",
+			"#",
+			"\nvar dict = ['1', '2', '3', '4'];\nvar array = [];\n\nfor (var i = 0; i < 16; i++) {\n  array[i].push(dict[i]);\n}\n\n",
+			"[][][][]",
+			"[l][u][s][n]",
+			"10",
+			"main",
+			"transform",
+			"theme",
+			"them",
+			"let",
+			"karma",
+			"git-completion.bash",
+			"prompt_git",
+			"seti",
+			"tabs",
+			" \"color_scheme\": \"Packages/Seti_UI/Scheme/Seti.tmTheme\",",
+			"false"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 28.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "tern.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"styl",
+				"src\\style.css"
+			],
+			[
+				"spaci",
+				"src\\stylus\\core\\_spacing.styl"
+			],
+			[
+				"_bar",
+				"src\\stylus\\modules\\_bar.styl"
+			],
+			[
+				"index",
+				"src\\index.html"
+			],
+			[
+				"_home",
+				"src\\modules\\home\\_home.styl"
+			],
+			[
+				"_spa",
+				"src\\stylus\\core\\_spacing.styl"
+			],
+			[
+				"index.",
+				"index.js"
+			],
+			[
+				"route",
+				"public\\modules\\route-button.html"
+			],
+			[
+				"-header",
+				"public\\modules\\screenshot-header.html"
+			],
+			[
+				"mail",
+				"mail.js"
+			],
+			[
+				"packa",
+				"package.json"
+			],
+			[
+				"inde",
+				"index.js"
+			],
+			[
+				"bower",
+				"public\\bower.json"
+			],
+			[
+				"package",
+				"package.json"
+			],
+			[
+				"mail.js",
+				"mail.js"
+			],
+			[
+				"layout",
+				"views\\layout.hbs"
+			],
+			[
+				"image-ofm",
+				"public\\modules\\image-form.html"
+			],
+			[
+				"screen",
+				"screenshot.js"
+			],
+			[
+				"image-input",
+				"public\\modules\\image-input.html"
+			],
+			[
+				"lay",
+				"views\\layout.hbs"
+			],
+			[
+				"ui",
+				"public\\css\\ui.css"
+			],
+			[
+				"la",
+				"views\\layout.hbs"
+			],
+			[
+				"ind",
+				"index.js"
+			],
+			[
+				"image-in",
+				"public\\modules\\image-input.html"
+			],
+			[
+				"ui.css",
+				"public\\css\\ui.css"
+			],
+			[
+				"main",
+				"public\\scripts\\main.js"
+			],
+			[
+				"layou",
+				"views\\layout.hbs"
+			],
+			[
+				"index.js",
+				"my-starter\\index.js"
+			],
+			[
+				"pac",
+				"package.json"
+			],
+			[
+				"app",
+				"app.js"
+			],
+			[
+				".gitig",
+				".gitignore"
+			],
+			[
+				"git",
+				".gitignore"
+			],
+			[
+				"raster",
+				"rasterize.js"
+			],
+			[
+				"rast",
+				"rasterize.js"
+			],
+			[
+				"req",
+				"request-response.js"
+			],
+			[
+				"show",
+				"show-page-title.js"
+			],
+			[
+				"load",
+				"load-speed.js"
+			],
+			[
+				"pack",
+				"package.json"
+			],
+			[
+				"app.",
+				"app.es6"
+			],
+			[
+				"read",
+				"readme.md"
+			],
+			[
+				"billing-in",
+				"test\\spec\\modules\\billing\\billing-info.controller.spec.js"
+			],
+			[
+				"billig",
+				"test\\spec\\modules\\billing\\billing.controller.spec.js"
+			],
+			[
+				"bill",
+				"app\\modules\\billing\\billing-info.controller.js"
+			],
+			[
+				"unif",
+				"app\\modules\\directives\\unify-form-fields.directive.js"
+			],
+			[
+				"acco",
+				"app\\modules\\services\\account.service.js"
+			],
+			[
+				"account.spe",
+				"test\\spec\\modules\\services\\account.service.spec.js"
+			],
+			[
+				"karma",
+				"karma.conf.js"
+			],
+			[
+				"gul",
+				"gulpfile.js"
+			],
+			[
+				"karm",
+				"karma.conf.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 300.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
