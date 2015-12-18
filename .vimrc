@@ -120,3 +120,6 @@ if has("autocmd")
   " Treat .md files as Markdown
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 endif
+
+" Visually select and press CTRL+C to yank to system clipboard
+vnoremap <C-c> "+y
