@@ -84,9 +84,11 @@ alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 
 if [[ "$OSTYPE" == "msys" ]]; then
   alias sublime="/c/Program\ Files/Sublime\ Text\ 3/subl.exe"
-else 
-	alias sublime="subl"
+else
+  alias sublime="subl"
 fi
+
+alias flushdns="sudo killall -HUP mDNSResponder"
 
 # Add an "alert" alias for long running commands.  Use like so:
 # sleep 10; alert
