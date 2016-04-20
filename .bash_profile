@@ -41,3 +41,6 @@ export NVM_DIR="$HOME/.nvm"
 
 # AWS Command Completion
 complete -C aws_completer aws
+
+# remap caps lock to ctrl
+# setxkbmap -option caps:ctrl_modifier
