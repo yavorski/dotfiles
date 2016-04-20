@@ -38,3 +38,6 @@ fi;
 # To activate nvm, you need to source it from shell
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+
+# AWS Command Completion
+complete -C aws_completer aws
