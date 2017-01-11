@@ -1,19 +1,21 @@
 {
+  "bootstrapped": true,
   "in_process_packages": [],
-  "installed_packages":
-  [
+  "installed_packages": [
     "Dotfiles Syntax Highlighting",
     "EditorConfig",
     "Emmet",
+    "HTML-CSS-JS Prettify",
     "JavaScriptNext - ES6 Syntax",
     "JsFormat",
     "Package Control",
     "Pretty JSON",
+    "Sass",
     "Seti_UI",
     "Seti_UX",
+    "SideBarEnhancements",
     "Stylus",
-    "Tag",
-    "TernJS",
-    "TypeScript"
+    "TypeScript",
+    "TypescriptCompletion"
   ]
 }
