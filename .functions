@@ -43,6 +43,11 @@ if [ $? -eq 0 ]; then
   }
 fi;
 
+
+# Use git add * & commit & push in single line
+# Usage : gacp "initial commit"
+function gacp { git add '*'; git commit -m "$@"; git push;}
+
 # Create a data URL from a file
 function dataurl() {
   local mimeType=$(file -b --mime-type "$1");
