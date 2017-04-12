@@ -1,9 +1,9 @@
 
 # Easier navigation: .., ..., ...., ....., ~ and -
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
+alias ..="cd .. && la"
+alias ...="cd ../.. && la"
+alias ....="cd ../../.. && la"
+alias .....="cd ../../../.. && la"
 alias ~="cd ~"
 
 # Shortcuts
@@ -13,6 +13,7 @@ alias p="cd ~/projects"
 alias g="git"
 alias h="history"
 alias j="jobs"
+alias c="clear"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
