@@ -1,9 +1,9 @@
 
 # Easier navigation: .., ..., ...., ....., ~ and -
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
+alias ..="cd .. && la"
+alias ...="cd ../.. && la"
+alias ....="cd ../../.. && la"
+alias .....="cd ../../../.. && la"
 alias ~="cd ~"
 
 # Shortcuts
@@ -13,6 +13,7 @@ alias p="cd ~/projects"
 alias g="git"
 alias h="history"
 alias j="jobs"
+alias c="clear"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -93,11 +94,3 @@ alias flushdns="sudo killall -HUP mDNSResponder"
 # Add an "alert" alias for long running commands.  Use like so:
 # sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Get list of git commits
-alias gl='git log --oneline --all --graph --decorate  $*'
-
-# Function aliases
-
-# Git - add * , commit, push
-function gacp { git add '*'; git commit -m "$@"; git push;}
