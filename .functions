@@ -61,3 +61,15 @@ function json() {
     python -mjson.tool | pygmentize -l javascript;
   fi;
 }
+
+# Set LG Mouse Speed
+# `mouse` with no arguments will set `Accel Speed` to `-0.85`, otherwise to provided number
+function mouse() {
+  if [ $# -eq 0 ]; then
+    xinput set-prop 9 303 -0.85;
+    echo "Mouse Accel Speed -0.85";
+  else
+    xinput set-prop 9 303 "$@";
+    echo "Mouse Accel Speed $@";
+  fi;
+}
