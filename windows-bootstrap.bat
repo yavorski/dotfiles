@@ -7,4 +7,4 @@ xcopy .gitattributes %UserProfile%
 xcopy .gitconfig %UserProfile%
 xcopy .gvimrc %UserProfile%
 xcopy .vimrc %UserProfile%
-xcopy cmder_mini\* %UserProfile%\cmder_mini /s /i
+xcopy .vim\* %UserProfile%\.vim /s /i

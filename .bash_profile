@@ -40,7 +40,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
 # AWS Command Completion
-complete -C aws_completer aws
+# complete -C aws_completer aws
 
 # remap caps lock to ctrl
 # setxkbmap -option caps:ctrl_modifier
