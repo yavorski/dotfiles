@@ -125,12 +125,14 @@ PS1+="\[${white}\] in ";
 PS1+="\[${green}\]\w"; # working directory
 if [[ "$OSTYPE" == "msys" ]]; then
     # Git repository details #windows
-    PS1+="\$(prompt_git_windows \"${white} on ${red}\")"; 
+    PS1+="\$(prompt_git_windows \"${white} on ${red}\")";
+    PS1+=$(printf "\n\r")
 else
     # Git repository details #osx
     PS1+="\$(prompt_git \"${white} on ${red}\")";
+    PS1+="\n";
 fi;
-PS1+="\n";
+
 PS1+="\[${white}\]λ \[${reset}\]"; # `$` (and reset color)
 export PS1;
 
