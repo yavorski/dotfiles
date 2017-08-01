@@ -126,7 +126,7 @@ PS1+="\[${green}\]\w"; # working directory
 if [[ "$OSTYPE" == "msys" ]]; then
     # Git repository details #windows
     PS1+="\$(prompt_git_windows \"${white} on ${red}\")";
-    PS1+=$(printf "\n\r")
+    PS1+=$(printf "\n=> ");
 else
     # Git repository details #osx
     PS1+="\$(prompt_git \"${white} on ${red}\")";
