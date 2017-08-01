@@ -1,10 +1,28 @@
+" Make Vim more useful
+set nocompatible
+
+" Required
+filetype off
+
+" Set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" Let Vundle manage Vundle - Required
+Plugin 'VundleVim/Vundle.vim'
+
+" Add other plugins
+Plugin 'scrooloose/nerdtree'
+
+" All of your Plugins must be added before the following line
+call vundle#end()
+filetype plugin indent on
+
 " Use the Solarized Dark theme
 set background=dark
 colorscheme solarized
 let g:solarized_termtrans=1
 
-" Make Vim more useful
-set nocompatible
 
 " Use the OS clipboard by default
 set clipboard=unnamed
