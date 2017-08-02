@@ -18,10 +18,19 @@ Plugin 'scrooloose/nerdtree'
 call vundle#end()
 filetype plugin indent on
 
+
 " Use the Solarized Dark theme
 set background=dark
 colorscheme solarized
 let g:solarized_termtrans=1
+
+
+" NERDTree options
+" autocmd vimenter * NERDTree
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+map <F4> :NERDTreeToggle<CR>
+
 
 
 " Use the OS clipboard by default
