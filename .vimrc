@@ -40,7 +40,9 @@ set clipboard=unnamed
 set wildmenu
 
 " Allow cursor keys in insert mode
-set esckeys
+if !has('nvim')
+  set esckeys
+endif
 
 " Allow backspace in insert mode
 set backspace=indent,eol,start
