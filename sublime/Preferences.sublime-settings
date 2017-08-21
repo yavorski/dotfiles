@@ -69,7 +69,7 @@
     "node_modules",
     "bower_components"
   ],
-  "font_size": 10.2,
+  "font_size": 10.42,
   "font_face": "Operator Mono Medium",
   "highlight_line": false,
   "highlight_modified_tabs": true,
