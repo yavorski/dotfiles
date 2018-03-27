@@ -3,8 +3,16 @@
 cd "$(dirname "${BASH_SOURCE}")";
 
 function doIt() {
-  rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh"  --exclude "windows-setup.bat" \
-  	--exclude "sublime/" --exclude "cmder_mini/" --exclude "readme.md" --exclude "LICENSE-MIT.txt" -avh --no-perms . ~;
+  rsync
+    --exclude ".git/" \
+    --exclude ".gitignore" \
+    --exclude ".DS_Store" \
+    --exclude "README.md" \
+    --exclude "sublime/" \
+    --exclude "bootstrap.sh" \
+    --exclude "LICENSE-MIT.txt" \
+    --exclude "windows-setup.bat" \
+    -avh --no-perms . ~;
   source ~/.bash_profile;
 }
 
