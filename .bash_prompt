@@ -133,7 +133,7 @@ else
     PS1+="\n";
 fi;
 
-PS1+="\[${white}\]λ \[${reset}\]"; # `$` (and reset color)
+PS1+="\[${white}\]\[${bold}\]λ \[${reset}\]"; # `$` (and reset color)
 export PS1;
 
 PS2="\[${yellow}\]→ \[${reset}\]";
