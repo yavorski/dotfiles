@@ -21,10 +21,13 @@ sudo ln -s /usr/local/bin/gsha256sum /usr/local/bin/sha256sum
 
 # Install some other useful utilities like `sponge`.
 brew install moreutils
+
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
 brew install findutils
+
 # Install GNU `sed`, overwriting the built-in `sed`.
 brew install gnu-sed --with-default-names
+
 # Install Bash 4.
 # Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before
 # running `chsh`.
@@ -40,15 +43,10 @@ brew install homebrew/dupes/grep
 brew install homebrew/dupes/screen
 
 # Install other useful binaries.
-brew install ack
-#brew install exiv2
 brew install git
-brew install rename
+brew install ack
 brew install tree
-
-# Install Node.js. Note: this installs `npm` too, using the recommended
-# installation method.
-brew install node
+brew install rename
 
 # Remove outdated versions from the cellar.
 brew cleanup

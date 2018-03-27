@@ -18,8 +18,10 @@ sudo pmset -a hibernatemode 0
 
 # Remove the sleep image file to save disk space
 sudo rm /Private/var/vm/sleepimage
+
 # Create a zero-byte file instead…
 sudo touch /Private/var/vm/sleepimage
+
 # …and make sure it can’t be rewritten
 sudo chflags uchg /Private/var/vm/sleepimage
 
@@ -34,10 +36,8 @@ sudo pmset -a sms 0
 # (e.g. enable Tab in modal dialogs)
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-
 # Disable auto-correct
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
-
 
 ###############################################################################
 # Screen                                                                      #
@@ -106,8 +106,8 @@ fi;
 ###############################################################################
 
 # Allow installing user scripts via GitHub Gist or Userscripts.org
-defaults write com.google.Chrome ExtensionInstallSources -array "https://gist.githubusercontent.com/" "http://userscripts.org/*"
-defaults write com.google.Chrome.canary ExtensionInstallSources -array "https://gist.githubusercontent.com/" "http://userscripts.org/*"
+# defaults write com.google.Chrome ExtensionInstallSources -array "https://gist.githubusercontent.com/" "http://userscripts.org/*"
+# defaults write com.google.Chrome.canary ExtensionInstallSources -array "https://gist.githubusercontent.com/" "http://userscripts.org/*"
 
 
 ###############################################################################
