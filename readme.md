@@ -32,3 +32,10 @@ git config --global user.email "$GIT_AUTHOR_EMAIL"
 ```bash
 ./brew.sh
 ```
+
+
+#### Git Bash Colors Support for Mintty
+
+```bash
+export FORCE_COLOR=true
+```
