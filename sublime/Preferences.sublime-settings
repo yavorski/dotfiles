@@ -54,6 +54,7 @@
   "caret_extra_top": 1,
   "caret_extra_width": 2,
   "color_scheme": "Packages/Seti_UX/Seti.tmTheme",
+  "show_encoding": true,
   "default_encoding": "UTF-8",
   "default_line_ending": "unix",
   "detect_indentation": true,
