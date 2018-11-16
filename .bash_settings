@@ -83,3 +83,5 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+export FORCE_COLOR=true
