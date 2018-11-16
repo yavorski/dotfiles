@@ -36,8 +36,8 @@ if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completio
 fi;
 
 # To activate nvm, you need to source it from shell
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
 # remap caps lock to ctrl
 setxkbmap -option caps:ctrl_modifier

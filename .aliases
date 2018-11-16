@@ -1,4 +1,3 @@
-
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
@@ -7,9 +6,9 @@ alias .....="cd ../../../.."
 alias ~="cd ~"
 
 # Shortcuts
-alias dl="cd ~/Downloads"
 alias d="cd ~/dev"
 alias p="cd ~/projects"
+alias dl="cd ~/Downloads"
 alias g="git"
 alias h="history"
 alias j="jobs"
