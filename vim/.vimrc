@@ -1,4 +1,4 @@
-" Init NeoVim
+" Init Vim
 
 " Make Vim more useful
 set nocompatible
@@ -7,7 +7,7 @@ set nocompatible
 " PlugInstall/PlugUpdate
 " https://github.com/junegunn/vim-plug
 
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -64,8 +64,8 @@ set cursorline
 set tabstop=2
 
 " Show "invisible" characters
-" set list
-" set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
+set list
+set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 
 
 " NERDTree options
@@ -136,15 +136,15 @@ set backspace=indent,eol,start
 " set noerrorbells
 
 " Don't show the intro message when starting Vim
-" set shortmess=atI
+set shortmess=atI
 
 " Use UTF-8 without BOM
-" set encoding=utf-8 nobomb
+set encoding=utf-8 nobomb
 
 " Centralize backups, swapfiles and undo history
 " Never let Vim write a backup file! They did that in the 70's.
-" set nobackup
-" set noswapfile
+set nobackup
+set noswapfile
 
 
 " Remap =>
@@ -161,3 +161,33 @@ vnoremap <C-c> "+y
 
 " Change default dir
 cd ~/dev
+
+
+" VIM ONLY =>
+
+" Allow cursor keys in insert mode
+if !has('nvim')
+  set esckeys
+endif
+
+
+" Strip trailing whitespace (,ss)
+function! StripWhitespace()
+  let save_cursor = getpos(".")
+  let old_query = getreg('/')
+  :%s/\s\+$//e
+  call setpos('.', save_cursor)
+  call setreg('/', old_query)
+endfunction
+noremap <leader>ss :call StripWhitespace()<CR>
+
+
+" Automatic commands
+if has("autocmd")
+  " Enable file type detection
+  filetype on
+  " Treat .json files as .js
+  autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
+  " Treat .md files as Markdown
+  autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+endif
