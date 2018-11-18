@@ -6,12 +6,11 @@ alias .....="cd ../../../.."
 alias ~="cd ~"
 
 # Shortcuts
-alias d="cd ~/dev"
-alias p="cd ~/projects"
-alias dl="cd ~/Downloads"
 alias g="git"
-alias h="history"
 alias j="jobs"
+alias h="history"
+alias d="cd ~/dev"
+alias dl="cd ~/Downloads"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`

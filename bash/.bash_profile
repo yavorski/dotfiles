@@ -40,4 +40,6 @@ fi;
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
 # remap caps lock to ctrl
-setxkbmap -option caps:ctrl_modifier
+if which setxkbmap > /dev/null; then
+  setxkbmap -option caps:ctrl_modifier
+fi;
