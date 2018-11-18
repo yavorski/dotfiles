@@ -39,6 +39,10 @@
     fi \
   }; f"
 
+  # git change-commits GIT_AUTHOR_NAME "prev name" "new name"
+  # git change-commits GIT_AUTHOR_EMAIL "prev@email.com" "new@email.com" HEAD~10..HEAD
+  change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f "
+
 [apply]
 
   # Detect whitespace errors when applying a patch
@@ -69,7 +73,7 @@
 
 [color "diff"]
 
-  meta = yellow bold
+  meta = yellow bold # diff info
   frag = magenta bold # line info
   old = red # deletions
   new = green # additions
