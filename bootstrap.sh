@@ -1,28 +1,22 @@
 #!/usr/bin/env bash
 
-cd "$(dirname "${BASH_SOURCE}")";
-
-function doIt() {
-  rsync \
-    --exclude ".git/" \
-    --exclude ".gitignore" \
-    --exclude ".DS_Store" \
-    --exclude "README.md" \
-    --exclude "sublime/" \
-    --exclude "bootstrap.sh" \
-    --exclude "LICENSE-MIT.txt" \
-    --exclude "windows-setup.bat" \
-    -avh --no-perms . ~;
+function bootstrap() {
+  rsync vim nvim bash/ .gitconfig .editorconfig -avh --no-perms ~;
+  mv ~/vim ~/.vim
+  mv ~/.vim/.vimrc ~;
+  mv ~/nvim ~/.config/
   source ~/.bash_profile;
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim;
+  curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
-  doIt;
+  bootstrap;
 else
   read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
   echo "";
   if [[ $REPLY =~ ^[Yy]$ ]]; then
-    doIt;
+    bootstrap;
   fi;
 fi;
-unset doIt;
+unset bootstrap;
