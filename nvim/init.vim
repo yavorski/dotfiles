@@ -160,5 +160,15 @@ noremap <leader>W :w !sudo tee % > /dev/null<CR>
 " Visually select and press CTRL+C to yank to system clipboard
 vnoremap <C-c> "+y
 
-" Change default dir
-cd ~/dev
+
+if has('win32')
+  " change default dir
+  cd C:\dev\
+
+  " set python
+  let g:python_host_prog = 'C:\Python27\python.exe'
+  let g:python3_host_prog = 'C:\Python37\python.exe'
+else
+  " change default dir
+  cd ~/dev
+endif
