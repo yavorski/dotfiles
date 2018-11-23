@@ -77,7 +77,8 @@ map <F4> :NERDTreeToggle<CR>
 
 " Typing
 " Use the OS clipboard by default
-set clipboard=unnamed
+" set clipboard=unnamed
+set clipboard=unnamedplus
 
 " Enhance command-line completion
 set wildmenu
