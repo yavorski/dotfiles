@@ -4,6 +4,7 @@
   "installed_packages": [
     "All Autocomplete",
     "Babel",
+    "ClearConsole",
     "Dotfiles Syntax Highlighting",
     "EditorConfig",
     "Emmet",
@@ -11,13 +12,19 @@
     "JavaScriptNext - ES6 Syntax",
     "JsFormat",
     "Log Highlight",
+    "Markdown Extended",
     "nginx",
     "Package Control",
     "PackageResourceViewer",
+    "PackagesUI",
     "Pretty JSON",
+    "Sass",
     "Seti_UI",
     "Seti_UX",
     "SideBarEnhancements",
-    "Stylus"
+    "Status Bar File Size",
+    "Stylus",
+    "SublimeREPL",
+    "TypeScript"
   ]
 }
