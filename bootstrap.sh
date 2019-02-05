@@ -5,7 +5,7 @@ function bootstrap() {
   mv ~/vim ~/.vim
   mv ~/.vim/.vimrc ~;
   mv ~/nvim ~/.config/
-  source ~/.bash_profile;
+  source ~/.profile;
   curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim;
   curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 }
