@@ -1,3 +1,0 @@
-npm config set spin true
-npm config set loglevel http
-
