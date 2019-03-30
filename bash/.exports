@@ -1,8 +1,10 @@
+#!/usr/bin/env bash
+
 # Make vim the default editor
 export EDITOR="vim";
 
 # Larger bash history (allow 32³ entries; default is 500)
-export HISTSIZE=32768;
+export HISTSIZE=4096;
 export HISTFILESIZE=$HISTSIZE;
 export HISTCONTROL=ignoredups;
 # Make some commands not show up in history
@@ -18,5 +20,12 @@ export LESS_TERMCAP_md="${yellow}";
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X";
 
-# Always enable colored `grep` output
-# export GREP_OPTIONS="--color=auto";
+# Force color
+export FORCE_COLOR=true;
+
+# set PATH so it includes user's private bin if it exists
+# Add `~/bin` to the `$PATH`
+export PATH="$HOME/bin:$PATH";
+
+# Append npm global folder to path
+export PATH="$HOME/.npm-global/bin:$PATH";

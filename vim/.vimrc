@@ -9,23 +9,40 @@ set nocompatible
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Airline
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+
+" Themes
 Plug 'rakr/vim-one'
-Plug 'joshdick/onedark.vim'
 Plug 'rakr/vim-togglebg'
-Plug 'scrooloose/nerdtree'
-Plug 'vim-scripts/Command-T'
-Plug 'SirVer/ultisnips'
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-Plug 'Valloric/YouCompleteMe'
-Plug 'fatih/vim-go'
-Plug 'nsf/gocode'
-Plug 'junegunn/fzf'
-Plug 'Valloric/MatchTagAlways'
+Plug 'joshdick/onedark.vim'
+
+" Better json
 Plug 'elzr/vim-json'
+
+" Enable sidebar
+Plug 'scrooloose/nerdtree'
+
+" Search
+" Plug 'junegunn/fzf'
+Plug 'wincent/command-t'
+
+" Autocomplete
+Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/MatchTagAlways'
+" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+
+" Go plugins
+" Plug 'nsf/gocode'
+" Plug 'fatih/vim-go'
+
+" ultisnips is required for vim-es6
+Plug 'SirVer/ultisnips'
 Plug 'isRuslan/vim-es6'
-Plug 'ryanoasis/vim-devicons' " https://github.com/ryanoasis/nerd-fonts is required
+
+" https://github.com/ryanoasis/nerd-fonts is required
+" Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
@@ -54,6 +71,9 @@ let g:airline_powerline_fonts=1
 " Set font-family
 " set guifont="Operator Mono Medium"
 
+" Set conceal to false in elzr/vim-json
+let g:vim_json_syntax_conceal=0
+
 " Enable line numbers
 set number
 
@@ -65,8 +85,8 @@ set tabstop=2
 
 " Show "invisible" characters
 set list
-set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
-
+"set listchars=tab:▸\ ,trail:·,eol:¬,nbsp:_
+set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<,space:␣
 
 " NERDTree options
 " autocmd vimenter * NERDTree
@@ -187,7 +207,7 @@ if has("autocmd")
   " Enable file type detection
   filetype on
   " Treat .json files as .js
-  autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
+  " autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
   " Treat .md files as Markdown
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 endif

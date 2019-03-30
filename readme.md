@@ -1,6 +1,6 @@
-### my .files
+## My dot files (arch)
 
-#### Installation
+#### Install
 
 ```bash
 git clone dotfiles.git && cd dotfiles && source bootstrap.sh
@@ -21,21 +21,15 @@ git config --global user.name "$GIT_AUTHOR_NAME"
 git config --global user.email "$GIT_AUTHOR_EMAIL"
 ```
 
-#### Sensible OS X defaults
+#### Post Install
+
+Remove backed up files
 
 ```bash
-./.osx
+./rmbackup.sh
 ```
 
-#### Install Homebrew formulae
+#### Lambda
 
-```bash
-./brew.sh
-```
-
-
-#### Git Bash Colors Support for Mintty
-
-```bash
-export FORCE_COLOR=true
-```
+* `λ` - greek small letter lamda
+* `𝝺` - mathematical sans-serif bold small lamda
