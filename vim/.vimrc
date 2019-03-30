@@ -85,7 +85,6 @@ set tabstop=2
 
 " Show "invisible" characters
 set list
-"set listchars=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<,space:␣
 
 " NERDTree options

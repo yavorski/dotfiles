@@ -8,18 +8,27 @@ function backup() {
 
 function bootstrap() {
   # Copy files to ~/.config
+  printf "\n";
   rsync .inputrc .gitconfig -avh --no-perms $HOME;
+
+  printf "\n";
   rsync bash vim nvim -avh --no-perms --delete $HOME/.config;
 
-  # Link files from ~/.config
+  # Link files from ~/.config (no need to link nvim)
   ln -s $HOME/.config/bash/.bashrc $HOME/.bashrc;
+  ln -s $HOME/.config/vim/.vimrc $HOME/.vimrc;
+  ln -s $HOME/.config/vim $HOME/.vim;
 
-  # mv ~/vim ~/.vim
-  # mv ~/.vim/.vimrc ~;
-  # mv ~/nvim ~/.config/
-  source ~/.bashrc;
-  # curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim;
-  # curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  # init new shell
+  source $HOME/.bashrc;
+
+  # init vim plug
+  printf "\n";
+  curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim;
+
+  # init nvim plug
+  printf "\n";
+  curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim;
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
