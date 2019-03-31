@@ -1,8 +1,15 @@
 # Setup Vim
 
-Install `gvim` instead of `vim` in Arch for OS clipboard support.
-Read more on [Vim Arch Wiki](https://wiki.archlinux.org/index.php/Vim) page.
-Pro tip - enable `vimpager` - when activated press `v` for full visual mode and enable scroll to top.
+* Install `gvim` instead of `vim` in Arch for OS clipboard support.
+* `vimpager` - [arch wiki](https://wiki.archlinux.org/index.php/Vim) - press `v` to toggle `less` mode.
+* `YouCompleteMe` - [install instructions](https://github.com/Valloric/YouCompleteMe) - you dont need `python-dev` package on arch.
+* If you want the `C-family` semantic completion engine to work, you will need to provide the compilation flags for your project to `YCM`.
+
+```shell
+# Compile YouCompleteMe plugin
+$ cd ~/.config/vim/plugged/YouCompleteMe
+$ ./install.py --clang-completer --clangd-completer --ts-completer
+```
 
 ## Process
 
