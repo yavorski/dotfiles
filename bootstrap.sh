@@ -16,8 +16,9 @@ function bootstrap() {
 
   # Link files from ~/.config (no need to link nvim)
   ln -s $HOME/.config/bash/.bashrc $HOME/.bashrc;
-  ln -s $HOME/.config/vim/.vimrc $HOME/.vimrc;
   ln -s $HOME/.config/vim $HOME/.vim;
+  ln -s $HOME/.config/vim/.vimrc $HOME/.vimrc;
+  ln -s $HOME/.config/vim/.vimpagerrc $HOME/.vimpagerrc;
 
   # init new shell
   source $HOME/.bashrc;

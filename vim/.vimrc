@@ -28,6 +28,9 @@ Plug 'scrooloose/nerdtree'
 " Plug 'junegunn/fzf'
 Plug 'wincent/command-t'
 
+" ultisnips is required for "vim-es6" and "YouCompleteMe"
+Plug 'SirVer/ultisnips'
+
 " Autocomplete
 Plug 'Valloric/YouCompleteMe'
 Plug 'Valloric/MatchTagAlways'
@@ -37,8 +40,7 @@ Plug 'Valloric/MatchTagAlways'
 " Plug 'nsf/gocode'
 " Plug 'fatih/vim-go'
 
-" ultisnips is required for vim-es6
-Plug 'SirVer/ultisnips'
+" EcmaScript syntax
 Plug 'isRuslan/vim-es6'
 
 " https://github.com/ryanoasis/nerd-fonts is required
@@ -85,7 +87,8 @@ set tabstop=2
 
 " Show "invisible" characters
 set list
-set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<,space:␣
+set listchars=eol:¬,tab:>-,trail:·,extends:>,precedes:<
+"set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<,space:␣
 
 " NERDTree options
 " autocmd vimenter * NERDTree
@@ -96,7 +99,8 @@ map <F4> :NERDTreeToggle<CR>
 
 " Typing
 " Use the OS clipboard by default
-set clipboard=unnamed
+set clipboard=unnamed " Mac OS
+set clipboard=unnamedplus " Linux
 
 " Enhance command-line completion
 set wildmenu

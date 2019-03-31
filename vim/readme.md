@@ -1,8 +1,12 @@
 # Setup Vim
 
+Install `gvim` instead of `vim` in Arch for OS clipboard support.
+Read more on [Vim Arch Wiki](https://wiki.archlinux.org/index.php/Vim) page.
+Pro tip - enable `vimpager` - when activated press `v` for full visual mode and enable scroll to top.
+
 ## Process
 
-*
+* Automated
 
 ```shell
 mkdir ~/.vim

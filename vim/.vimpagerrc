@@ -1,0 +1,10 @@
+" Init vim pager
+
+" Do not load plugins in vimpager
+" set noloadplugins
+
+" Turn off passing through text that is smaller than the terminal height
+let vimpager_passthrough=0
+
+" The scroll offset (default = 5, disable = 0) -> ":help scrolloff"
+let vimpager_scrolloff=0
