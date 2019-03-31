@@ -1,11 +1,19 @@
-## 𝝺 dot files
+# 𝝺 dot files
 
 Supported systems
 
 * `arch`
 * `debian`
 
-#### Install
+## Pre Install
+
+Required packages
+
+* `curl`
+* `rsync`
+* `vimpager`
+
+## Install
 
 ```bash
 git clone dotfiles.git && cd dotfiles && source bootstrap.sh
@@ -26,7 +34,7 @@ git config --global user.name "$GIT_AUTHOR_NAME"
 git config --global user.email "$GIT_AUTHOR_EMAIL"
 ```
 
-#### Post Install
+## Post Install
 
 Remove backed up files
 
@@ -34,7 +42,7 @@ Remove backed up files
 ./rmbackup.sh
 ```
 
-#### Lambda
+## Lambda
 
 * `λ` - greek small letter lamda
 * `𝝺` - mathematical sans-serif bold small lamda
