@@ -16,7 +16,7 @@ call plug#begin('~/.vim/plugged')
 " Themes
 Plug 'rakr/vim-one'
 Plug 'rakr/vim-togglebg'
-Plug 'joshdick/onedark.vim'
+" Plug 'joshdick/onedark.vim'
 
 " Better json
 Plug 'elzr/vim-json'

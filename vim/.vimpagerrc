@@ -3,8 +3,25 @@
 " Do not load plugins in vimpager
 " set noloadplugins
 
-" Turn off passing through text that is smaller than the terminal height
-" let vimpager_passthrough=0
+" Make sure these exists before setting options
+let g:less={}
+let g:vimpager={}
+
+" No x11 connection for a bit faster startup
+let g:vimpager.X11=0
+
+" Use regular vim motion commands
+let g:less.enabled=0
 
 " The scroll offset (default = 5, disable = 0) -> ":help scrolloff"
+let g:less.scrolloff=0
 let vimpager_scrolloff=0
+
+" Disable use of AnsiEsc.vim to display ANSI colors in the source
+let g:vimpager.ansiesc=0
+
+" Do not show the filename in the window titlebar
+set notitle
+
+" Turn off passing through text that is smaller than the terminal height
+" let vimpager_passthrough=0
