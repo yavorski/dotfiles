@@ -3,10 +3,12 @@
 # Make vim the default editor
 export EDITOR="vim";
 
-# Larger bash history (allow 32³ entries; default is 500)
+# Allow larger history size - default is 500
+# For setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTSIZE=4096;
 export HISTFILESIZE=$HISTSIZE;
 export HISTCONTROL=ignoredups;
+
 # Make some commands not show up in history
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help";
 
@@ -25,8 +27,16 @@ export MANPAGER=/usr/bin/vimpager;
 export FORCE_COLOR=true;
 
 # set PATH so it includes user's private bin if it exists
-# Add `~/bin` to the `$PATH`
-export PATH="$HOME/bin:$PATH";
+if [ -d "$HOME/bin" ] ; then
+  PATH="$HOME/bin:$PATH";
+fi
 
-# Append npm global folder to path
-export PATH="$HOME/.npm-global/bin:$PATH";
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+  PATH="$HOME/.local/bin:$PATH";
+fi
+
+# set PATH so it includes npm global bin
+if [ -d "$HOME/.npm-global/bin:$PATH" ] ; then
+  export PATH="$HOME/.npm-global/bin:$PATH";
+fi

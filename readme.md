@@ -1,4 +1,9 @@
-## My dot files (arch)
+## 𝝺 dot files
+
+Supported systems
+
+* `arch`
+* `debian`
 
 #### Install
 
