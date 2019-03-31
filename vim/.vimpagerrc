@@ -4,7 +4,7 @@
 " set noloadplugins
 
 " Turn off passing through text that is smaller than the terminal height
-let vimpager_passthrough=0
+" let vimpager_passthrough=0
 
 " The scroll offset (default = 5, disable = 0) -> ":help scrolloff"
 let vimpager_scrolloff=0
