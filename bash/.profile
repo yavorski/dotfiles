@@ -26,3 +26,8 @@ unset files;
 if [ -f /usr/share/bash-completion/bash_completion ]; then
   source /usr/share/bash-completion/bash_completion;
 fi;
+
+# Open new terminal tab in the same/current dir
+if [ -e /etc/profile.d/vte.sh ]; then
+  source /etc/profile.d/vte.sh;
+fi;
