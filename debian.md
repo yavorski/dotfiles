@@ -20,6 +20,8 @@ deb-src http://security.debian.org/debian-security buster/updates main contrib n
 
 * `git`
 * `htop`
+* `curl`
+* `wget`
 * `vim-gtk3` (+clipboard support)
 * `vimpager`
 * `nvidia-detect`
