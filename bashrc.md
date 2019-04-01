@@ -1,4 +1,4 @@
-#### random notes
+#### Random notes
 
 ```shell
 # Default arch prompt (left here just for ref)
