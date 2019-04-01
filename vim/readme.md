@@ -1,13 +1,28 @@
 # Setup Vim
 
+## To gain OS clipboard support
+
+* Install `gvim`on Arch
+* Install `vim-gtk3` on Debian
+
+## Wiki pages
+
 * [`gvim`](https://wiki.archlinux.org/index.php/vim) - Use `gvim` instead of `vim` for OS clipboard support.
 * [`vimpager`](https://wiki.archlinux.org/index.php/Vim) - Use `vimpager` instead `less`. Press `v` to toggle `less` mode.
-* [`YouCompleteMe`](https://github.com/Valloric/YouCompleteMe) - Hint -you dont need `python-dev` package on arch linux.
+* [`YouCompleteMe`](https://github.com/Valloric/YouCompleteMe) - No need for `python-dev` package on Arch linux.
+
+## Install Plugins
+
+```vim
+:PlugInstall
+```
+
+## YouCompleteMe
 
 > If you want the `C-family` semantic completion engine to work,
 > you will need to provide the compilation flags for your project to `YCM`.
 
-```shell
+```bash
 # Compile YouCompleteMe plugin
 $ cd ~/.config/vim/plugged/YouCompleteMe
 $ ./install.py --clang-completer --clangd-completer --ts-completer
@@ -30,10 +45,12 @@ To get diagnostics in JavaScript, set the `checkJs` option to `true` in your
 }
 ```
 
-
 ## Process
 
-* Automated
+Automated by dotfiles bootstrap process.
+
+* `~/.vim` is symlinked to `~/.config/vim`
+* `~/.vimrc` is symlinked to `~/.config/vim/.vimrc`
 
 ```bash
 mkdir ~/.vim
@@ -46,14 +63,8 @@ mkdir ~/.vim/undo
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 
-## Fonts
+## Fonts (Optional)
 
-* Not Automated (Optional)
+* Not Automated
 
-```shell
-git clone https://github.com/ryanoasis/nerd-fonts
-cd nerd-fonts
-./install
-cd ..
-rm -rf nerd-fonts
-```
+Install [nerd-fonts](https://github.com/ryanoasis/nerd-fonts)
