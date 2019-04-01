@@ -22,12 +22,15 @@ done;
 unset file;
 unset files;
 
+# Open new terminal tab in the same/current dir
+if [ -e /etc/profile.d/vte.sh ]; then
+  source /etc/profile.d/vte.sh;
+fi;
+
 # Enable programmable completion features
 if [ -f /usr/share/bash-completion/bash_completion ]; then
   source /usr/share/bash-completion/bash_completion;
 fi;
 
-# Open new terminal tab in the same/current dir
-if [ -e /etc/profile.d/vte.sh ]; then
-  source /etc/profile.d/vte.sh;
-fi;
+# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
+[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;

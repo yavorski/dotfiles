@@ -35,7 +35,7 @@ To get diagnostics in JavaScript, set the `checkJs` option to `true` in your
 
 * Automated
 
-```shell
+```bash
 mkdir ~/.vim
 mkdir ~/.vim/autoload
 mkdir ~/.vim/bitmaps
