@@ -1,4 +1,4 @@
-# Install gome extension
+# Install Gnome extension
 
 ## Download extension
 
