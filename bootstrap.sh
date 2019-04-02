@@ -1,13 +1,5 @@
 #!/usr/bin/env bash
 
-function backup() {
-  [ -f ~/.bashrc ] && mv ~/.bashrc ~/.bashrc.BAK;
-  [ -f ~/.profile ] && mv ~/.profile ~/.profile.BAK;
-  [ -f ~/.bash_profile ] && mv ~/.bash_profile ~/.bash_profile.BAK;
-  [ -f ~/.inputrc ] && mv ~/.inputrc ~/.inputrc.BAK;
-  [ -f ~/.gitconfig ] && mv ~/.gitconfig ~/.gitconfig.BAK;
-}
-
 function bootstrap() {
   # Copy files to ~/.config
   printf "\n";
@@ -35,14 +27,16 @@ function bootstrap() {
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
-  backup;
+  source ./tools/backup.sh;
   bootstrap;
 else
   read -p "This may overwrite existing files in home and home/.cofnig directories. Are you sure? (y/n) " -n 1;
   echo "";
   if [[ $REPLY =~ ^[Yy]$ ]]; then
-    backup;
+    source ./tools/backup.sh;
     bootstrap;
   fi;
 fi;
+
 unset bootstrap;
+
