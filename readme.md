@@ -18,7 +18,9 @@ Required packages
 To install dotfiles, clone clone `dotfiles` and source `bootstrap` script:
 
 ```bash
-git clone dotfiles.git && cd dotfiles && source bootstrap.sh
+git clone dotfiles.git
+cd dotfiles
+source bootstrap.sh
 ```
 
 ## Update
@@ -26,7 +28,7 @@ git clone dotfiles.git && cd dotfiles && source bootstrap.sh
 To update, `cd` into your local `dotfiles` repository and then:
 
 ```bash
-./rm-backup.sh
+./tools/rm-backup.sh
 source bootstrap.sh
 ```
 
@@ -62,19 +64,19 @@ If `~/.path` exists, it will be sourced along with the other files.
 If everything looks good you can safeky remove backup files created during install
 
 ```bash
-./rmbackup.sh
+./tools/rm-backup.sh
 ```
 
 ### Install vimpager
 
 ```bash
-./install-vimpager
+./tools/install-vimpager
 ```
 
 ### Install Postman
 
 ```bash
-./install-postman
+./tools/install-postman
 ```
 
 ## Lambda
