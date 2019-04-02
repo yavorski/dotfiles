@@ -28,7 +28,6 @@ source bootstrap.sh
 To update, `cd` into your local `dotfiles` repository and then:
 
 ```bash
-./tools/rm-backup.sh
 source bootstrap.sh
 ```
 
