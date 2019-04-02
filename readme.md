@@ -61,7 +61,7 @@ If `~/.path` exists, it will be sourced along with the other files.
 
 ### Remove backed up files
 
-If everything looks good you can safeky remove backup files created during install
+If everything looks good you can safely remove backup files created during install
 
 ```bash
 ./tools/rm-backup.sh
