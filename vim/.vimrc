@@ -3,10 +3,13 @@
 " Make Vim more useful
 set nocompatible
 
+" Use UTF-8 without BOM
+set encoding=utf-8 nobomb
+
+
 " Manage plugins
 " PlugInstall/PlugUpdate
 " https://github.com/junegunn/vim-plug
-
 call plug#begin('~/.vim/plugged')
 
 " Airline
@@ -43,12 +46,14 @@ Plug 'Valloric/MatchTagAlways'
 " EcmaScript syntax
 Plug 'isRuslan/vim-es6'
 
+" Handlebars syntax highlighting
+Plug 'mustache/vim-mustache-handlebars'
+
 " https://github.com/ryanoasis/nerd-fonts is required
 " Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
-" Theme options
 
 " Enable syntax highlighting
 syntax on
@@ -82,22 +87,6 @@ set number
 " Highlight current line
 set cursorline
 
-" Make tabs as wide as two spaces
-set tabstop=2
-
-" Show "invisible" characters
-set list
-set listchars=eol:¬,tab:>-,trail:·,extends:>,precedes:<
-"set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<,space:␣
-
-" NERDTree options
-" autocmd vimenter * NERDTree
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-map <F4> :NERDTreeToggle<CR>
-
-
-" Typing
 " Use the OS clipboard by default
 set clipboard=unnamed " Mac OS
 set clipboard=unnamedplus " Linux
@@ -161,16 +150,35 @@ set backspace=indent,eol,start
 " Don't show the intro message when starting Vim
 set shortmess=atI
 
-" Use UTF-8 without BOM
-set encoding=utf-8 nobomb
-
 " Centralize backups, swapfiles and undo history
 " Never let Vim write a backup file! They did that in the 70's.
 set nobackup
 set noswapfile
 
+" Make tabs as wide as two spaces
+set tabstop=2
+set shiftwidth=2
+set expandtab
+" set smarttab
+" set autoindent
+" set softtabstop=2
 
-" Remap =>
+" Show "invisible" characters
+set list
+set listchars=eol:¬,tab:›-,trail:·,extends:»,precedes:«
+"set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<,space:␣
+
+" NERDTree options
+" autocmd vimenter * NERDTree
+let NERDTreeMinimalUI=1
+let NERDTreeDirArrows=1
+let NERDTreeAutoDeleteBuffer=1
+
+" (▸ ▾), (▹, ▿), (› ⬎), (❯ ━), (❱ ━), (✚ ━), (+ -), (→ ↓), (↱ ↴), (➙ ➘), (⤻ ⤹)
+let g:NERDTreeDirArrowExpandable = '→'
+let g:NERDTreeDirArrowCollapsible = '➘'
+
+map <F4> :NERDTreeToggle<CR>
 
 " Change <Leader> key
 " It is mapped to backslash "\" by default
@@ -182,17 +190,10 @@ noremap <leader>W :w !sudo tee % > /dev/null<CR>
 " Visually select and press CTRL+C to yank to system clipboard
 vnoremap <C-c> "+y
 
-" Change default dir
-cd ~/dev
-
-
-" VIM ONLY =>
-
 " Allow cursor keys in insert mode
 if !has('nvim')
   set esckeys
 endif
-
 
 " Strip trailing whitespace (,ss)
 function! StripWhitespace()
@@ -204,7 +205,6 @@ function! StripWhitespace()
 endfunction
 noremap <leader>ss :call StripWhitespace()<CR>
 
-
 " Automatic commands
 if has("autocmd")
   " Enable file type detection
@@ -214,3 +214,6 @@ if has("autocmd")
   " Treat .md files as Markdown
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 endif
+
+" Change default dir
+cd ~/dev
