@@ -198,25 +198,26 @@ if !has('nvim')
   set esckeys
 endif
 
-" Strip trailing whitespace (,ss)
-function! StripWhitespace()
-  let save_cursor = getpos(".")
-  let old_query = getreg('/')
-  :%s/\s\+$//e
-  call setpos('.', save_cursor)
-  call setreg('/', old_query)
+" Trim trailing whitespace (,ss)
+function! TrimWhitespace()
+  let l:save = winsaveview()
+  keeppatterns %s/\s\+$//e
+  call winrestview(l:save)
 endfunction
-noremap <leader>ss :call StripWhitespace()<CR>
+
+" noremap <leader>tw :call TrimWhitespace()<CR>
 
 " Automatic commands
 if has("autocmd")
   " Enable file type detection
   filetype on
-  " Treat .json files as .js
-  " autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
+
   " Treat .md files as Markdown
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+
+  " Trim trailing whitespace on save
+  autocmd BufWritePre * :call TrimWhitespace()
 endif
 
-" Change default dir
+" Change current dir to ~/dev
 cd ~/dev
