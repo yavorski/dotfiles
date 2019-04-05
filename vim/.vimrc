@@ -6,7 +6,6 @@ set nocompatible
 " Use UTF-8 without BOM
 set encoding=utf-8 nobomb
 
-
 " Manage plugins
 " PlugInstall/PlugUpdate
 " https://github.com/junegunn/vim-plug
@@ -35,8 +34,7 @@ Plug 'wincent/command-t'
 Plug 'SirVer/ultisnips'
 
 " Autocomplete
-Plug 'Valloric/YouCompleteMe'
-Plug 'Valloric/MatchTagAlways'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --clangd-completer --ts-completer' }
 " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 
 " Go plugins
@@ -48,6 +46,9 @@ Plug 'isRuslan/vim-es6'
 
 " Emmet plugin
 Plug 'mattn/emmet-vim'
+
+" HTML Match Tag
+Plug 'Valloric/MatchTagAlways'
 
 " Handlebars syntax highlighting
 Plug 'mustache/vim-mustache-handlebars'
