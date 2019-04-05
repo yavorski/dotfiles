@@ -46,6 +46,9 @@ Plug 'Valloric/MatchTagAlways'
 " EcmaScript syntax
 Plug 'isRuslan/vim-es6'
 
+" Emmet plugin
+Plug 'mattn/emmet-vim'
+
 " Handlebars syntax highlighting
 Plug 'mustache/vim-mustache-handlebars'
 
