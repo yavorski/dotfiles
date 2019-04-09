@@ -7,8 +7,8 @@ set nocompatible
 set encoding=utf-8 nobomb
 
 " Manage plugins
-" PlugInstall/PlugUpdate
 " https://github.com/junegunn/vim-plug
+" ==============================================================
 call plug#begin('~/.vim/plugged')
 
 " Airline
@@ -20,26 +20,21 @@ Plug 'rakr/vim-one'
 Plug 'rakr/vim-togglebg'
 " Plug 'joshdick/onedark.vim'
 
-" Better json
-Plug 'elzr/vim-json'
+" https://github.com/ryanoasis/nerd-fonts is required
+" Plug 'ryanoasis/vim-devicons'
 
 " Enable sidebar
 Plug 'scrooloose/nerdtree'
 
-" Search
-" Plug 'junegunn/fzf'
-Plug 'wincent/command-t'
-
-" ultisnips is required for "vim-es6" and "YouCompleteMe"
+" required for "vim-es6" and "YouCompleteMe"
 Plug 'SirVer/ultisnips'
-
-" Autocomplete
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --clangd-completer --ts-completer' }
-" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 
 " Go plugins
 " Plug 'nsf/gocode'
 " Plug 'fatih/vim-go'
+
+" Better json
+Plug 'elzr/vim-json'
 
 " EcmaScript syntax
 Plug 'isRuslan/vim-es6'
@@ -53,11 +48,23 @@ Plug 'Valloric/MatchTagAlways'
 " Handlebars syntax highlighting
 Plug 'mustache/vim-mustache-handlebars'
 
-" https://github.com/ryanoasis/nerd-fonts is required
-" Plug 'ryanoasis/vim-devicons'
+" Fast file navigation
+Plug 'wincent/command-t'
+
+" Search
+Plug 'junegunn/fzf', { 'dir': '~/.config/vim/fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
+
+" Autocomplete
+" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --clangd-completer --ts-completer' }
 
 call plug#end()
+" ==============================================================
 
+
+" UI Settings
+" ==============================================================
 
 " Enable syntax highlighting
 syntax on
@@ -73,13 +80,14 @@ let g:airline_theme='one'
 let g:one_allow_italics=1
 let g:airline_powerline_fonts=1
 
-" colorscheme onedark
+" airline theme
 " let g:airline_theme='onedark'
 
 " Set line-height
 " set linespace=8
 
 " Set font-family
+" set guifont="Source Code Pro"
 " set guifont="Operator Mono Medium"
 
 " Set conceal to false in elzr/vim-json
@@ -123,7 +131,7 @@ set mouse=a
 set nostartofline
 
 " Start scrolling three lines before the horizontal window border
-set scrolloff=3
+set scrolloff=2
 
 " Show the cursor position
 set ruler
@@ -168,11 +176,13 @@ set expandtab
 " set softtabstop=2
 
 " Show "invisible" characters
-set list
+set nolist
 set listchars=eol:¬,tab:›-,trail:·,extends:»,precedes:«
 "set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<,space:␣
 
+
 " NERDTree options
+" ==============================================================
 " autocmd vimenter * NERDTree
 let NERDTreeMinimalUI=1
 let NERDTreeDirArrows=1
@@ -183,9 +193,12 @@ let g:NERDTreeDirArrowExpandable = '→'
 let g:NERDTreeDirArrowCollapsible = '➘'
 
 map <F4> :NERDTreeToggle<CR>
+" ==============================================================
+
 
 " Change <Leader> key
 " It is mapped to backslash "\" by default
+" ==============================================================
 " let mapleader=","
 
 " Save a file as root (,W)
@@ -199,7 +212,9 @@ if !has('nvim')
   set esckeys
 endif
 
+
 " Trim trailing whitespace (,ss)
+" ==============================================================
 function! TrimWhitespace()
   let l:save = winsaveview()
   keeppatterns %s/\s\+$//e
@@ -207,8 +222,11 @@ function! TrimWhitespace()
 endfunction
 
 " noremap <leader>tw :call TrimWhitespace()<CR>
+" ==============================================================
+
 
 " Automatic commands
+" ==============================================================
 if has("autocmd")
   " Enable file type detection
   filetype on
@@ -220,5 +238,7 @@ if has("autocmd")
   autocmd BufWritePre * :call TrimWhitespace()
 endif
 
+
 " Change current dir to ~/dev
+" ==============================================================
 cd ~/dev
