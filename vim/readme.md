@@ -10,6 +10,7 @@
 * [`gvim`](https://wiki.archlinux.org/index.php/vim) - Use `gvim` instead of `vim` for OS clipboard support.
 * [`vimpager`](https://wiki.archlinux.org/index.php/Vim) - Use `vimpager` instead `less`. Press `v` to toggle `less` mode.
 * [`YouCompleteMe`](https://github.com/Valloric/YouCompleteMe) - No need for `python-dev` package on Arch linux.
+* [`Ag` -> `the_silver_searcher`](https://github.com/ggreer/the_silver_searcher) required for `fzf`
 
 ## Install Plugins
 
