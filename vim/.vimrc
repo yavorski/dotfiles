@@ -48,6 +48,9 @@ Plug 'Valloric/MatchTagAlways'
 " Handlebars syntax highlighting
 Plug 'mustache/vim-mustache-handlebars'
 
+" Stylus syntax highlight
+Plug 'iloginow/vim-stylus'
+
 " Fast file navigation
 Plug 'wincent/command-t'
 
