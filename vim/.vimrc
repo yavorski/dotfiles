@@ -198,7 +198,11 @@ let NERDTreeAutoDeleteBuffer=1
 let g:NERDTreeDirArrowExpandable = '→'
 let g:NERDTreeDirArrowCollapsible = '➘'
 
+" toggle nerdtree
 map <F4> :NERDTreeToggle<CR>
+
+" reveal in nerdtree <Ctlr+Alt+R>
+map <C-A-r> :NERDTreeFind<CR>
 " ==============================================================
 
 
