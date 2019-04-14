@@ -198,6 +198,31 @@ vnoremap <C-c> "+y
 " ==============================================================
 
 
+
+" Plugin Settings
+" ==============================================================
+
+
+" Airline config
+" ==============================================================
+let g:airline_theme='one'
+let g:airline_powerline_fonts=0
+" ==============================================================
+
+
+" rakr/vim-one config
+" ==============================================================
+let g:one_allow_italics=1
+" ==============================================================
+
+
+" elzr/vim-json config
+" ==============================================================
+" Set conceal to false in elzr/vim-json
+let g:vim_json_syntax_conceal=0
+" ==============================================================
+
+
 " NerdTree config
 " ==============================================================
 " Enter nerdtree
@@ -223,7 +248,7 @@ map <C-A-r> :NERDTreeFind<CR>
 
 " nerdtree-git-plugin config
 " ==============================================================
-" Set nerdtree-git-plugin symbols ✗ ✘
+" Set nerdtree-git-plugin symbols ✨ ✗ ✘
 let g:NERDTreeIndicatorMapCustom = {
   \ "Modified"  : "*",
   \ "Staged"    : "+",
@@ -231,7 +256,7 @@ let g:NERDTreeIndicatorMapCustom = {
   \ "Renamed"   : "→",
   \ "Unmerged"  : "=",
   \ "Deleted"   : "×",
-  \ "Dirty"     : "✨",
+  \ "Dirty"     : "*",
   \ "Clean"     : "✓",
   \ 'Ignored'   : '!',
   \ "Unknown"   : "?"
@@ -239,23 +264,7 @@ let g:NERDTreeIndicatorMapCustom = {
 " ==============================================================
 
 
-" Airline config
-" ==============================================================
-let g:airline_theme='one'
-let g:airline_powerline_fonts=0
-" ==============================================================
-
-
-" rakr/vim-one config
-" ==============================================================
-let g:one_allow_italics=1
-" ==============================================================
-
-
-" elzr/vim-json config
-" ==============================================================
-" Set conceal to false in elzr/vim-json
-let g:vim_json_syntax_conceal=0
+" Local Functions
 " ==============================================================
 
 
@@ -286,7 +295,7 @@ endif
 " ==============================================================
 
 
-" Change current dir to ~/dev
+" Change current working dir to ~/dev
 " ==============================================================
 cd ~/dev
 " ==============================================================
