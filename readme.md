@@ -18,9 +18,7 @@ Required packages
 To install dotfiles, clone clone `dotfiles` and source `bootstrap` script:
 
 ```bash
-git clone dotfiles.git
-cd dotfiles
-source bootstrap.sh
+git clone dotfiles.git && cd dotfiles && source bootstrap.sh
 ```
 
 ## Update

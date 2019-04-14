@@ -69,3 +69,4 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.c
 * Not Automated
 
 Install [nerd-fonts](https://github.com/ryanoasis/nerd-fonts)
+

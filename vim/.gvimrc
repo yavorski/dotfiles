@@ -8,3 +8,5 @@ set guifont=Source\ Code\ Pro\ 10
 
 " Open NERDTree by default
 autocmd vimenter * NERDTree
+autocmd vimenter * NERDTreeRefreshRoot
+

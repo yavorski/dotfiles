@@ -26,6 +26,9 @@ Plug 'rakr/vim-togglebg'
 " Enable sidebar
 Plug 'scrooloose/nerdtree'
 
+" Show git status in nerdtree
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
 " required for "vim-es6" and "YouCompleteMe"
 Plug 'SirVer/ultisnips'
 
@@ -187,7 +190,7 @@ set listchars=eol:¬,tab:›-,trail:·,extends:»,precedes:«
 "set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<,space:␣
 
 
-" NERDTree options
+" NerdTree configuration
 " ==============================================================
 " autocmd vimenter * NERDTree
 let NERDTreeMinimalUI=1
@@ -198,10 +201,28 @@ let NERDTreeAutoDeleteBuffer=1
 let g:NERDTreeDirArrowExpandable = '→'
 let g:NERDTreeDirArrowCollapsible = '➘'
 
-" toggle nerdtree
+" ✨ ✗ ✘
+" Set nerdtree-git-plugin symbols
+let g:NERDTreeIndicatorMapCustom = {
+  \ "Modified"  : "*",
+  \ "Staged"    : "+",
+  \ "Untracked" : "-",
+  \ "Renamed"   : "→",
+  \ "Unmerged"  : "=",
+  \ "Deleted"   : "×",
+  \ "Dirty"     : "✨",
+  \ "Clean"     : "✓",
+  \ 'Ignored'   : '!',
+  \ "Unknown"   : "?"
+  \ }
+
+" Toggle nerdtree
 map <F4> :NERDTreeToggle<CR>
 
-" reveal in nerdtree <Ctlr+Alt+R>
+" Refresh nerdtree
+map <F5> :NERDTreeRefreshRoot<CR>
+
+" Reveal in nerdtree <Ctlr+Alt+R>
 map <C-A-r> :NERDTreeFind<CR>
 " ==============================================================
 
