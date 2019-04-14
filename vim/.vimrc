@@ -72,7 +72,7 @@ call plug#end()
 " ==============================================================
 
 
-" UI Settings
+" Base Settings
 " ==============================================================
 
 " Enable syntax highlighting
@@ -84,23 +84,12 @@ colorscheme one
 " Set bg dark/light
 set background=dark
 
-" Set airline options
-let g:airline_theme='one'
-let g:one_allow_italics=1
-let g:airline_powerline_fonts=1
-
-" airline theme
-" let g:airline_theme='onedark'
-
 " Set line-height
 " set linespace=8
 
 " Set font-family
 " set guifont="Source Code Pro"
 " set guifont="Operator Mono Medium"
-
-" Set conceal to false in elzr/vim-json
-let g:vim_json_syntax_conceal=0
 
 " Enable line numbers
 set number
@@ -184,37 +173,41 @@ set expandtab
 " set autoindent
 " set softtabstop=2
 
+" Allow cursor keys in insert mode
+if !has('nvim')
+  set esckeys
+endif
+
 " Show "invisible" characters
 set nolist
 set listchars=eol:¬,tab:›-,trail:·,extends:»,precedes:«
-"set listchars=eol:¬,tab:>-,trail:~,extends:>,precedes:<,space:␣
-
-
-" NerdTree configuration
 " ==============================================================
+
+
+" Change <Leader> key
+" ==============================================================
+" It is mapped to backslash "\" by default
+" let mapleader=","
+
+" Save a file as root (,W)
+noremap <leader>W :w !sudo tee % > /dev/null<CR>
+
+" Visually select and press CTRL+C to yank to system clipboard
+vnoremap <C-c> "+y
+" ==============================================================
+
+
+" NerdTree config
+" ==============================================================
+" Enter nerdtree
 " autocmd vimenter * NERDTree
+
 let NERDTreeMinimalUI=1
 let NERDTreeDirArrows=1
 let NERDTreeAutoDeleteBuffer=1
 
-" (▸ ▾), (▹, ▿), (› ⬎), (❯ ━), (❱ ━), (✚ ━), (+ -), (→ ↓), (↱ ↴), (➙ ➘), (⤻ ⤹)
 let g:NERDTreeDirArrowExpandable = '→'
-let g:NERDTreeDirArrowCollapsible = '➘'
-
-" ✨ ✗ ✘
-" Set nerdtree-git-plugin symbols
-let g:NERDTreeIndicatorMapCustom = {
-  \ "Modified"  : "*",
-  \ "Staged"    : "+",
-  \ "Untracked" : "-",
-  \ "Renamed"   : "→",
-  \ "Unmerged"  : "=",
-  \ "Deleted"   : "×",
-  \ "Dirty"     : "✨",
-  \ "Clean"     : "✓",
-  \ 'Ignored'   : '!',
-  \ "Unknown"   : "?"
-  \ }
+let g:NERDTreeDirArrowCollapsible = '↓'
 
 " Toggle nerdtree
 map <F4> :NERDTreeToggle<CR>
@@ -227,21 +220,37 @@ map <C-A-r> :NERDTreeFind<CR>
 " ==============================================================
 
 
-" Change <Leader> key
-" It is mapped to backslash "\" by default
+" nerdtree-git-plugin config
 " ==============================================================
-" let mapleader=","
+" Set nerdtree-git-plugin symbols ✗ ✘
+let g:NERDTreeIndicatorMapCustom = {
+  \ "Modified"  : "*",
+  \ "Staged"    : "+",
+  \ "Untracked" : "-",
+  \ "Renamed"   : "→",
+  \ "Unmerged"  : "=",
+  \ "Deleted"   : "×",
+  \ "Dirty"     : "✨",
+  \ "Clean"     : "✓",
+  \ 'Ignored'   : '!',
+  \ "Unknown"   : "?"
+  \ }
+" ==============================================================
 
-" Save a file as root (,W)
-noremap <leader>W :w !sudo tee % > /dev/null<CR>
 
-" Visually select and press CTRL+C to yank to system clipboard
-vnoremap <C-c> "+y
+" Airline config
+" ==============================================================
+let g:airline_theme='one'
+let g:one_allow_italics=1
+let g:airline_powerline_fonts=1
+" ==============================================================
 
-" Allow cursor keys in insert mode
-if !has('nvim')
-  set esckeys
-endif
+
+" elzr/vim-json config
+" ==============================================================
+" Set conceal to false in elzr/vim-json
+let g:vim_json_syntax_conceal=0
+" ==============================================================
 
 
 " Trim trailing whitespace (,ss)
@@ -268,8 +277,11 @@ if has("autocmd")
   " Trim trailing whitespace on save
   autocmd BufWritePre * :call TrimWhitespace()
 endif
+" ==============================================================
 
 
 " Change current dir to ~/dev
 " ==============================================================
 cd ~/dev
+" ==============================================================
+
