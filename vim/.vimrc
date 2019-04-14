@@ -54,6 +54,9 @@ Plug 'iloginow/vim-stylus'
 " Fast file navigation
 Plug 'wincent/command-t'
 
+" Toggle, display and navigate marks
+Plug 'kshenoy/vim-signature'
+
 " Search
 Plug 'junegunn/fzf', { 'dir': '~/.config/vim/fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
