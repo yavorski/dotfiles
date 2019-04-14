@@ -29,12 +29,11 @@ Plug 'scrooloose/nerdtree'
 " Show git status in nerdtree
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
+" Shows a git diff in the gutter (sign column) and stages/undoes hunks
+Plug 'airblade/vim-gitgutter'
+
 " required for "vim-es6" and "YouCompleteMe"
 Plug 'SirVer/ultisnips'
-
-" Go plugins
-" Plug 'nsf/gocode'
-" Plug 'fatih/vim-go'
 
 " Better json
 Plug 'elzr/vim-json'
