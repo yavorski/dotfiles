@@ -12,10 +12,10 @@ set encoding=utf-8 nobomb
 call plug#begin('~/.vim/plugged')
 
 " Airline
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-" Themes
+" Color scheme
 Plug 'rakr/vim-one'
 Plug 'rakr/vim-togglebg'
 " Plug 'joshdick/onedark.vim'
@@ -240,8 +240,13 @@ let g:NERDTreeIndicatorMapCustom = {
 " Airline config
 " ==============================================================
 let g:airline_theme='one'
+let g:airline_powerline_fonts=0
+" ==============================================================
+
+
+" rakr/vim-one config
+" ==============================================================
 let g:one_allow_italics=1
-let g:airline_powerline_fonts=1
 " ==============================================================
 
 
