@@ -20,9 +20,6 @@ Plug 'rakr/vim-one'
 Plug 'rakr/vim-togglebg'
 " Plug 'joshdick/onedark.vim'
 
-" https://github.com/ryanoasis/nerd-fonts is required
-" Plug 'ryanoasis/vim-devicons'
-
 " Enable sidebar
 Plug 'scrooloose/nerdtree'
 
@@ -163,6 +160,11 @@ set shortmess=atI
 " Never let Vim write a backup file! They did that in the 70's.
 set nobackup
 set noswapfile
+
+" If this many milliseconds nothing is typed the swap file will be written to disk
+" Also used for vim-gitgutter timeout
+" Also used for the CursorHold autocommand event
+set updatetime=256
 
 " Make tabs as wide as two spaces
 set tabstop=2
