@@ -18,7 +18,7 @@ Then install the needed packages
 * `scoop install fzf`
 * `scoop install ag`
 
-## Set guifont in `.gvimrc`
+## Set `guifont` in `.gvimrc`
 
 * `set guifont=Source_Code_Pro:h10:cANSI:qDRAFT`
 
