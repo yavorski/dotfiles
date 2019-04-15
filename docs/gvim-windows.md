@@ -21,3 +21,7 @@ Then install the needed packages
 ## Set guifont in `.gvimrc`
 
 * `set guifont=Source_Code_Pro:h10:cANSI:qDRAFT`
+
+## Set `clipboard` to `unnamed`
+
+* `set clipboard=unnamed`
