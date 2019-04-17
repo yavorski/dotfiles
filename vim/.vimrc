@@ -56,6 +56,9 @@ Plug 'wincent/command-t'
 " Toggle, display and navigate marks
 Plug 'kshenoy/vim-signature'
 
+" True Sublime Text style multiple selections for Vim
+Plug 'terryma/vim-multiple-cursors'
+
 " Search
 Plug 'junegunn/fzf', { 'dir': '~/.config/vim/fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
