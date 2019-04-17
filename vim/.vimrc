@@ -38,26 +38,29 @@ Plug 'elzr/vim-json'
 " EcmaScript syntax
 Plug 'isRuslan/vim-es6'
 
-" Emmet plugin
-Plug 'mattn/emmet-vim'
-
-" HTML Match Tag
-Plug 'Valloric/MatchTagAlways'
-
 " Handlebars syntax highlighting
 Plug 'mustache/vim-mustache-handlebars'
 
 " Stylus syntax highlight
 Plug 'iloginow/vim-stylus'
 
-" Fast file navigation
-Plug 'wincent/command-t'
+" Emmet plugin
+Plug 'mattn/emmet-vim'
+
+" quoting/parenthesizing made simple
+Plug 'tpope/vim-surround'
+
+" HTML Match Tag
+Plug 'Valloric/MatchTagAlways'
 
 " Toggle, display and navigate marks
 Plug 'kshenoy/vim-signature'
 
 " True Sublime Text style multiple selections for Vim
 Plug 'terryma/vim-multiple-cursors'
+
+" Fast file navigation
+Plug 'wincent/command-t'
 
 " Search
 Plug 'junegunn/fzf', { 'dir': '~/.config/vim/fzf', 'do': './install --bin' }
@@ -302,4 +305,3 @@ endif
 " ==============================================================
 cd ~/dev
 " ==============================================================
-
