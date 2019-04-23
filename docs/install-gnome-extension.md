@@ -26,7 +26,7 @@ mkdir $EXT_INSTALL_DIR
 * `$EXT_INSTALL_DIR`
 
 ```bash
-rsync ./my-ext/** -avh --no-perms --delete --exclude=".git" $EXT_INSTALL_DIR
+rsync ./my-ext/* -avh --no-perms --delete --exclude=".git" $EXT_INSTALL_DIR
 
 ```
 
