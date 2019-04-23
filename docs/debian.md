@@ -34,6 +34,7 @@ deb-src http://security.debian.org/debian-security buster/updates main contrib n
 
 * [`AppKeys dash hotkeys`](https://extensions.gnome.org/extension/413/dash-hotkeys)
 * [`Apt updates indicator`](https://extensions.gnome.org/extension/1139/apt-update-indicator)
+* [`Remove rounded corners`](https://extensions.gnome.org/extension/448/remove-rounded-corners)
 * [`How to install gnome extension`](https://gist.github.com/yavorski/cf6e3f8f25c7c2e29f0651131ed611b4)
 
 ## Nvidia Drivers

@@ -16,8 +16,8 @@
 
 ## Gnome extensions
 
-* [arch-update](https://github.com/RaphaelRochet/arch-update)
-
+* [`arch-update`](https://github.com/RaphaelRochet/arch-update)
+* [`remove-rounded-corners`](https://extensions.gnome.org/extension/448/remove-rounded-corners)
 
 ## Links
 
