@@ -99,6 +99,10 @@ set number
 " Highlight current line
 set cursorline
 
+" Adjust cursor blink rate
+" Default is blinkwait700-blinkon400-blinkoff250
+set guicursor=n:blinkwait1024-blinkon1024-blinkoff512
+
 " Use the OS clipboard by default
 set clipboard=unnamed " Mac OS
 set clipboard=unnamedplus " Linux
@@ -170,7 +174,7 @@ set noswapfile
 " If this many milliseconds nothing is typed the swap file will be written to disk
 " Also used for vim-gitgutter timeout
 " Also used for the CursorHold autocommand event
-set updatetime=256
+set updatetime=512
 
 " Make tabs as wide as two spaces
 set tabstop=2
