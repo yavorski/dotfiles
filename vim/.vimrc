@@ -50,6 +50,9 @@ Plug 'mattn/emmet-vim'
 " quoting/parenthesizing made simple
 Plug 'tpope/vim-surround'
 
+" enable repeating supported plugin maps with "."
+Plug 'tpope/vim-repeat'
+
 " HTML Match Tag
 Plug 'Valloric/MatchTagAlways'
 
