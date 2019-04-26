@@ -64,6 +64,7 @@ Plug 'terryma/vim-multiple-cursors'
 
 " Fast file navigation
 Plug 'wincent/command-t'
+Plug 'ctrlpvim/ctrlp.vim'
 
 " Search
 Plug 'junegunn/fzf', { 'dir': '~/.config/vim/fzf', 'do': './install --bin' }
@@ -274,6 +275,16 @@ let g:NERDTreeIndicatorMapCustom = {
   \ 'Ignored'   : '!',
   \ "Unknown"   : "?"
   \ }
+" ==============================================================
+
+
+" ctrlpvim/ctrlp.vim config
+" ==============================================================
+" exclude custom files
+let g:ctrlp_custom_ignore='\v[\/]\.(git|hg|svn)$'
+
+" exclude .gitignore files
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 " ==============================================================
 
 
