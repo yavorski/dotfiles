@@ -135,6 +135,9 @@ set laststatus=2
 " Enable mouse in all modes
 set mouse=a
 
+" Disable word wrap
+set nowrap
+
 " Don't reset cursor to start of line when moving around
 set nostartofline
 
