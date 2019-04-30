@@ -56,6 +56,9 @@ Plug 'tpope/vim-repeat'
 " HTML Match Tag
 Plug 'Valloric/MatchTagAlways'
 
+" Change an HTML opening tag and take the closing one along as well
+Plug 'AndrewRadev/tagalong.vim'
+
 " Toggle, display and navigate marks
 Plug 'kshenoy/vim-signature'
 
