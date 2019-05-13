@@ -30,16 +30,16 @@ export MANPAGER='less -X';
 export FORCE_COLOR=true;
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-  PATH="$HOME/bin:$PATH";
+if [ -d "$HOME/bin" ]; then
+  export PATH="$HOME/bin:$PATH";
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-  PATH="$HOME/.local/bin:$PATH";
+if [ -d "$HOME/.local/bin" ]; then
+  export PATH="$HOME/.local/bin:$PATH";
 fi
 
 # set PATH so it includes npm global bin
-if [ -d "$HOME/.npm-global/bin:$PATH" ] ; then
+if [ -d "$HOME/.npm-global/bin" ]; then
   export PATH="$HOME/.npm-global/bin:$PATH";
 fi
