@@ -29,6 +29,7 @@ deb-src http://security.debian.org/debian-security buster/updates main contrib n
 * `bash-completion`
 * `silversearcher-ag`
 * `apt-transport-https`
+* `numix-gtk-theme`
 
 ## Gnome extensions
 
