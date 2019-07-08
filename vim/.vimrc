@@ -52,6 +52,7 @@ Plug 'tpope/vim-surround'
 
 " Insert mode auto-completion for quotes, parens, brackets, etc.
 Plug 'Raimondi/delimitMate'
+Plug 'jiangmiao/auto-pairs'
 
 " enable repeating supported plugin maps with "."
 Plug 'tpope/vim-repeat'
