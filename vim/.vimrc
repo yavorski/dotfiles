@@ -47,6 +47,9 @@ Plug 'iloginow/vim-stylus'
 " Emmet plugin
 Plug 'mattn/emmet-vim'
 
+" Filetype plugin for csv files
+Plug 'chrisbra/csv.vim'
+
 " quoting/parenthesizing made simple
 Plug 'tpope/vim-surround'
 
