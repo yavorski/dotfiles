@@ -1,9 +1,12 @@
 # ThinkPad T480 Linux
 
 ```bash
-# make bootable usb
+# make bootable usb with dd
+
 λ dd if=<file> of=<device> bs=4M; sync
 λ dd if=debian.iso of=/dev/sda1 bs=4M status=progress; sync
+
+# or use https://www.balena.io/etcher/
 ```
 
 ```bash
