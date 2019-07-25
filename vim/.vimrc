@@ -72,8 +72,11 @@ Plug 'kshenoy/vim-signature'
 " True Sublime Text style multiple selections for Vim
 Plug 'terryma/vim-multiple-cursors'
 
+" Text filtering and alignment
+Plug 'godlygeek/tabular'
+
 " Fast file navigation
-Plug 'wincent/command-t'
+" Plug 'wincent/command-t'
 Plug 'ctrlpvim/ctrlp.vim'
 
 " Search
