@@ -63,8 +63,8 @@
 
 # Blacklist nouveau driver using GRUB config.
 λ sudo vim /etc/default/grub
-# Add this line
-# => GRUB_CMDLINE_LINUX="nouveau.blacklist=1"
+# Add "nouveau.blacklist=1" to default linux cmd line
+# => GRUB_CMDLINE_LINUX_DEFAULT="nouveau.blacklist=1"
 
 # bbswitch install
 # bbswitch is included in bumblebee package
