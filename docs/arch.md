@@ -9,6 +9,14 @@ video=1024x768
 ```
 
 
+## Install `terminus-font`
+
+```shell
+pacman -Sy terminus-font
+setfont ter-v32n
+```
+
+
 ## Verify the boot mode.
 
 If UEFI mode is enabled on an UEFI motherboard, Archiso will boot Arch Linux accordingly via systemd-boot.
@@ -121,7 +129,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 ## Setup lvm & encryption
 
 ```shell
-# cryptsetup luksFormat /dev/nvme0n1p3
+# cryptsetup -y -v luksFormat /dev/nvme0n1p3
 # cryptsetup open --type luks /dev/nvme0n1p3 lvm
 
 # pvcreate --dataalignment 1m /dev/mapper/lvm
