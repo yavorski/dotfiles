@@ -9,24 +9,6 @@ video=1024x768
 ```
 
 
-## Install `terminus-font`
-
-```shell
-pacman -Sy terminus-font
-setfont ter-v32n
-```
-
-
-## Verify the boot mode.
-
-If UEFI mode is enabled on an UEFI motherboard, Archiso will boot Arch Linux accordingly via systemd-boot.
-To verify this, list the efivars directory:
-
-```shell
-# ls /sys/firmware/efi/efivars
-```
-
-
 ## Network
 
 Ensure your network interface is listed and enabled, for example with ip-link(8):
@@ -40,13 +22,25 @@ Connect to wi-fi
 ```shell
 # dhcpcd
 # wifi-menu -o
+# ping 1.1.1.1 -c 4
 ```
 
-Check connection
+
+## Install `terminus-font`
 
 ```shell
-# ping 1.1.1.1 -c 4
-# ping archlinux.org -c 4
+# pacman -Sy terminus-font
+# setfont ter-v32n
+```
+
+
+## Verify the boot mode.
+
+If UEFI mode is enabled on an UEFI motherboard, Archiso will boot Arch Linux accordingly via systemd-boot.
+To verify this, list the efivars directory:
+
+```shell
+# ls /sys/firmware/efi/efivars
 ```
 
 
@@ -77,11 +71,11 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 **`UEFI` with `GPT`** table
 
-| Mount point | Partition        | Partition type   | Size   |
-| ----------- | ---------------- | ---------------- | ------ |
-| `/mnt/efi`  | `/dev/nvme0n1p1` | EFI System       | 1GB    |
-| `/mnt/boot` | `/dev/nvme0n1p2` | Linux filesystem | 1GB    |
-| `/mnt`      | `/dev/nvme0n1p3` | Linux LVM        | 256GB  |
+| Mount point | Partition        | Partition type   | Encryption | Size   |
+| ----------- | ---------------- | ---------------- | ---------- | ------ |
+| `/mnt/efi`  | `/dev/nvme0n1p1` | EFI System       |            | 1GB    |
+| `/mnt/boot` | `/dev/nvme0n1p2` | Linux filesystem | luks1      | 1GB    |
+| `/mnt`      | `/dev/nvme0n1p3` | Linux LVM        | luks2      | 256GB  |
 
 
 ## Start `fdisk`
@@ -122,22 +116,25 @@ If you want to create any stacked block devices for LVM, system encryption or RA
   * <kbd>31</kbd> - Partition type - `Linux LVM`
 
 4. Save changes
-
+  * <kbd>p</kbd> - print partition table
   * <kbd>w</kbd> - write table to disk and exit
 
 
 ## Setup lvm & encryption
 
 ```shell
+# cryptsetup -y -v luksFormat --type luks1 /dev/nvme0n1p2
+# cryptsetup open --type --luks1 /dev/nvme0n1p2 crypto-boot
+
 # cryptsetup -y -v luksFormat /dev/nvme0n1p3
 # cryptsetup open --type luks /dev/nvme0n1p3 lvm
 
 # pvcreate --dataalignment 1m /dev/mapper/lvm
 # vgcreate vg /dev/mapper/lvm
 
-# lvcreate -L 8GB vg -n lv_swap
-# lvcreate -L 32GB vg -n lv_root
-# lvcreate -l 100%FREE -n lv_home vg
+# lvcreate -L 16GB vg -n lv-swap
+# lvcreate -L 40GB vg -n lv-root
+# lvcreate -l 100%FREE -n lv-home vg
 
 # modprobe dm_mod
 # vgscan
@@ -148,21 +145,21 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 ## Make fs
 
 ```
-# mkswap /dev/vg/lv_swap
-# swapon /dev/vg/lv_swap
+# mkswap /dev/vg/lv-swap
+# swapon /dev/vg/lv-swap
 
-# mkfs.ext4 /dev/vg/lv_root
-# mount /dev/vg/lv_root /mnt
+# mkfs.ext4 /dev/vg/lv-root
+# mount /dev/vg/lv-root /mnt
 
 # mkdir /mnt/boot
-# mkfs.ext4 /dev/nvme0n1p2
-# mount /dev/nvme0n1p2 /mnt/boot
+# mkfs.ext4 /dev/mapper/crypto-boot
+# mount /dev/mapper/crypto-boot /mnt/boot
 
 # mkdir /mnt/home
-# mkfs.ext4 /dev/vg/lv_home
-# mount /dev/vg/lv_home /mnt/home
+# mkfs.ext4 /dev/vg/lv-home
+# mount /dev/vg/lv-home /mnt/home
 
-# ######## - will mount later
+# ### ## # - will mount later
 # mkfs.fat -F32 /dev/nvme0n1p1
 ```
 
@@ -183,8 +180,13 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # pacman-key --init
 # pacman-key --populate archlinux
 
-# pacman -S grub efibootmgr os-prober linux-headers
-# vim /etc/mkinitcpio.conf -> add to hooks -> "block encrypt lvm2 filesystems"
+# pacman -S grub efibootmgr os-prober linux-headers terminus-font
+
+# echo KEYMAP=us >> /etc/vconsole.conf
+# echo FONT=ter-v32n >> /etc/vconsole.conf
+
+# ### ### ### ### ### ## #
+# vim /etc/mkinitcpio.conf -> add to hooks -> "block encrypt lvm2 filesystems keyboard consolefont"
 
 # mkinitcpio -p linux
 
@@ -218,6 +220,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # vim /etc/locale.gen
 # locale-gen
 # echo LANG=en_US.UTF-8 > /etc/locale.conf
+# echo LC_TIME=en_GB.UTF-8 >> /etc/locale.conf
 ```
 
 
@@ -228,7 +231,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 # echo arch > /etc/hostname
 # vim /etc/hosts -> change hostname to arch
-# vim /etc/resolv.conf -> "nameserver 8.8.8.8 \n nameserver 8.8.4.4 \n search example.com"
+# vim /etc/resolv.conf -> "nameserver 1.1.1.1 \n nameserver 8.8.8.8 \n nameserver 8.8.4.4 \n search example.com"
 
 # systemctl enable NetworkManager
 # systemctl disable dhcpcd
@@ -534,4 +537,3 @@ grub-mkconfig -o /boot/grub/grub.cfg
 * [Bumblebee](https://wiki.archlinux.org/index.php/Bumblebee)
 * [Pacman](https://wiki.archlinux.org/index.php/Pacman)
 * [Pacman - tips and tricks](https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks)
-
