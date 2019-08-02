@@ -124,7 +124,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 ```shell
 # cryptsetup -y -v luksFormat --type luks1 /dev/nvme0n1p2
-# cryptsetup open --type --luks1 /dev/nvme0n1p2 crypto-boot
+# cryptsetup open --type luks1 /dev/nvme0n1p2 crypto-boot
 
 # cryptsetup -y -v luksFormat /dev/nvme0n1p3
 # cryptsetup open --type luks /dev/nvme0n1p3 lvm
@@ -231,7 +231,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 # echo arch > /etc/hostname
 # vim /etc/hosts -> change hostname to arch
-# vim /etc/resolv.conf -> "nameserver 1.1.1.1 \n nameserver 8.8.8.8 \n nameserver 8.8.4.4 \n search example.com"
+# vim /etc/resolv.conf -> "nameserver 1.1.1.1 \n nameserver 1.0.0.1 \n nameserver 8.8.8.8 \n nameserver 8.8.4.4 \n search example.com"
 
 # systemctl enable NetworkManager
 # systemctl disable dhcpcd
