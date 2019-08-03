@@ -185,8 +185,9 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # echo KEYMAP=us >> /etc/vconsole.conf
 # echo FONT=ter-v32n >> /etc/vconsole.conf
 
-# ### ### ### ### ### ## #
-# vim /etc/mkinitcpio.conf -> add to hooks -> "block encrypt lvm2 filesystems keyboard consolefont"
+# ### Add `encrypt lvm2` to `HOOKS` between `block` and `filesystems`
+# ### HOOKS=(base udev autodetect modconf block    encrypt lvm2    filesystems keyboard consolefont fsck)
+# vim /etc/mkinitcpio.conf ### -> add to HOOKS -> `encrypt lvm2`
 
 # mkinitcpio -p linux
 
@@ -200,6 +201,14 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # mkdir /boot/grub/locale
 # cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
 # grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+
+## Add `crypto-boot` real `UUID` to `/etc/crypttab`
+
+```shell
+# blkid
+# crypto-boot UUID=`/dev/nvme0n1p2 UUID here` none luks 1
 ```
 
 
@@ -357,7 +366,6 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # pacman -S cronie
 # crontab -e -> add "@reboot powertop --auto-tune"
-
 ```
 
 
@@ -442,10 +450,13 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ```shell
 
-# bash -c "echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
-# bash -c "echo options nouveau modeset=0 >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
+# echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia-nouveau.conf
+# echo "options nouveau modeset=0" >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf
 # cat /etc/modprobe.d/blacklist-nvidia-nouveau.conf
-# vim /etc/mkinitcpio.conf ### -> ### Add ### `FILES=(/etc/modprobe.d/blacklist-nvidia-nouveau.conf)`
+
+# ### add conf to FILES
+# ### FILES=(/etc/modprobe.d/blacklist-nvidia-nouveau.conf)
+# vim /etc/mkinitcpio.conf ### -> Add -> `FILES=(/etc/modprobe.d/blacklist-nvidia-nouveau.conf)`
 
 # ### blacklist nouveau driver using GRUB config ###
 # vim /etc/default/grub ### -> ### `GRUB_CMDLINE_LINUX_DEFAULT="nouveau.blacklist=1"` ###
@@ -454,7 +465,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # ### regenerate the initramfs ###
 # mkinitcpio -p linux
 
-# reboot
+# reboot or install bbswitch too
 
 # ### check if nouveau driver is loader after reboot ###
 
@@ -476,20 +487,34 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # echo "options bbswitch load_state=0 unload_state=0" >> /etc/modprobe.d/bbswitch.conf
 
 
-# vim /etc/mkinitcpio.conf ### -> ### Add ### `FILES=(/etc/modprobe.d/bbswitch)`
+# vim /etc/mkinitcpio.conf
+# ##### Add `/etc/modprobe.d/bbswitch.conf` to `FILES`
+# FILES=(/etc/modprobe.d/bbswitch.conf)
+
 # mkinitcpio -p linux
+# reboot
 
 # ### get status
 # cat /proc/acpi/bbswitch
 
 # ### Turn card OFF
-# sudo tee /proc/acpi/bbswitch <<< OFF
+# tee /proc/acpi/bbswitch <<< OFF
 
 # modprobe -r nouveau
 ```
 
 
 ---
+
+
+## `mkinitcpio`
+
+`mkinitcpio` is a Bash script used to create an [initial ramdisk](https://en.wikipedia.org/wiki/Initial_ramdisk) environment.
+From the [mkinitcpio(8)](https://jlk.fjfi.cvut.cz/arch/manpages/man/mkinitcpio.8) man page:
+
+The `initial ramdisk` is in essence a very small environment (early userspace) which loads various kernel modules and sets up necessary things before handing over control to `init`.
+This makes it possible to have, for example, encrypted root file systems and root file systems on a software RAID array.
+`mkinitcpio` allows for easy extension with custom hooks, has autodetection at runtime, and many other features.
 
 
 ## pacman
