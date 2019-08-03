@@ -30,6 +30,7 @@ Connect to wi-fi
 
 ```shell
 # pacman -Sy terminus-font
+# setfont ter-v20b
 # setfont ter-v32n
 ```
 
@@ -171,6 +172,13 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
+## Add `crypto-boot` real `UUID` to `/etc/crypttab`
+
+```shell
+# blkid
+# crypto-boot UUID=`/dev/nvme0n1p2 UUID here` none luks 1
+```
+
 
 ## Enter `arch-chroot`
 
@@ -201,14 +209,6 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # mkdir /boot/grub/locale
 # cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
 # grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-
-## Add `crypto-boot` real `UUID` to `/etc/crypttab`
-
-```shell
-# blkid
-# crypto-boot UUID=`/dev/nvme0n1p2 UUID here` none luks 1
 ```
 
 
