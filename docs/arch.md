@@ -175,7 +175,9 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 ## Add `crypto-boot` real `UUID` to `/etc/crypttab`
 
 ```shell
+# lsblk
 # blkid
+# vim /mnt/etc/crypttab
 # crypto-boot UUID=`/dev/nvme0n1p2 UUID here` none luks 1
 ```
 
