@@ -63,7 +63,7 @@
 
 ---
 
-```bash
+```console
 # # -> arch-chroot
 
 # arch-chroot /mnt
@@ -124,7 +124,7 @@
 # # -> exit arch-chroot
 ```
 
-```sh
+```console
 # umount -R /mnt
 # reboot
 
@@ -160,7 +160,7 @@
 
 ---
 
-```shell
+```console
 # # -> nvidia
 
 # lspci -k | grep -A 2 -E "(VGA|3D)"
@@ -218,7 +218,7 @@
 
 ---
 
-```shell
+```console
 # pacman -S gdm gnome gnome-extra gnome-shell
 # systemctl enable gdm
 
