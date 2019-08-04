@@ -219,11 +219,14 @@
 ---
 
 ```console
+# pacman -S cmake cronie nodejs npm
+# pacman -S git gvim htop curl wget rsync tree bash bash-completion fzf the_silver_searcher
+```
+
+---
+
+```console
 # pacman -S gdm gnome gnome-extra gnome-shell
 # systemctl enable gdm
-
-# pacman -S cmake
-# pacman -S cronie
-# pacman -S nodejs npm
-# pacman -S git gvim htop curl wget rsync tree bash bash-completion fzf the_silver_searcher
+# reboot
 ```
