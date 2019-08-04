@@ -1,4 +1,4 @@
-```shell
+```console
 # ip link
 # ping 1.1.1.1 -c 4
 # timedatectl set-ntp true
@@ -59,8 +59,13 @@
 # vim /tmp/blkinf # -> copy /dev/sdb2 UUID
 # vim /mnt/etc/crypttab # -> use /dev/sdb2 UUID
 # # -> crypto-boot UUID=</dev/sdb2-UUID> none luks1
+```
 
-# #
+---
+
+```bash
+# # -> arch-chroot
+
 # arch-chroot /mnt
 
 # pacman-key --init
@@ -116,12 +121,14 @@
 # systemctl start NetworkManager
 
 # exit
-# # exit arch-chroot
+# # -> exit arch-chroot
+```
 
+```sh
 # umount -R /mnt
 # reboot
 
-# # after reboot
+# # -> after reboot
 
 # pacman -Syu
 
@@ -129,7 +136,7 @@
 # vim /etc/pam.d/system-login
 # # -> "auth required pam_tally2.so deny=5 unlock_time=600 onerr=succeed file=/var/log/tallylog"
 
-# # pacman -S unbound expat
+# # -> pacman -S unbound expat
 
 # pacman -S intel-ucode
 # grub-mkconfig -o /boot/grub/grub.cfg
@@ -149,8 +156,11 @@
 # pacman -S sudo
 
 # reboot
+```
 
+---
 
+```shell
 # # -> nvidia
 
 # lspci -k | grep -A 2 -E "(VGA|3D)"
@@ -206,9 +216,7 @@
 # journalctl -b | grep nouveau ### Should say that nouveau is blacklisted
 ```
 
-
 ---
-
 
 ```shell
 # pacman -S gdm gnome gnome-extra gnome-shell
