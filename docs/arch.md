@@ -30,7 +30,6 @@ Connect to wi-fi
 
 ```shell
 # pacman -Sy terminus-font
-# setfont ter-v20b
 # setfont ter-v32n
 ```
 
@@ -96,7 +95,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
   * <kbd>Enter</kbd> - For first sector
   * <kbd>+1G</kbd> - For last sector
   * <kbd>t</kbd> - Change partition type
-  * <kbd>1</kbd> - Partition type - `EFI System`
+  * <kbd>1</kbd> - Partition type - `(1) EFI System`
 
 2. Create `boot` partition
 
@@ -104,7 +103,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
   * <kbd>2</kbd> - Partition number
   * <kbd>Enter</kbd> - For first sector
   * <kbd>+1G</kbd> - For last sector
-  * Partition type `Linux filesystem`
+  * Partition type `(20) Linux filesystem`
 
 3. Create `LVM` partition
 
@@ -114,7 +113,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
   * <kbd>+256G</kbd> - For last sector
   * <kbd>t</kbd> - Change partition type
   * <kbd>3</kbd> - Number of partition
-  * <kbd>31</kbd> - Partition type - `Linux LVM`
+  * <kbd>31</kbd> - Partition type - `(31) Linux LVM`
 
 4. Save changes
   * <kbd>p</kbd> - print partition table
@@ -474,6 +473,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # lsmod | grep nouveau
 # rmmod nouveau ### -> ### Should output "Module nouveau is not currently loaded"
 # journalctl -b | grep nouveau ### Should say that nouveau is blacklisted
+
 ```
 
 
