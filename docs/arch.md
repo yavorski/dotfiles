@@ -522,9 +522,10 @@ This makes it possible to have, for example, encrypted root file systems and roo
 ## pacman
 
 ```shell
-# sudo pacman -Ss <keyword> - search pacakge
-# sudo pacman -R <package-name> - remove pkg
-# sudo pacman -Rs <package-name> - remove pkg with dependecies
+# pacman -Ss <keyword> - search pacakge
+# pacman -R <package-name> - remove pkg
+# pacman -Rs <package-name> - remove pkg with dependencies
+# pacman -Qm <package-name> - look for foreign dependencies
 ```
 
 ---
