@@ -193,6 +193,7 @@ set shortmess=atI
 " Never let Vim write a backup file! They did that in the 70's.
 set nobackup
 set noswapfile
+set noundofile
 
 " If this many milliseconds nothing is typed the swap file will be written to disk
 " Also used for vim-gitgutter timeout
