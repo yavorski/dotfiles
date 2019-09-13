@@ -287,7 +287,7 @@ let g:NERDTreeIndicatorMapCustom = {
   \ "Modified"  : "*",
   \ "Staged"    : "+",
   \ "Untracked" : "-",
-  \ "Renamed"   : "→",
+  \ "Renamed"   : "~",
   \ "Unmerged"  : "=",
   \ "Deleted"   : "×",
   \ "Dirty"     : "*",
