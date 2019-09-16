@@ -1,4 +1,4 @@
-# Setup Vim
+# vim
 
 ## To gain OS clipboard support
 
@@ -63,10 +63,3 @@ mkdir ~/.vim/syntax
 mkdir ~/.vim/undo
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
-
-## Fonts (Optional)
-
-* Not Automated
-
-Install [nerd-fonts](https://github.com/ryanoasis/nerd-fonts)
-

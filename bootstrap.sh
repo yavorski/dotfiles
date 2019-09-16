@@ -8,7 +8,8 @@ function bootstrap() {
   printf "\n";
   rsync bash vim nvim -avh --no-perms --delete $HOME/.config;
 
-  # Link files from ~/.config (no need to link nvim)
+  # Link files from ~/.config
+  # No need to link `nvim` ~/.config/nvim/init.vim
   ln -s $HOME/.config/bash/.bashrc $HOME/.bashrc;
   ln -s $HOME/.config/vim $HOME/.vim;
   ln -s $HOME/.config/vim/.vimrc $HOME/.vimrc;
