@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
 function bootstrap() {
-  # Copy files to ~/.config
+  # copy files to ~/.config
   printf "\n";
   rsync .inputrc .gitconfig -avh --no-perms $HOME;
 
   printf "\n";
   rsync bash vim nvim -avh --no-perms --delete $HOME/.config;
 
-  # Link files from ~/.config
-  # No need to link `nvim` ~/.config/nvim/init.vim
+  # link files from ~/.config
+  # no need to link `nvim` ~/.config/nvim/init.vim
   ln -s $HOME/.config/bash/.bashrc $HOME/.bashrc;
   ln -s $HOME/.config/vim $HOME/.vim;
   ln -s $HOME/.config/vim/.vimrc $HOME/.vimrc;
@@ -17,6 +17,8 @@ function bootstrap() {
   ln -s $HOME/.config/vim/.vimpagerrc $HOME/.vimpagerrc;
 
   # init new shell
+  source .extra;
+  source $HOME/.extra;
   source $HOME/.bashrc;
 
   # init vim plug
