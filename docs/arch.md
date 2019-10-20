@@ -18,19 +18,25 @@ Ensure your network interface is listed and enabled, for example with ip-link(8)
 ```
 
 Connect to wi-fi
-
 ```shell
-# dhcpcd
 # wifi-menu -o
-# ping 1.1.1.1 -c 4
 ```
 
+Connect to ethernet
+```shell
+# dhcpcd
+```
+
+Check network
+```shell
+# ping 1.1.1.1 -c 4
+```
 
 ## Install `terminus-font`
 
 ```shell
 # pacman -Sy terminus-font
-# setfont ter-v32n
+# setfont ter-v32b
 ```
 
 
@@ -110,7 +116,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
   * <kbd>n</kbd> - Add new partition
   * <kbd>3</kbd> - Partition number
   * <kbd>Enter</kbd> - For first sector
-  * <kbd>+256G</kbd> - For last sector
+  * <kbd>+256G</kbd> | <kbd>Enter</kbd> - For last sector
   * <kbd>t</kbd> - Change partition type
   * <kbd>3</kbd> - Number of partition
   * <kbd>31</kbd> - Partition type - `(31) Linux LVM`
@@ -177,7 +183,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # lsblk
 # blkid
 # vim /mnt/etc/crypttab
-# crypto-boot UUID=`/dev/nvme0n1p2 UUID here` none luks 1
+# crypto-boot UUID=`/dev/nvme0n1p2 UUID here` none luks1
 ```
 
 
@@ -189,14 +195,13 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # pacman-key --init
 # pacman-key --populate archlinux
 
-# pacman -S grub efibootmgr os-prober linux-headers terminus-font
+# pacman -S grub efibootmgr os-prober linux linux-headers linux-firmware mkinitcpio lvm2 terminus-font
 
 # echo KEYMAP=us >> /etc/vconsole.conf
-# echo FONT=ter-v32n >> /etc/vconsole.conf
+# echo FONT=ter-v32b >> /etc/vconsole.conf
 
-# ### Add `encrypt lvm2` to `HOOKS` between `block` and `filesystems`
-# ### HOOKS=(base udev autodetect modconf block    encrypt lvm2    filesystems keyboard consolefont fsck)
-# vim /etc/mkinitcpio.conf ### -> add to HOOKS -> `encrypt lvm2`
+# vim /etc/mkinitcpio.conf
+# # -> add to HOOKS -> `encrypt lvm2 consolefont` between `block` `filesystems`
 
 # mkinitcpio -p linux
 
@@ -228,6 +233,9 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # ### hwclock --systohc --utc ###
 
 # vim /etc/locale.gen
+# # -> `en_US.UTF-8 UTF-8`
+# # -> `en_GB.UTF-8 UTF-8`
+# # -> `bg_BG.UTF-8 UTF-8`
 # locale-gen
 # echo LANG=en_US.UTF-8 > /etc/locale.conf
 # echo LC_TIME=en_GB.UTF-8 >> /etc/locale.conf
@@ -241,7 +249,11 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 # echo arch > /etc/hostname
 # vim /etc/hosts -> change hostname to arch
-# vim /etc/resolv.conf -> "nameserver 1.1.1.1 \n nameserver 1.0.0.1 \n nameserver 8.8.8.8 \n nameserver 8.8.4.4 \n search example.com"
+# vim /etc/resolv.conf
+# # -> nameserver 1.1.1.1
+# # -> nameserver 1.0.0.1
+# # -> nameserver 8.8.8.8
+# # -> nameserver 8.8.8.4
 
 # systemctl enable NetworkManager
 # systemctl disable dhcpcd
@@ -298,7 +310,8 @@ nmcli connection up uuid <'UUID'>
 
 ```
 # chmod 700 /boot /etc/{iptables,arptables}
-# vim /etc/pam.d/system-login -> "auth required pam_tally2.so deny=5 unlock_time=600 onerr=succeed file=/var/log/tallylog"
+# vim /etc/pam.d/system-login
+# # -> `auth required pam_tally2.so deny=5 unlock_time=600 onerr=succeed file=/var/log/tallylog`
 # pacman -S unbound expat
 ```
 
@@ -309,17 +322,14 @@ More on security -> [https://wiki.archlinux.org/index.php/Security](https://wiki
 
 * For Intel processors, install the `intel-ucode` package.
 * Arch wiki -> [https://wiki.archlinux.org/index.php/Microcode](https://wiki.archlinux.org/index.php/Microcode)
-
-```
-pacman -S intel-ucode
-```
-
 * Add `/boot/intel-ucode.img` as the **first initrd in the bootloader config file**.
 * `grub-mkconfig` will automatically detect the microcode update and configure `GRUB` appropriately.
 
 ```
+pacman -S intel-ucode
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
+
 
 ## Basic User Firewall
 
@@ -343,139 +353,46 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ```
 # useradd -m -g users -G wheel lambda
 # passwd lambda
-# EDITOR=vim
-# visudo -> uncomment %wheel group
+# EDITOR=vim visudo
+# # -> uncomment %wheel group
 # pacman -S sudo
 ```
 
-
-## Desktop environment
-
-`Gnome` on `Wayland` instead `Xorg`
-
-```
-# pacman -S gdm gnome gnome-extra gnome-shell
-# systemctl enable gdm
-```
-
-
-## ++
-
-```
-# pacman -S powertop
-# powertop --auto-tune
-
-# pacman -S cronie
-# crontab -e -> add "@reboot powertop --auto-tune"
-```
-
-
-## ++
-
-```
-# pacman -S cmake
-# pacman -S nodejs npm
-# pacman -S git gvim htop curl wget rsync tree bash bash-completion fzf the_silver_searcher
-```
-
-
 ---
 
-
-## Disable `nvidia` card and `nouveau` kernel module
-
-
-1. Show/Inspect currently loaded kernel modules -> `lsmod`
-2. Show information about module -> `modinfo <module_name>`
-3. To list the options that are set for a loaded module -> `systool -v -m <module_name>`
-4. To display the configuration of a particular module -> `modprobe -c | grep <module_name>`
-5. List the dependencies of a module (or alias), including the module itself -> `modprobe --show-depends <module_name>`
-6. Unload module -> `modprobe -r <module_name>` or `rmmod <module_name>`
-7. Some modules are loaded as part of the `initramfs`.
-   `mkinitcpio -M` will print out all automatically detected modules.
-   To prevent the `initramfs` from loading some of those modules, blacklist them in a `.conf` file under `/etc/modprobe.d`
-   and it shall be added in by the `modconf` hook during image generation.
-   Running `mkinitcpio -v` will list all modules pulled in by the various hooks (e.g. filesystems hook, block hook, etc.).
-   Remember to add that `.conf` file to the `FILES` array in `/etc/mkinitcpio.conf`.
-   If you do not have the `modconf` hook in your `HOOKS` array (e.g. you have deviated from the default configuration),
-   and once you have `blacklisted` the modules regenerate the `initramfs`, and reboot afterwards.
-
-
-```
-# lsmod #1
-# modinfo nouveau #2
-# systool -v -m nouveau #3
-# modprobe -c | grep nouveau #4
-# modprobe --show-depends nouveau #5
-# rmmod nouveau #6
-# 7...
-```
-
-
-1. Get `PCI` address of the `NVIDIA` card.
-2. Set `nomodeset`or `vga` as `kernel parameter` to disable `nouveau` kernel module load automaticaly on system boot
-3. Use `modprobe` blacklisting technique within `/etc/modprobe.d/` or `/usr/lib/modprobe.d/`
-4. Disable Kernel Mode Setting (`KMS`) for `nouveau` driver as early as possible in the boot process when `initramfs` is loaded
-  * Make sure `nouveau` is not added to the `MODULES` array in `/etc/mkinitcpio.conf`
-  * Make sure `FILES="/lib/firmware/edid/your_edid.bin"` is missing from `/etc/mkinitcpio.conf`
-5. Blacklist `nouveau` driver
-  * add `blacklist nouveau` line to `/etc/modprobe.d/nouveau_blacklist.conf` or `/usr/lib/modprobe.d/nvidia.conf`
-6. Do not load `nvidia` module
-  * `# rmmod nvidia`
-7. The system may start if the Nouveau driver is disabled by passing the following kernel parameters: `modprobe.blacklist=nouveau`
-8. If you have another Nvidia graphics card, or just want to be safe, you can disable the offending card using:
-  * `# echo 1 > /sys/bus/pci/devices/[CARD DEVICE ID]/remove`
-9. ...
-10. Check `dmesg`
-11. View loaded video module parameters and values: `# modinfo -p video|nouveau`
-
-
-```shell
-
-# 1.
-# lspci
-# lspci | egrep 'VGA|3D'
-
-# ...
-
-# 10.
-# dmesg
-
-# 11..
-# modinfo -p nouveau
-```
-
-
 ## Disable `nvidia` card and `nouveau` kernel module (Ok)
-
 
 ```shell
 
 # echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia-nouveau.conf
 # echo "options nouveau modeset=0" >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf
-# cat /etc/modprobe.d/blacklist-nvidia-nouveau.conf
 
-# ### add conf to FILES
-# ### FILES=(/etc/modprobe.d/blacklist-nvidia-nouveau.conf)
-# vim /etc/mkinitcpio.conf ### -> Add -> `FILES=(/etc/modprobe.d/blacklist-nvidia-nouveau.conf)`
+# vim /etc/mkinitcpio.conf
+# # # -> Add -> `FILES=(/etc/modprobe.d/blacklist-nvidia-nouveau.conf)`
 
-# ### blacklist nouveau driver using GRUB config ###
-# vim /etc/default/grub ### -> ### `GRUB_CMDLINE_LINUX_DEFAULT="nouveau.blacklist=1"` ###
+# vim /etc/default/grub
+# # # -> blacklist nouveau driver using GRUB config
+# # # -> `GRUB_CMDLINE_LINUX_DEFAULT="nouveau.blacklist=1"`
 # grub-mkconfig --output /boot/grub/grub.cfg
 
-# ### regenerate the initramfs ###
 # mkinitcpio -p linux
+# # # -> regenerate the initramfs
 
-# reboot or install bbswitch too
-
-# ### check if nouveau driver is loader after reboot ###
+# reboot
+# # # -> reboot or install bbswitch too
+# # # -> check if nouveau driver is loader after reboot
 
 # lsmod | grep nouveau
-# rmmod nouveau ### -> ### Should output "Module nouveau is not currently loaded"
-# journalctl -b | grep nouveau ### Should say that nouveau is blacklisted
+
+# rmmod nouveau
+# # # -> Should output "Module nouveau is not currently loaded"
+
+# journalctl -b | grep nouveau
+# # # -> Should say that nouveau is blacklisted
 
 ```
 
+---
 
 ## Install `bbswitch` (laptop only)
 
@@ -488,26 +405,67 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # touch /etc/modprobe.d/bbswitch.conf
 # echo "options bbswitch load_state=0 unload_state=0" >> /etc/modprobe.d/bbswitch.conf
 
-
 # vim /etc/mkinitcpio.conf
-# ##### Add `/etc/modprobe.d/bbswitch.conf` to `FILES`
-# FILES=(/etc/modprobe.d/bbswitch.conf)
+# # # -> Add `/etc/modprobe.d/bbswitch.conf` to `FILES`
+# # # -> FILES=(/etc/modprobe.d/bbswitch.conf)
+# # # -> FILES=(/etc/modprobe.d/blacklist-nvidia-nouveau.conf /etc/modprobe.d/bbswitch.conf)
 
 # mkinitcpio -p linux
 # reboot
 
-# ### get status
+# # # -> get status
 # cat /proc/acpi/bbswitch
 
-# ### Turn card OFF
+# # # -> Turn card OFF
 # tee /proc/acpi/bbswitch <<< OFF
 
 # modprobe -r nouveau
 ```
 
+---
+
+## Window Manager
+
+* SWAY
+
+```
+# pacman -S sway swaylock swayidle wlroots bemenu gtk3 wayland xorg-server-xwayland termite i3status glfw-wayland
+# pacman -S rxvt-unicode rxvt-unicode-terminfo urxvt-perls
+
+# sudo -iu <username>
+# mkidir -p ~/.congig/sway
+# cp /etc/sway/config ~/.config/sway/
+# exit
+```
 
 ---
 
+## dev tools (optional)
+
+```
+# pacman -S cmake
+# pacman -S nodejs npm
+# pacman -S git gvim htop curl wget rsync tree bash bash-completion fzf the_silver_searcher
+```
+
+## Desktop environment (optional)
+
+* OPTIONAL -`Gnome` on `Wayland` instead `Xorg`
+* OPTIONAL - `powertop`
+* OPTIONAL - `crontab`
+
+```
+# pacman -S gdm gnome gnome-extra gnome-shell
+# systemctl enable gdm
+
+# pacman -S powertop
+# powertop --auto-tune
+
+# pacman -S cronie
+# crontab -e -> add "@reboot powertop --auto-tune"
+```
+
+---
 
 ## `mkinitcpio`
 
@@ -518,6 +476,7 @@ The `initial ramdisk` is in essence a very small environment (early userspace) w
 This makes it possible to have, for example, encrypted root file systems and root file systems on a software RAID array.
 `mkinitcpio` allows for easy extension with custom hooks, has autodetection at runtime, and many other features.
 
+---
 
 ## pacman
 
@@ -543,10 +502,11 @@ This makes it possible to have, for example, encrypted root file systems and roo
 ### References
 
 * [General recommendations](https://wiki.archlinux.org/index.php/General_recommendations)
-* [Gnome](https://wiki.archlinux.org/index.php/GNOME)
-* [Gnome Shell](https://en.wikipedia.org/wiki/GNOME_Shell)
+* [Sway](https://wiki.archlinux.org/index.php/Sway)
 * [Window manager](https://wiki.archlinux.org/index.php/Window_manager)
 * [Display manager](https://wiki.archlinux.org/index.php/Display_manager)
+* [Gnome](https://wiki.archlinux.org/index.php/GNOME)
+* [Gnome Shell](https://en.wikipedia.org/wiki/GNOME_Shell)
 * [Gnome Display Manager - GDM](https://wiki.archlinux.org/index.php/GDM)
 * [Linux console fonts](https://wiki.archlinux.org/index.php/Linux_console#Fonts)
 * [ZSH](https://wiki.archlinux.org/index.php/Zsh)
