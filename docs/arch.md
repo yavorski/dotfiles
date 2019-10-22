@@ -165,7 +165,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # mkfs.ext4 /dev/vg/lv-home
 # mount /dev/vg/lv-home /mnt/home
 
-# ### ## # - will mount later
+# # # -> will mount later
 # mkfs.fat -F32 /dev/nvme0n1p1
 ```
 
@@ -173,7 +173,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 ## Install Arch Linux
 
 ```shell
-# pacstrap -i /mnt base base-devel vim
+# pacstrap -i /mnt base base-devel vi vim
 # genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
@@ -183,7 +183,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # lsblk
 # blkid
 # vim /mnt/etc/crypttab
-# crypto-boot UUID=`/dev/nvme0n1p2 UUID here` none luks1
+# # # -> crypto-boot UUID=`/dev/nvme0n1p2 -> UUID` none luks1
 ```
 
 
@@ -201,7 +201,8 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # echo FONT=ter-v32b >> /etc/vconsole.conf
 
 # vim /etc/mkinitcpio.conf
-# # -> add to HOOKS -> `encrypt lvm2 consolefont` between `block` `filesystems`
+# # -> add to HOOKS -> `consolefont` before `block`
+# # -> add to HOOKS -> `encrypt lvm2` between `block` and `filesystems`
 
 # mkinitcpio -p linux
 
@@ -311,7 +312,7 @@ nmcli connection up uuid <'UUID'>
 ```
 # chmod 700 /boot /etc/{iptables,arptables}
 # vim /etc/pam.d/system-login
-# # -> `auth required pam_tally2.so deny=5 unlock_time=600 onerr=succeed file=/var/log/tallylog`
+# # # -> `auth required pam_tally2.so deny=5 unlock_time=600 onerr=succeed file=/var/log/tallylog`
 # pacman -S unbound expat
 ```
 
@@ -443,9 +444,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ## dev tools (optional)
 
 ```
-# pacman -S cmake
-# pacman -S nodejs npm
-# pacman -S git gvim htop curl wget rsync tree bash bash-completion fzf the_silver_searcher
+# pacman -S man bash bash-completion
+# pacman -S git tree htop curl cmake nodejs npm
+# pacman -S gvim neovim wget rsync fzf the_silver_searcher
 ```
 
 ## Desktop environment (optional)
