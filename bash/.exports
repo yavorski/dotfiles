@@ -31,15 +31,20 @@ export FORCE_COLOR=true;
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ]; then
-  export PATH="$HOME/bin:$PATH";
+  export PATH="$PATH:$HOME/bin:$PATH";
 fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ]; then
-  export PATH="$HOME/.local/bin:$PATH";
+  export PATH="$PATH:$HOME/.local/bin:$PATH";
 fi
 
 # set PATH so it includes npm global bin
 if [ -d "$HOME/.npm-global/bin" ]; then
-  export PATH="$HOME/.npm-global/bin:$PATH";
+  export PATH="$PATH:$HOME/.npm-global/bin:$PATH";
+fi
+
+# Go executables
+if [ -d "$HOME/go/bin" ]; then
+  export PATH="$PATH:$HOME/go/bin";
 fi
