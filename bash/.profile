@@ -6,6 +6,7 @@
 
 declare -a files=(
   $DOTFILES/.settings
+  $DOTFILES/.wayland
   $DOTFILES/.exports
   $DOTFILES/.aliases
   $DOTFILES/.prompt

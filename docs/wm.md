@@ -20,8 +20,16 @@
 
 ```
 # pacman -S sway swaylock swayidle
-# pacman -S dmenu bemenu i3status
+# pacman -S rofi dmenu bemenu i3status
 # pacman -S xorg-server-xwayland glfw-wayland
+# pacman -S powerline-fonts powerline-fonts-git #aur
+```
+
+## Install `vte` terminal
+
+```
+# pacman -S kitty kitty-terminfo
+# pacman -S alacritty alacritty-terminfo
 # pacman -S rxvt-unicode rxvt-unicode-terminfo urxvt-perls
 
 ```

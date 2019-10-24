@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+# Running programs natively under Wayland
+# https://wiki.archlinux.org/index.php/Wayland#GUI_libraries
+# https://github.com/swaywm/sway/wiki/Running-programs-natively-under-wayland
+
+# Sway Bemenu backend
+export BEMENU_BACKEND=wayland
+
+# Clutter
+export CLUTTER_BACKEND=wayland
+
+# Kitty terminal
+export KITTY_ENABLE_WAYLAND=1
+
+# Firefox - Wayland isn't default yet.
+export MOZ_ENABLE_WAYLAND=1
+
+# GTK3 - Wayland will be selected by default.
+# Do not set GDK_BACKEND, it will break apps (e.g. Chromium and Electron).
+# export GDK_BACKEND=wayland
+
+# Qt5 use wayland by default if xdg session type is set
+export XDG_SESSION_TYPE=wayland
+
+# else set
+export QT_QPA_PLATFORM=wayland-egl
+
+# Use your monitor's DPI instead of the default of 96 DPI
+export QT_WAYLAND_FORCE_DPI=physical
+
+# Hide Qt older versions window decorations
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+
+# Enable QT apps to have gtk theme
+export QT_QPA_PLATFORMTHEME=qt5ct
+
+# Elementary/EFL
+export ELM_ENGINE=wayland_egl
+export ECORE_EVAS_ENGINE=wayland_egl
+
+# SDL
+export SDL_VIDEODRIVER=wayland
+
+# GLFW/GLEW
+# pacman -S glfw-wayland
+# pacman -S glew-wayland
+
+# Some Java AWT applications would not display properly unless you set the following.
+export _JAVA_AWT_WM_NONREPARENTING=1
