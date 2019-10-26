@@ -14,9 +14,6 @@ alias h="history"
 alias d="cd ~/dev"
 alias dl="cd ~/Downloads"
 
-# Sublime text
-alias sublime="subl"
-
 # Week number
 alias week='date +%V'
 
@@ -45,3 +42,6 @@ alias egrep="egrep --color=auto"
 
 # IP address
 alias rip="dig +short myip.opendns.com @resolver1.opendns.com"
+
+# Battery status
+alias battery="cat /sys/class/power_supply/BAT0/capacity /sys/class/power_supply/BAT1/capacity"
