@@ -330,6 +330,9 @@ if has("autocmd")
   " Enable file type detection
   filetype on
 
+  " .rafi syntax highlight
+  autocmd BufNewFile,BufRead *.rasi setlocal filetype=css
+
   " Treat .md files as Markdown
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 
