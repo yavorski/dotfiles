@@ -57,6 +57,9 @@ Plug 'tpope/vim-surround'
 Plug 'Raimondi/delimitMate'
 Plug 'jiangmiao/auto-pairs'
 
+" Comment stuff out
+Plug 'tpope/vim-commentary'
+
 " enable repeating supported plugin maps with "."
 Plug 'tpope/vim-repeat'
 
