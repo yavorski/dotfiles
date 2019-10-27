@@ -19,15 +19,20 @@ export MOZ_ENABLE_WAYLAND=1
 # GTK3 - Wayland will be selected by default.
 # Do not set GDK_BACKEND, it will break apps (e.g. Chromium and Electron).
 # export GDK_BACKEND=wayland
+export GTK_THEME=Adwaita:dark
 
 # Qt5 use wayland by default if xdg session type is set
 export XDG_SESSION_TYPE=wayland
 
 # else set
-export QT_QPA_PLATFORM=wayland-egl
+# export QT_QPA_PLATFORM=wayland-egl
 
 # Use your monitor's DPI instead of the default of 96 DPI
 export QT_WAYLAND_FORCE_DPI=physical
+
+# @todo
+# export QT_SCALE_FACTOR=1
+# export QT_AUTO_SCREEN_SCALE_FACTOR=1
 
 # Hide Qt older versions window decorations
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
