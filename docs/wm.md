@@ -22,7 +22,6 @@
 # pacman -S sway swaylock swayidle
 # pacman -S rofi dmenu bemenu i3status
 # pacman -S xorg-server-xwayland glfw-wayland
-# pacman -S powerline-fonts powerline-fonts-git #aur
 ```
 
 ## Install `vte` terminal
@@ -34,11 +33,19 @@
 
 ```
 
-## configure `sway`
+## Configure `sway`
 
 ```
 # sudo -iu <username>
 $ mkidir -p ~/.congig/sway
 $ cp /etc/sway/config ~/.config/sway/
 $ exit
+```
+
+## Install `nerd-fonts-complete` (*AUR*) - `2GB`
+
+```
+$ git clone https://aur.archlinux.org/nerd-fonts-complete.git
+$ cd nerd-fonts-complete
+$ makepkg -si
 ```
