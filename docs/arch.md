@@ -218,6 +218,17 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
+## GRUB Font (optional)
+
+```
+# grub-mkfont -o /boot/grub/fonts/terminus.pf2 --size 32 /usr/share/fonts/misc/ter-x32b.pcf.gz
+
+# vi /etc/default/grub
+# # # -> Add -> GRUB_FONT=/boot/grub/fonts/terminus.pf2
+
+# grub-mkconfig -o /boot/grub/grub.cfg
+```
+
 
 ## Configure password (`arch-chroot`)
 
