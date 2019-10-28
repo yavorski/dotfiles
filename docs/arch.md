@@ -436,18 +436,14 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ---
 
-## Window Manager
-
-* SWAY
+## crontab & powertop
 
 ```
-# pacman -S sway swaylock swayidle wlroots bemenu gtk3 wayland xorg-server-xwayland termite i3status glfw-wayland
-# pacman -S rxvt-unicode rxvt-unicode-terminfo urxvt-perls
+# pacman -S powertop
+# powertop --auto-tune
 
-# sudo -iu <username>
-# mkidir -p ~/.congig/sway
-# cp /etc/sway/config ~/.config/sway/
-# exit
+# pacman -S cronie
+# crontab -e -> add "@reboot powertop --auto-tune"
 ```
 
 ---
@@ -460,6 +456,16 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # pacman -S gvim neovim wget rsync fzf the_silver_searcher
 ```
 
+## Window Manager (optional)
+
+Look at [Sway](./wm.md) doc.
+
+```
+# pacman -S sway swaylock swayidle
+```
+
+---
+
 ## Desktop environment (optional)
 
 * OPTIONAL -`Gnome` on `Wayland` instead `Xorg`
@@ -470,11 +476,6 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # pacman -S gdm gnome gnome-extra gnome-shell
 # systemctl enable gdm
 
-# pacman -S powertop
-# powertop --auto-tune
-
-# pacman -S cronie
-# crontab -e -> add "@reboot powertop --auto-tune"
 ```
 
 ---
