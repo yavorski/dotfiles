@@ -17,9 +17,12 @@ export KITTY_ENABLE_WAYLAND=1
 export MOZ_ENABLE_WAYLAND=1
 
 # GTK3 - Wayland will be selected by default.
+
+# GTK Theme
+export GTK_THEME=Adwaita:dark
+
 # Do not set GDK_BACKEND, it will break apps (e.g. Chromium and Electron).
 # export GDK_BACKEND=wayland
-export GTK_THEME=Adwaita:dark
 
 # Qt5 use wayland by default if xdg session type is set
 export XDG_SESSION_TYPE=wayland
