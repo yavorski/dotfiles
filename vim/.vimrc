@@ -222,6 +222,13 @@ set listchars=eol:¬,tab:›-,trail:·,extends:»,precedes:«
 " ==============================================================
 
 
+" Pmenu
+" ==============================================================
+highlight Pmenu ctermfg=White ctermbg=Black
+highlight PmenuSel ctermfg=White ctermbg=Red
+" ==============================================================
+
+
 " Change <Leader> key
 " ==============================================================
 " It is mapped to backslash "\" by default

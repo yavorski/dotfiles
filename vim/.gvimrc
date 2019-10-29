@@ -8,6 +8,9 @@ set guioptions=i
 " set guifont=Operator\ Mono\ Medium\ 10.75
 
 " Open NERDTree by default
-autocmd vimenter * NERDTree
-autocmd vimenter * NERDTreeRefreshRoot
+" autocmd vimenter * NERDTree
+" autocmd vimenter * NERDTreeRefreshRoot
 
+" Pmenu
+highlight Pmenu guifg=White guibg=Black
+highlight PmenuSel guifg=White guibg=Red
