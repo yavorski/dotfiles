@@ -130,7 +130,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 ```shell
 # cryptsetup -y -v luksFormat --type luks1 /dev/nvme0n1p2
-# cryptsetup open --type luks1 /dev/nvme0n1p2 crypto-boot
+# cryptsetup open --type luks1 /dev/nvme0n1p2 kboot
 
 # cryptsetup -y -v luksFormat /dev/nvme0n1p3
 # cryptsetup open --type luks /dev/nvme0n1p3 lvm
@@ -138,8 +138,8 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # pvcreate --dataalignment 1m /dev/mapper/lvm
 # vgcreate vg /dev/mapper/lvm
 
-# lvcreate -L 16GB vg -n lv-swap
-# lvcreate -L 40GB vg -n lv-root
+# lvcreate -L 20GB vg -n lv-swap
+# lvcreate -L 42GB vg -n lv-root
 # lvcreate -l 100%FREE -n lv-home vg
 
 # modprobe dm_mod
@@ -158,8 +158,8 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # mount /dev/vg/lv-root /mnt
 
 # mkdir /mnt/boot
-# mkfs.ext4 /dev/mapper/crypto-boot
-# mount /dev/mapper/crypto-boot /mnt/boot
+# mkfs.ext4 /dev/mapper/kboot
+# mount /dev/mapper/kboot /mnt/boot
 
 # mkdir /mnt/home
 # mkfs.ext4 /dev/vg/lv-home
@@ -177,13 +177,16 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-## Add `crypto-boot` real `UUID` to `/etc/crypttab`
+## Add `kboot` real `UUID` to `/etc/crypttab`
 
 ```shell
 # lsblk
 # blkid
+# echo '#' >> /mnt/etc/crypttab
+# echo '#' >> /mnt/etc/crypttab
+# blkid >> /mnt/etc/crypttab
 # vim /mnt/etc/crypttab
-# # # -> crypto-boot UUID=`/dev/nvme0n1p2 -> UUID` none luks1
+# # # -> kboot UUID=`/dev/nvme0n1p2 -> UUID` none luks1
 ```
 
 
@@ -206,15 +209,28 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 # mkinitcpio -p linux
 
-# vim /etc/default/grub -> add to cmd line linux default -> "cryptdevice=/dev/nvme0n1p3:vg"
-# vim /etc/default/grub -> uncomment "GRUB_ENABLE_CRYPTODISK=y"
+# vim /etc/default/grub
+
+  # # # -> add to cmd line linux default -> "cryptdevice=/dev/nvme0n1p3:vg"
+
+  ```
+  GRUB_CMDLINE_LINUX="cryptdevice=/dev/nvme0n1p3:vg"
+  ```
+
+  # # # -> uncomment "GRUB_ENABLE_CRYPTODISK=y"
+
+  ```
+  GRUB_ENABLE_CRYPTODISK=y
+  ```
 
 # mkdir /boot/EFI
 # mount /dev/nvme0n1p1 /boot/EFI
 
 # grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
+
 # mkdir /boot/grub/locale
 # cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
+
 # grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
@@ -224,7 +240,12 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # grub-mkfont -o /boot/grub/fonts/terminus.pf2 --size 32 /usr/share/fonts/misc/ter-x32b.pcf.gz
 
 # vi /etc/default/grub
-# # # -> Add -> GRUB_FONT=/boot/grub/fonts/terminus.pf2
+
+  # # # -> Add -> GRUB_FONT=/boot/grub/fonts/terminus.pf2
+
+  ```
+  GRUB_FONT=/boot/grub/fonts/terminus.pf2
+  ```
 
 # grub-mkconfig -o /boot/grub/grub.cfg
 ```
@@ -241,13 +262,15 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 ```shell
 # ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
+
 # hwclock --systohc
-# ### hwclock --systohc --utc ###
+# # # -> hwclock --systohc --utc ###
 
 # vim /etc/locale.gen
 # # -> `en_US.UTF-8 UTF-8`
 # # -> `en_GB.UTF-8 UTF-8`
 # # -> `bg_BG.UTF-8 UTF-8`
+
 # locale-gen
 # echo LANG=en_US.UTF-8 > /etc/locale.conf
 # echo LC_TIME=en_GB.UTF-8 >> /etc/locale.conf
@@ -363,8 +386,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ## Add user
 
 ```
-# useradd -m -g users -G wheel lambda
-# passwd lambda
+# useradd -m -g users -G wheel <user>
+# passwd <user>
 # EDITOR=vim visudo
 # # -> uncomment %wheel group
 # pacman -S sudo
@@ -383,8 +406,13 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # # # -> Add -> `FILES=(/etc/modprobe.d/blacklist-nvidia-nouveau.conf)`
 
 # vim /etc/default/grub
-# # # -> blacklist nouveau driver using GRUB config
-# # # -> `GRUB_CMDLINE_LINUX_DEFAULT="nouveau.blacklist=1"`
+
+  # # # -> blacklist nouveau driver using GRUB config
+
+  ```
+  GRUB_CMDLINE_LINUX="nouveau.blacklist=1"
+  ```
+
 # grub-mkconfig --output /boot/grub/grub.cfg
 
 # mkinitcpio -p linux
@@ -454,6 +482,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # pacman -S man bash bash-completion
 # pacman -S git tree htop curl cmake nodejs npm
 # pacman -S gvim neovim wget rsync fzf the_silver_searcher
+# pacman -S clipman
 ```
 
 ## Window Manager (optional)

@@ -20,7 +20,6 @@
 
 ```
 # pacman -S sway swaylock swayidle
-# pacman -S rofi dmenu bemenu i3status
 # pacman -S xorg-server-xwayland glfw-wayland
 ```
 
@@ -29,8 +28,14 @@
 ```
 # pacman -S kitty kitty-terminfo
 # pacman -S alacritty alacritty-terminfo
-# pacman -S rxvt-unicode rxvt-unicode-terminfo urxvt-perls
+```
 
+## Install clipboard manager for Wayland - `clipman` *AUR*
+
+```
+$ git clone https://aur.archlinux.org/clipman.git
+$ cd clipman
+$ makepkg -si
 ```
 
 ## Configure `sway`
@@ -49,3 +54,17 @@ $ git clone https://aur.archlinux.org/nerd-fonts-complete.git
 $ cd nerd-fonts-complete
 $ makepkg -si
 ```
+
+## App Launcher
+
+```
+# pacman -S wofi *AUR*
+# git clone https://aur.archlinux.org/wofi-hg.git && cd $_ && makepkg -si
+
+# pacman -S rofi
+# pacman -S dmenu
+# pacman -S bemenu
+```
+
+Alt `i3status`
+
