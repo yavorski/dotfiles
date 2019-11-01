@@ -28,6 +28,8 @@
 ```
 # pacman -S kitty kitty-terminfo
 # pacman -S alacritty alacritty-terminfo
+# pacman -S termite termite-terminfo vte-common
+# pacman -S rxvt-unicode rxvt-unicode-terminfo community/urxvt-perls
 ```
 
 ## Install clipboard manager for Wayland - `clipman` *AUR*
