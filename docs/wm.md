@@ -23,6 +23,14 @@
 # pacman -S xorg-server-xwayland glfw-wayland
 ```
 
+## Status bar
+
+```
+# pacman -S i3status
+# mkdir ~/.config/i3status
+# cp /etc/i3status/conf ~/.config/i3status/config
+```
+
 ## Install `vte` terminal
 
 ```
@@ -40,23 +48,6 @@ $ cd clipman
 $ makepkg -si
 ```
 
-## Configure `sway`
-
-```
-# sudo -iu <username>
-$ mkidir -p ~/.congig/sway
-$ cp /etc/sway/config ~/.config/sway/
-$ exit
-```
-
-## Install `nerd-fonts-complete` (*AUR*) - `2GB`
-
-```
-$ git clone https://aur.archlinux.org/nerd-fonts-complete.git
-$ cd nerd-fonts-complete
-$ makepkg -si
-```
-
 ## App Launcher
 
 ```
@@ -68,5 +59,19 @@ $ makepkg -si
 # pacman -S bemenu
 ```
 
-Alt `i3status`
+## Install `nerd-fonts-complete` (*AUR*) - `2GB`
 
+```
+$ git clone https://aur.archlinux.org/nerd-fonts-complete.git
+$ cd nerd-fonts-complete
+$ makepkg -si
+```
+
+## Configure `sway`
+
+```
+# sudo -iu <username>
+$ mkidir -p ~/.congig/sway
+$ cp /etc/sway/config ~/.config/sway/
+$ exit
+```
