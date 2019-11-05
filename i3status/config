@@ -1,0 +1,89 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß - beta
+# If the above line is not correctly displayed, fix your editor first!
+
+general {
+  colors = true
+  interval = 5
+}
+
+# order += "ipv6"
+order += "ethernet _first_"
+order += "wireless _first_"
+order += "load"
+order += "cpu_usage"
+order += "cpu_temperature 0"
+order += "memory"
+order += "disk /"
+order += "disk /home"
+order += "battery all"
+order += "volume master"
+order += "tztime local"
+
+ethernet _first_ {
+  # format_up = "E %ip %speed"
+  format_up = "E %speed"
+  format_down = "E down"
+}
+
+wireless _first_ {
+  # format_up = "W%quality %essid %ip"
+  format_up = "W%quality %essid"
+  format_down = "W down"
+}
+
+load {
+  format = "L %1min"
+  max_threshold = "4" # defaults to 5
+}
+
+cpu_usage {
+  # format = "all: %usage CPU_0: %cpu0 CPU_1: %cpu1 ..."
+  format = "CPU %usage"
+  max_threshold = 50
+  degraded_threshold = 25
+}
+
+cpu_temperature 0 {
+  format = "%degrees°C"
+  max_threshold = 42
+}
+
+memory {
+  format_degraded = "RAM!"
+  format = "M %used/ %total"
+  threshold_critical = "8G" # red
+  threshold_degraded = "12G" # yellow
+  # if the available memory falls below the given threshold
+}
+
+disk "/" { format = "H %avail" }
+disk "/home" { format = "H %avail" }
+
+battery all {
+  low_threshold = 20
+  threshold_type = "percentage"
+  format = "%status %percentage %remaining"
+}
+
+# battery {
+#   # paste -d '#' /sys/class/power_supply/BAT0/capacity /sys/class/power_supply/BAT1/capacity
+# }
+
+volume master {
+  format = "♪ %volume"
+  format_muted = "♪ %volume"
+  device = "default"
+  mixer = "Master"
+  mixer_idx = 0
+}
+
+tztime local {
+  format = "%time"
+  format_time = "%H:%M %d-%m-%Y"
+  # format_time = "%H:%M:%S %d-%m-%Y"
+}
