@@ -14,6 +14,9 @@ alias h="history"
 alias d="cd ~/dev"
 alias dl="cd ~/Downloads"
 
+# vim/nvim
+alias vim="nvim"
+
 # Week number
 alias week='date +%V'
 
