@@ -75,3 +75,11 @@ $ mkidir -p ~/.congig/sway
 $ cp /etc/sway/config ~/.config/sway/
 $ exit
 ```
+
+## Display Manager
+
+```
+# pacman -S lightdm
+# pacman -S lightdm-gtk-greeter
+# systemctl enable lightdm.service
+```
