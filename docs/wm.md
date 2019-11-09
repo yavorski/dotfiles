@@ -76,7 +76,7 @@ $ cp /etc/sway/config ~/.config/sway/
 $ exit
 ```
 
-## Display Manager
+## Display Manager (optional)
 
 ```
 # pacman -S lightdm
