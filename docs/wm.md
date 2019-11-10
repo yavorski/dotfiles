@@ -31,7 +31,7 @@
 # cp /etc/i3status/conf ~/.config/i3status/config
 ```
 
-## Install `vte` terminal
+## `vte` terminal
 
 ```
 # pacman -S kitty kitty-terminfo
@@ -40,7 +40,7 @@
 # pacman -S rxvt-unicode rxvt-unicode-terminfo community/urxvt-perls
 ```
 
-## Install clipboard manager for Wayland - `clipman` *AUR*
+## Clipboard Manager for Wayland - `clipman` *AUR*
 
 ```
 $ git clone https://aur.archlinux.org/clipman.git
@@ -50,6 +50,10 @@ $ makepkg -si
 
 ## App Launcher
 
+Start a terminal in floating window is ok.
+
+Other alternatives are:
+
 ```
 # pacman -S wofi *AUR*
 # git clone https://aur.archlinux.org/wofi-hg.git && cd $_ && makepkg -si
@@ -57,14 +61,6 @@ $ makepkg -si
 # pacman -S rofi
 # pacman -S dmenu
 # pacman -S bemenu
-```
-
-## Install `nerd-fonts-complete` (*AUR*) - `2GB`
-
-```
-$ git clone https://aur.archlinux.org/nerd-fonts-complete.git
-$ cd nerd-fonts-complete
-$ makepkg -si
 ```
 
 ## Configure `sway`
@@ -76,10 +72,24 @@ $ cp /etc/sway/config ~/.config/sway/
 $ exit
 ```
 
-## Display Manager (optional)
+## Light
 
 ```
-# pacman -S lightdm
-# pacman -S lightdm-gtk-greeter
-# systemctl enable lightdm.service
+# pacman -S light
+# usermod -a -G video <username>
+# light -A 5
+# light -U 5
+
+# in sway config
+> bindsym XF86MonBrightnessUp exec light -A 5
+> bindsym XF86MonBrightnessDown exec light -U 5
+```
+
+
+## `nerd-fonts-complete` (*AUR*) - `2GB`
+
+```
+$ git clone https://aur.archlinux.org/nerd-fonts-complete.git
+$ cd nerd-fonts-complete
+$ makepkg -si
 ```
