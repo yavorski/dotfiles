@@ -1,14 +1,8 @@
-# sway config
-# Read `man 5 sway` for a complete reference.
-#
 # ~/.config/sway/config
+# Read `man 5 sway` for a complete reference
 
 # Set font (HiDPI)
 font Source Code Pro Bold 8
-
-# Title bar
-titlebar_padding 4 3
-titlebar_border_thickness 0
 
 ### Variables
 
@@ -21,73 +15,43 @@ set $down j
 set $up k
 set $right l
 
-# Your preferred terminal emulator
+
+# Terminal emulator
 set $term kitty
+
 # set $term urxvt
 # set $term termite
 # set $term alacritty
 
-# Your preferred application launcher
+
+# Application Launcher
 # Note: it's recommended that you pass the final command to sway
-#
-# set $menu bemenu-run | xargs swaymsg exec --
-# set $menu dmenu_path | dmenu | xargs swaymsg exec --
-#
-# Arc-Dark, Adapta-Nokto, DarkBlue, glue_pro_blue, lb, Monokai
-# set $menu rofi -modi "window,windowcd,drun,run,ssh,combi,keys" -show drun -theme Monokai -theme-str "window { border: 10; border-color: #161616; }" -font "Source Code Pro Bold 10" | xargs swaymsg exec --
-#
-# set $menu wofi --dmenu | xargs swaymsg exec --
-# set $menu wofi --show run | xargs swaymsg exec --
-# set $menu wofi --show drun | xargs swaymsg exec --
-#
-# set $launcher dmenu_path | shuf | fzf | xargs swaymsg exec --
-# set $menu alacritty --config-file ~/.config/alacritty/launcher.yml --dimensions 64 16 --title 'launcher' -e sh -c \'$launcher\'
-# for_window [title="^launcher$"] floating enable, border pixel
 
-# bindsym $mod+d exec termite --name=launcher -e "bash -c 'find /usr/share/applications -name *.desktop | xargs basename -s .desktop -a | fzf | xargs -r swaymsg -t command exec gtk-launch'"
-# bindsym $mod+d exec termite --name=launcher -e "bash -c 'compgen -c | sort -u | fzf --no-extended --print-query | tail -n1 | xargs -r swaymsg -t command exec'"
-# compgen -c | sort -u | fzf --reverse --prompt "> " --tabstop 4 -e --print-query | tail -n 1 | xargs -r swaymsg -t command exec
-# bindsym $mod+r exec termite --name=launcher -e "bash -c 'compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec'"
-# for_window [app_id="^launcher$"] floating enable, border none
-
+# menu
 set $menu alacritty \
   --title 'Finder' \
   --dimensions 64 16 \
   --command sh -c 'compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec'
 
+# kill menu
 set $killmenu swaymsg [title="^Finder$"] kill
 
+# style menu window
 for_window [title="^Finder$"] floating enable, border pixel 4
 
 
 ### Output configuration
-#
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
 output eDP-1 scale 2
 output eDP-1 resolution 2560x1440 position 0,0
 output eDP-1 bg ~/dev/wallpapers/arch-3.png fill
 
 
 ### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' \
-#               resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+
+# This will lock your screen after 300 seconds of inactivity,
+# then turn off your displays after another 300 seconds,
+# and turn your screens back on when resumed.
+# It will also lock your screen before your computer goes to sleep.
 
 set $lock 'swaylock -f -F -e -k -l -c 333333 -i ~/dev/wallpapers/arch-1.png'
 
@@ -271,15 +235,27 @@ bindsym $mod+r mode "resize"
 
 
 #
-# Light:
+# Audio:
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+
 #
+# Light:
 bindsym XF86MonBrightnessUp exec light -A 5
 bindsym XF86MonBrightnessDown exec light -U 5
 
 
 #
-# Status Bar:
+# Window Title bar
+titlebar_padding 4 3
+titlebar_border_thickness 0
+
+
 #
+# Status Bar:
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     # mode hide
@@ -303,6 +279,7 @@ bar {
         inactive_workspace #101010 #101010 #5c5c5c
     }
 }
+
 
 #
 include /etc/sway/config.d/*

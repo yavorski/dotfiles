@@ -40,7 +40,7 @@
 # pacman -S rxvt-unicode rxvt-unicode-terminfo community/urxvt-perls
 ```
 
-## Clipboard Manager for Wayland - `clipman` *AUR*
+## Clipboard Manager for Wayland - `clipman` *`AUR`*
 
 ```
 $ git clone https://aur.archlinux.org/clipman.git
@@ -55,7 +55,7 @@ Start a terminal in floating window is ok.
 Other alternatives are:
 
 ```
-# pacman -S wofi *AUR*
+# pacman -S wofi *`AUR`*
 # git clone https://aur.archlinux.org/wofi-hg.git && cd $_ && makepkg -si
 
 # pacman -S rofi
@@ -85,8 +85,13 @@ $ exit
 > bindsym XF86MonBrightnessDown exec light -U 5
 ```
 
+## PulseAudio
 
-## `nerd-fonts-complete` (*AUR*) - `2GB`
+```
+# pacman -S pulseaudio
+```
+
+## `nerd-fonts-complete` *`AUR`* - `2GB`
 
 ```
 $ git clone https://aur.archlinux.org/nerd-fonts-complete.git
