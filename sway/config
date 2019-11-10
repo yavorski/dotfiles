@@ -3,7 +3,7 @@
 #
 # ~/.config/sway/config
 
-# Set font
+# Set font (HiDPI)
 font Source Code Pro Bold 8
 
 # Title bar
@@ -269,6 +269,14 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+
+#
+# Light:
+#
+bindsym XF86MonBrightnessUp exec light -A 5
+bindsym XF86MonBrightnessDown exec light -U 5
+
+
 #
 # Status Bar:
 #
@@ -296,4 +304,5 @@ bar {
     }
 }
 
+#
 include /etc/sway/config.d/*
