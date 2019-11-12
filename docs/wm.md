@@ -91,7 +91,13 @@ $ exit
 # pacman -S pulseaudio
 ```
 
-## `nerd-fonts-complete` *`AUR`* - `2GB`
+## Source Code Pro Font
+
+```
+# pacman -S adobe-source-code-pro-fonts
+```
+
+## Nerd Fonts *`AUR`* - `2GB`
 
 ```
 $ git clone https://aur.archlinux.org/nerd-fonts-complete.git
