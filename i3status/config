@@ -65,7 +65,7 @@ disk "/" { format = "H %avail" }
 disk "/home" { format = "H %avail" }
 
 battery all {
-  low_threshold = 15
+  low_threshold = 10
   threshold_type = "percentage"
   format = "%status %percentage %remaining"
 }
