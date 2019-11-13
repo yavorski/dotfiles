@@ -83,6 +83,10 @@ $ exit
 # in sway config
 > bindsym XF86MonBrightnessUp exec light -A 5
 > bindsym XF86MonBrightnessDown exec light -U 5
+
+# turn on/off power light
+# light -Ss sysfs/leds/tpacpi::power 0
+# light -Ss sysfs/leds/tpacpi::power 1
 ```
 
 ## PulseAudio
