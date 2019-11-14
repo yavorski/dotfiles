@@ -1,7 +1,9 @@
 # `nvim`
 
 ```shell
-pacman -S neovim python-neovim neovim-qt xclip xsel
+# pacman -S neovim neovim-qt python-neovim
+# pacman -S xclip xsel
+# pacman -S qt5-wayland
 ```
 
 #### windows

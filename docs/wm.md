@@ -108,3 +108,9 @@ $ git clone https://aur.archlinux.org/nerd-fonts-complete.git
 $ cd nerd-fonts-complete
 $ makepkg -si
 ```
+
+## qt
+
+```
+# pacman -S qt5-wayland
+```
