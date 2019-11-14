@@ -35,6 +35,7 @@ export QT_WAYLAND_FORCE_DPI=physical
 
 # @todo
 # export QT_SCALE_FACTOR=1
+# export QT_DEVICE_PIXEL_RATIO=1
 # export QT_AUTO_SCREEN_SCALE_FACTOR=1
 
 # Hide Qt older versions window decorations
@@ -56,3 +57,7 @@ export SDL_VIDEODRIVER=wayland
 
 # Some Java AWT applications would not display properly unless you set the following.
 export _JAVA_AWT_WM_NONREPARENTING=1
+
+
+# main
+light -Ss sysfs/leds/tpacpi::power 0
