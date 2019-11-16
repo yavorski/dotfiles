@@ -54,10 +54,10 @@ cpu_temperature 0 {
 }
 
 memory {
-  format_degraded = "RAM!"
   format = "M %used/ %total"
+  format_degraded = "M %used/ %total"
   threshold_critical = "8G" # red
-  threshold_degraded = "12G" # yellow
+  threshold_degraded = "10G" # yellow
   # if the available memory falls below the given threshold
 }
 
