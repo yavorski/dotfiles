@@ -1,0 +1,27 @@
+{
+	"bootstrapped": true,
+	"installed_packages":
+	[
+		"All Autocomplete",
+		"Dotfiles Syntax Highlighting",
+		"EditorConfig",
+		"Emmet",
+		"HTML-CSS-JS Prettify",
+		"JavaScriptNext - ES6 Syntax",
+		"JsFormat",
+		"Log Highlight",
+		"nginx",
+		"Package Control",
+		"PackageResourceViewer",
+		"PackagesUI",
+		"Pretty JSON",
+		"Sass",
+		"Seti_UI",
+		"Seti_UX",
+		"SideBarEnhancements",
+		"Status Bar File Size",
+		"Stylus",
+		"SublimeREPL",
+		"TypeScript"
+	]
+}
