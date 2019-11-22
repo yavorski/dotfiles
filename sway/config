@@ -43,7 +43,7 @@ for_window [title="^Finder$"] floating enable, border pixel 4
 ### Output configuration
 output eDP-1 scale 2
 output eDP-1 resolution 2560x1440 position 0,0
-output eDP-1 bg ~/dev/wallpapers/arch-3.png fill
+output * bg ~/dev/wallpapers/arch-3.png fill
 
 
 ### Idle configuration
