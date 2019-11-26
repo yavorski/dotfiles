@@ -20,7 +20,8 @@ order += "cpu_temperature 0"
 order += "memory"
 order += "disk /"
 order += "disk /home"
-order += "battery all"
+order += "battery 0"
+order += "battery 1"
 order += "volume master"
 order += "tztime local"
 
@@ -64,10 +65,20 @@ memory {
 disk "/" { format = "H %avail" }
 disk "/home" { format = "H %avail" }
 
-battery all {
+battery 0 {
   low_threshold = 10
   threshold_type = "percentage"
-  format = "%status %percentage %remaining"
+  format = "%status %percentage"
+  last_full_capacity = true
+  integer_battery_capacity = true
+}
+
+battery 1 {
+  low_threshold = 10
+  threshold_type = "percentage"
+  format = "%status %percentage"
+  last_full_capacity = true
+  integer_battery_capacity = true
 }
 
 # battery {
@@ -84,6 +95,5 @@ volume master {
 
 tztime local {
   format = "%time"
-  format_time = "%H:%M %d-%m-%Y"
-  # format_time = "%H:%M:%S %d-%m-%Y"
+  format_time = "%d-%m-%Y %H:%M"
 }
