@@ -75,8 +75,8 @@ exec swayidle -w \
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
-input "*" xkb_layout "us,bg"
-input "*" xkb_options "ctrl:nocaps"
+input "*" xkb_layout "us,bg(phonetic)"
+input "*" xkb_options "ctrl:nocaps,grp:win_space_toggle"
 input "1739:0:Synaptics_TM3276-022" natural_scroll "enabled"
 
 
