@@ -63,6 +63,9 @@ Plug 'tpope/vim-commentary'
 " enable repeating supported plugin maps with "."
 Plug 'tpope/vim-repeat'
 
+" HTML5 omnicomplete and syntax
+Plug 'othree/html5.vim'
+
 " HTML Match Tag
 Plug 'Valloric/MatchTagAlways'
 
