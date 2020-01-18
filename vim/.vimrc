@@ -17,8 +17,8 @@ Plug 'vim-airline/vim-airline-themes'
 
 " Color scheme
 Plug 'rakr/vim-one'
-Plug 'rakr/vim-togglebg'
-" Plug 'joshdick/onedark.vim'
+Plug 'tomasr/molokai'
+Plug 'ciaranm/inkpot'
 
 " Enable sidebar
 Plug 'scrooloose/nerdtree'
@@ -37,6 +37,9 @@ Plug 'elzr/vim-json'
 
 " EcmaScript syntax
 Plug 'isRuslan/vim-es6'
+
+" Vastly improved Javascript indentation and syntax support in Vim
+Plug 'pangloss/vim-javascript'
 
 " Handlebars syntax highlighting
 Plug 'mustache/vim-mustache-handlebars'
@@ -252,7 +255,7 @@ vnoremap <C-c> "+y
 
 " Airline config
 " ==============================================================
-let g:airline_theme='one'
+let g:airline_theme='simple'
 let g:airline_powerline_fonts=0
 " ==============================================================
 
