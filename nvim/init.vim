@@ -92,7 +92,7 @@ Plug 'godlygeek/tabular'
 Plug 'ctrlpvim/ctrlp.vim'
 
 " Search
-Plug 'junegunn/fzf', { 'dir': '~/.config/nvim/fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf', { 'dir': '~/.config/nvim/plugged/fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
 " Autocomplete
