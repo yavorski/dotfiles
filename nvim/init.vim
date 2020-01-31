@@ -96,8 +96,13 @@ Plug 'junegunn/fzf', { 'dir': '~/.config/nvim/plugged/fzf', 'do': './install --b
 Plug 'junegunn/fzf.vim'
 
 " Autocomplete
+
+" @todo
+" Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+
 " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --clangd-completer --ts-completer' }
+
 
 call plug#end()
 " ==============================================================
