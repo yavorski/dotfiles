@@ -522,12 +522,14 @@ This makes it possible to have, for example, encrypted root file systems and roo
 
 ## pacman
 
-```shell
-# pacman -Ss <keyword> - search pacakge
-# pacman -R <package-name> - remove pkg
-# pacman -Rs <package-name> - remove pkg with dependencies
-# pacman -Qm <package-name> - look for foreign dependencies
-```
+* `pacman -Ss <keyword>` - search pacakge
+* `pacman -R <package-name>` - remove pkg
+* `pacman -Rs <package-name>` - remove pkg with dependencies
+* `pacman -Qm <package-name>` - look for foreign dependencies
+* `pacman -Qdt` - list all packages no longer required as dependencies
+* `pacman -Qet` - list all packages explicitly installed and not required as dependencies
+* `pacman -R $(pacman -Qdtq)` - remove all of these unnecessary packages
+* `pactree <package-name>` - view the dependency tree of a package
 
 ---
 
