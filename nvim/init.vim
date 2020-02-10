@@ -19,6 +19,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'rakr/vim-one'
 Plug 'tomasr/molokai'
 Plug 'ciaranm/inkpot'
+Plug 'morhetz/gruvbox'
+Plug 'trusktr/seti.vim'
 
 " Enable sidebar
 Plug 'scrooloose/nerdtree'
