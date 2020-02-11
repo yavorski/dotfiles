@@ -17,8 +17,9 @@ set $right l
 
 
 # Terminal emulator
-set $term kitty
+set $term alacritty
 
+# set $term kitty
 # set $term urxvt
 # set $term termite
 # set $term alacritty
