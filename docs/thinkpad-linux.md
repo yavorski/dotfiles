@@ -123,3 +123,15 @@ sudo apt install fonts-powerline
 sudo apt install zsh-syntax-highlighting
 echo "source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
 ```
+
+### Remap extra european thinkpad button
+
+```
+sudo vim /usr/share/X11/xkb/symbols/pc
+```
+
+```
+> // The extra key on many European keyboards:
+> // key <LSGT> {	[ less, greater, bar, brokenbar ] };
+> key <LSGT> {	[ Shift_L ] };
+```
