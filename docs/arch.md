@@ -119,7 +119,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
   * <kbd>+256G</kbd> | <kbd>Enter</kbd> - For last sector
   * <kbd>t</kbd> - Change partition type
   * <kbd>3</kbd> - Number of partition
-  * <kbd>31</kbd> - Partition type - `(31) Linux LVM`
+  * <kbd>30</kbd> - Partition type - `(30) Linux LVM`
 
 4. Save changes
   * <kbd>p</kbd> - print partition table
