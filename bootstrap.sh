@@ -8,6 +8,9 @@ function bootstrap() {
   printf "\n";
   rsync bash vim nvim -avh --no-perms --delete $HOME/.config;
 
+  printf "SWAY \n";
+  rsync sway alacritty i3status -avh --no-perms --delete $HOME/.config;
+
   # link files from ~/.config
   # no need to link `nvim` ~/.config/nvim/init.vim
   ln -s $HOME/.config/bash/.bashrc $HOME/.bashrc;

@@ -28,7 +28,7 @@
 ```
 # pacman -S i3status
 # mkdir ~/.config/i3status
-# cp /etc/i3status/conf ~/.config/i3status/config
+# cp /etc/i3status.conf ~/.config/i3status/config
 ```
 
 ## `vte` terminal

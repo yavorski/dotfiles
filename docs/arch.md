@@ -32,6 +32,12 @@ Check network
 # ping 1.1.1.1 -c 4
 ```
 
+Configure mirrorlist
+
+```
+vim /etc/pacman.d/mirrorlist
+```
+
 ## Install `terminus-font`
 
 ```shell
@@ -138,8 +144,8 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # pvcreate --dataalignment 1m /dev/mapper/lvm
 # vgcreate vg /dev/mapper/lvm
 
-# lvcreate -L 20GB vg -n lv-swap
-# lvcreate -L 42GB vg -n lv-root
+# lvcreate -L 32GB vg -n lv-swap
+# lvcreate -L 100GB vg -n lv-root
 # lvcreate -l 100%FREE -n lv-home vg
 
 # modprobe dm_mod
