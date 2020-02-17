@@ -9,7 +9,7 @@ function bootstrap() {
   rsync bash vim nvim -avh --no-perms --delete $HOME/.config;
 
   printf "SWAY \n";
-  rsync sway alacritty i3status -avh --no-perms --delete $HOME/.config;
+  rsync sway alacritty kitty i3status -avh --no-perms --delete $HOME/.config;
 
   # link files from ~/.config
   # no need to link `nvim` ~/.config/nvim/init.vim
