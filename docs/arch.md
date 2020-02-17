@@ -35,6 +35,8 @@ Check network
 Configure mirrorlist
 
 ```
+mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.BAK
+curl 'https://www.archlinux.org/mirrorlist/?country=all&protocol=http&protocol=https&ip_version=4' >> /etc/pacman.d/mirrorlist
 vim /etc/pacman.d/mirrorlist
 ```
 
