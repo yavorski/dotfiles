@@ -29,6 +29,7 @@ export XDG_SESSION_TYPE=wayland
 
 # else set
 # export QT_QPA_PLATFORM=wayland-egl
+export QT_QPA_PLATFORM=wayland
 
 # Use your monitor's DPI instead of the default of 96 DPI
 export QT_WAYLAND_FORCE_DPI=physical
