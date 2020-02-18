@@ -97,11 +97,11 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.config/nvim/plugged/fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
+" Rust
+Plug 'rust-lang/rust.vim'
+
 " Autocomplete
-
-" @todo
 " Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-
 " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --clangd-completer --go-completer --rust-completer --ts-completer' }
 

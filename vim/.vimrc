@@ -19,6 +19,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'rakr/vim-one'
 Plug 'tomasr/molokai'
 Plug 'ciaranm/inkpot'
+Plug 'morhetz/gruvbox'
+Plug 'trusktr/seti.vim'
 
 " Enable sidebar
 Plug 'scrooloose/nerdtree'
@@ -95,7 +97,11 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.config/vim/plugged/fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
+" Rust
+Plug 'rust-lang/rust.vim'
+
 " Autocomplete
+" Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --clangd-completer --go-completer --rust-completer --ts-completer' }
 
