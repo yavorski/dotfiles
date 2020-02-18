@@ -103,7 +103,7 @@ Plug 'junegunn/fzf.vim'
 " Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --clangd-completer --ts-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --clangd-completer --go-completer --rust-completer --ts-completer' }
 
 
 call plug#end()
