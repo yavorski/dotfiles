@@ -331,6 +331,15 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 " ==============================================================
 
 
+" YCM conf
+" ==============================================================
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+
+
+
 " Local Functions
 " ==============================================================
 
