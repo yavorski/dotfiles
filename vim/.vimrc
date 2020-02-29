@@ -214,7 +214,7 @@ set noundofile
 " If this many milliseconds nothing is typed the swap file will be written to disk
 " Also used for vim-gitgutter timeout
 " Also used for the CursorHold autocommand event
-set updatetime=512
+set updatetime=256
 
 " Make tabs as wide as two spaces
 set tabstop=2
