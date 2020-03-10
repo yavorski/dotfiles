@@ -3,7 +3,6 @@
 Supported systems
 
 * `arch`
-* `debian`
 
 ## Pre Install
 
@@ -11,14 +10,13 @@ Required packages
 
 * `curl`
 * `rsync`
-* `vimpager`
 
 ## Install
 
-To install dotfiles, clone clone `dotfiles` and source `bootstrap` script:
+To install dotfiles, clone the repository `dotfiles` and source `bootstrap` script:
 
 ```bash
-git clone dotfiles.git && cd dotfiles && source bootstrap.sh
+git clone dotfiles && cd dotfiles && source bootstrap.sh
 ```
 
 ## Update
@@ -62,18 +60,6 @@ If everything looks good you can safely remove backup files created during insta
 
 ```bash
 ./tools/rm-backup.sh
-```
-
-### Install vimpager
-
-```bash
-./tools/install-vimpager
-```
-
-### Install Postman
-
-```bash
-./tools/install-postman
 ```
 
 ## Lambda
