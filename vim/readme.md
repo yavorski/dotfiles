@@ -26,7 +26,7 @@
 ```bash
 # Compile YouCompleteMe plugin
 $ cd ~/.config/vim/plugged/YouCompleteMe
-$ ./install.py --clang-completer --clangd-completer --ts-completer
+$ ./install.py --clang-completer --clangd-completer --ts-completer --rust-completer
 ```
 
 YouCompleteMe
@@ -54,12 +54,23 @@ Automated by dotfiles bootstrap process.
 * `~/.vimrc` is symlinked to `~/.config/vim/.vimrc`
 
 ```bash
-mkdir ~/.vim
-mkdir ~/.vim/autoload
-mkdir ~/.vim/bitmaps
-mkdir ~/.vim/colors
-mkdir ~/.vim/swaps
-mkdir ~/.vim/syntax
-mkdir ~/.vim/undo
+mkdir ~/.vim ~/.vim/autoload ~/.vim/bitmaps ~/.vim/colors ~/.vim/swaps ~/.vim/syntax ~/.vim/undo
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+
+
+## dir
+
+```
+vim
+├── autoload
+├── bitmaps
+├── colors
+├── readme.md
+├── swaps
+├── syntax
+├── undo
+├── .gvimrc
+├── .vimpagerrc
+└── .vimrc
 ```
