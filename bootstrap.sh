@@ -14,10 +14,9 @@ function bootstrap() {
   # link files from ~/.config
   # no need to link `nvim` ~/.config/nvim/init.vim
 
-  # enable sway
-  # ln -s $HOME/.config/bash/.bash_profile $HOME/.bash_profile;
-
   ln -s $HOME/.config/bash/.bashrc $HOME/.bashrc;
+  ln -s $HOME/.config/bash/.bash_profile $HOME/.bash_profile;
+
   ln -s $HOME/.config/vim $HOME/.vim;
   ln -s $HOME/.config/vim/.vimrc $HOME/.vimrc;
   ln -s $HOME/.config/vim/.gvimrc $HOME/.gvimrc;
