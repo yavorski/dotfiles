@@ -34,16 +34,26 @@ Check network
 
 Configure mirrorlist
 
-```
-mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.BAK
+```shell
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.BAK
+
+
 curl 'https://www.archlinux.org/mirrorlist/?country=all&protocol=http&protocol=https&ip_version=4' >> /etc/pacman.d/mirrorlist
 vim /etc/pacman.d/mirrorlist
+
+pacman -Syyy
+pacman -S reflector
+reflector --latest 256 --protocol http --protocol https --age 24 --sort rate --save /etc/pacman.d/mirrorlist
+
+cd /etc/pacman.d/
+diff -y mirrorlist mirrorlist.BAK
 ```
 
 ## Install `terminus-font`
 
 ```shell
 # pacman -Sy terminus-font
+# setfont ter-v16b
 # setfont ter-v32b
 ```
 
@@ -65,7 +75,6 @@ Update the system clock
 ```shell
 # timedatectl set-ntp true
 # timedatectl status
-
 ```
 
 
@@ -78,10 +87,9 @@ Update the system clock
 The following partitions are required for a chosen device:
 
 * One partition for the root directory `/`
-* If UEFI is enabled, an EFI system partition
+* If `UEFI` is enabled, an `EFI` system partition
 
 If you want to create any stacked block devices for LVM, system encryption or RAID, do it now.
-
 
 **`UEFI` with `GPT`** table
 
@@ -272,7 +280,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
 
 # hwclock --systohc
-# # # -> hwclock --systohc --utc ###
+# hwclock --systohc --utc
 
 # vim /etc/locale.gen
 # # -> `en_US.UTF-8 UTF-8`
@@ -291,7 +299,12 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # pacman -S dialog wpa_supplicant wireless_tools networkmanager
 
 # echo arch > /etc/hostname
-# vim /etc/hosts -> change hostname to arch
+
+# vim /etc/hosts
+# # -> 127.0.0.1  localhost
+# # -> ::1        localhost
+# # -> 127.0.1.1  arch.local  arch
+
 # vim /etc/resolv.conf
 # # -> nameserver 1.1.1.1
 # # -> nameserver 1.0.0.1
@@ -403,7 +416,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ---
 
-## Disable `nvidia` card and `nouveau` kernel module (Ok)
+## Disable `nvidia` card and `nouveau` kernel module
 
 ```shell
 
@@ -480,6 +493,38 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # pacman -S cronie
 # crontab -e -> add "@reboot powertop --auto-tune"
+```
+
+---
+
+# update mirror list
+
+Create `pacman hook` that will run `reflector` and remove the `.pacnew` file created every time `pacman-mirrorlist` gets an upgrade
+
+```shell
+# create hooks dir
+mkdir /etc/pacman.d/hooks
+
+# create mirrorupgrade.hook file
+vim /etc/pacman.d/hooks/mirrorupgrade.hook
+```
+
+Enter the following content to `mirrorupgrade.hook`
+
+```vim
+# /etc/pacman.d/hooks/mirrorupgrade.hook
+# --------------------------------------
+
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = pacman-mirrorlist
+
+[Action]
+Description = Updating pacman-mirrorlist with reflector and removing pacnew...
+When = PostTransaction
+Depends = reflector
+Exec = /bin/sh -c "reflector --latest 256 --protocol http --protocol https --age 24 --sort rate --save /etc/pacman.d/mirrorlist; rm -f /etc/pacman.d/mirrorlist.pacnew"
 ```
 
 ---
