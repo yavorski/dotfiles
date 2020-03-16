@@ -214,7 +214,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # pacman-key --init
 # pacman-key --populate archlinux
 
-# pacman -S grub efibootmgr os-prober linux linux-headers linux-firmware mkinitcpio lvm2 terminus-font
+# pacman -S grub efibootmgr os-prober linux linux-headers linux-firmware mkinitcpio lvm2 terminus-font ttf-dejavu
 
 # echo KEYMAP=us >> /etc/vconsole.conf
 # echo FONT=ter-v32b >> /etc/vconsole.conf

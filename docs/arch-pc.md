@@ -91,7 +91,7 @@ arch-chroot /mnt
 pacman-key --init
 pacman-key --populate archlinux
 
-pacman -S grub efibootmgr os-prober linux linux-headers linux-firmware mkinitcpio lvm2 terminus-font
+pacman -S grub efibootmgr os-prober linux linux-headers linux-firmware mkinitcpio lvm2 terminus-font ttf-dejavu
 
 echo KEYMAP=us >> /etc/vconsole.conf
 echo FONT=ter-v16b >> /etc/vconsole.conf
