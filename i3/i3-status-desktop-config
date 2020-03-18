@@ -19,11 +19,12 @@ order += "wireless _first_"
 order += "load"
 order += "cpu_usage"
 order += "cpu_temperature 0"
+order += "cpu_temperature 1"
+order += "cpu_temperature 2"
+order += "cpu_temperature 3"
 order += "memory"
 order += "disk /"
 order += "disk /home"
-# order += "battery 0"
-# order += "battery 1"
 order += "volume master"
 order += "tztime local"
 
@@ -40,7 +41,7 @@ wireless _first_ {
 }
 
 load {
-  format = "L %1min"
+  format = "LOAD %1min"
   max_threshold = "4" # defaults to 5
 }
 
@@ -52,40 +53,20 @@ cpu_usage {
 }
 
 cpu_temperature 0 {
-  format = "%degrees°C"
+  format = "%degrees°"
   max_threshold = 50
 }
 
 memory {
-  format = "M %used/ %total"
-  format_degraded = "M %used/ %total"
-  threshold_critical = "4G" # red
-  threshold_degraded = "3G" # yellow
+  format = "MEM %used/%total"
+  format_degraded = "MEM %used/%total"
+  threshold_critical = "3G" # red
+  threshold_degraded = "4G" # yellow
   # if the available memory falls below the given threshold
 }
 
-disk "/" { format = "H %avail" }
-disk "/home" { format = "H %avail" }
-
-battery 0 {
-  low_threshold = 10
-  threshold_type = "percentage"
-  format = "%status %percentage"
-  last_full_capacity = true
-  integer_battery_capacity = true
-}
-
-battery 1 {
-  low_threshold = 10
-  threshold_type = "percentage"
-  format = "%status %percentage"
-  last_full_capacity = true
-  integer_battery_capacity = true
-}
-
-# battery {
-#   # paste -d '#' /sys/class/power_supply/BAT0/capacity /sys/class/power_supply/BAT1/capacity
-# }
+disk "/" { format = "SSD %avail" }
+disk "/home" { format = "SSD %avail" }
 
 volume master {
   format = "♪ %volume"

@@ -17,6 +17,9 @@ order += "wireless _first_"
 order += "load"
 order += "cpu_usage"
 order += "cpu_temperature 0"
+order += "cpu_temperature 1"
+order += "cpu_temperature 2"
+order += "cpu_temperature 3"
 order += "memory"
 order += "disk /"
 order += "disk /home"
@@ -49,16 +52,16 @@ cpu_usage {
   degraded_threshold = 25
 }
 
-cpu_temperature 0 {
-  format = "%degrees°C"
-  max_threshold = 42
-}
+cpu_temperature 0 { format = "%degrees°" max_threshold = 42 }
+cpu_temperature 1 { format = "%degrees°" max_threshold = 42 }
+cpu_temperature 2 { format = "%degrees°" max_threshold = 42 }
+cpu_temperature 3 { format = "%degrees°" max_threshold = 42 }
 
 memory {
-  format = "M %used/ %total"
-  format_degraded = "M %used/ %total"
+  format = "M %used %percentage_used" # %total
+  format_degraded = "M %used %percentage_used" # %total
   threshold_critical = "8G" # red
-  threshold_degraded = "10G" # yellow
+  threshold_degraded = "12G" # yellow
   # if the available memory falls below the given threshold
 }
 
@@ -66,24 +69,28 @@ disk "/" { format = "H %avail" }
 disk "/home" { format = "H %avail" }
 
 battery 0 {
-  low_threshold = 10
+  low_threshold = 15
   threshold_type = "percentage"
-  format = "%status %percentage"
+  format = "%status %percentage" # %consumption
+  status_bat = "B"
+  status_chr = "B+"
+  status_full = "B++"
+  status_unk = "B-"
   last_full_capacity = true
   integer_battery_capacity = true
 }
 
 battery 1 {
-  low_threshold = 10
+  low_threshold = 15
   threshold_type = "percentage"
-  format = "%status %percentage"
+  format = "%status %percentage" # %consumption
+  status_bat = "B"
+  status_chr = "B+"
+  status_full = "B++"
+  status_unk = "B-"
   last_full_capacity = true
   integer_battery_capacity = true
 }
-
-# battery {
-#   # paste -d '#' /sys/class/power_supply/BAT0/capacity /sys/class/power_supply/BAT1/capacity
-# }
 
 volume master {
   format = "♪ %volume"
