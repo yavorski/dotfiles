@@ -368,6 +368,9 @@ if has("autocmd")
   " Treat .md files as Markdown
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 
+  " Rust
+  autocmd BufNewFile,BufRead *.rs setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+
   " Trim trailing whitespace on save
   autocmd BufWritePre * :call TrimWhitespace()
 endif
