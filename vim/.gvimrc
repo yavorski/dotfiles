@@ -14,3 +14,7 @@ set guioptions=i
 " Pmenu
 highlight Pmenu guifg=White guibg=Black
 highlight PmenuSel guifg=White guibg=Red
+
+" Change current working dir to ~/dev
+" ==============================================================
+cd ~/dev

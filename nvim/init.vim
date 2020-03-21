@@ -283,7 +283,7 @@ let g:vim_json_syntax_conceal=0
 " NerdTree config
 " ==============================================================
 " Enter nerdtree
-" autocmd vimenter * NERDTree
+" autocmd VimEnter * NERDTree
 
 let NERDTreeMinimalUI=1
 let NERDTreeDirArrows=1
@@ -374,10 +374,4 @@ if has("autocmd")
   " Trim trailing whitespace on save
   autocmd BufWritePre * :call TrimWhitespace()
 endif
-" ==============================================================
-
-
-" Change current working dir to ~/dev
-" ==============================================================
-cd ~/dev
 " ==============================================================
