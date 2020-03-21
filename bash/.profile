@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-# Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don’t want to commit.
+# Load the shell dotfiles
+# Source ~/.path & ~/.extra files
+# ~/.path can be used to extend `$PATH`.
+# ~/.extra can be used for other settings you don’t want to commit.
 
 declare -a files=(
   $DOTFILES/.settings
