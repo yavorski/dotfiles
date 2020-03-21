@@ -33,7 +33,3 @@ let g:gruvbox_contrast_dark='hard'
 
 " set 'one' bg to black
 " call one#highlight('Normal', '', '010101', 'none')
-
-" Change current working dir to ~/dev
-" ==============================================================
-cd ~/dev

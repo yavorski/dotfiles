@@ -37,13 +37,13 @@ function bootstrap() {
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
-  source ./tools/backup.sh;
+  source ./bak.sh;
   bootstrap;
 else
   read -p "This may overwrite existing files in home and home/.cofnig directories. Are you sure? (y/n) " -n 1;
   echo "";
   if [[ $REPLY =~ ^[Yy]$ ]]; then
-    source ./tools/backup.sh;
+    source ./bak.sh;
     bootstrap;
   fi;
 fi;

@@ -59,7 +59,7 @@ If `~/.path` exists, it will be sourced along with the other files.
 If everything looks good you can safely remove backup files created during install
 
 ```bash
-./tools/rm-backup.sh
+./rmbak.sh
 ```
 
 ## Lambda
