@@ -4,149 +4,142 @@
 # * `λ` - greek small letter lamda
 # * `𝝺` - mathematical sans-serif bold small lamda
 
-# ---------------- Terminal output control ---------------- #
-# --------------------------------------------------------- #
-# http://www.termsys.demon.co.uk/vtansi.htm
 
-TC='\e['
-
-CLR_LINE_START="${TC}1K"
-CLR_LINE_END="${TC}K"
-CLR_LINE="${TC}2K"
-
-# Hope no terminal is greater than 1k columns
-RESET_LINE="${CLR_LINE}${TC}1000D"
-
-# ---------------- colors & styles ---------------- #
-# ------------------------------------------------- #
-# https://github.com/demure/dotfiles/blob/master/subbash/prompt
-
-Bold="${TC}1m"    # Bold text only, keep colors
-Undr="${TC}4m"    # Underline text only, keep colors
-Inv="${TC}7m"     # Inverse: swap background and foreground colors
-Reg="${TC}22;24m" # Regular text only, keep colors
-RegF="${TC}39m"   # Regular foreground coloring
-RegB="${TC}49m"   # Regular background coloring
-Rst="${TC}0m"     # Reset all coloring and style
-
-# Basic            High Intensity      Background           High Intensity Background
-Black="${TC}30m";  IBlack="${TC}90m";  OnBlack="${TC}40m";  OnIBlack="${TC}100m";
-Red="${TC}31m";    IRed="${TC}91m";    OnRed="${TC}41m";    OnIRed="${TC}101m";
-Green="${TC}32m";  IGreen="${TC}92m";  OnGreen="${TC}42m";  OnIGreen="${TC}102m";
-Yellow="${TC}33m"; IYellow="${TC}93m"; OnYellow="${TC}43m"; OnIYellow="${TC}103m";
-Blue="${TC}34m";   IBlue="${TC}94m";   OnBlue="${TC}44m";   OnIBlue="${TC}104m";
-Purple="${TC}35m"; IPurple="${TC}95m"; OnPurple="${TC}45m"; OnIPurple="${TC}105m";
-Cyan="${TC}36m";   ICyan="${TC}96m";   OnCyan="${TC}46m";   OnICyan="${TC}106m";
-White="${TC}37m";  IWhite="${TC}97m";  OnWhite="${TC}47m";  OnIWhite="${TC}107m";
-
-# examples
-# echo "${Bold}${Red}bold red on ${OnBlue}blue background,${RegB} now back to regular background, ${RegF}regular foreground and ${Reg}regular text"
-# echo "${Bold}${Undr}${Green}You can reset this whole style in one${Rst} command"
-# echo -n "${Bold}${Blue}${OnWhite}bold blue text on white background${Rst}"; sleep 3; echo "${RESET_LINE}${Red}${OnYellow}becomes red text on yellow background${Rst}"
+# ------------------------------------------------------------------- #
+# ------------------------------------------------------------------- #
+if tput setaf 1 &> /dev/null; then
+  tput sgr0; # reset colors
+  bold=$(tput bold);
+  reset=$(tput sgr0);
+  black=$(tput setaf 0);
+  blue=$(tput setaf 27);
+  cyan=$(tput setaf 51);
+  green=$(tput setaf 35);
+  orange=$(tput setaf 202);
+  purple=$(tput setaf 128);
+  red=$(tput setaf 197);
+  violet=$(tput setaf 61);
+  white=$(tput setaf 15);
+  yellow=$(tput setaf 226);
+else
+  bold='';
+  reset="\e[0m";
+  black="\e[1;30m";
+  blue="\e[1;34m";
+  cyan="\e[1;36m";
+  green="\e[1;32m";
+  orange="\e[1;33m";
+  purple="\e[1;35m";
+  red="\e[1;31m";
+  violet="\e[1;35m";
+  white="\e[1;37m";
+  yellow="\e[1;33m";
+fi;
 
 
-# ---------------- git status ---------------- #
-# -------------------------------------------- #
-# https://github.com/mathiasbynens/dotfiles
-
+# ------------------------------------------------------------------- #
+# ------------------------------------------------------------------- #
 prompt_git() {
   local s='';
   local branchName='';
 
   # Check if the current directory is in a Git repository.
-  if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
+  git rev-parse --is-inside-work-tree &>/dev/null || return;
 
-    # check if the current directory is in .git before running git checks
-    if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+  # Check for what branch we’re on.
+  # Get the short symbolic ref. If HEAD isn’t a symbolic ref, get a
+  # tracking remote branch or tag. Otherwise, get the
+  # short SHA for the latest commit, or give up.
+  branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+    git describe --all --exact-match HEAD 2> /dev/null || \
+    git rev-parse --short HEAD 2> /dev/null || \
+    echo '(unknown)')";
 
-      # Ensure the index is up to date.
-      git update-index --really-refresh -q &>/dev/null;
-
-      # Check for uncommitted changes in the index.
-      if ! $(git diff --quiet --ignore-submodules --cached); then
-        s+='+';
-      fi;
-
-      # Check for unstaged changes.
-      if ! $(git diff-files --quiet --ignore-submodules --); then
-        s+='!';
-      fi;
-
-      # Check for untracked files.
-      if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-        s+='?';
-      fi;
-
-      # Check for stashed files.
-      if $(git rev-parse --verify refs/stash &>/dev/null); then
-        s+='$';
-      fi;
-
-    fi;
-
-    # Get the short symbolic ref.
-    # If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
-    # Otherwise, just give up.
-    branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
-      git rev-parse --short HEAD 2> /dev/null || \
-      echo '(unknown)')";
-
-    [ -n "${s}" ] && s=" [${s}]";
-
-    echo -e "${1}${branchName}${2}${s}";
+  # Early exit for Chromium & Blink repo, as the dirty check takes too long.
+  # https://github.com/paulirish/dotfiles/blob/dd33151f/.bash_prompt#L110-L123
+  repoUrl="$(git config --get remote.origin.url)";
+  if grep -q 'chromium/src.git' <<< "${repoUrl}"; then
+    s+='*';
   else
-    return;
+    # Check for uncommitted changes in the index.
+    if ! $(git diff --quiet --ignore-submodules --cached); then
+      s+='+';
+    fi;
+    # Check for unstaged changes.
+    if ! $(git diff-files --quiet --ignore-submodules --); then
+      s+='!';
+    fi;
+    # Check for untracked files.
+    if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+      s+='?';
+    fi;
+    # Check for stashed files.
+    if $(git rev-parse --verify refs/stash &>/dev/null); then
+      s+='$';
+    fi;
   fi;
+
+  [ -n "${s}" ] && s=" [${s}]";
+
+  echo -e "${1}${branchName}${2}${s}";
 }
 
 
-# ---------------- PS1 ---------------- #
-# ------------------------------------- #
+# ------------------------------------------------------------------- #
+# ------------------------------------------------------------------- #
 prompt_ps1() {
-  # This needs to be first
   local EXIT="$?"
 
-  # Set the terminal title to pwd
-  PS1="\[\033]0;\W\007\]";
-
-  # Add exit code, if non 0
+  # add exit code, if non 0
   if [[ $EXIT != 0 ]]; then
-    PS1+="[${Bold}${Red}${EXIT}${Rst}] ";
-  fi
+    statusCode="[${bold}${red}${EXIT}${reset}] "
+  else
+    statusCode=""
+  fi;
 
-  # Highlight the user name when logged in as root.
+  # highlight the user name when logged in as root.
   if [[ "${USER}" == "root" ]]; then
-    userStyle="${Bold}${Red}"
+    userStyle="${bold}${red}";
   else
-    userStyle="${Bold}${Cyan}"
-  fi
+    userStyle="${cyan}";
+  fi;
 
-  # Highlight the hostname when connected via SSH.
+  # highlight the hostname when connected via SSH.
   if [[ "${SSH_TTY}" ]]; then
-    hostStyle="${Bold}${Red}"
+    hostStyle="${bold}${red}";
   else
-    hostStyle="${Yellow}"
-  fi
+    hostStyle="${yellow}";
+  fi;
 
-  # if [[ $EXECUTED != 0 ]]; then
-  #   PS1+="\n${Rst}"
-  # fi
+  # set the terminal title and prompt.
+  PS1="\[\033]0;\W\007\]"; # working directory base name
 
-  # user host pwd
-  PS1+="${userStyle}\u${Rst} at ${Yellow}\h${Rst} in ${Purple}\w${Rst} "
+  PS1+="\[${bold}\]\n"; # newline
 
-  # git status
-  PS1+="\$(prompt_git ${White}on\ ${Rst}${Red} ${Rst}${Blue})"
+  PS1+="\[${statusCode}\]"; # status code
 
-  # lambda
-  PS1+="\n${Rst}${Bold}𝝺${Rst} "
+  PS1+="\[${userStyle}\]\u"; # username
 
-  export PS1
+  PS1+="\[${white}\] at ";
+
+  PS1+="\[${hostStyle}\]\h"; # host
+
+  PS1+="\[${white}\] in ";
+
+  PS1+="\[${purple}\]\w"; # working directory full path
+
+  PS1+="\$(prompt_git \"\[${white}\] on \[${red}\]\" \"\[${blue}\]\")"; # Git repository details
+
+  PS1+="\n";
+
+  PS1+="\[${white}\]𝝺 \[${reset}\]"; # `$` (and reset color)
+
+  export PS1;
 }
 
 
-# ---------------- PS2 ---------------- #
-# ------------------------------------- #
+# ------------------------------------------------------------------- #
+# ------------------------------------------------------------------- #
 prompt_ps2() {
   PS2="\[${yellow}\]→ \[${reset}\]";
   PS2='[\u@\h \w] → '
@@ -154,7 +147,6 @@ prompt_ps2() {
 }
 
 
-# ---------------- Generate PS1 after cmds ---------------- #
-# --------------------------------------------------------- #
+# ------------------------------------------------------------------- #
+# ------------------------------------------------------------------- #
 export PROMPT_COMMAND=prompt_ps1
-
