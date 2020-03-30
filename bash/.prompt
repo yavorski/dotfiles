@@ -12,11 +12,11 @@ if tput setaf 1 &> /dev/null; then
   bold=$(tput bold);
   reset=$(tput sgr0);
   black=$(tput setaf 0);
-  blue=$(tput setaf 27);
+  blue=$(tput setaf 33);
   cyan=$(tput setaf 51);
   green=$(tput setaf 35);
   orange=$(tput setaf 202);
-  purple=$(tput setaf 128);
+  purple=$(tput setaf 135);
   red=$(tput setaf 197);
   violet=$(tput setaf 61);
   white=$(tput setaf 15);
@@ -92,9 +92,9 @@ prompt_ps1() {
 
   # add exit code, if non 0
   if [[ $EXIT != 0 ]]; then
-    statusCode="[${bold}${red}${EXIT}${reset}] "
+    statusCode="[${bold}${red}${EXIT}${reset}] ";
   else
-    statusCode=""
+    statusCode="";
   fi;
 
   # highlight the user name when logged in as root.
