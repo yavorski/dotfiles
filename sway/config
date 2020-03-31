@@ -25,20 +25,36 @@ set $term alacritty
 # set $term alacritty
 
 
-# Application Launcher
-# Note: it's recommended that you pass the final command to sway
+## Application Launcher
+## Note: it's recommended that you pass the final command to sway
 
-# menu
+# alacritty menu
 set $menu alacritty \
+  --class="Finder" \
   --title 'Finder' \
   --dimensions 64 16 \
   --command sh -c 'compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec'
 
+# kitty menu
+# set $menu kitty \
+#   --class="Finder" \
+#   --title="Finder" \
+#   --single-instance \
+#   --instance-group=kitty_finder \
+#   --override window_border_width=5.0 \
+#   --override initial_window_width=600 \
+#   --override initial_window_height=360 \
+#   sh -c 'compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec'
+
+# style kitty menu window
+for_window [app_id="Finder"] border pixel 5
+for_window [app_id="Finder"] floating enable
+for_window [app_id="Finder"] resize set width 600
+for_window [app_id="Finder"] resize set height 360
+# for_window [title="^Finder$"] floating enable, border pixel 5
+
 # kill menu
 set $killmenu swaymsg [title="^Finder$"] kill
-
-# style menu window
-for_window [title="^Finder$"] floating enable, border pixel 4
 
 
 ### Output configuration
