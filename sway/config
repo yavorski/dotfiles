@@ -29,32 +29,34 @@ set $term alacritty
 ## Note: it's recommended that you pass the final command to sway
 
 # alacritty menu
-set $menu alacritty \
-  --class="Finder" \
-  --title 'Finder' \
+set $app_menu alacritty \
+  -qq \
+  --class="AppMenu" \
+  --title="AppMenu" \
   --dimensions 64 16 \
+  --no-live-config-reload \
   --command sh -c 'compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec'
 
 # kitty menu
-# set $menu kitty \
-#   --class="Finder" \
-#   --title="Finder" \
+# set $app_menu kitty \
+#   --class="AppMenu" \
+#   --title="AppMenu" \
 #   --single-instance \
-#   --instance-group=kitty_finder \
+#   --instance-group=kitty_app_menu \
 #   --override window_border_width=5.0 \
-#   --override initial_window_width=600 \
-#   --override initial_window_height=360 \
+#   --override initial_window_width=542 \
+#   --override initial_window_height=342 \
 #   sh -c 'compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec'
 
-# style kitty menu window
-for_window [app_id="Finder"] border pixel 5
-for_window [app_id="Finder"] floating enable
-for_window [app_id="Finder"] resize set width 600
-for_window [app_id="Finder"] resize set height 360
-# for_window [title="^Finder$"] floating enable, border pixel 5
+# style menu window
+# for_window [app_id="AppMenu"] border pixel 5
+# for_window [app_id="AppMenu"] floating enable
+# for_window [app_id="AppMenu"] resize set width 542
+# for_window [app_id="AppMenu"] resize set height 342
+for_window [title="^AppMenu$"] floating enable, border pixel 5, resize set width 542, resize set height 342
 
 # kill menu
-set $killmenu swaymsg [title="^Finder$"] kill
+set $killmenu swaymsg [title="^AppMenu$"] kill
 
 
 ### Output configuration
@@ -112,7 +114,7 @@ seat seat0 hide_cursor 2800
     bindsym $mod+Shift+q kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
+    bindsym $mod+d exec $app_menu
 
     # Kill menu
     bindsym $mod+Shift+d exec $killmenu

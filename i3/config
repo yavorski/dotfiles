@@ -95,29 +95,35 @@ bindsym $mod+Return exec --no-startup-id $term
 bindsym $mod+Shift+q kill
 
 
-# Menu
-set $menu alacritty \
-  --title 'Finder' \
+## Application Launcher
+## Note: it's recommended that you pass the final command to sway
+
+# alacritty menu
+set $app_menu alacritty \
+  -qq \
+  --class="AppMenu" \
+  --title="AppMenu" \
   --dimensions 64 16 \
+  --no-live-config-reload \
   --command sh -c 'dmenu_path | sort -u | shuf | fzf | xargs -r i3-msg -t command exec'
 
-# kill menu
-set $killmenu i3-msg [title="^Finder$"] kill
+# kill app menu
+set $kill_app_menu i3-msg [title="^AppMenu$"] kill
 
 # style menu window
-for_window [title="^Finder$"] floating enable, border pixel 4
+for_window [title="^AppMenu$"] floating enable, border pixel 5
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run
-bindsym $mod+d exec --no-startup-id $menu
+bindsym $mod+d exec --no-startup-id $app_menu
+
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-
 # Kill menu
-bindsym $mod+Shift+d exec --no-startup-id $killmenu
+bindsym $mod+Shift+d exec --no-startup-id $kill_app_menu
 
 
 # change focus
