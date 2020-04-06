@@ -44,7 +44,7 @@ alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 
 # IP address
-alias rip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias rip="curl ifconfig.me"
 
 # Battery status
 alias battery="cat /sys/class/power_supply/BAT0/capacity /sys/class/power_supply/BAT1/capacity"
