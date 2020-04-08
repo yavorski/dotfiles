@@ -46,5 +46,8 @@ alias egrep="egrep --color=auto"
 # IP address
 alias rip="curl ifconfig.me"
 
+# Sway WM Screenshot
+alias screenshot='grim -t png -g "$(slurp)" ~/Screenshots/screenshot-$(date +%d-%m-%Y-%H-%M-%S).png'
+
 # Battery status
 alias battery="cat /sys/class/power_supply/BAT0/capacity /sys/class/power_supply/BAT1/capacity"
