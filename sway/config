@@ -100,7 +100,7 @@ input "1739:0:Synaptics_TM3276-022" natural_scroll "enabled"
 
 
 ### Hide cursor after some time
-seat seat0 hide_cursor 2800
+seat seat0 hide_cursor 5000
 
 
 ### Key bindings
