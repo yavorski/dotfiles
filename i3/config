@@ -37,7 +37,7 @@ exec --no-startup-id unclutter &
 exec --no-startup-id setxkbmap -option 'ctrl:nocaps'
 
 # KBD switch lang
-exec --no-startup-id `setxkbmap -model pc105 -layout us,bg -variant ,phonetic -option grp:win_space_toggle`
+exec --no-startup-id setxkbmap -model pc105 -layout 'us,bg' -variant ',phonetic' -option 'grp:win_space_toggle' -option 'ctrl:nocaps'
 
 # Background
 exec --no-startup-id feh --bg-center ~/dev/wallpapers/arch-9.png ~/dev/wallpapers/arch-10.png
