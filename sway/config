@@ -81,6 +81,13 @@ exec swayidle -w \
   before-sleep $lock
 
 
+# xwayland version
+for_window [class="vlc"] inhibit_idle fullscreen
+
+# wayland vesion
+for_window [app_id="vlc"] inhibit_idle fullscreen
+
+
 ### Input configuration
 #
 # Example configuration:
