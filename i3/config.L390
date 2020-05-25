@@ -40,7 +40,7 @@ exec --no-startup-id setxkbmap -option 'ctrl:nocaps'
 exec --no-startup-id setxkbmap -model pc105 -layout 'us,bg' -variant ',phonetic' -option 'grp:win_space_toggle' -option 'ctrl:nocaps'
 
 # Background
-exec --no-startup-id feh --bg-center ~/dev/wallpapers/arch-9.png ~/dev/wallpapers/arch-10.png
+exec --no-startup-id feh --bg-center ~/dev/wallpapers/arch-10.png
 
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
@@ -60,24 +60,26 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- $locker
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id $locker, mode "default"
-    bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id $locker && systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id $locker && systemctl hibernate, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
+  bindsym l exec --no-startup-id $locker, mode "default"
+  bindsym e exec --no-startup-id i3-msg exit, mode "default"
+  bindsym s exec --no-startup-id $locker && systemctl suspend, mode "default"
+  bindsym h exec --no-startup-id $locker && systemctl hibernate, mode "default"
+  bindsym r exec --no-startup-id systemctl reboot, mode "default"
+  bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
 
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
 
+# @todo change for L390
 bindsym $mod+Pause mode "$mode_system"
 
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
+#
+# exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -227,27 +229,27 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -f 'pango:Source Code Pro Bold 8
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
+  # These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+  # Pressing left will shrink the window’s width.
+  # Pressing right will grow the window’s width.
+  # Pressing up will shrink the window’s height.
+  # Pressing down will grow the window’s height.
+  bindsym j resize shrink width 10 px or 10 ppt
+  bindsym k resize grow height 10 px or 10 ppt
+  bindsym l resize shrink height 10 px or 10 ppt
+  bindsym semicolon resize grow width 10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+  # same bindings, but for the arrow keys
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize grow height 10 px or 10 ppt
+  bindsym Up resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape or $mod+r
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
+  # back to normal: Enter or Escape or $mod+r
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+  bindsym $mod+r mode "default"
 }
 
 bindsym $mod+r mode "resize"
@@ -258,15 +260,16 @@ workspace $ws10 output DVI-D-0
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-	mode dock
-	position top
-	separator_symbol "#"
+  mode dock
+  position top
+  tray_output none
+  separator_symbol "#"
   status_command i3status
 
-	colors {
-	    statusline #ffffff
-	    background #111111
-	    focused_workspace #cc0000 #cc0000 #ffffff
-	    inactive_workspace #101010 #101010 #5c5c5c
-	}
+  colors {
+    statusline #ffffff
+    background #101010
+    focused_workspace #cc0000 #cc0000 #ffffff
+    inactive_workspace #101010 #101010 #5c5c5c
+  }
 }

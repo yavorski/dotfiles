@@ -26,7 +26,8 @@ order += "disk /home"
 order += "battery 0"
 order += "battery 1"
 order += "volume master"
-order += "tztime local"
+order += "tztime time"
+order += "tztime date"
 
 ethernet _first_ {
   # format_up = "E %ip %speed"
@@ -100,7 +101,12 @@ volume master {
   mixer_idx = 0
 }
 
-tztime local {
+tztime date {
   format = "%time"
-  format_time = "%H:%M %d-%b-%Y"
+  format_time = "%d %b %Y"
+}
+
+tztime time {
+  format = "%time"
+  format_time = "%H:%M"
 }

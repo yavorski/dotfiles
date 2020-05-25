@@ -114,3 +114,42 @@ $ makepkg -si
 ```
 # pacman -S qt5-wayland
 ```
+
+
+---
+---
+
+## `i3-wm`
+
+* [i3](https://wiki.archlinux.org/index.php/I3)
+* [xorg](https://wiki.archlinux.org/index.php/Xorg)
+* [xinit](https://wiki.archlinux.org/index.php/Xinit)
+* [xorg apps](https://www.archlinux.org/groups/x86_64/xorg-apps/)
+* [pxcalc](https://www.pxcalc.com/)
+
+
+```bash
+# pacman -S i3
+# pacman -S xorg-server xorg-xinit xorg-xrandr
+# pacman -S xss-lock xautolock
+# pacman -S picom unclutter
+# pacman -S feh
+# pacman -S xsel xclip
+
+# ### check vga ### #
+$ xrandr
+$ lspci | grep -e VGA -e 3D
+
+# ### L390 - intel video ### #
+# => => pacman -S xf86-video-intel
+
+# ### check if your display size and DPI are detected/calculated correctly ### #
+$ xdpyinfo | grep -B2 resolution
+
+# ### set DPI for L390 ### #
+xrandr --dpi 120
+
+
+# ### create the "~/.xinitrc" file in home dir ### #
+$ cp ./x/.xinitrc ~/
+```
