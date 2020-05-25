@@ -50,4 +50,11 @@ alias rip="curl ifconfig.me"
 alias screenshot='grim -t png -g "$(slurp)" ~/Screenshots/screenshot-$(date +%d-%m-%Y-%H-%M-%S).png'
 
 # Battery status
-alias battery="cat /sys/class/power_supply/BAT0/capacity /sys/class/power_supply/BAT1/capacity"
+
+# #####  ThinkPad L390 ##### #
+# alias battery="cat /sys/class/power_supply/BAT0/capacity"
+# ##############################################
+
+# #####  ThinkPad T480 ##### #
+# alias battery="cat /sys/class/power_supply/BAT0/capacity /sys/class/power_supply/BAT1/capacity"
+# ##############################################

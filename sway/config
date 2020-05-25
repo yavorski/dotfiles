@@ -60,9 +60,18 @@ set $killmenu swaymsg [title="^AppMenu$"] kill
 
 
 ### Output configuration
-output eDP-1 scale 2
-output eDP-1 resolution 2560x1440 position 0,0
-output * bg ~/dev/wallpapers/arch-3.png fill
+
+# #####  ThinkPad T480 ##### #
+# output eDP-1 scale 2
+# output eDP-1 resolution 2560x1440 position 0,0
+# output * bg ~/dev/wallpapers/arch-3.png fill
+# ##############################################
+
+# #####  ThinkPad L390 ##### #
+output eDP-1 scale 1.5
+# output eDP-1 resolution 2560x1440 position 0,0
+output * bg ~/dev/wallpapers/arch-10.png fill
+# ##############################################
 
 
 ### Idle configuration
@@ -103,7 +112,15 @@ for_window [app_id="vlc"] inhibit_idle fullscreen
 # Read `man 5 sway-input` for more information about this section.
 input "*" xkb_layout "us,bg(phonetic)"
 input "*" xkb_options "ctrl:nocaps,grp:win_space_toggle"
-input "1739:0:Synaptics_TM3276-022" natural_scroll "enabled"
+
+# #####  ThinkPad T480 ##### #
+# input "1739:0:Synaptics_TM3276-022" natural_scroll "enabled"
+# ##############################################
+
+# #####  ThinkPad L390 ##### #
+input "1267:51:Elan_Touchpad" natural_scroll "enabled"
+input "1267:51:Elan_TrackPoint" natural_scroll "enabled"
+# ##############################################
 
 
 ### Hide cursor after some time

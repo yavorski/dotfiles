@@ -58,7 +58,3 @@ export SDL_VIDEODRIVER=wayland
 
 # Some Java AWT applications would not display properly unless you set the following.
 export _JAVA_AWT_WM_NONREPARENTING=1
-
-
-# main
-light -Ss sysfs/leds/tpacpi::power 0
