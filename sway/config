@@ -64,14 +64,21 @@ set $killmenu swaymsg [title="^AppMenu$"] kill
 # #####  ThinkPad T480 ##### #
 # output eDP-1 scale 2
 # output eDP-1 resolution 2560x1440 position 0,0
-# output * bg ~/dev/wallpapers/arch-3.png fill
 # ##############################################
 
 # #####  ThinkPad L390 ##### #
-output eDP-1 scale 1.5
-# output eDP-1 resolution 2560x1440 position 0,0
-output * bg ~/dev/wallpapers/arch-10.png fill
+# output eDP-1 scale 1
+# output eDP-1 resolution 1920x1080 position 0,0
 # ##############################################
+
+# #####  ThinkPad L390 ##### #
+output eDP-1 scale 1.25
+output eDP-1 resolution 3072x1728 position 0,0
+# ##############################################
+
+
+### Wallpaper/Background
+output * bg ~/dev/wallpapers/arch-10.png fill
 
 
 ### Idle configuration
