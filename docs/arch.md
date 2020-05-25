@@ -4,7 +4,7 @@
 
 Set resolution on usb boot
 
-```sh
+```bash
 video=1024x768
 ```
 
@@ -13,28 +13,28 @@ video=1024x768
 
 Ensure your network interface is listed and enabled, for example with ip-link(8):
 
-```shell
+```bash
 # ip link
 ```
 
 Connect to wi-fi
-```shell
+```bash
 # wifi-menu -o
 ```
 
 Connect to ethernet
-```shell
+```bash
 # dhcpcd
 ```
 
 Check network
-```shell
+```bash
 # ping 1.1.1.1 -c 4
 ```
 
 Configure mirrorlist
 
-```shell
+```bash
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.BAK
 
 
@@ -51,9 +51,10 @@ diff -y mirrorlist mirrorlist.BAK
 
 ## Install `terminus-font`
 
-```shell
+```bash
 # pacman -Sy terminus-font
 # setfont ter-v16b
+# setfont ter-v20b
 # setfont ter-v32b
 ```
 
@@ -63,7 +64,7 @@ diff -y mirrorlist mirrorlist.BAK
 If UEFI mode is enabled on an UEFI motherboard, Archiso will boot Arch Linux accordingly via systemd-boot.
 To verify this, list the efivars directory:
 
-```shell
+```bash
 # ls /sys/firmware/efi/efivars
 ```
 
@@ -72,7 +73,7 @@ To verify this, list the efivars directory:
 
 Update the system clock
 
-```shell
+```bash
 # timedatectl set-ntp true
 # timedatectl status
 ```
@@ -80,7 +81,7 @@ Update the system clock
 
 ## Partition the disks
 
-```shell
+```bash
 # fdisk -l
 ```
 
@@ -102,7 +103,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 ## Start `fdisk`
 
-```shell
+```bash
 # fdisk /dev/nvme0n1
 ```
 
@@ -144,7 +145,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 ## Setup lvm & encryption
 
-```shell
+```bash
 # cryptsetup -y -v luksFormat --type luks1 /dev/nvme0n1p2
 # cryptsetup open --type luks1 /dev/nvme0n1p2 kboot
 
@@ -166,7 +167,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 ## Make fs
 
-```
+```bash
 # mkswap /dev/vg/lv-swap
 # swapon /dev/vg/lv-swap
 
@@ -182,20 +183,20 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # mount /dev/vg/lv-home /mnt/home
 
 # # # -> will mount later
-# mkfs.fat -F32 /dev/nvme0n1p1
+# mkfs.vfat -F32 /dev/nvme0n1p1
 ```
 
 
 ## Install Arch Linux
 
-```shell
+```bash
 # pacstrap -i /mnt base base-devel vi vim
 # genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
 ## Add `kboot` real `UUID` to `/etc/crypttab`
 
-```shell
+```bash
 # lsblk
 # blkid
 # echo '#' >> /mnt/etc/crypttab
@@ -208,7 +209,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 ## Enter `arch-chroot`
 
-```
+```bash
 # arch-chroot /mnt
 
 # pacman-key --init
@@ -224,21 +225,19 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # # -> add to HOOKS -> `encrypt lvm2` between `block` and `filesystems`
 
 # mkinitcpio -p linux
+```
 
+```bash
 # vim /etc/default/grub
 
   # # # -> add to cmd line linux default -> "cryptdevice=/dev/nvme0n1p3:vg"
-
-  ```
   GRUB_CMDLINE_LINUX="cryptdevice=/dev/nvme0n1p3:vg"
-  ```
 
   # # # -> uncomment "GRUB_ENABLE_CRYPTODISK=y"
-
-  ```
   GRUB_ENABLE_CRYPTODISK=y
-  ```
+```
 
+```bash
 # mkdir /boot/EFI
 # mount /dev/nvme0n1p1 /boot/EFI
 
@@ -252,16 +251,13 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 ## GRUB Font (optional)
 
-```
+```bash
 # grub-mkfont -o /boot/grub/fonts/terminus.pf2 --size 32 /usr/share/fonts/misc/ter-x32b.pcf.gz
 
 # vi /etc/default/grub
 
   # # # -> Add -> GRUB_FONT=/boot/grub/fonts/terminus.pf2
-
-  ```
   GRUB_FONT=/boot/grub/fonts/terminus.pf2
-  ```
 
 # grub-mkconfig -o /boot/grub/grub.cfg
 ```
@@ -269,14 +265,14 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 ## Configure password (`arch-chroot`)
 
-```shell
+```bash
 # passwd
 ```
 
 
 ## Configure locale (`arch-chroot`)
 
-```shell
+```bash
 # ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
 
 # hwclock --systohc
@@ -295,7 +291,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 ## Configure network (`arch-chroot`)
 
-```shell
+```bash
 # pacman -S dialog wpa_supplicant wireless_tools networkmanager
 
 # echo arch > /etc/hostname
@@ -320,14 +316,14 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 ## Exit `arch-chroot`
 
-```shell
+```bash
 # exit
 ```
 
 
 ## Reboot
 
-```shell
+```bash
 # umount -R /mnt
 # umount -a
 # reboot
@@ -336,7 +332,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 ### wifi with `nmcli`
 
-```shell
+```bash
 nmcli device wifi list
 nmcli device wifi connect <'SSID'> password <'SSID_password'>
 nmcli device wifi connect <'SSID'> password <'SSID_password'> hidden yes
@@ -398,7 +394,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ## Check for errors
 
-```shell
+```bash
 # systemctl --failed
 # journalctl -p 3 -xb
 ```
@@ -418,7 +414,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ## Disable `nvidia` card and `nouveau` kernel module
 
-```shell
+```bash
 
 # echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia-nouveau.conf
 # echo "options nouveau modeset=0" >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf
@@ -501,18 +497,18 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 Create `pacman hook` that will run `reflector` and remove the `.pacnew` file created every time `pacman-mirrorlist` gets an upgrade
 
-```shell
+```bash
 # create hooks dir
 mkdir /etc/pacman.d/hooks
 
-# create mirrorupgrade.hook file
-vim /etc/pacman.d/hooks/mirrorupgrade.hook
+# create mirror-update.hook file
+vim /etc/pacman.d/hooks/mirror-update.hook
 ```
 
-Enter the following content to `mirrorupgrade.hook`
+Enter the following content to `mirror-update.hook`
 
 ```vim
-# /etc/pacman.d/hooks/mirrorupgrade.hook
+# /etc/pacman.d/hooks/mirror-update.hook
 # --------------------------------------
 
 [Trigger]
@@ -521,7 +517,7 @@ Type = Package
 Target = pacman-mirrorlist
 
 [Action]
-Description = Updating pacman-mirrorlist with reflector and removing pacnew...
+Description = Update pacman-mirrorlist with reflector and removing mirrorlist.pacnew
 When = PostTransaction
 Depends = reflector
 Exec = /bin/sh -c "reflector --latest 256 --protocol http --protocol https --age 24 --sort rate --save /etc/pacman.d/mirrorlist; rm -f /etc/pacman.d/mirrorlist.pacnew"
@@ -531,10 +527,15 @@ Exec = /bin/sh -c "reflector --latest 256 --protocol http --protocol https --age
 
 ## dev tools (optional)
 
-```
+```bash
 # pacman -S man bash bash-completion
-# pacman -S git tree htop curl cmake nodejs npm
-# pacman -S gvim neovim wget rsync fzf the_silver_searcher
+# pacman -S git
+# pacman -S tree htop cmake
+# pacman -S curl wget rsync
+# pacman -S fzf the_silver_searcher
+# pacman -S python nodejs npm
+# pacman -S gvim neovim
+# pacman -S openssh
 # pacman -S clipman
 ```
 
@@ -542,7 +543,7 @@ Exec = /bin/sh -c "reflector --latest 256 --protocol http --protocol https --age
 
 Look at [Sway](./wm.md) doc.
 
-```
+```bash
 # pacman -S sway swaylock swayidle
 ```
 
@@ -554,7 +555,7 @@ Look at [Sway](./wm.md) doc.
 * OPTIONAL - `powertop`
 * OPTIONAL - `crontab`
 
-```
+```bash
 # pacman -S gdm gnome gnome-extra gnome-shell
 # systemctl enable gdm
 
