@@ -90,7 +90,7 @@ volume master {
 
 tztime date {
   format = "%time"
-  format_time = "%d %b %Y"
+  format_time = "%d/%b/%Y"
 }
 
 tztime time {
