@@ -1,0 +1,29 @@
+# ~/.Xresources
+# ------------------------------------------
+
+# DPI
+# $ xrandr --dpi 120
+# $ xdpyinfo | grep -B2 resolution
+# $ xrdb -query | grep dpi
+# $ xrandr --output eDP1 --scale 1.25x1.25
+#
+# 96 (default)
+# 120 (25% higher)
+# 144 (50% higher)
+# 168 (75% higher)
+# 192 (100% higher)
+#
+# https://wiki.archlinux.org/index.php/HiDPI
+# https://wiki.archlinux.org/index.php/Xorg#Display_size_and_DPI
+
+Xft.dpi: 120
+
+# These might also be useful depending on your monitor and personal preference:
+# ------------------------------------------ ------------------------------------------
+
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
+Xft.hintstyle: hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
