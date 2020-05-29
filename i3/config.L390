@@ -24,20 +24,22 @@ font pango:Source Code Pro Bold 9
 # Terminal
 set $term alacritty
 
-
 # Remove screen tearing
 exec --no-startup-id picom -b
-
 
 # Hide mouse when not use
 exec --no-startup-id unclutter &
 
 
-# Remap caps
+# KBD Remap caps
 exec --no-startup-id setxkbmap -option 'ctrl:nocaps'
 
 # KBD switch lang
 exec --no-startup-id setxkbmap -model pc105 -layout 'us,bg' -variant ',phonetic' -option 'grp:win_space_toggle' -option 'ctrl:nocaps'
+
+# TouchPad enable natural scroll (ThinkPad L390)
+exec --no-startup-id xinput set-prop "Elan Touchpad" "libinput Natural Scrolling Enabled" 1
+
 
 # Background
 exec --no-startup-id feh --bg-center ~/dev/wallpapers/arch-10.png
