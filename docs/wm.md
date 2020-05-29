@@ -124,9 +124,10 @@ $ makepkg -si
 * [i3](https://wiki.archlinux.org/index.php/I3)
 * [xorg](https://wiki.archlinux.org/index.php/Xorg)
 * [xinit](https://wiki.archlinux.org/index.php/Xinit)
-* [xorg apps](https://www.archlinux.org/groups/x86_64/xorg-apps/)
-* [pxcalc](https://www.pxcalc.com/)
+* [xorg-apps](https://www.archlinux.org/groups/x86_64/xorg-apps/)
 
+* [px-calc](https://www.pxcalc.com/)
+* [dpi-calc](https://www.sven.de/dpi/)
 
 ```bash
 # pacman -S i3
@@ -135,6 +136,12 @@ $ makepkg -si
 # pacman -S picom unclutter
 # pacman -S feh
 # pacman -S xsel xclip
+
+# X -configure
+# vim /etc/X11/xorg.conf
+# -> DisplaySize 294.4 165.6 <- (Section "Monitor")
+# -> Modes "1920x1080" <- (SubSection "Display")
+
 
 # ### check vga ### #
 $ xrandr
