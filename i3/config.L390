@@ -45,22 +45,22 @@ exec --no-startup-id xinput set-prop "Elan Touchpad" "libinput Natural Scrolling
 exec --no-startup-id feh --bg-center ~/dev/wallpapers/arch-10.png
 
 
-# The combination of xss-lock, nm-applet and pactl is a popular choice, so
-# they are included here as an example. Modify as you see fit.
+# Locker
+set $locker i3lock --nofork --ignore-empty-password --show-failed-attempts --color=333333 --image ~/dev/wallpapers/arch-10.png --tiling && sleep 1
 
-# locker
-set $locker i3lock --nofork --ignore-empty-password --show-failed-attempts --color=333333 --image ~/dev/wallpapers/arch-8.png --tiling && sleep 1
+# lock pc with kbd
+bindsym $mod+Escape exec --no-startup-id $locker
 
 # xautolock - lock after some time
 exec --no-startup-id xautolock -time 1 -locker $locker
 
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-# exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+# Use loginctl lock-session to lock your screen. (--nofork)
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the screen before suspend.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- $locker
 
-
+# Power System Mode
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+
 mode "$mode_system" {
   bindsym l exec --no-startup-id $locker, mode "default"
   bindsym e exec --no-startup-id i3-msg exit, mode "default"
@@ -74,8 +74,8 @@ mode "$mode_system" {
   bindsym Escape mode "default"
 }
 
-# @todo change for L390
-bindsym $mod+Pause mode "$mode_system"
+# Mod + Shift + Delete
+bindsym $mod+Shift+Delete mode "$mode_system"
 
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,

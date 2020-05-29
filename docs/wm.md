@@ -130,7 +130,7 @@ $ makepkg -si
 
 ```bash
 # pacman -S i3
-# pacman -S xorg-server xorg-xinit xorg-xrandr
+# pacman -S xorg-server xorg-xinit xorg-apps
 # pacman -S xss-lock xautolock
 # pacman -S picom unclutter
 # pacman -S feh
@@ -147,9 +147,10 @@ $ lspci | grep -e VGA -e 3D
 $ xdpyinfo | grep -B2 resolution
 
 # ### set DPI for L390 ### #
+# ### 120 is 25% more from 96dpi which is the default) ### #
 xrandr --dpi 120
 
-
+# ### see ./x for more details
 # ### create the "~/.xinitrc" file in home dir ### #
-$ cp ./x/.xinitrc ~/
+$ cp ./x/* ~/
 ```
