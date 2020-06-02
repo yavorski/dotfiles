@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Make vim the default editor
-export EDITOR="vim";
+export EDITOR="nvim";
 
 # Allow larger history size - default is 500
 # For setting history length see HISTSIZE and HISTFILESIZE in bash(1)
