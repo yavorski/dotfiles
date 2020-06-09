@@ -16,7 +16,10 @@
 # https://wiki.archlinux.org/index.php/HiDPI
 # https://wiki.archlinux.org/index.php/Xorg#Display_size_and_DPI
 
-Xft.dpi: 120
+# Xft.dpi: 120
+# Xft.dpi: 124
+# Xft.dpi: 144
+Xft.dpi: 132
 
 # These might also be useful depending on your monitor and personal preference:
 # ------------------------------------------ ------------------------------------------
