@@ -54,7 +54,8 @@ diff -y mirrorlist mirrorlist.BAK
 ```bash
 # pacman -Sy terminus-font
 # setfont ter-v16b
-# setfont ter-v20b
+# setfont ter-v22b
+# setfont ter-v24b
 # setfont ter-v32b
 ```
 
@@ -159,7 +160,9 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # lvcreate -L 100GB vg -n lv-root
 # lvcreate -l 100%FREE -n lv-home vg
 
+# lsmod | grep dm_mod
 # modprobe dm_mod
+
 # vgscan
 # vgchange -ay
 ```
@@ -206,6 +209,9 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # # # -> kboot UUID=`/dev/nvme0n1p2 -> UUID` none luks1
 ```
 
+> # /mnt/etc/crypttab
+> kboot UUID=XX-YY-ZZ none luks1
+
 
 ## Enter `arch-chroot`
 
@@ -217,8 +223,8 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 # pacman -S grub efibootmgr os-prober linux linux-headers linux-firmware mkinitcpio lvm2 terminus-font ttf-dejavu
 
-# echo KEYMAP=us >> /etc/vconsole.conf
-# echo FONT=ter-v32b >> /etc/vconsole.conf
+# echo KEYMAP=us > /etc/vconsole.conf
+# echo FONT=ter-v24b >> /etc/vconsole.conf
 
 # vim /etc/mkinitcpio.conf
 # # -> add to HOOKS -> `consolefont` before `block`
@@ -227,15 +233,17 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # mkinitcpio -p linux
 ```
 
+
 ```bash
 # vim /etc/default/grub
 
-  # # # -> add to cmd line linux default -> "cryptdevice=/dev/nvme0n1p3:vg"
-  GRUB_CMDLINE_LINUX="cryptdevice=/dev/nvme0n1p3:vg"
+# # # -> uncomment "GRUB_ENABLE_CRYPTODISK=y"
+# # # -> add to cmd line linux default -> "cryptdevice=/dev/nvme0n1p3:vg"
 
-  # # # -> uncomment "GRUB_ENABLE_CRYPTODISK=y"
-  GRUB_ENABLE_CRYPTODISK=y
+> GRUB_ENABLE_CRYPTODISK=y
+> GRUB_CMDLINE_LINUX="cryptdevice=/dev/nvme0n1p3:vg"
 ```
+
 
 ```bash
 # mkdir /boot/EFI
@@ -249,28 +257,23 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-## GRUB Font (optional)
+### GRUB Font (optional)
 
 ```bash
-# grub-mkfont -o /boot/grub/fonts/terminus.pf2 --size 32 /usr/share/fonts/misc/ter-x32b.pcf.gz
-
-# vi /etc/default/grub
-
-  # # # -> Add -> GRUB_FONT=/boot/grub/fonts/terminus.pf2
-  GRUB_FONT=/boot/grub/fonts/terminus.pf2
-
+# grub-mkfont -o /boot/grub/fonts/ter.pf2 --size 22 /usr/share/fonts/misc/ter-x22b.pcf.gz
+# echo "GRUB_FONT=/boot/grub/fonts/ter.pf2" >> /etc/default/grub
 # grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 
-## Configure password (`arch-chroot`)
+### Configure password (`arch-chroot`)
 
 ```bash
 # passwd
 ```
 
 
-## Configure locale (`arch-chroot`)
+### Configure locale (`arch-chroot`)
 
 ```bash
 # ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
@@ -279,9 +282,9 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # hwclock --systohc --utc
 
 # vim /etc/locale.gen
-# # -> `en_US.UTF-8 UTF-8`
-# # -> `en_GB.UTF-8 UTF-8`
-# # -> `bg_BG.UTF-8 UTF-8`
+> `en_US.UTF-8 UTF-8`
+> `en_GB.UTF-8 UTF-8`
+> `bg_BG.UTF-8 UTF-8`
 
 # locale-gen
 # echo LANG=en_US.UTF-8 > /etc/locale.conf
@@ -289,7 +292,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 ```
 
 
-## Configure network (`arch-chroot`)
+### Configure network (`arch-chroot`)
 
 ```bash
 # pacman -S dialog wpa_supplicant wireless_tools networkmanager
@@ -297,9 +300,9 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # echo arch > /etc/hostname
 
 # vim /etc/hosts
-# # -> 127.0.0.1  localhost
-# # -> ::1        localhost
-# # -> 127.0.1.1  arch.local  arch
+# # -> ::1 localhost
+# # -> 127.0.0.1 localhost
+# # -> 127.0.1.1 arch.local  arch
 
 # vim /etc/resolv.conf
 # # -> nameserver 1.1.1.1
@@ -314,7 +317,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 ```
 
 
-## Exit `arch-chroot`
+### Exit `arch-chroot`
 
 ```bash
 # exit
@@ -350,7 +353,7 @@ nmcli connection up uuid <'UUID'>
 ---
 
 
-```
+```bash
 # pacman -Syu
 ```
 
@@ -360,7 +363,7 @@ nmcli connection up uuid <'UUID'>
 2. Enforce a delay after a failed login attempt (5 times, 10 mins delay)
 3. DNS over LTS
 
-```
+```bash
 # chmod 700 /boot /etc/{iptables,arptables}
 # vim /etc/pam.d/system-login
 # # # -> `auth required pam_tally2.so deny=5 unlock_time=600 onerr=succeed file=/var/log/tallylog`
@@ -377,15 +380,15 @@ More on security -> [https://wiki.archlinux.org/index.php/Security](https://wiki
 * Add `/boot/intel-ucode.img` as the **first initrd in the bootloader config file**.
 * `grub-mkconfig` will automatically detect the microcode update and configure `GRUB` appropriately.
 
-```
-pacman -S intel-ucode
-grub-mkconfig -o /boot/grub/grub.cfg
+```bash
+# pacman -S intel-ucode
+# grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 
 ## Basic User Firewall
 
-```
+```bash
 # pacman -S ufw
 # ufw enable
 # ufw status verbose
@@ -402,7 +405,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ## Add user
 
-```
+```bash
 # useradd -m -g users -G wheel <user>
 # passwd <user>
 # EDITOR=vim visudo
@@ -411,11 +414,28 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 ---
+---
+
+## Install Intel GPU drivers
+
+`L390`
+
+
+```bash
+# [!?] -> pacman -S xf86-video-intel <- [!?]
+# pacman -S intel-media-driver intel-media-sdk
+# pacman -S mesa mesa-vdpau libva-mesa-driver
+# pacman -S vulkan-intel vulkan-mesa-layers vulkan-icd-loader
+# pacman -S libva-utils vdpauinfo
+```
+
+---
 
 ## Disable `nvidia` card and `nouveau` kernel module
 
-```bash
+`T480`
 
+```bash
 # echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia-nouveau.conf
 # echo "options nouveau modeset=0" >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf
 
@@ -424,11 +444,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # vim /etc/default/grub
 
-  # # # -> blacklist nouveau driver using GRUB config
-
-  ```
-  GRUB_CMDLINE_LINUX="nouveau.blacklist=1"
-  ```
+# # # -> blacklist nouveau driver using GRUB config
+> GRUB_CMDLINE_LINUX="nouveau.blacklist=1"
 
 # grub-mkconfig --output /boot/grub/grub.cfg
 
@@ -446,14 +463,15 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # journalctl -b | grep nouveau
 # # # -> Should say that nouveau is blacklisted
-
 ```
 
 ---
 
 ## Install `bbswitch` (laptop only)
 
-```
+`T480`
+
+```bash
 # pacman -S bbswitch
 
 # touch /etc/modules-load.d/bbswitch.conf
@@ -483,7 +501,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ## crontab & powertop
 
-```
+```bash
 # pacman -S powertop
 # powertop --auto-tune
 
@@ -493,7 +511,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ---
 
-# update mirror list
+## update mirror list
 
 Create `pacman hook` that will run `reflector` and remove the `.pacnew` file created every time `pacman-mirrorlist` gets an upgrade
 
@@ -528,15 +546,17 @@ Exec = /bin/sh -c "reflector --latest 256 --protocol http --protocol https --age
 ## dev tools (optional)
 
 ```bash
-# pacman -S man bash bash-completion
-# pacman -S git
-# pacman -S tree htop cmake
+# pacman -S man git
+# pacman -S bash bash-completion
+# pacman -S gcc clang cmake python
+# pacman -S nodejs npm
+# pacman -S tree htop
 # pacman -S curl wget rsync
 # pacman -S fzf the_silver_searcher
-# pacman -S python nodejs npm
-# pacman -S gvim neovim
 # pacman -S openssh
-# pacman -S clipman
+# pacman -S neovim
+# pacman -S (g)vim [?]
+# pacman -S gnu-free-fonts
 ```
 
 ## Window Manager (optional)

@@ -6,37 +6,55 @@
 # ß - beta
 # If the above line is not correctly displayed, fix your editor first!
 
+
 general {
   colors = true
   interval = 5
 }
 
+
 # order += "ipv6"
-order += "ethernet _first_"
 order += "wireless _first_"
+
 order += "load"
 order += "cpu_usage"
+
 order += "cpu_temperature 0"
+
 order += "cpu_temperature 1"
 order += "cpu_temperature 2"
 order += "cpu_temperature 3"
+order += "cpu_temperature 4"
+
+order += "cpu_temperature 5"
+order += "cpu_temperature 6"
+order += "cpu_temperature 7"
+order += "cpu_temperature 8"
+
 order += "memory"
+
 order += "disk /"
 order += "disk /home"
-order += "battery 0"
+
 order += "volume master"
-order += "tztime date"
+order += "battery 0"
+
 order += "tztime time"
+order += "tztime weekday"
+order += "tztime date"
+
+order += "ethernet _first_"
 
 ethernet _first_ {
   # format_up = "E %ip %speed"
+  # format_down = "E down"
   format_up = "E %speed"
-  format_down = "E down"
+  format_down = "𝝺"
 }
 
 wireless _first_ {
   # format_up = "W%quality %essid %ip"
-  format_up = "W%quality %essid"
+  format_up = "W %essid%quality"
   format_down = "W down"
 }
 
@@ -53,9 +71,16 @@ cpu_usage {
 }
 
 cpu_temperature 0 { format = "%degrees°" max_threshold = 42 }
+
 cpu_temperature 1 { format = "%degrees°" max_threshold = 42 }
 cpu_temperature 2 { format = "%degrees°" max_threshold = 42 }
 cpu_temperature 3 { format = "%degrees°" max_threshold = 42 }
+cpu_temperature 4 { format = "%degrees°" max_threshold = 42 }
+
+cpu_temperature 5 { format = "%degrees°" max_threshold = 42 }
+cpu_temperature 6 { format = "%degrees°" max_threshold = 42 }
+cpu_temperature 7 { format = "%degrees°" max_threshold = 42 }
+cpu_temperature 8 { format = "%degrees°" max_threshold = 42 }
 
 memory {
   format = "M %used %percentage_used" # %total
@@ -72,10 +97,10 @@ battery 0 {
   low_threshold = 15
   threshold_type = "percentage"
   format = "%status %percentage" # %consumption
-  status_bat = "B"
-  status_chr = "B+"
-  status_full = "B++"
-  status_unk = "B-"
+  status_bat = "ß"
+  status_chr = "ß+"
+  status_full = "ß++"
+  status_unk = "ß-"
   last_full_capacity = true
   integer_battery_capacity = true
 }
@@ -90,10 +115,15 @@ volume master {
 
 tztime date {
   format = "%time"
-  format_time = "%d/%b/%Y"
+  format_time = "%d-%b-%Y"
 }
 
 tztime time {
   format = "%time"
   format_time = "%H:%M"
+}
+
+tztime weekday {
+  format = "%time"
+  format_time = "%a"
 }

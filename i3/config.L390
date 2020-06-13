@@ -107,7 +107,7 @@ font pango:Source Code Pro Bold 9
 
 # -> Background
 # ------------------------------------------ #
-exec --no-startup-id feh --bg-center ~/dev/wallpapers/arch-10.png
+exec --no-startup-id feh --bg-center ~/dev/wallpapers/arch-L390.png
 # ------------------------------------------ / ------------------------------------------ #
 
 
@@ -115,7 +115,7 @@ exec --no-startup-id feh --bg-center ~/dev/wallpapers/arch-10.png
 
 # -> Lock
 # ------------------------------------------ #
-set $locker i3lock --nofork --ignore-empty-password --show-failed-attempts --color=333333 --image ~/dev/wallpapers/arch-10.png --tiling && sleep 1
+set $locker i3lock --nofork --ignore-empty-password --show-failed-attempts --color=333333 --image ~/dev/wallpapers/arch-L390.png --tiling && sleep 1
 
 # lock pc with kbd
 bindsym $mod+Escape exec --no-startup-id $locker
