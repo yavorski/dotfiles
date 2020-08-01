@@ -1,4 +1,5 @@
 {
+  // "ui_scale": 2.0,
   "theme": "Seti_orig.sublime-theme",
   "color_scheme": "Packages/Seti_UX/Seti.tmTheme",
   "Seti_SB_bright": true,
