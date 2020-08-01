@@ -99,6 +99,7 @@ Plug 'junegunn/fzf.vim'
 
 " Rust
 Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
 
 " Autocomplete
 " Plug 'neoclide/coc.nvim', { 'branch': 'release' }
@@ -336,6 +337,16 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
+" ==============================================================
+
+
+" Rust Racer AutoComplete conf
+" ==============================================================
+" set hidden
+" let g:racer_cmd = "/home/user/.cargo/bin/racer"
+" let g:racer_experimental_completer = 1
+" let g:racer_insert_paren = 1
+" ==============================================================
 
 
 
