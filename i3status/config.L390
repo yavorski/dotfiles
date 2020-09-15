@@ -37,12 +37,12 @@ order += "disk /"
 order += "disk /home"
 
 order += "volume master"
-order += "battery 0"
 
-order += "tztime time"
 order += "tztime weekday"
 order += "tztime date"
 
+order += "tztime time"
+order += "battery 0"
 order += "ethernet _first_"
 
 ethernet _first_ {
