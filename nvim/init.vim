@@ -307,7 +307,7 @@ map <C-A-r> :NERDTreeFind<CR>
 " nerdtree-git-plugin config
 " ==============================================================
 " Set nerdtree-git-plugin symbols ✨ ✗ ✘
-let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeGitStatusIndicatorMapCustom = {
   \ "Modified"  : "*",
   \ "Staged"    : "+",
   \ "Untracked" : "-",
