@@ -12,7 +12,10 @@ alias g="git"
 alias j="jobs"
 alias h="history"
 alias d="cd ~/dev"
+alias dd="cd ~/dev"
+alias ddd="cd /mnt/c/dev"
 alias dl="cd ~/Downloads"
+alias subl="/mnt/c/Program\ Files/Sublime\ Text\ 3/subl.exe"
 
 # vim/nvim
 alias vim="nvim"
@@ -47,7 +50,7 @@ alias egrep="egrep --color=auto"
 alias rip="curl ifconfig.me"
 
 # Sway WM Screenshot
-alias screenshot='grim -t png -g "$(slurp)" ~/Screenshots/screenshot-$(date +%d-%m-%Y-%H-%M-%S).png'
+# alias screenshot='grim -t png -g "$(slurp)" ~/Screenshots/screenshot-$(date +%d-%m-%Y-%H-%M-%S).png'
 
 # Battery status
 

@@ -132,7 +132,7 @@ prompt_ps1() {
 
   PS1+="\n";
 
-  PS1+="\[${white}\]𝝺 \[${reset}\]"; # `$` (and reset color)
+  PS1+="\[${white}\]→ \[${reset}\]"; # `$` (and reset color)
 
   export PS1;
 }
