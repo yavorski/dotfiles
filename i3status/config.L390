@@ -9,7 +9,7 @@
 
 general {
   colors = true
-  interval = 5
+  interval = 1
 }
 
 
@@ -36,12 +36,12 @@ order += "memory"
 order += "disk /"
 order += "disk /home"
 
-order += "volume master"
 
 order += "tztime weekday"
 order += "tztime date"
-
 order += "tztime time"
+
+order += "volume master"
 order += "battery 0"
 order += "ethernet _first_"
 
@@ -115,12 +115,12 @@ volume master {
 
 tztime date {
   format = "%time"
-  format_time = "%d-%b-%Y"
+  format_time = "%d/%m/%Y"
 }
 
 tztime time {
   format = "%time"
-  format_time = "%H:%M"
+  format_time = "%H:%M:%S"
 }
 
 tztime weekday {
