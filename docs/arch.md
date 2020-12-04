@@ -20,6 +20,10 @@ Ensure your network interface is listed and enabled, for example with ip-link(8)
 Connect to wi-fi
 ```bash
 # wifi-menu -o
+# iwctl device list
+# iwctl station <wlan0> scan
+# iwctl station <wlan0> get-networks
+# iwctl station <wlan0> connect <SSID>
 ```
 
 Connect to ethernet
@@ -38,12 +42,12 @@ Configure mirrorlist
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.BAK
 
 
-curl 'https://www.archlinux.org/mirrorlist/?country=all&protocol=http&protocol=https&ip_version=4' >> /etc/pacman.d/mirrorlist
+curl 'https://www.archlinux.org/mirrorlist/?country=all&protocol=https&ip_version=4' >> /etc/pacman.d/mirrorlist
 vim /etc/pacman.d/mirrorlist
 
 pacman -Syyy
 pacman -S reflector
-reflector --latest 256 --protocol http --protocol https --age 24 --sort rate --save /etc/pacman.d/mirrorlist
+reflector --protocol https --latest 128 --age 24 --sort rate --sort score --sort country --save /etc/pacman.d/mirrorlist
 
 cd /etc/pacman.d/
 diff -y mirrorlist mirrorlist.BAK
@@ -54,6 +58,7 @@ diff -y mirrorlist mirrorlist.BAK
 ```bash
 # pacman -Sy terminus-font
 # setfont ter-v16b
+# setfont ter-v18b
 # setfont ter-v22b
 # setfont ter-v24b
 # setfont ter-v32b
@@ -260,6 +265,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 ### GRUB Font (optional)
 
 ```bash
+# pacman -S freetype2 (?)
 # grub-mkfont -o /boot/grub/fonts/ter.pf2 --size 22 /usr/share/fonts/misc/ter-x22b.pcf.gz
 # echo "GRUB_FONT=/boot/grub/fonts/ter.pf2" >> /etc/default/grub
 # grub-mkconfig -o /boot/grub/grub.cfg
@@ -295,7 +301,8 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 ### Configure network (`arch-chroot`)
 
 ```bash
-# pacman -S dialog wpa_supplicant wireless_tools networkmanager
+# pacman -S iwd
+# pacman -S dialog wpa_supplicant wireless_tools networkmanager (?)
 
 # echo arch > /etc/hostname
 
@@ -309,11 +316,32 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # # -> nameserver 1.0.0.1
 # # -> nameserver 8.8.8.8
 # # -> nameserver 8.8.8.4
+```
 
-# systemctl enable NetworkManager
-# systemctl disable dhcpcd
-# systemctl enable wpa_supplicant
-# systemctl start NetworkManager
+```bash
+# vim /etc/iwd/main.conf
+```
+
+```vim
+> #/etc/iwd/main.conf
+> [General]
+> EnableNetworkConfiguration=true
+>
+> [Network]
+> NameResolvingService=systemd
+>
+> # [Network]
+> # NameResolvingService=resolvconf
+```
+
+```bash
+# systemctl enable iwd
+# systemctl enable systemd-networkd
+# systemctl enable systemd-resolved
+
+# systemctl disable dhcpcd (?)
+# systemctl enable NetworkManager (?)
+# systemctl enable wpa_supplicant (?)
 ```
 
 
@@ -334,6 +362,8 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 
 ### wifi with `nmcli`
+
+> NetworkManager
 
 ```bash
 nmcli device wifi list
@@ -425,7 +455,7 @@ More on security -> [https://wiki.archlinux.org/index.php/Security](https://wiki
 # [!?] -> pacman -S xf86-video-intel <- [!?]
 # pacman -S intel-media-driver intel-media-sdk
 # pacman -S mesa mesa-vdpau libva-mesa-driver
-# pacman -S vulkan-intel vulkan-mesa-layers vulkan-icd-loader
+# pacman -S vulkan-intel vulkan-driver vulkan-mesa-layers vulkan-icd-loader
 # pacman -S libva-utils vdpauinfo
 ```
 
@@ -511,16 +541,39 @@ More on security -> [https://wiki.archlinux.org/index.php/Security](https://wiki
 
 ---
 
-## update mirror list
+## auto update mirror list
 
-Create `pacman hook` that will run `reflector` and remove the `.pacnew` file created every time `pacman-mirrorlist` gets an upgrade
+```bash
+# pacman -S reflector
+# pacman -S pacman-contrib
+```
+
+Edit the reflector configuration file at `/etc/xdg/reflector/reflector.conf`
+
+```bash
+echo "# /etc/xdg/reflector/reflector.conf" > /etc/xdg/reflector/reflector.conf
+echo "# ---------------------------------" >> /etc/xdg/reflector/reflector.conf
+echo "--protocol https --latest 128 --age 24 --sort rate --sort score --sort country --save /etc/pacman.d/mirrorlist" >> /etc/xdg/reflector/reflector.conf
+```
+
+Start and Enable reflector.service and reflector
+
+```bash
+# systemctl start reflector.service
+# sysmtectl enable reflector.service
+
+# systemctl start reflector.timer
+# systemctl enable reflector.timer
+```
+
+Create a `pacman hook` that will start `reflector.service` and remove the `.pacnew` file created every time `pacman-mirrorlist` gets an upgrade
 
 ```bash
 # create hooks dir
 mkdir /etc/pacman.d/hooks
 
 # create mirror-update.hook file
-vim /etc/pacman.d/hooks/mirror-update.hook
+touch /etc/pacman.d/hooks/mirror-update.hook
 ```
 
 Enter the following content to `mirror-update.hook`
@@ -535,10 +588,10 @@ Type = Package
 Target = pacman-mirrorlist
 
 [Action]
-Description = Update pacman-mirrorlist with reflector and removing mirrorlist.pacnew
+Description = Updating pacman-mirrorlist with reflector and removing pacnew...
 When = PostTransaction
 Depends = reflector
-Exec = /bin/sh -c "reflector --latest 256 --protocol http --protocol https --age 24 --sort rate --save /etc/pacman.d/mirrorlist; rm -f /etc/pacman.d/mirrorlist.pacnew"
+Exec = /bin/sh -c 'systemctl start reflector.service; if [ -f /etc/pacman.d/mirrorlist.pacnew ]; then rm /etc/pacman.d/mirrorlist.pacnew; fi'
 ```
 
 ---
