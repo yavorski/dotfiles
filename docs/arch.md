@@ -558,6 +558,19 @@ echo "--protocol https --latest 128 --age 24 --sort rate --sort score --sort cou
 
 Start and Enable reflector.service and reflector
 
+Edit the systemd reflector service
+
+```bash
+vim /usr/lib/systemd/system/reflector.service
+```
+
+Add the following line:
+
+```ini
+ExecStartPost=/bin/sh -c 'echo -e "$(reflector --country bg --latest 16 --protocol http --protocol https --sort score --sort rate --sort country) \n\n $(cat /etc/pacman.d/mirrorlist)" > /etc/pacman.d/mirrorlist'
+```
+
+
 ```bash
 # systemctl start reflector.service
 # sysmtectl enable reflector.service
