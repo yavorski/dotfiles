@@ -40,7 +40,16 @@
 # pacman -S rxvt-unicode rxvt-unicode-terminfo community/urxvt-perls
 ```
 
-## Clipboard Manager for Wayland - `clipman` *`AUR`*
+## Clipboard Manager for Wayland
+
+`wl-clipboard`
+
+```bash
+# pacman -Syu wl-clipboard
+```
+
+
+`clipman` *`AUR`*
 
 ```bash
 $ git clone https://aur.archlinux.org/clipman.git
