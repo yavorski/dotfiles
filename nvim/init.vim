@@ -257,6 +257,21 @@ vnoremap <C-c> "+y
 
 
 
+
+" Env Settings
+" ==============================================================
+
+" Command to start Python 2
+" pip2 install pyneovim
+" let g:python_host_prog = '/usr/bin/python2'
+
+" Command to start Python 3
+" pip install pyneovim
+" let g:python3_host_prog = '/usr/bin/python3'
+
+
+
+
 " Plugin Settings
 " ==============================================================
 
