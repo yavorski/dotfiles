@@ -671,6 +671,8 @@ This makes it possible to have, for example, encrypted root file systems and roo
 * `pacman -R $(pacman -Qdtq)` - remove all of these unnecessary packages
 * `pactree <package-name>` - view the dependency tree of a package
 
+`Pacman` has a **color** option. `->` Uncomment the `Color` line in `/etc/pacman.conf`
+
 ---
 
 
