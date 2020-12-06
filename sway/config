@@ -179,10 +179,10 @@ seat seat0 hide_cursor 5000
 # Moving around:
 #
     # Move your focus around
-    bindsym $mod+$left focus left
-    bindsym $mod+$down focus down
-    bindsym $mod+$up focus up
-    bindsym $mod+$right focus right
+    bindsym $mod+$left focus down # def left
+    bindsym $mod+$down focus left # def down
+    bindsym $mod+$up focus right # def up
+    bindsym $mod+$right focus up # def right
 
     # Or use $mod+[up|down|left|right]
     bindsym $mod+Left focus left
