@@ -322,16 +322,16 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 # vim /etc/iwd/main.conf
 ```
 
-```vim
-> #/etc/iwd/main.conf
-> [General]
-> EnableNetworkConfiguration=true
->
-> [Network]
-> NameResolvingService=systemd
->
-> # [Network]
-> # NameResolvingService=resolvconf
+```ini
+#/etc/iwd/main.conf
+[General]
+EnableNetworkConfiguration=true
+
+[Network]
+NameResolvingService=systemd
+
+# [Network]
+# NameResolvingService=resolvconf
 ```
 
 ```bash
@@ -612,17 +612,15 @@ Exec = /bin/sh -c 'systemctl start reflector.service; if [ -f /etc/pacman.d/mirr
 ## dev tools (optional)
 
 ```bash
-# pacman -S man git
-# pacman -S bash bash-completion
-# pacman -S gcc clang cmake python
-# pacman -S nodejs npm
+# pacman -S man git bash bash-completion
+# pacman -S llvm gcc clang cmake python rust nodejs npm
 # pacman -S tree htop
 # pacman -S curl wget rsync
-# pacman -S fzf the_silver_searcher
+# pacman -S bat fzf ripgrep the_silver_searcher
 # pacman -S openssh
-# pacman -S neovim
-# pacman -S (g)vim [?]
+# pacman -S vim neovim
 # pacman -S gnu-free-fonts
+# pacman -S starship powerline-fonts noto-fonts-emoji
 ```
 
 ## Window Manager (optional)
@@ -644,7 +642,6 @@ Look at [Sway](./wm.md) doc.
 ```bash
 # pacman -S gdm gnome gnome-extra gnome-shell
 # systemctl enable gdm
-
 ```
 
 ---
@@ -672,6 +669,13 @@ This makes it possible to have, for example, encrypted root file systems and roo
 * `pactree <package-name>` - view the dependency tree of a package
 
 `Pacman` has a **color** option. `->` Uncomment the `Color` line in `/etc/pacman.conf`
+
+> Colors
+
+```bash
+git diff --color=always | less -r
+pacman -Ss bat --color always | less -r
+```
 
 ---
 

@@ -1,4 +1,5 @@
 # ~/.config/starship.toml
+# -----------------------
 
 [character]
 success_symbol = "[𝝺](bold cyan)"

@@ -93,8 +93,8 @@ Plug 'godlygeek/tabular'
 " Plug 'wincent/command-t'
 Plug 'ctrlpvim/ctrlp.vim'
 
-" Search
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Search Ag/Rg
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 " Rust
@@ -233,6 +233,13 @@ endif
 " Show "invisible" characters
 set nolist
 set listchars=eol:¬,tab:›-,trail:·,extends:»,precedes:«
+
+
+" Use ripgrep instead of grep
+set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
+
+" Use the current working directory (cwd) for ripgrep
+" let g:rg_derive_root='true'
 " ==============================================================
 
 
@@ -261,18 +268,29 @@ vnoremap <C-c> "+y
 " Env Settings
 " ==============================================================
 
-" Command to start Python 2
-" pip2 install pyneovim
-" let g:python_host_prog = '/usr/bin/python2'
 
-" Command to start Python 3
-" pip install pyneovim
-" let g:python3_host_prog = '/usr/bin/python3'
+" Python 2
+" ==============================================================
+let g:python_host_prog = '/usr/bin/python2'
+" ==============================================================
+
+
+" Python 3
+" ==============================================================
+let g:python3_host_prog = '/usr/bin/python3'
+" ==============================================================
 
 
 
 
 " Plugin Settings
+" ==============================================================
+
+
+" FZF & CTRL-T
+" ==============================================================
+let $FZF_DEFAULT_COMMAND = "rg --files --hidden --follow --glob '!.git'"
+let $FZF_CTRL_T_COMMAND = "$FZF_DEFAULT_COMMAND"
 " ==============================================================
 
 
@@ -315,8 +333,39 @@ map <F4> :NERDTreeToggle<CR>
 map <F5> :NERDTreeRefreshRoot<CR>
 
 " Reveal in nerdtree <Ctlr+Alt+R>
+map <F8> :NERDTreeFind<CR>
 map <C-A-r> :NERDTreeFind<CR>
-" ==============================================================
+
+
+" NERDTree set file colors
+function! NT_set_file_color(extension, fg, bg, guifg, guibg)
+  exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+  exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+" NERDTree set file colors
+call NT_set_file_color('sh', 'green', 'none', '#ffa500', '#151515')
+call NT_set_file_color('sh*', 'green', 'none', '#ffa500', '#151515')
+
+call NT_set_file_color('ini', 'yellow', 'none', 'yellow', '#151515')
+call NT_set_file_color('conf', 'yellow', 'none', 'yellow', '#151515')
+call NT_set_file_color('config', 'yellow', 'none', 'yellow', '#151515')
+
+call NT_set_file_color('md', 'red', 'none', '#3366FF', '#151515')
+call NT_set_file_color('html', 'white', 'none', 'yellow', '#151515')
+
+call NT_set_file_color('css', 'magenta', 'none', 'red', '#151515')
+call NT_set_file_color('styl', 'magenta', 'none', 'magenta', '#151515')
+
+call NT_set_file_color('ts', 'cyan', 'none', '#ffa500', '#151515')
+call NT_set_file_color('js', 'cyan', 'none', '#ffa500', '#151515')
+call NT_set_file_color('mjs', 'cyan', 'none', '#ffa500', '#151515')
+
+call NT_set_file_color('yml', 'yellow', 'none', 'yellow', '#151515')
+call NT_set_file_color('json', 'yellow', 'none', 'yellow', '#151515')
+
+call NT_set_file_color('vim', 'cyan', 'none', '#ffa500', '#151515')
+" ==============================================================================
 
 
 " nerdtree-git-plugin config

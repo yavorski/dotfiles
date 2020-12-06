@@ -12,8 +12,6 @@
     "Log Highlight",
     "nginx",
     "Package Control",
-    "PackageResourceViewer",
-    "PackagesUI",
     "Pretty JSON",
     "Rust Enhanced",
     "Sass",
@@ -22,7 +20,7 @@
     "SideBarEnhancements",
     "Status Bar File Size",
     "Stylus",
-    "SublimeREPL",
-    "TypeScript"
+    "TypeScript",
+    "VimL"
   ]
 }

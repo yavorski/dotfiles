@@ -5,12 +5,12 @@ export EDITOR="nvim"
 
 # Allow larger history size - default is 500
 # For setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-export HISTSIZE=4096
+export HISTSIZE=8192
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL=ignoredups
 
 # Make some commands not show up in history
-export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+# export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 
 # Prefer US English and use UTF-8
 # export LANG="en_US.UTF-8"
@@ -24,32 +24,10 @@ export LESS_TERMCAP_md="${yellow}"
 # export MANPAGER=/usr/bin/vimpager
 
 # Don't clear the screen after quitting a manual page
-export MANPAGER='less -X'
+# export MANPAGER='less -X'
+
+# Set bat as man pager
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # Force color
 export FORCE_COLOR=true
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ]; then
-  export PATH="$PATH:$HOME/bin:$PATH"
-fi
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ]; then
-  export PATH="$PATH:$HOME/.local/bin:$PATH"
-fi
-
-# set PATH so it includes npm global bin
-if [ -d "$HOME/.npm-global/bin" ]; then
-  export PATH="$PATH:$HOME/.npm-global/bin:$PATH"
-fi
-
-# Go executables
-if [ -d "$HOME/go/bin" ]; then
-  export PATH="$PATH:$HOME/go/bin"
-fi
-
-# Ruby executables
-if command -v ruby &> /dev/null; then
-  PATH="$PATH:$(ruby -e 'puts Gem.user_dir')/bin"
-fi

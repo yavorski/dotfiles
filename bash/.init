@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# -----------------
+#
+# Load the shell dotfiles
+# Source ~/.path & ~/.extra files
+#
+# ~/.path may be used to extend `$PATH`
+# ~/.extra may be used for settings you don't want to commit
+# ----------------------------------------------------------
+
+declare -a files=(
+  $DOTFILES/.path
+  $DOTFILES/.settings
+  $DOTFILES/.exports
+  $DOTFILES/.wayland
+  $DOTFILES/.aliases
+  $DOTFILES/.functions
+  $DOTFILES/.prompt
+  $DOTFILES/.wm
+  $HOME/.path
+  $HOME/.extra
+  ../.extra
+);
+
+for file in ${files[@]}; do
+  [ -r "$file" ] && [ -f "$file" ] && source "$file"
+done;
+
+unset file
+unset files
