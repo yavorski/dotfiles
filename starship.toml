@@ -1,0 +1,16 @@
+# ~/.config/starship.toml
+
+[character]
+success_symbol = "[𝝺](bold cyan)"
+error_symbol = "[✖](bold red)"
+
+[username]
+show_always = true
+style_root = "bold red"
+style_user = "bold yellow"
+format = "[$user]($style) on "
+
+[hostname]
+ssh_only = false
+style = "bold dimmed green"
+format = "[$hostname]($style) in "
