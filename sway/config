@@ -170,7 +170,7 @@ seat seat0 hide_cursor 5000
     bindsym $mod+Shift+e exec swaynag \
       --type warning \
       --font 'Source Code Pro Bold 8' \
-      --message 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' \
+      --message 'Do you really want to exit sway? This will end your Wayland session.' \
       --button 'Yes, exit sway' 'swaymsg exit' \
       --dismiss-button ' ✖ ' \
       --border-bottom-size 0
