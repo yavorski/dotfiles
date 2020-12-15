@@ -316,6 +316,7 @@ bindsym XF86MonBrightnessDown exec light -U 5
 # Window Title bar
 titlebar_padding 4 3
 titlebar_border_thickness 0
+for_window [shell=".*"] title_format "%title | %shell"
 
 
 #
