@@ -15,3 +15,7 @@ format = "[$user]($style) on "
 ssh_only = false
 style = "bold dimmed green"
 format = "[$hostname]($style) in "
+
+[[battery.display]]
+threshold = 15
+style = "bold red"
