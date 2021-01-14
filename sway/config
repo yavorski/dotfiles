@@ -33,9 +33,7 @@ set $app_menu alacritty \
   -qq \
   --class="AppMenu" \
   --title="AppMenu" \
-  --dimensions 64 16 \
-  --no-live-config-reload \
-  --command sh -c 'compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec'
+  --command sh -c "compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec"
 
 # kitty menu
 # set $app_menu kitty \
@@ -46,7 +44,7 @@ set $app_menu alacritty \
 #   --override window_border_width=5.0 \
 #   --override initial_window_width=542 \
 #   --override initial_window_height=342 \
-#   sh -c 'compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec'
+#   sh -c "compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec"
 
 # style menu window
 # for_window [app_id="AppMenu"] border pixel 5
