@@ -29,12 +29,18 @@ function bootstrap() {
   source $HOME/.bashrc
 
   # init vim plug
-  printf "\n"
+  printf "init vim \n"
   curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
   # init nvim plug
-  printf "\n"
+  printf "init neovim \n"
   curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+  # sublime-text-3
+  printf "init sublime-text-3 \n"
+  local SUBL_PKG_CTRL="Package Control.sublime-package"
+  curl -fLo "$HOME/.config/sublime-text-3/Installed Packages/$SUBL_PKG_CTRL" --create-dirs "https://packagecontrol.io/$SUBL_PKG_CTRL"
+  rsync sublime/* -avh --no-perms --delete $HOME/.config/sublime-text-3/Packages/User
 }
 
 

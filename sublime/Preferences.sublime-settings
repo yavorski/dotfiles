@@ -52,38 +52,3 @@
   "vintage_start_in_command_mode": true,
   "word_wrap": false
 }
-
-// 1) Install Package Resource Viewer.
-// 2) In package control window select ‘Package Resource Viewer: Open Resource’.
-// 3) Scroll down until you find the option: `Color Scheme — Default` (or your theme with color scheme `.tmTheme`) and select it.
-// 4) Add the following:
-
-// ```
-// <dict>
-//   <key>name</key>
-//   <string>Italic HTML attribute names</string>
-//   <key>scope</key>
-//   <string>
-//     entity.other.attribute-name.html,
-//     entity.other.attribute-name.event.html,
-//     entity.other.attribute-name.id.html,
-//     entity.other.attribute-name.class.html,
-//     entity.other.attribute-name.tag.jade,
-//     constant.other.symbol.ruby
-//   </string>
-//   <key>settings</key>
-//   <dict>
-//     <key>foreground</key>
-//     <string>#ffc600</string>
-//     <key>fontStyle</key>
-//     <string>italic</string>
-//   </dict>
-// </dict>
-// ```
-
-// 5) Edit Settings
-// ```
-// "font_face": "Operator Mono Book",
-// "font_face": "Operator Mono Medium",
-// "font_options": [...]
-// ```
