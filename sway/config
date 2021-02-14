@@ -1,10 +1,18 @@
+###############################################################################
 # ~/.config/sway/config
-# Read `man 5 sway` for a complete reference
+# -> Read `man 5 sway` for a complete reference
+###############################################################################
 
-# Set font (HiDPI)
+
+###############################################################################
+# -> Set font (HiDPI)
 font Source Code Pro Bold 8
+###############################################################################
 
-### Variables
+
+###############################################################################
+# -> Variables
+###############################################################################
 
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
@@ -16,17 +24,17 @@ set $up k
 set $right l
 
 
-# Terminal emulator
+###############################################################################
+# -> Terminal emulator
+###############################################################################
+# set $term kitty
 set $term alacritty
 
-# set $term kitty
-# set $term urxvt
-# set $term termite
-# set $term alacritty
 
-
-## Application Launcher
-## Note: it's recommended that you pass the final command to sway
+###############################################################################
+# -> Application Launcher
+# -> Note: it's recommended that you pass the final command to sway
+###############################################################################
 
 # alacritty menu
 set $app_menu alacritty \
@@ -57,29 +65,35 @@ for_window [title="^AppMenu$"] floating enable, border pixel 5, resize set width
 set $killmenu swaymsg [title="^AppMenu$"] kill
 
 
-### Output configuration
+###############################################################################
+# -> Output configuration
+###############################################################################
 
 # #####  ThinkPad T480 ##### #
 # output eDP-1 scale 2
 # output eDP-1 resolution 2560x1440 position 0,0
-# ##############################################
+###############################################################################
 
 # #####  ThinkPad L390 ##### #
 # output eDP-1 scale 1
 # output eDP-1 resolution 1920x1080 position 0,0
-# ##############################################
+###############################################################################
 
 # #####  ThinkPad L390 ##### #
 output eDP-1 scale 1.25
 output eDP-1 resolution 3072x1728 position 0,0
-# ##############################################
+###############################################################################
 
 
-### Wallpaper/Background
+###############################################################################
+# -> Wallpaper/Background
 output * bg ~/dev/wallpapers/arch-10.png fill
+###############################################################################
 
 
-### Idle configuration
+###############################################################################
+# -> Idle configuration
+###############################################################################
 
 # This will lock your screen after 500 seconds of inactivity,
 # then turn off your displays after another 100 seconds,
@@ -102,16 +116,21 @@ for_window [class="vlc"] inhibit_idle fullscreen
 for_window [app_id="vlc"] inhibit_idle fullscreen
 
 
-### Input configuration
+###############################################################################
+# -> Input configuration
+###############################################################################
+
 #
 # Example configuration:
 #
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
+#
+# input "2:14:SynPS/2_Synaptics_TouchPad" {
+#   dwt enabled
+#   tap enabled
+#   natural_scroll enabled
+#   middle_emulation enabled
+# }
+#
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -120,7 +139,7 @@ input "*" xkb_options "ctrl:nocaps,grp:win_space_toggle"
 
 # #####  ThinkPad T480 ##### #
 # input "1739:0:Synaptics_TM3276-022" natural_scroll "enabled"
-# ##############################################
+# ############################################################
 
 # #####  ThinkPad L390 ##### #
 input "1267:51:Elan_Touchpad" natural_scroll "enabled"
@@ -128,221 +147,243 @@ input "1267:51:Elan_TrackPoint" natural_scroll "enabled"
 # ##############################################
 
 
-### Hide cursor after some time
+# Hide cursor after some time
 seat seat0 hide_cursor 5000
 
 
-### Key bindings
-#
-# Basics:
-#
-    # Start a terminal
-    bindsym $mod+Return exec $term
+###############################################################################
+# -> Key bindings
+###############################################################################
 
-    # Kill focused window
-    bindsym Mod1+F4 kill
-    bindsym $mod+Shift+q kill
+# -> Basics key bindings
+###############################################################################
 
-    # Start your launcher
-    bindsym $mod+d exec $app_menu
+# Start a terminal
+bindsym $mod+Return exec $term
 
-    # Kill menu
-    bindsym $mod+Shift+d exec $killmenu
+# Kill focused window
+bindsym Mod1+F4 kill
+bindsym $mod+Shift+q kill
 
-    # Lock
-    bindsym $mod+Escape exec $lock
+# Start your launcher
+bindsym $mod+d exec $app_menu
 
-    # Drag floating windows by holding down $mod and left mouse button.
-    # Resize them with right mouse button + $mod.
-    # Despite the name, also works for non-floating windows.
-    # Change normal to inverse to use left mouse button for resizing and right
-    # mouse button for dragging.
-    floating_modifier $mod normal
+# Kill menu
+bindsym $mod+Shift+d exec $killmenu
 
-    # Reload the configuration file
-    bindsym $mod+Shift+c reload
+# Lock
+bindsym $mod+Escape exec $lock
 
-    # Exit sway (logs you out of your Wayland session)
-    # bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
 
-    bindsym $mod+Shift+e exec swaynag \
-      --type warning \
-      --font 'Source Code Pro Bold 8' \
-      --message 'Do you really want to exit sway? This will end your Wayland session.' \
-      --button 'Yes, exit sway' 'swaymsg exit' \
-      --dismiss-button ' ✖ ' \
-      --border-bottom-size 0
+# Reload the configuration file
+bindsym $mod+Shift+c reload
 
-#
-# Moving around:
-#
-    # Move your focus around
-    bindsym $mod+$left focus down # def left
-    bindsym $mod+$down focus left # def down
-    bindsym $mod+$up focus right # def up
-    bindsym $mod+$right focus up # def right
+# Exit sway (logs you out of your Wayland session)
+# bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
-    # Or use $mod+[up|down|left|right]
-    bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
-    bindsym $mod+Right focus right
+bindsym $mod+Shift+e exec swaynag \
+  --type warning \
+  --font 'Source Code Pro Bold 8' \
+  --message 'Do you really want to exit sway? This will end your Wayland session.' \
+  --button ' Exit Sway ' 'swaymsg exit' \
+  --dismiss-button ' ✖ ' \
+  --border-bottom-size 0
 
-    # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
 
-    # Ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
-#
-# Workspaces:
-#
-    # Switch to workspace
-    bindsym $mod+1 workspace 1
-    bindsym $mod+2 workspace 2
-    bindsym $mod+3 workspace 3
-    bindsym $mod+4 workspace 4
-    bindsym $mod+5 workspace 5
-    bindsym $mod+6 workspace 6
-    bindsym $mod+7 workspace 7
-    bindsym $mod+8 workspace 8
-    bindsym $mod+9 workspace 9
-    bindsym $mod+0 workspace 10
+###############################################################################
+# -> Moving around key bindings
+###############################################################################
 
-    # Cycle workspaces
-    # bindsym Mod1+Tab workspace next_on_input
-    # bindsym Mod1+Shift+Tab workspace prev_on_input
-    # bindsym Mod1+Tab workspace back_and_forth
+# Move your focus around
+bindsym $mod+$left focus down # def left
+bindsym $mod+$down focus left # def down
+bindsym $mod+$up focus right # def up
+bindsym $mod+$right focus up # def right
 
-    # Move focused container to workspace
-    bindsym $mod+Shift+1 move container to workspace 1
-    bindsym $mod+Shift+2 move container to workspace 2
-    bindsym $mod+Shift+3 move container to workspace 3
-    bindsym $mod+Shift+4 move container to workspace 4
-    bindsym $mod+Shift+5 move container to workspace 5
-    bindsym $mod+Shift+6 move container to workspace 6
-    bindsym $mod+Shift+7 move container to workspace 7
-    bindsym $mod+Shift+8 move container to workspace 8
-    bindsym $mod+Shift+9 move container to workspace 9
-    bindsym $mod+Shift+0 move container to workspace 10
+# Or use $mod+[up|down|left|right]
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
 
-    # Note: workspaces can have any name you want, not just numbers.
-    # We just use 1-10 as the default.
-#
-# Layout stuff:
-#
-    # You can "split" the current object of your focus with
-    # $mod+b or $mod+v, for horizontal and vertical splits
-    # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
 
-    # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
-    bindsym $mod+w layout tabbed
-    bindsym $mod+e layout toggle split
+# Ditto, with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
 
-    # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
 
-    # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+###############################################################################
+# -> Workspaces:
+###############################################################################
 
-    # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
+# Switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
 
-    # Move focus to the parent container
-    bindsym $mod+a focus parent
-#
-# Scratchpad:
-#
-    # Sway has a "scratchpad", which is a bag of holding for windows.
-    # You can send windows there and get them back later.
+# Cycle workspaces
+# bindsym Mod1+Tab workspace next_on_input
+# bindsym Mod1+Shift+Tab workspace prev_on_input
+# bindsym Mod1+Tab workspace back_and_forth
 
-    # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
 
-    # Show the next scratchpad window or hide the focused scratchpad window.
-    # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
-#
-# Resizing containers:
-#
+# Note: workspaces can have any name you want, not just numbers.
+# We just use 1-10 as the default.
+
+###############################################################################
+# -> Layout stuff:
+###############################################################################
+
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
+
+# Move focus to the parent container
+bindsym $mod+a focus parent
+
+
+###############################################################################
+# -> Scratchpad:
+###############################################################################
+
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+
+###############################################################################
+# -> Resizing containers:
+###############################################################################
+
 mode "resize" {
-    # left will shrink the containers width
-    # right will grow the containers width
-    # up will shrink the containers height
-    # down will grow the containers height
-    bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
+  # left will shrink the containers width
+  # right will grow the containers width
+  # up will shrink the containers height
+  # down will grow the containers height
+  bindsym $left resize shrink width 10px
+  bindsym $down resize grow height 10px
+  bindsym $up resize shrink height 10px
+  bindsym $right resize grow width 10px
 
-    # Ditto, with arrow keys
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
+  # Ditto, with arrow keys
+  bindsym Left resize shrink width 10px
+  bindsym Down resize grow height 10px
+  bindsym Up resize shrink height 10px
+  bindsym Right resize grow width 10px
 
-    # Return to default mode
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+  # Return to default mode
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
+
 bindsym $mod+r mode "resize"
 
 
-#
-# Audio:
+###############################################################################
+# -> Audio
+###############################################################################
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
+# style volume control window
+for_window [title="^Volume Control$"] floating enable, border pixel 5, resize set width 542, resize set height 342
 
-#
-# Light:
+###############################################################################
+# -> Light:
+###############################################################################
 bindsym XF86MonBrightnessUp exec light -A 5
 bindsym XF86MonBrightnessDown exec light -U 5
 
 
-#
-# Window Title bar
+###############################################################################
+# -> Window Title bar
+###############################################################################
 titlebar_padding 4 3
 titlebar_border_thickness 0
 for_window [shell=".*"] title_format "%title | %shell"
 
 
-#
-# Status Bar:
-# Read `man 5 sway-bar` for more information about this section.
+###############################################################################
+# -> Status Bar:
+# -> Read `man 5 sway-bar` for more information about this section.
+###############################################################################
 bar {
-    # mode hide
-    mode dock
+  mode dock
+  position top
+  separator_symbol "#"
+  font Source Code Pro Bold 9
 
-    position top
-    separator_symbol "#"
-    font Source Code Pro Bold 9
+  # When the status_command prints a new line to stdout, swaybar updates.
+  # The default just shows the current date and time.
+  # status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
 
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    # status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
+  status_padding 0
+  status_command i3status
 
-    status_padding 0
-    status_command i3status
-
-    colors {
-        statusline #ffffff
-        background #101010
-        focused_workspace #cc0000 #cc0000 #ffffff
-        inactive_workspace #101010 #101010 #5c5c5c
-    }
+  colors {
+    statusline #ffffff
+    background #101010
+    focused_workspace #cc0000 #cc0000 #ffffff
+    inactive_workspace #101010 #101010 #5c5c5c
+  }
 }
 
 
-#
+###############################################################################
 include /etc/sway/config.d/*
+###############################################################################
