@@ -3,11 +3,11 @@
 export BAK_DIR=~/.dot-bak
 
 function rmbackup() {
-  rm -r $BAK_DIR
+  rm -rf $BAK_DIR
 }
 
 function backup() {
-  rm -r $BAK_DIR
+  rm -rf $BAK_DIR
   mkdir -p $BAK_DIR
 
   [ -f ~/.bashrc ] && cp ~/.bashrc $BAK_DIR
@@ -36,7 +36,7 @@ function setup_npm_global_dir() {
 }
 
 function setup_i3() {
-  local id=$1
+  local id=$1 # L390
 
   mv ~/.config/i3/"${id}".config ~/.config/i3/config
   mv ~/.config/i3status/"${id}".config ~/.config/i3status/config
