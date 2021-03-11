@@ -16,13 +16,13 @@ function bootstrap() {
   # link files from ~/.config
   # no need to link `nvim` ~/.config/nvim/init.vim
 
-  ln -s $HOME/.config/bash/.bashrc $HOME/.bashrc
-  ln -s $HOME/.config/bash/.bash_profile $HOME/.bash_profile
+  ln -sf $HOME/.config/bash/.bashrc $HOME/.bashrc
+  ln -sf $HOME/.config/bash/.bash_profile $HOME/.bash_profile
 
-  ln -s $HOME/.config/vim $HOME/.vim
-  ln -s $HOME/.config/vim/.vimrc $HOME/.vimrc
-  ln -s $HOME/.config/vim/.gvimrc $HOME/.gvimrc
-  ln -s $HOME/.config/vim/.vimpagerrc $HOME/.vimpagerrc
+  ln -sf $HOME/.config/vim $HOME/.vim
+  ln -sf $HOME/.config/vim/.vimrc $HOME/.vimrc
+  ln -sf $HOME/.config/vim/.gvimrc $HOME/.gvimrc
+  ln -sf $HOME/.config/vim/.vimpagerrc $HOME/.vimpagerrc
 
   # init new shell
   source .extra
@@ -40,7 +40,7 @@ function bootstrap() {
   printf "init sublime-text-3 \n"
   local SUBL_PKG_CTRL="Package Control.sublime-package"
   curl -fLo "$HOME/.config/sublime-text-3/Installed Packages/$SUBL_PKG_CTRL" --create-dirs "https://packagecontrol.io/$SUBL_PKG_CTRL"
-  rsync sublime/* -avh --no-perms --delete $HOME/.config/sublime-text-3/Packages/User
+  rsync sublime/* -avh --mkpath --no-perms --delete $HOME/.config/sublime-text-3/Packages/User
 }
 
 

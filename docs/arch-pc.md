@@ -1,6 +1,6 @@
 ## arch
 
-```shell
+```bash
 ip link
 ping 1.1.1.1 -c 4
 
@@ -17,14 +17,14 @@ setfont ter-v16b
 ```
 
 
-```shell
+```bash
 ls /sys/firmware/efi/efivars
 timedatectl set-ntp true
 timedatectl status
 ```
 
 
-```shell
+```bash
 fdisk -l
 fdisk /dev/sdb
 -> p g n
@@ -83,7 +83,7 @@ vim /mnt/etc/crypttab # -> use /dev/sdb2 UUID
 ## arch-chroot
 
 
-```shell
+```bash
 # # -> arch-chroot
 
 arch-chroot /mnt
@@ -118,18 +118,18 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 
-```shell
+```bash
 passwd
 ```
 
-```shell
+```bash
 ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
 hwclock --systohc
 hwclock --systohc --utc
 ```
 
 
-```shell
+```bash
 vim /etc/locale.gen
 locale-gen
 echo LANG=en_US.UTF-8 > /etc/locale.conf
@@ -158,7 +158,7 @@ exit
 
 ## reboot
 
-```shell
+```bash
 umount -R /mnt
 reboot
 
@@ -185,7 +185,7 @@ systemctl --failed
 journalctl -p 3 -xb
 ```
 
-```shell
+```bash
 useradd -m -g users -G wheel <username>
 passwd <username>
 EDITOR=vim visudo
@@ -196,7 +196,7 @@ reboot
 
 ## nvidia
 
-```shell
+```bash
 # # -> nvidia
 
 lspci -k | grep -A 2 -E "(VGA|3D)"
@@ -254,14 +254,14 @@ journalctl -b | grep nouveau ### -> ### Should say that nouveau is blacklisted
 
 ---
 
-```shell
+```bash
 # pacman -S cmake cronie nodejs npm
 # pacman -S git gvim htop curl wget rsync tree bash bash-completion fzf the_silver_searcher
 ```
 
 ---
 
-```shell
+```bash
 # pacman -S gdm gnome gnome-extra gnome-shell
 # systemctl enable gdm
 # reboot
@@ -316,6 +316,6 @@ arch-chroot /mnt
 
 later ...
 
-```shell
+```bash
 grub-install --target=x86_64-efi --bootloader-id=grub_uefi --efi-directory=/boot --recheck
 ```
