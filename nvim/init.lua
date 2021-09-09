@@ -1,0 +1,487 @@
+------------------------------------------------------------
+-- [[ init.lua ]] --
+------------------------------------------------------------
+
+-- title filename
+vim.opt.title = true
+
+-- syntax highlighting
+vim.opt.syntax = 'enable'
+
+-- dark/light
+vim.opt.background = 'dark'
+
+-- enable 24-bit RGB colors
+vim.opt.termguicolors = true
+
+-- set colorscheme
+vim.cmd[[colorscheme zephyr]]
+
+-- disable word wrap
+vim.opt.wrap = false
+
+-- show line number
+vim.opt.number = true
+
+-- highlight current line
+vim.opt.cursorline = true
+
+-- enable folding (default 'foldmarker')
+vim.opt.foldmethod = 'marker'
+
+-- intro / hit-enter prompts / ins-completion-menu
+vim.opt.shortmess = 'actI'
+
+-- line lenght marker
+-- vim.opt.colorcolumn = '115'
+
+-- signcolumn
+vim.opt.signcolumn = 'auto'
+
+-- enable mouse
+vim.opt.mouse = 'a'
+
+-- min number of screen lines above/below the cursor
+vim.opt.scrolloff = 4
+
+-- vertical split to the right
+vim.opt.splitright = true
+
+-- system clipboard
+vim.opt.clipboard = 'unnamedplus'
+
+-- ignore case in search patterns
+vim.opt.ignorecase = true
+
+-- override the 'ignorecase' option if the search containse upper characters
+vim.opt.smartcase = true
+
+-- complete menu
+vim.opt.completeopt = 'menu,menuone,noselect'
+
+-- backups
+vim.opt.backup = false
+vim.opt.swapfile = false
+vim.opt.undofile = false
+vim.opt.writebackup = false
+
+-- tabs, indent
+vim.opt.tabstop = 2           -- 1 tab == 2 spaces
+vim.opt.shiftwidth = 2        -- shift 2 spaces when tab
+vim.opt.expandtab = true      -- use spaces instead of tabs
+vim.opt.smartindent = true    -- autoindent new lines
+
+-- list
+vim.opt.list = false
+vim.opt.listchars = { space = '_', eol = '↲', tab = '▸~', trail = '·' }
+
+-- use ripgrep instead of grep
+-- vim.opt.grepprg = 'grep -n $* /dev/null'
+-- vim.opt.grepprg = 'rg --vimgrep --smart-case --hidden --follow'
+
+-----------------------------------------------------------
+
+-----------------------------------------------------------
+
+-- <Leader>
+-- vim.g.mapleader = [[\]]      -- Default is '\'
+-- vim.g.maplocalleader = [[\]] -- Default is '\'
+
+-----------------------------------------------------------
+-- edit cmd
+-----------------------------------------------------------
+
+-- remove whitespace on save
+vim.cmd[[au BufWritePre * :%s/\s\+$//e]]
+
+-- don't auto comment new lines
+vim.cmd[[au BufEnter * set fo-=c fo-=r fo-=o]]
+
+-- highlight on yank
+vim.api.nvim_exec([[
+  augroup YankHighlight
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+  augroup end
+]], false)
+
+-- disable indentline for markdown files (avoid concealing)
+-- vim.cmd[[autocmd FileType markdown let g:indentLine_enabled=0]]
+
+-- remove line lenght marker for selected filetypes
+-- vim.cmd[[autocmd FileType text,markdown,xml,html,xhtml,javascript setlocal cc=0]]
+
+-- 2 spaces for selected filetypes
+-- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
+
+-----------------------------------------------------------
+-- Packer
+-----------------------------------------------------------
+local packer = require('packer')
+local packer_git_url = 'https://github.com/wbthomason/packer.nvim'
+local packer_install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+
+-- install packer
+if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
+  vim.fn.system({ 'git', 'clone', '--depth', '1', packer_git_url, packer_install_path })
+  vim.cmd[[packadd packer.nvim]]
+end
+
+-- setup packer
+packer.startup(function()
+  local use = packer.use
+
+  -- packer
+  use { 'wbthomason/packer.nvim' }
+
+  -- colorscheme
+  use {
+    'glepnir/zephyr-nvim',
+    config = function()
+      require('zephyr')
+    end
+  }
+
+  -- statusline
+  use {
+    'hoob3rt/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function()
+      require('lualine').setup({
+        options = {
+          theme = 'onedark',
+          icons_enabled = true,
+          section_separators = '', -- disable separators
+          component_separators = '', -- disable separators
+        }
+      })
+    end
+  }
+
+  -- file explorer tree written in lua
+  use {
+    'kyazdani42/nvim-tree.lua',
+    requires = { 'kyazdani42/nvim-web-devicons' },
+    config = function()
+      require('nvim-tree').setup()
+      vim.api.nvim_set_keymap('n', '<leader>kb', '<cmd>lua require("nvim-tree").toggle()<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>kr', '<cmd>lua require("nvim-tree").refresh()<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>kf', '<cmd>lua require("nvim-tree").find_file()<cr>', { noremap = true, silent = true })
+    end
+  }
+
+  -- git status signs
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      require('gitsigns').setup()
+    end
+  }
+
+  -- shows keybindings in popup
+  use {
+    'folke/which-key.nvim',
+    config = function()
+      require('which-key').setup()
+    end
+  }
+
+  -- Find, Filter, Preview, Pick
+  -- Highly extendable fuzzy finder over lists
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      -- Find files using Telescope command-line sugar (Lua functions)
+      -- nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+      -- nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+      -- nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+      -- nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+      require('telescope').setup({
+        defaults = {
+          file_ignore_patterns = { "node_modules" }
+        }
+      })
+
+      vim.api.nvim_set_keymap('n', '<leader>p', '<cmd>lua require("telescope.builtin").find_files()<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', { noremap = true, silent = true })
+    end
+  }
+
+  -- nvim treesitter configurations and abstraction layer
+  -- tree-sitter is a parser generator tool and an incremental parsing library
+  -- It can build a concrete syntax tree for a source file and efficiently update the syntax tree as the source file is edited
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
+    config = function()
+      require('nvim-treesitter.configs').setup({
+        ensure_installed = "maintained",
+        highlight = {
+          enable = true -- false will disable the extension
+        },
+        indent = {
+          enable = true -- indentation based on treesitter for the = operator
+        }
+      })
+    end
+  }
+
+  -- Additional textobjects for treesitter
+  use { 'nvim-treesitter/nvim-treesitter-textobjects' }
+
+  -- A collection of common configurations for Neovim's built-in language server client
+  use { 'neovim/nvim-lspconfig' }
+
+  -- AutoComplete
+  use { 'hrsh7th/nvim-cmp' } -- completion plugin for neovim coded in lua
+  use { 'hrsh7th/cmp-nvim-lsp' } -- nvim-cmp source for neovim builtin lsp client
+
+  -- use { 'hrsh7th/cmp-path' } -- nvim-cmp source for path
+  -- use { 'hrsh7th/cmp-buffer' } -- nvim-cmp source for buffer words
+
+  use { 'saadparwaiz1/cmp_luasnip' } -- luasnip completion source for nvim-cmp
+  use { 'L3MON4D3/LuaSnip' } -- snippet engine for neovim written in lua
+
+  -- rust
+  -- use { 'rust-lang/rust.vim' }
+  use { 'simrat39/rust-tools.nvim' }
+
+  -- lua lsp
+  use { 'sumneko/lua-language-server' }
+
+  -- autopairs for neovim written by lua
+  use {
+    'windwp/nvim-autopairs',
+    config = function()
+      require('nvim-autopairs').setup()
+    end
+  }
+
+  -- Use treesitter to auto close and auto rename html tag
+  use {
+    'windwp/nvim-ts-autotag',
+    config = function()
+      require('nvim-ts-autotag').setup()
+    end
+  }
+
+end)
+
+-----------------------------------------------------------
+-- LSP
+-----------------------------------------------------------
+-- Required in path
+
+-- pacman -S gcc pyright rust_analyzer lua-language-server gopls
+-- pacman -S fd ripgrep curl tar nodejs ttf-nerd-fonts-symbols-mono
+
+-- npm i -g typescript
+-- npm i -g typescript-language-server
+-- npm i -g bash-language-server
+-- npm i -g dockerfile-language-server-nodejs
+-- npm i -g vscode-langservers-extracted
+
+-- --> vscode-css-languageservice
+-- --> vscode-html-languageservice
+-- --> vscode-json-languageservice
+
+-- Documentation
+-- https://langserver.org/
+-- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
+-- https://microsoft.github.io/language-server-protocol/implementors/servers/
+-----------------------------------------------------------
+local nvim_lsp = require('lspconfig')
+
+local on_attach = function(client, bufnr)
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+
+  -- enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  local opts = { noremap = true, silent = true }
+
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+
+  buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>', opts)
+  buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>', opts)
+  buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>', opts)
+  buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+  buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+  buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+  buf_set_keymap('v', '<leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<cr>', opts)
+  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>', opts)
+
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<cr>', opts)
+
+  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>', opts)
+  buf_set_keymap('n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]], opts)
+
+  -- format
+  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
+end
+
+-- nvim-cmp supports additional completion capabilities
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+-- Enable the following language servers
+-- Call 'setup' on multiple servers and map buffer local keybindings when the language server attaches
+local servers = {
+  'html',
+  'cssls',
+  'gopls',
+  'jsonls',
+  'bashls',
+  'clangd',
+  'pyright',
+  'tsserver',
+  'dockerls',
+  -- 'rust_analyzer',
+  -- 'lua-language-server',
+}
+
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+  })
+end
+
+-----------------------------------------------------------
+-- rust_analyzer lsp server
+-----------------------------------------------------------
+
+require('rust-tools').setup({
+  server = {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+})
+
+-----------------------------------------------------------
+-- lua lsp server
+-----------------------------------------------------------
+local sumneko_bin = vim.fn.exepath('lua-language-server')
+local sumneko_root = vim.fn.stdpath('data')..'/site/pack/packer/start/lua-language-server'
+
+nvim_lsp.sumneko_lua.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  cmd = { sumneko_bin, '-E', sumneko_root .. '/main.lua' },
+  settings = {
+    Lua = {
+      runtime = {
+        -- LuaJIT in case of Neovim
+        version = 'LuaJIT',
+        -- Setup lua path
+        path = vim.split(package.path, ';')
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {
+          'vim'
+        }
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = {
+          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
+        }
+      },
+      -- telemetry
+      telemetry = {
+        enable = false
+      }
+    }
+  }
+})
+
+-----------------------------------------------------------
+-- AutoComplete
+-----------------------------------------------------------
+local cmp = require('cmp')
+local luasnip = require('luasnip')
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      select = true,
+      behavior = cmp.ConfirmBehavior.Replace,
+    },
+    ['<Tab>'] = function(fallback)
+      if vim.fn.pumvisible() == 1 then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+      elseif luasnip.expand_or_jumpable() then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if vim.fn.pumvisible() == 1 then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
+      elseif luasnip.jumpable(-1) then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+      else
+        fallback()
+      end
+    end,
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+    -- { name = 'path' },
+    -- { name = 'buffer' },
+  }
+})
+
+
+-----------------------------------------------------------
+-- windwp/nvim-autopairs
+-----------------------------------------------------------
+
+-- this should be after cmp.setup()
+require('nvim-autopairs.completion.cmp').setup({
+  map_cr = true, --  map <CR> on insert mode
+  map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
+  auto_select = true, -- automatically select the first item
+  insert = false, -- use insert confirm behavior instead of replace
+  map_char = { -- modifies the function or method delimiter by filetypes
+    all = '(',
+    tex = '{'
+  }
+})
+
+-----------------------------------------------------------
+-- Troubleshoot
+-----------------------------------------------------------
+-- :LspInfo
+-- :checkhealth
+-- :set cmdheight=2
+-- :set completeopt?
+-- :verbose imap <tab>
+-- :verbose set completeopt?
+-----------------------------------------------------------
