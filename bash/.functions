@@ -20,7 +20,11 @@ function backup() {
   [ -f ~/.config/nvim/ginit.vim ] && cp ~/.config/nvim/ginit.vim $BAK_DIR
 }
 
-batdiff() {
+function pretty_print_path() {
+  echo $PATH | sed 's/:/\n/g'
+}
+
+function batdiff() {
   git diff --name-only --diff-filter=d | xargs bat --diff
 }
 
