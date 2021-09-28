@@ -142,7 +142,11 @@ input "*" xkb_options "ctrl:nocaps,grp:win_space_toggle"
 # ############################################################
 
 # #####  ThinkPad L390 ##### #
-input "1267:51:Elan_Touchpad" natural_scroll "enabled"
+input "1267:51:Elan_Touchpad" {
+  tap "enabled"
+  natural_scroll "enabled"
+}
+
 input "1267:51:Elan_TrackPoint" natural_scroll "enabled"
 # ##############################################
 
