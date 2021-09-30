@@ -48,10 +48,6 @@ git config --global user.email "$GIT_AUTHOR_EMAIL"
 
 If `~/.path` exists, it will be sourced along with the other files.
 
-```bash
-
-```
-
 ## Post Install
 
 ### Remove backed up files
