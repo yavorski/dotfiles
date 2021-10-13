@@ -3,22 +3,20 @@
 source bash/.functions
 
 function bootstrap() {
-  # copy files to ~/.config
-  printf "\n"
+  echo ""
   rsync .inputrc .gitconfig -avh --no-perms $HOME
 
-  printf "\n"
+  echo ""
   rsync bash vim nvim -avh --no-perms --delete $HOME/.config
 
-  printf "SWAY \n"
+  echo ""
   rsync alacritty kitty sway i3 i3status starship/starship.toml -avh --no-perms --delete $HOME/.config
 
-  # link files from ~/.config
-  # no need to link `nvim` ~/.config/nvim/init.vim
-
+  # bash
   ln -sf $HOME/.config/bash/.bashrc $HOME/.bashrc
   ln -sf $HOME/.config/bash/.bash_profile $HOME/.bash_profile
 
+  # vim
   ln -sf $HOME/.config/vim $HOME/.vim
   ln -sf $HOME/.config/vim/.vimrc $HOME/.vimrc
   ln -sf $HOME/.config/vim/.gvimrc $HOME/.gvimrc
@@ -29,15 +27,11 @@ function bootstrap() {
   source $HOME/.bashrc
 
   # init vim plug
-  printf "init vim \n"
+  echo ""
   curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-  # init nvim plug
-  printf "init neovim \n"
-  curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
   # sublime-text-3
-  printf "init sublime-text-3 \n"
+  echo ""
   local SUBL_PKG_CTRL="Package Control.sublime-package"
   curl -fLo "$HOME/.config/sublime-text-3/Installed Packages/$SUBL_PKG_CTRL" --create-dirs "https://packagecontrol.io/$SUBL_PKG_CTRL"
   rsync sublime/* -avh --mkpath --no-perms --delete $HOME/.config/sublime-text-3/Packages/User
