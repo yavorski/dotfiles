@@ -17,10 +17,10 @@ Plug 'vim-airline/vim-airline-themes'
 
 " Color scheme
 Plug 'rakr/vim-one'
-Plug 'tomasr/molokai'
-Plug 'ciaranm/inkpot'
-Plug 'morhetz/gruvbox'
-Plug 'trusktr/seti.vim'
+" Plug 'tomasr/molokai'
+" Plug 'ciaranm/inkpot'
+" Plug 'morhetz/gruvbox'
+" Plug 'trusktr/seti.vim'
 
 " Enable sidebar
 Plug 'scrooloose/nerdtree'
@@ -32,7 +32,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
 
 " required for "vim-es6" and "YouCompleteMe"
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 
 " Better json
 Plug 'elzr/vim-json'
@@ -50,44 +50,44 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'iloginow/vim-stylus'
 
 " Emmet plugin
-Plug 'mattn/emmet-vim'
+" Plug 'mattn/emmet-vim'
 
 " Filetype plugin for csv files
 Plug 'chrisbra/csv.vim'
 
 " quoting/parenthesizing made simple
-Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-surround'
 
 " Insert mode auto-completion for quotes, parens, brackets, etc.
-Plug 'Raimondi/delimitMate'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'Raimondi/delimitMate'
+" Plug 'jiangmiao/auto-pairs'
 
 " Comment stuff out
-Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-commentary'
 
 " enable repeating supported plugin maps with "."
-Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-repeat'
 
 " HTML5 omnicomplete and syntax
 Plug 'othree/html5.vim'
 
 " HTML Match Tag
-Plug 'Valloric/MatchTagAlways'
+" Plug 'Valloric/MatchTagAlways'
 
 " Change an HTML opening tag and take the closing one along as well
-Plug 'AndrewRadev/tagalong.vim'
+" Plug 'AndrewRadev/tagalong.vim'
 
 " Toggle, display and navigate marks
 Plug 'kshenoy/vim-signature'
 
 " True Sublime Text style multiple selections for Vim
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 
 " A Vim alignment plugin
-Plug 'junegunn/vim-easy-align'
+" Plug 'junegunn/vim-easy-align'
 
 " Text filtering and alignment
-Plug 'godlygeek/tabular'
+" Plug 'godlygeek/tabular'
 
 " Fast file navigation
 " Plug 'wincent/command-t'
@@ -103,7 +103,7 @@ Plug 'rust-lang/rust.vim'
 " Autocomplete
 " Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --clangd-completer --go-completer --rust-completer --ts-completer' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --clangd-completer --go-completer --rust-completer --ts-completer' }
 
 
 call plug#end()
@@ -205,8 +205,7 @@ set backspace=indent,eol,start
 " Don't show the intro message when starting Vim
 set shortmess=atI
 
-" Centralize backups, swapfiles and undo history
-" Never let Vim write a backup file! They did that in the 70's.
+" Backups
 set nobackup
 set noswapfile
 set noundofile
@@ -333,27 +332,9 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 
 " YCM conf
 " ==============================================================
-let g:ycm_add_preview_to_completeopt = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-
-
-
-
-" Local Functions
-" ==============================================================
-
-
-" Trim trailing whitespace (,ss)
-" ==============================================================
-function! TrimWhitespace()
-  let l:save = winsaveview()
-  keeppatterns %s/\s\+$//e
-  call winrestview(l:save)
-endfunction
-
-" noremap <leader>tw :call TrimWhitespace()<CR>
-" ==============================================================
+" let g:ycm_add_preview_to_completeopt = 1
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_autoclose_preview_window_after_completion = 1
 
 
 " Automatic commands
@@ -372,6 +353,6 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.rs setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 
   " Trim trailing whitespace on save
-  autocmd BufWritePre * :call TrimWhitespace()
+  autocmd BufWritePre * :%s/\s\+$//e
 endif
 " ==============================================================
