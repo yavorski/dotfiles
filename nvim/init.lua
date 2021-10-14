@@ -75,9 +75,11 @@ vim.opt.smartindent = true    -- autoindent new lines
 vim.opt.list = false
 vim.opt.listchars = { space = '_', eol = '↲', tab = '▸~', trail = '·' }
 
--- use ripgrep instead of grep
+-- default grep program
 -- vim.opt.grepprg = 'grep -n $* /dev/null'
--- vim.opt.grepprg = 'rg --vimgrep --smart-case --hidden --follow'
+
+-- use ripgrep instead of grep
+vim.opt.grepprg = 'rg --vimgrep --smart-case --hidden --follow'
 
 -----------------------------------------------------------
 
