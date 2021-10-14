@@ -189,26 +189,43 @@ packer.startup(function()
     end
   }
 
-  -- Find, Filter, Preview, Pick
-  -- Highly extendable fuzzy finder over lists
+  -- find, filter, preview, pick
+  -- highly extendable fuzzy finder over lists -> :Telescope
   use {
     'nvim-telescope/telescope.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
+    requires = {
+      { 'nvim-lua/plenary.nvim' },
+      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+    },
     config = function()
-      -- Find files using Telescope command-line sugar (Lua functions)
-      -- nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-      -- nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-      -- nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-      -- nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-
       require('telescope').setup({
+        pickers = {
+          find_files = {
+            hidden = true
+          }
+        },
         defaults = {
-          file_ignore_patterns = { "node_modules" }
+          file_ignore_patterns = { '.git', 'node_modules' },
+          vimgrep_arguments = {
+            'rg',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+            '--hidden'
+          }
         }
       })
 
+      -- load fzf and work with telescope
+      require('telescope').load_extension('fzf')
+
+      vim.api.nvim_set_keymap('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>', { noremap = true, silent = true })
       vim.api.nvim_set_keymap('n', '<leader>p', '<cmd>lua require("telescope.builtin").find_files()<cr>', { noremap = true, silent = true })
       vim.api.nvim_set_keymap('n', '<leader>rg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>th', '<cmd>lua require("telescope.builtin").help_tags()<cr>', { noremap = true, silent = true })
     end
   }
 
