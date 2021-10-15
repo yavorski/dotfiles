@@ -27,12 +27,6 @@ To update, `cd` into your local `dotfiles` repository and then:
 source bootstrap.sh
 ```
 
-Install/Reinstall Vim plugins
-
-```vim
-:PlugInstall
-```
-
 ## Extra
 
 If `~/.extra` exists, it will be sourced along with the other files.
