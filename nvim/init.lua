@@ -229,15 +229,14 @@ packer.startup(function()
     end
   }
 
-  -- nvim treesitter configurations and abstraction layer
   -- tree-sitter is a parser generator tool and an incremental parsing library
-  -- It can build a concrete syntax tree for a source file and efficiently update the syntax tree as the source file is edited
+  -- tree-sitter can build a concrete syntax tree for a source file and efficiently update the syntax tree as the source file is edited
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     config = function()
       require('nvim-treesitter.configs').setup({
-        ensure_installed = "maintained",
+        ensure_installed = 'maintained',
         highlight = {
           enable = true -- false will disable the extension
         },
@@ -248,10 +247,10 @@ packer.startup(function()
     end
   }
 
-  -- Additional textobjects for treesitter
+  -- additional text objects for treesitter
   use { 'nvim-treesitter/nvim-treesitter-textobjects' }
 
-  -- A collection of common configurations for Neovim's built-in language server client
+  -- collection of common configurations for neovim's built-in language server client
   use { 'neovim/nvim-lspconfig' }
 
   -- AutoComplete
@@ -279,7 +278,7 @@ packer.startup(function()
     end
   }
 
-  -- Use treesitter to auto close and auto rename html tag
+  -- use treesitter to auto close and auto rename html tag
   use {
     'windwp/nvim-ts-autotag',
     config = function()
@@ -347,15 +346,15 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>so', [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>]], opts)
 
   -- format
-  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
+  buf_set_keymap('n', '<leader>ff', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
 end
 
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
--- Enable the following language servers
--- Call 'setup' on multiple servers and map buffer local keybindings when the language server attaches
+-- enable the following language servers
+-- call 'setup' on multiple servers and map buffer local keybindings when the language server attaches
 local servers = {
   'html',
   'cssls',
