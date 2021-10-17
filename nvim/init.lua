@@ -193,6 +193,14 @@ packer.startup(function()
     end
   }
 
+  -- show marks in the sign column
+  use {
+    'chentau/marks.nvim',
+    config = function()
+      require('marks').setup({})
+    end
+  }
+
   -- find, filter, preview, pick
   -- highly extendable fuzzy finder over lists -> :Telescope
   use {
