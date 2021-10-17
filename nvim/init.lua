@@ -67,9 +67,13 @@ vim.opt.writebackup = false
 
 -- tabs, indent
 vim.opt.tabstop = 2           -- 1 tab == 2 spaces
-vim.opt.shiftwidth = 2        -- shift 2 spaces when tab
+vim.opt.shiftwidth = 2        -- indent is 2 spaces
+vim.opt.softtabstop = 2       -- insert 2 spaces when tab is pressed
 vim.opt.expandtab = true      -- use spaces instead of tabs
 vim.opt.smartindent = true    -- autoindent new lines
+
+-- rust respect user settings
+vim.g.rust_recommended_style = 0
 
 -- list
 vim.opt.list = false
@@ -264,7 +268,7 @@ packer.startup(function()
   use { 'L3MON4D3/LuaSnip' } -- snippet engine for neovim written in lua
 
   -- rust
-  -- use { 'rust-lang/rust.vim' }
+  use { 'rust-lang/rust.vim' }
   use { 'simrat39/rust-tools.nvim' }
 
   -- lua lsp
