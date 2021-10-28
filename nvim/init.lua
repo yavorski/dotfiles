@@ -120,6 +120,7 @@ vim.api.nvim_exec([[
 -- 2 spaces for selected filetypes
 -- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
 
+
 -----------------------------------------------------------
 -- Packer
 -----------------------------------------------------------
@@ -245,6 +246,10 @@ packer.startup(function()
   -- tree-sitter can build a concrete syntax tree for a source file and efficiently update the syntax tree as the source file is edited
   use {
     'nvim-treesitter/nvim-treesitter',
+    requires = {
+      -- additional text objects for treesitter
+      { 'nvim-treesitter/nvim-treesitter-textobjects' }
+    },
     run = ':TSUpdate',
     config = function()
       require('nvim-treesitter.configs').setup({
@@ -258,29 +263,6 @@ packer.startup(function()
       })
     end
   }
-
-  -- additional text objects for treesitter
-  use { 'nvim-treesitter/nvim-treesitter-textobjects' }
-
-  -- collection of common configurations for neovim's built-in language server client
-  use { 'neovim/nvim-lspconfig' }
-
-  -- AutoComplete
-  use { 'hrsh7th/nvim-cmp' } -- completion plugin for neovim coded in lua
-  use { 'hrsh7th/cmp-nvim-lsp' } -- nvim-cmp source for neovim builtin lsp client
-
-  -- use { 'hrsh7th/cmp-path' } -- nvim-cmp source for path
-  -- use { 'hrsh7th/cmp-buffer' } -- nvim-cmp source for buffer words
-
-  use { 'saadparwaiz1/cmp_luasnip' } -- luasnip completion source for nvim-cmp
-  use { 'L3MON4D3/LuaSnip' } -- snippet engine for neovim written in lua
-
-  -- rust
-  use { 'rust-lang/rust.vim' }
-  use { 'simrat39/rust-tools.nvim' }
-
-  -- lua lsp
-  use { 'sumneko/lua-language-server' }
 
   -- autopairs for neovim written by lua
   use {
@@ -298,6 +280,27 @@ packer.startup(function()
     end
   }
 
+  -- LSP
+  -- collection of common configurations for neovim's built-in language server client
+  use { 'neovim/nvim-lspconfig' }
+
+  -- AutoComplete
+  use { 'hrsh7th/nvim-cmp' } -- completion plugin for neovim coded in lua
+
+  -- AutoComplete Sources
+  use { 'hrsh7th/cmp-path' } -- nvim-cmp source for path
+  use { 'hrsh7th/cmp-buffer' } -- nvim-cmp source for buffer words
+  use { 'hrsh7th/cmp-cmdline' } -- nvim-cmp source for vim's cmdline
+  use { 'hrsh7th/cmp-nvim-lsp' } -- !nvim-cmp source for neovim builtin lsp client
+
+  use { 'L3MON4D3/LuaSnip' } -- snippet engine for neovim written in lua
+  use { 'saadparwaiz1/cmp_luasnip' } -- luasnip completion source for nvim-cmp
+  use { 'sumneko/lua-language-server' } -- lua language server coded by lua
+
+  -- Rust tools lsp/cmp
+  use { 'rust-lang/rust.vim' } -- vim configuration for rust.
+  use { 'simrat39/rust-tools.nvim' } -- tools for better development in rust using neovim's builtin lsp. adds extra functionality over rust analyzer
+  -- use { 'Saecki/crates.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- helps managing crates.io dependencies
 end)
 
 -----------------------------------------------------------
@@ -319,6 +322,7 @@ end)
 -- --> vscode-json-languageservice
 
 -- Documentation
+-- neovim/nvim-lspconfig
 -- https://langserver.org/
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
 -- https://microsoft.github.io/language-server-protocol/implementors/servers/
@@ -390,8 +394,8 @@ end
 
 -----------------------------------------------------------
 -- rust_analyzer lsp server
+-- simrat39/rust-tools.nvim
 -----------------------------------------------------------
-
 require('rust-tools').setup({
   server = {
     on_attach = on_attach,
@@ -401,6 +405,7 @@ require('rust-tools').setup({
 
 -----------------------------------------------------------
 -- lua lsp server
+-- sumneko/lua-language-server
 -----------------------------------------------------------
 local sumneko_bin = vim.fn.exepath('lua-language-server')
 local sumneko_root = vim.fn.stdpath('data')..'/site/pack/packer/start/lua-language-server'
@@ -440,6 +445,7 @@ nvim_lsp.sumneko_lua.setup({
 
 -----------------------------------------------------------
 -- AutoComplete
+-- hrsh7th/nvim-cmp
 -----------------------------------------------------------
 local cmp = require('cmp')
 local luasnip = require('luasnip')
@@ -488,34 +494,22 @@ cmp.setup({
     end, { 'i', 's' }),
   },
   sources = {
-    { name = 'nvim_lsp' },
+    { name = 'path' },
+    { name = 'buffer' },
+    { name = 'cmdline' },
     { name = 'luasnip' },
-    -- { name = 'path' },
-    -- { name = 'buffer' },
+    { name = 'nvim_lsp' },
   }
 })
 
-
------------------------------------------------------------
--- windwp/nvim-autopairs
------------------------------------------------------------
-
--- this should be after cmp.setup()
-require('nvim-autopairs.completion.cmp').setup({
-  map_cr = true, --  map <CR> on insert mode
-  map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
-  auto_select = true, -- automatically select the first item
-  insert = false, -- use insert confirm behavior instead of replace
-  map_char = { -- modifies the function or method delimiter by filetypes
-    all = '(',
-    tex = '{'
-  }
-})
 
 -----------------------------------------------------------
 -- Troubleshoot
 -----------------------------------------------------------
+-- :Rust
 -- :LspInfo
+-- :Telescope
+-----------------------------------------------------------
 -- :checkhealth
 -- :set cmdheight=2
 -- :set completeopt?
