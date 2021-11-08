@@ -311,7 +311,7 @@ end)
 -----------------------------------------------------------
 -- Required in path
 
--- pacman -S gcc pyright rust_analyzer lua-language-server gopls
+-- pacman -S gcc pyright rust-analyzer lua-language-server gopls
 -- pacman -S fd ripgrep curl tar nodejs ttf-nerd-fonts-symbols-mono
 
 -- npm i -g typescript
