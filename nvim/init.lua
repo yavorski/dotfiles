@@ -281,7 +281,7 @@ packer.startup(function()
   }
 
   -- Multiple cursors
-  use { 'mg979/vim-visual-multi' }
+  -- use { 'mg979/vim-visual-multi' }
 
   -- LSP
   -- collection of common configurations for neovim's built-in language server client
