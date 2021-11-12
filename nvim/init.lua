@@ -280,6 +280,9 @@ packer.startup(function()
     end
   }
 
+  -- Stylus support
+  -- use { 'iloginow/vim-stylus' }
+
   -- Multiple cursors
   -- use { 'mg979/vim-visual-multi' }
 
