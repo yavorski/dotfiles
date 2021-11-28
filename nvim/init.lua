@@ -208,16 +208,13 @@ packer.startup(function()
     'nvim-telescope/telescope.nvim',
     requires = {
       { 'nvim-lua/plenary.nvim' },
-      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+      { 'kyazdani42/nvim-web-devicons' },
+      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
     },
     config = function()
       require('telescope').setup({
-        pickers = {
-          find_files = {
-            hidden = true
-          }
-        },
         defaults = {
+          sorting_strategy = "ascending",
           file_ignore_patterns = { '.git', 'node_modules' },
           vimgrep_arguments = {
             'rg',
@@ -229,10 +226,15 @@ packer.startup(function()
             '--smart-case',
             '--hidden'
           }
+        },
+        pickers = {
+          find_files = {
+            hidden = true
+          }
         }
       })
 
-      -- load fzf and work with telescope
+      -- load telescope-fzf-native.nvim
       require('telescope').load_extension('fzf')
 
       vim.api.nvim_set_keymap('n', '<leader>b', '<cmd>lua require("telescope.builtin").buffers()<cr>', { noremap = true, silent = true })
