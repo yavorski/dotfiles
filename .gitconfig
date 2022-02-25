@@ -159,3 +159,11 @@
   # Make `git push` push relevant annotated tags when pushing branches out.
   followTags = true
 
+[pull]
+  rebase = true
+
+[rebase]
+  autoStash = true
+
+[init]
+  defaultBranch = main
