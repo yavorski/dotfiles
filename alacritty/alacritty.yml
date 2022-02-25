@@ -1,12 +1,16 @@
 # ~/.config/alacritty/alacritty.yml
 # ------------------------------------------
 
-# fonts - changes require restart
+# font - changes require restart
 font:
   normal:
-    family: Source Code Pro
+    family: Ubuntu Mono
+    # family: Source Code Pro
+    # family: FuraCode Nerd Font Mono
+    # family: FiraCode Nerd Font Mono
     style: Bold
-  size: 10.0
+    # style: Medium
+  size: 11.42
   use_thin_strokes: true
 
 # if `true`, bold text is drawn using the bright color variants.
