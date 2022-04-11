@@ -1,3 +1,13 @@
+-----------------------------------------------------------
+-- Packer
+-----------------------------------------------------------
+local packer_git_url = 'https://github.com/wbthomason/packer.nvim'
+local packer_install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+
+if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
+  vim.fn.system({ 'git', 'clone', '--depth', '1', packer_git_url, packer_install_path })
+  vim.cmd[[packadd packer.nvim]]
+end
 ------------------------------------------------------------
 -- [[ init.lua ]] --
 ------------------------------------------------------------
@@ -15,7 +25,7 @@ vim.opt.background = 'dark'
 vim.opt.termguicolors = true
 
 -- set colorscheme
-vim.cmd[[colorscheme zephyr]]
+-- vim.cmd[[colorscheme zephyr]]
 
 -- disable word wrap
 vim.opt.wrap = false
@@ -250,12 +260,13 @@ packer.startup(function()
     'nvim-treesitter/nvim-treesitter',
     requires = {
       -- additional text objects for treesitter
-      { 'nvim-treesitter/nvim-treesitter-textobjects' }
+      -- { 'nvim-treesitter/nvim-treesitter-textobjects' }
     },
     run = ':TSUpdate',
     config = function()
       require('nvim-treesitter.configs').setup({
-        ensure_installed = 'maintained',
+        ensure_installed = 'all',
+        ignore_install = { 'lua' },
         highlight = {
           enable = true -- false will disable the extension
         },
