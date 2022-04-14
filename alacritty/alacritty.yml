@@ -45,3 +45,6 @@ colors:
     cyan:    '0x54ced6'
     white:   '0xffffff'
 
+#  hide title bar and window decorations
+window:
+  decorations: None
