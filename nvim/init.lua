@@ -320,6 +320,14 @@ packer.startup(function()
   use { 'rust-lang/rust.vim' } -- vim configuration for rust.
   use { 'simrat39/rust-tools.nvim' } -- tools for better development in rust using neovim's builtin lsp. adds extra functionality over rust analyzer
   -- use { 'Saecki/crates.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- helps managing crates.io dependencies
+
+  -- emmet html/css/js/lorem
+  use {
+    'mattn/emmet-vim',
+    config = function()
+      vim.api.nvim_set_var('user_emmet_mode', 'a') --//-- enable all functions in all modes
+    end
+  }
 end)
 
 -----------------------------------------------------------
