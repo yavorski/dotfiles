@@ -206,7 +206,7 @@ packer.startup(function()
 
   -- show marks in the sign column
   use {
-    'chentau/marks.nvim',
+    'chentoast/marks.nvim',
     config = function()
       require('marks').setup({})
     end
