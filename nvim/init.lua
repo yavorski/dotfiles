@@ -154,6 +154,7 @@ packer.startup(function()
   -- colorscheme
   use {
     'glepnir/zephyr-nvim',
+    requires = { 'nvim-treesitter/nvim-treesitter', opt = true },
     config = function()
       require('zephyr')
     end
