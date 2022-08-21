@@ -357,43 +357,50 @@ bindsym XF86MonBrightnessDown exec light -U 5
 ###############################################################################
 # -> Window Title bar
 ###############################################################################
-titlebar_padding 4 3
-titlebar_border_thickness 0
+default_border none
+# titlebar_padding 4 3
+# titlebar_border_thickness 0
 for_window [shell=".*"] title_format "%title | %shell"
+
+
+###############################################################################
+# -> Chrome Live Caption
+###############################################################################
+# for_window [name="^Live Caption$"] floating enable
 
 
 ###############################################################################
 # -> Status Bar:
 # -> Read `man 5 sway-bar` for more information about this section.
 ###############################################################################
-bar {
-  mode dock
-  position top
-  separator_symbol "#"
-  font Source Code Pro Bold 9
-
-  # When the status_command prints a new line to stdout, swaybar updates.
-  # The default just shows the current date and time.
-  # status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
-
-  status_padding 0
-  status_command i3status
-
-  colors {
-    statusline #ffffff
-    background #101010
-    focused_workspace #cc0000 #cc0000 #ffffff
-    inactive_workspace #101010 #101010 #5c5c5c
-  }
-}
+# bar {
+#   mode dock
+#   position top
+#   separator_symbol "#"
+#   font Source Code Pro Bold 9
+#
+#   # When the status_command prints a new line to stdout, swaybar updates.
+#   # The default just shows the current date and time.
+#   # status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
+#
+#   status_padding 0
+#   status_command i3status
+#
+#   colors {
+#     statusline #ffffff
+#     background #101010
+#     focused_workspace #cc0000 #cc0000 #ffffff
+#     inactive_workspace #101010 #101010 #5c5c5c
+#   }
+# }
 
 
 ###############################################################################
 # -> Waybar
 ###############################################################################
-# bar {
-#   swaybar_command waybar
-# }
+bar {
+  swaybar_command waybar
+}
 
 
 ###############################################################################
