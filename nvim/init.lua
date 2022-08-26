@@ -8,6 +8,7 @@ if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
   vim.fn.system({ 'git', 'clone', '--depth', '1', packer_git_url, packer_install_path })
   vim.cmd[[packadd packer.nvim]]
 end
+
 ------------------------------------------------------------
 -- [[ init.lua ]] --
 ------------------------------------------------------------
@@ -82,12 +83,13 @@ vim.opt.softtabstop = 2       -- insert 2 spaces when tab is pressed
 vim.opt.expandtab = true      -- use spaces instead of tabs
 vim.opt.smartindent = true    -- autoindent new lines
 
--- rust respect user settings
-vim.g.rust_recommended_style = 0
-
 -- list
 vim.opt.list = false
 vim.opt.listchars = { space = '_', eol = '↲', tab = '⇁🢒', trail = '~' }
+
+-----------------------------------------------------------
+-- grep/vimgrep/ripgrep
+-----------------------------------------------------------
 
 -- default grep program
 -- vim.opt.grepprg = 'grep -n $* /dev/null'
@@ -96,12 +98,22 @@ vim.opt.listchars = { space = '_', eol = '↲', tab = '⇁🢒', trail = '~' }
 vim.opt.grepprg = 'rg --vimgrep --smart-case --hidden --follow'
 
 -----------------------------------------------------------
-
+-- Leader
 -----------------------------------------------------------
 
 -- <Leader>
 -- vim.g.mapleader = [[\]]      -- Default is '\'
 -- vim.g.maplocalleader = [[\]] -- Default is '\'
+
+-----------------------------------------------------------
+-- Rust
+-----------------------------------------------------------
+
+-- rust respect user settings
+vim.g.rust_recommended_style = 0
+
+-- rust reset "expandtab" so we can use "hard tabs"
+vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
 
 -----------------------------------------------------------
 -- edit cmd
@@ -543,4 +555,6 @@ cmp.setup({
 -- :set completeopt?
 -- :verbose imap <tab>
 -- :verbose set completeopt?
+-----------------------------------------------------------
+
 -----------------------------------------------------------
