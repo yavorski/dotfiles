@@ -87,7 +87,7 @@ vim.g.rust_recommended_style = 0
 
 -- list
 vim.opt.list = false
-vim.opt.listchars = { space = '_', eol = '↲', tab = '▸~', trail = '·' }
+vim.opt.listchars = { space = '_', eol = '↲', tab = '⇁🢒', trail = '~' }
 
 -- default grep program
 -- vim.opt.grepprg = 'grep -n $* /dev/null'
