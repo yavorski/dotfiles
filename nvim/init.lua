@@ -279,7 +279,6 @@ packer.startup(function()
     config = function()
       require('nvim-treesitter.configs').setup({
         ensure_installed = 'all',
-        ignore_install = { 'lua' },
         highlight = {
           enable = true -- false will disable the extension
         },
@@ -349,7 +348,7 @@ end)
 -- Required in path
 
 -- pacman -S gcc pyright rust-analyzer lua-language-server gopls
--- pacman -S fd ripgrep curl tar nodejs ttf-nerd-fonts-symbols-mono
+-- pacman -S fd ripgrep curl tar nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 
 -- npm i -g typescript
 -- npm i -g typescript-language-server
