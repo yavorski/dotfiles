@@ -183,6 +183,9 @@ packer.startup(function()
           icons_enabled = true,
           section_separators = '', -- disable separators
           component_separators = '', -- disable separators
+        },
+        sections = {
+          lualine_c = { 'filename', 'filesize' } -- display filesize near filename
         }
       })
     end
