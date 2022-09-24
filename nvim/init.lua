@@ -172,6 +172,16 @@ packer.startup(function()
     end
   }
 
+  -- nvim dev icons
+  use {
+    'kyazdani42/nvim-web-devicons',
+    config = function()
+      require('nvim-web-devicons').setup({
+        default = false -- globally enable default icons (default to false)
+      })
+    end
+  }
+
   -- statusline
   use {
     'hoob3rt/lualine.nvim',
