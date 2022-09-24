@@ -148,7 +148,7 @@ vim.api.nvim_exec([[
 -----------------------------------------------------------
 local packer = require('packer')
 local packer_git_url = 'https://github.com/wbthomason/packer.nvim'
-local packer_install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local packer_install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim' -- ~/.local/share/nvim/site/pack/packer/start
 
 -- install packer
 if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
@@ -199,7 +199,7 @@ packer.startup(function()
       {'kyazdani42/nvim-web-devicons', opt = true}
     },
     config = function()
-      require('tabline').setup {
+      require('tabline').setup({
         -- Defaults configuration options
         enable = true,
         options = {
@@ -210,13 +210,13 @@ packer.startup(function()
           max_bufferline_percent = 66, -- set to nil by default, and it uses vim.o.columns * 2/3
           show_tabs_always = false, -- this shows tabs only when there are more than one tab or if the first tab is named
           show_devicons = true, -- this shows devicons in buffer section
-          show_bufnr = false, -- this appends [bufnr] to buffer section -- buffer count
+          show_bufnr = false, -- this appends [bufnr] to buffer section -- buffer number
           show_filename_only = false, -- shows base filename only instead of relative path in filename
           modified_icon = "^ ", -- change the default modified icon
           modified_italic = false, -- set to true by default; this determines whether the filename turns italic if modified
           show_tabs_only = true, -- this shows only tabs instead of tabs + buffers
         }
-      }
+      })
       vim.cmd[[
         set guioptions-=e " Use showtabline in gui vim
         set sessionoptions+=tabpages,globals " store tabpages and globals in session
@@ -358,8 +358,11 @@ packer.startup(function()
   use { 'hrsh7th/cmp-path' } -- nvim-cmp source for path
   use { 'hrsh7th/cmp-buffer' } -- nvim-cmp source for buffer words
   use { 'hrsh7th/cmp-cmdline' } -- nvim-cmp source for vim's cmdline
-  use { 'hrsh7th/cmp-nvim-lsp' } -- !nvim-cmp source for neovim builtin lsp client
+  use { 'hrsh7th/cmp-nvim-lua' } -- nvim-cmp source for neovim Lua API
+  use { 'hrsh7th/cmp-nvim-lsp' } -- nvim-cmp source for neovim builtin lsp client
+  use { 'hrsh7th/cmp-nvim-lsp-signature-help' } -- nvim-cmp source for displaying function signatures with the current parameter emphasized
 
+  -- Snippets Engine
   use { 'L3MON4D3/LuaSnip' } -- snippet engine for neovim written in lua
   use { 'saadparwaiz1/cmp_luasnip' } -- luasnip completion source for nvim-cmp
   use { 'sumneko/lua-language-server' } -- lua language server coded by lua
@@ -441,8 +444,7 @@ local on_attach = function(client, bufnr)
 end
 
 -- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- enable the following language servers
 -- call 'setup' on multiple servers and map buffer local keybindings when the language server attaches
@@ -569,13 +571,17 @@ cmp.setup({
     end, { 'i', 's' }),
   },
   sources = {
+    -- { name = 'cmdline' },
     { name = 'path' },
     { name = 'buffer' },
-    { name = 'cmdline' },
     { name = 'luasnip' },
+    { name = 'nvim_lua' },
     { name = 'nvim_lsp' },
+    { name = 'nvim_lsp_signature_help' },
   }
 })
+
+
 
 
 -----------------------------------------------------------
