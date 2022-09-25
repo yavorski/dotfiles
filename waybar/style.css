@@ -55,7 +55,8 @@ window#waybar.chromium {
 
 #workspaces button.focused {
   color: #ffffff;
-  background-color: #ff0000;
+  background-color: #f44336;
+  /* background-color: #ff0000; */
   /* box-shadow: inset 0 -3px #ffffff; */
 }
 
@@ -145,7 +146,8 @@ label:focus {
 
 #cpu {
   color: #000000;
-  background-color: #2ecc71;
+  background-color: #4caf50;
+  /* background-color: #2ecc71; */
 }
 
 #memory {
@@ -232,5 +234,6 @@ label:focus {
   padding: 0 10px;
   min-width: 16px;
   color: #ffffff;
-  background-color: #2ecc71;
+  /* background-color: #2ecc71; */
+  background-color: #e91e63;
 }
