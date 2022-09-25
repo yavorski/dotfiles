@@ -3,6 +3,7 @@
 Supported systems
 
 * `arch`
+* `fedora`
 
 ## Pre Install
 
