@@ -132,6 +132,9 @@
   changed = yellow bold
   untracked = cyan
 
+[init]
+  defaultBranch = main
+
 # [commit]
   # https://help.github.com/articles/signing-commits-using-gpg/
   # gpgsign = true
@@ -139,6 +142,7 @@
 [diff]
   # Detect copies as well as renames
   renames = copies
+  colorMoved = default
 
 [diff "bin"]
   # Use `hexdump` to diff binary files
@@ -152,6 +156,7 @@
 [merge]
   # Include summaries of merged commits in newly created merge commit messages
   log = true
+  conflictstyle = diff3
 
 [push]
   # https://git-scm.com/docs/git-config#git-config-pushdefault
@@ -165,5 +170,27 @@
 [rebase]
   autoStash = true
 
-[init]
-  defaultBranch = main
+# git >= 2.37.0
+[add.interactive]
+  useBuiltin = false
+
+# https://github.com/dandavison/delta
+# A syntax-highlighting pager for git, diff, and grep output
+[core]
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  tabs = 2 # tab len
+  light = false # dark/light
+  navigate = true # use n/N keys
+  side-by-side = true # split diff
+  line-numbers = true # show line number
+  keep-plus-minus-markers = false # toggle -/+ markers
+  syntax-theme = Monokai Extended Origin
+
+# git diff | nvim -d
+# git diff | bat -ldiff
+
