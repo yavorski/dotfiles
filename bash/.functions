@@ -25,7 +25,8 @@ function pretty_print_path() {
 }
 
 function batdiff() {
-  git diff --name-only --diff-filter=d | xargs bat --diff
+  git diff | bat -ldiff
+  # git diff --name-only --diff-filter=d | xargs bat --diff
 }
 
 function setup_npm_global_dir() {
