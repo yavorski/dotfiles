@@ -28,7 +28,11 @@ export LESS_TERMCAP_md="${yellow}"
 
 # Set bat as man pager
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-# export MANROFFOPT="-c" # fedora
+
+# bat man fix fedora
+if [ $HOSTNAME = "fedora" ]; then
+  export MANROFFOPT="-c"
+fi
 
 # Force color
 export FORCE_COLOR=true
