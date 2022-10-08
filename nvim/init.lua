@@ -242,10 +242,32 @@ packer.startup(function()
           show_tabs_only = false, -- this shows only tabs instead of tabs + buffers
         }
       })
+
       vim.cmd[[
         set guioptions-=e " Use showtabline in gui vim
         set sessionoptions+=tabpages,globals " store tabpages and globals in session
       ]]
+
+      -- show only tab associated buffers
+      -- https://github.com/kdheepak/tabline.nvim/issues/14#issuecomment-1181342696
+      local tabline = require('tabline')
+      local augroup = vim.api.nvim_create_augroup("TablineBuffers", {})
+
+      local function show_only_tab_associated_buffers()
+        local data = vim.t.tabline_data
+        if data == nil then
+          tabline._new_tab_data(vim.fn.tabpagenr())
+          data = vim.t.tabline_data
+        end
+        data.show_all_buffers = false
+        vim.t.tabline_data = data
+        vim.cmd([[redrawtabline]])
+      end
+
+      vim.api.nvim_create_autocmd({ "TabEnter" }, {
+        group = augroup,
+        callback = show_only_tab_associated_buffers,
+      })
     end
   }
 
