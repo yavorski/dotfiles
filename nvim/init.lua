@@ -603,7 +603,9 @@ function setup_autocomplete()
         if cmp.visible() then
           cmp.select_next_item()
         elseif luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
+          if not luasnip.jumpable then
+            luasnip.expand_or_jump()
+          end
         elseif has_words_before() then
           cmp.complete()
         else
