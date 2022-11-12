@@ -482,7 +482,7 @@ function setup_lsp()
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>gp", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>gn", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>qq", "<cmd>lua vim.diagnostic.setloclist()<cr>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>er", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>er", "<cmd>lua vim.diagnostic.open_float({ border = 'solid' })<cr>", opts)
 
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<cr>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>", opts)
@@ -566,6 +566,17 @@ function setup_lsp()
       }
     }
   })
+
+  -----------------------------------------------------------
+  -- borders
+  -- single double rounded solid shadow none
+  -----------------------------------------------------------
+  local windows = require("lspconfig.ui.windows")
+  windows.default_options.border = "solid";
+
+  -- https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#borders
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "solid" })
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "solid" })
 end
 
 
@@ -583,6 +594,10 @@ function setup_autocomplete()
   end
 
   cmp.setup({
+    window = {
+      completion = cmp.config.window.bordered({ border = "solid" }),
+      documentation = cmp.config.window.bordered({ border = "solid" }),
+    },
     snippet = {
       expand = function(args)
         require("luasnip").lsp_expand(args.body)
