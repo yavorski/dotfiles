@@ -475,6 +475,7 @@ function setup_lsp()
 
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ff", "<cmd>lua vim.lsp.buf.format()<cr>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "v", "<leader>ff", "<cmd>lua vim.lsp.buf.format()<cr>", opts)
 
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "v", "<leader>ca", "<cmd>lua vim.lsp.buf.range_code_action()<cr>", opts)
