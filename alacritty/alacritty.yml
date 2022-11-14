@@ -4,7 +4,6 @@
 # font - changes require restart
 font:
   size: 12.00
-  use_thin_strokes: true
 
   normal:
     family: Ubuntu Mono
