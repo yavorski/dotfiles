@@ -3,7 +3,7 @@
 
 # font - changes require restart
 font:
-  size: 12.00
+  size: 13.00
 
   normal:
     family: Ubuntu Mono

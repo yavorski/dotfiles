@@ -6,7 +6,7 @@
 
 ###############################################################################
 # -> Set font (HiDPI)
-font Source Code Pro Bold 8
+font Source Code Pro Bold 9
 ###############################################################################
 
 
@@ -59,7 +59,7 @@ set $app_menu alacritty \
 # for_window [app_id="AppMenu"] floating enable
 # for_window [app_id="AppMenu"] resize set width 542
 # for_window [app_id="AppMenu"] resize set height 342
-for_window [title="^AppMenu$"] floating enable, border pixel 5, resize set width 542, resize set height 342
+for_window [title="^AppMenu$"] floating enable, border pixel 5, resize set width 640, resize set height 400
 
 # kill menu
 set $killmenu swaymsg [title="^AppMenu$"] kill
@@ -75,13 +75,8 @@ set $killmenu swaymsg [title="^AppMenu$"] kill
 ###############################################################################
 
 # #####  ThinkPad L390 ##### #
-# output eDP-1 scale 1
-# output eDP-1 resolution 1920x1080 position 0,0
-###############################################################################
-
-# #####  ThinkPad L390 ##### #
-output eDP-1 scale 1.25
-output eDP-1 resolution 3072x1728 position 0,0
+output eDP-1 scale 1
+output eDP-1 resolution 1920x1080 position 0,0
 ###############################################################################
 
 
@@ -193,7 +188,7 @@ bindsym $mod+Shift+c reload
 
 bindsym $mod+Shift+e exec swaynag \
   --type warning \
-  --font 'Source Code Pro Bold 8' \
+  --font 'Source Code Pro Bold 9' \
   --message 'Do you really want to exit sway? This will end your Wayland session.' \
   --button ' Exit Sway ' 'swaymsg exit' \
   --dismiss-button ' ✖ ' \
