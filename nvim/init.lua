@@ -514,6 +514,7 @@ function setup_lsp()
     "tsserver",
     "dockerls",
     -- "rust_analyzer",
+    -- "omnisharp-roslyn",
     -- "lua-language-server",
   }
 
@@ -569,6 +570,42 @@ function setup_lsp()
         }
       }
     }
+  })
+
+  -----------------------------------------------------------
+  -- dotnet omnisharp
+  -- pacman aur -S omnisharp-roslyn
+  -- https://github.com/omnisharp/omnisharp-roslyn
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/omnisharp.lua
+  -----------------------------------------------------------
+  local pid = vim.fn.getpid()
+  local omnisharp_bin = "/usr/bin/omnisharp"
+
+  nvim_lsp.omnisharp.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) },
+
+    -- Enables support for reading code style, naming convention and analyzer settings from .editorconfig.
+    enable_editorconfig_support = true,
+
+    -- If true, MSBuild project system will only load projects for files that were opened in the editor.
+    enable_ms_build_load_projects_on_demand = false,
+
+    -- Enables support for roslyn analyzers, code fixes and rulesets.
+    enable_roslyn_analyzers = true,
+
+    -- Specifies whether 'using' directives should be grouped and sorted during document formatting.
+    organize_imports_on_format = false,
+
+    -- Enables support for showing unimported types and unimported extension methods in completion lists.
+    enable_import_completion = false,
+
+    -- Specifies whether to include preview versions of the .NET SDK when determining which version to use for project loading.
+    sdk_include_prereleases = true,
+
+    -- Only run analyzers against open files when 'enableRoslynAnalyzers' is true
+    analyze_open_documents_only = true,
   })
 
   -----------------------------------------------------------
