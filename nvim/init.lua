@@ -464,6 +464,7 @@ function setup_lsp()
 
     local opts = { noremap = true, silent = true }
 
+    -- keybindings
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
@@ -489,10 +490,12 @@ function setup_lsp()
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<cr>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>", opts)
 
-    -- list lsp document symbols in telescope
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lds", [[<cmd>lua require("telescope.builtin").lsp_document_symbols()<cr>]], opts)
-
-    -- vim.cmd [[ command! Format execute "lua vim.lsp.buf.formatting()" ]]
+    -- lsp with telescope
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>tp", "<cmd>lua require('telescope.builtin').diagnostics()<cr>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>tr", "<cmd>lua require('telescope.builtin').lsp_references()<cr>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>td", "<cmd>lua require('telescope.builtin').lsp_definitions()<cr>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ti", "<cmd>lua require('telescope.builtin').lsp_implementations()<cr>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ts", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>", opts)
   end
 
   -- nvim-cmp supports additional completion capabilities
