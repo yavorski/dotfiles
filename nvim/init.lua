@@ -74,7 +74,8 @@ vim.opt.smartindent = true    -- autoindent new lines
 
 -- list
 vim.opt.list = false
-vim.opt.listchars = { space = "_", eol = "↲", tab = "⇁🢒", trail = "~" }
+vim.opt.listchars = { space = "_", eol = " ", tab = "» ", trail = "~" }
+-- vim.opt.listchars = { space = "_", eol = "⇃", tab = "» ", trail = "~" }
 
 -----------------------------------------------------------
 -- grep/vimgrep/ripgrep
