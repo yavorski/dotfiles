@@ -2,8 +2,7 @@
 
 Supported systems
 
-* `arch`
-* `fedora`
+* `Arch Linux`
 
 ## Pre Install
 
@@ -42,16 +41,6 @@ git config --global user.email "$GIT_AUTHOR_EMAIL"
 ## Path
 
 If `~/.path` exists, it will be sourced along with the other files.
-
-## Post Install
-
-### Remove backed up files
-
-If everything looks good you can safely remove backup files created during install
-
-```bash
-./rmbak.sh
-```
 
 ## Lambda
 

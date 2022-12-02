@@ -1,5 +1,9 @@
 # Arch Linux Install
 
+```
+Arch Linux - full disk encryption install
+```
+
 ---
 
 Set resolution on usb boot
@@ -14,26 +18,29 @@ video=1024x768
 Ensure your network interface is listed and enabled, for example with ip-link(8):
 
 ```bash
-# ip link
+ip link
 ```
 
 Connect to wi-fi
+
 ```bash
-# wifi-menu -o
-# iwctl device list
-# iwctl station <wlan0> scan
-# iwctl station <wlan0> get-networks
-# iwctl station <wlan0> connect <SSID>
+wifi-menu -o
+iwctl device list
+iwctl station <wlan0> scan
+iwctl station <wlan0> get-networks
+iwctl station <wlan0> connect <SSID>
 ```
 
 Connect to ethernet
+
 ```bash
 # dhcpcd
 ```
 
 Check network
+
 ```bash
-# ping 1.1.1.1 -c 4
+ping 1.1.1.1 -c 4
 ```
 
 Configure mirrorlist
@@ -42,7 +49,7 @@ Configure mirrorlist
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.BAK
 
 
-curl 'https://www.archlinux.org/mirrorlist/?country=all&protocol=https&ip_version=4' >> /etc/pacman.d/mirrorlist
+curl -L 'https://archlinux.org/mirrorlist/?country=all&protocol=https&ip_version=4' >> /etc/pacman.d/mirrorlist
 vim /etc/pacman.d/mirrorlist
 
 pacman -Syyy
@@ -56,12 +63,10 @@ diff -y mirrorlist mirrorlist.BAK
 ## Install `terminus-font`
 
 ```bash
-# pacman -Sy terminus-font
-# setfont ter-v16b
-# setfont ter-v18b
-# setfont ter-v22b
-# setfont ter-v24b
-# setfont ter-v32b
+pacman -Sy terminus-font
+setfont ter-v16b
+setfont ter-v18b
+setfont ter-v22b
 ```
 
 
@@ -71,7 +76,7 @@ If UEFI mode is enabled on an UEFI motherboard, Archiso will boot Arch Linux acc
 To verify this, list the efivars directory:
 
 ```bash
-# ls /sys/firmware/efi/efivars
+ls /sys/firmware/efi/efivars
 ```
 
 
@@ -80,15 +85,15 @@ To verify this, list the efivars directory:
 Update the system clock
 
 ```bash
-# timedatectl set-ntp true
-# timedatectl status
+timedatectl set-ntp true
+timedatectl status
 ```
 
 
 ## Partition the disks
 
 ```bash
-# fdisk -l
+fdisk -l
 ```
 
 The following partitions are required for a chosen device:
@@ -110,7 +115,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 ## Start `fdisk`
 
 ```bash
-# fdisk /dev/nvme0n1
+fdisk /dev/nvme0n1
 ```
 
 0. Create new partition table
@@ -122,7 +127,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
   * <kbd>n</kbd> - Add new partition
   * <kbd>1</kbd> - Partition number
   * <kbd>Enter</kbd> - For first sector
-  * <kbd>+1G</kbd> - For last sector
+  * <kbd>+2G</kbd> - For last sector
   * <kbd>t</kbd> - Change partition type
   * <kbd>1</kbd> - Partition type - `(1) EFI System`
 
@@ -131,7 +136,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
   * <kbd>n</kbd> - Add new partition
   * <kbd>2</kbd> - Partition number
   * <kbd>Enter</kbd> - For first sector
-  * <kbd>+1G</kbd> - For last sector
+  * <kbd>+2G</kbd> - For last sector
   * Partition type `(20) Linux filesystem`
 
 3. Create `LVM` partition
@@ -142,7 +147,7 @@ If you want to create any stacked block devices for LVM, system encryption or RA
   * <kbd>+256G</kbd> | <kbd>Enter</kbd> - For last sector
   * <kbd>t</kbd> - Change partition type
   * <kbd>3</kbd> - Number of partition
-  * <kbd>30</kbd> - Partition type - `(30) Linux LVM`
+  * <kbd>43</kbd> - Partition type - `(43) Linux LVM`
 
 4. Save changes
   * <kbd>p</kbd> - print partition table
@@ -152,66 +157,66 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 ## Setup lvm & encryption
 
 ```bash
-# cryptsetup -y -v luksFormat --type luks1 /dev/nvme0n1p2
-# cryptsetup open --type luks1 /dev/nvme0n1p2 kboot
+cryptsetup -y -v luksFormat --type luks1 /dev/nvme0n1p2
+cryptsetup open --type luks1 /dev/nvme0n1p2 kboot
 
-# cryptsetup -y -v luksFormat /dev/nvme0n1p3
-# cryptsetup open --type luks /dev/nvme0n1p3 lvm
+cryptsetup -y -v luksFormat /dev/nvme0n1p3
+cryptsetup open --type luks /dev/nvme0n1p3 lvm
 
-# pvcreate --dataalignment 1m /dev/mapper/lvm
-# vgcreate vg /dev/mapper/lvm
+pvcreate --dataalignment 1m /dev/mapper/lvm
+vgcreate vg /dev/mapper/lvm
 
-# lvcreate -L 32GB vg -n lv-swap
-# lvcreate -L 100GB vg -n lv-root
-# lvcreate -l 100%FREE -n lv-home vg
+lvcreate -L 32GB vg -n lv-swap
+lvcreate -L 100GB vg -n lv-root
+lvcreate -l 100%FREE -n lv-home vg
 
-# lsmod | grep dm_mod
-# modprobe dm_mod
+lsmod | grep dm_mod
+modprobe dm_mod
 
-# vgscan
-# vgchange -ay
+vgscan
+vgchange -ay
 ```
 
 
 ## Make fs
 
 ```bash
-# mkswap /dev/vg/lv-swap
-# swapon /dev/vg/lv-swap
+mkswap /dev/vg/lv-swap
+swapon /dev/vg/lv-swap
 
-# mkfs.ext4 /dev/vg/lv-root
-# mount /dev/vg/lv-root /mnt
+mkfs.ext4 /dev/vg/lv-root
+mount /dev/vg/lv-root /mnt
 
-# mkdir /mnt/boot
-# mkfs.ext4 /dev/mapper/kboot
-# mount /dev/mapper/kboot /mnt/boot
+mkdir /mnt/boot
+mkfs.ext4 /dev/mapper/kboot
+mount /dev/mapper/kboot /mnt/boot
 
-# mkdir /mnt/home
-# mkfs.ext4 /dev/vg/lv-home
-# mount /dev/vg/lv-home /mnt/home
+mkdir /mnt/home
+mkfs.ext4 /dev/vg/lv-home
+mount /dev/vg/lv-home /mnt/home
 
-# # # -> will mount later
-# mkfs.vfat -F32 /dev/nvme0n1p1
+# # -> will mount later
+mkfs.vfat -F32 /dev/nvme0n1p1
 ```
 
 
 ## Install Arch Linux
 
 ```bash
-# pacstrap -i /mnt base base-devel vi vim
-# genfstab -U /mnt >> /mnt/etc/fstab
+pacstrap -i /mnt base base-devel vi vim
+genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
 ## Add `kboot` real `UUID` to `/etc/crypttab`
 
 ```bash
-# lsblk
-# blkid
-# echo '#' >> /mnt/etc/crypttab
-# echo '#' >> /mnt/etc/crypttab
-# blkid >> /mnt/etc/crypttab
-# vim /mnt/etc/crypttab
-# # # -> kboot UUID=`/dev/nvme0n1p2 -> UUID` none luks1
+lsblk
+blkid
+echo '#' >> /mnt/etc/crypttab
+echo '#' >> /mnt/etc/crypttab
+blkid >> /mnt/etc/crypttab
+vim /mnt/etc/crypttab
+# # -> kboot UUID=`/dev/nvme0n1p2 -> UUID` none luks1
 ```
 
 > # /mnt/etc/crypttab
@@ -221,105 +226,108 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 ## Enter `arch-chroot`
 
 ```bash
-# arch-chroot /mnt
+arch-chroot /mnt
 
-# pacman-key --init
-# pacman-key --populate archlinux
+pacman-key --init
+pacman-key --populate archlinux
 
-# pacman -S grub efibootmgr os-prober linux linux-headers linux-firmware mkinitcpio lvm2 terminus-font ttf-dejavu
+pacman -S grub efibootmgr os-prober linux linux-headers linux-firmware mkinitcpio lvm2 terminus-font ttf-dejavu
 
-# echo KEYMAP=us > /etc/vconsole.conf
-# echo FONT=ter-v24b >> /etc/vconsole.conf
+echo KEYMAP=us > /etc/vconsole.conf
+echo FONT=ter-v18b >> /etc/vconsole.conf
 
-# vim /etc/mkinitcpio.conf
+vim /etc/mkinitcpio.conf
 # # -> add to HOOKS -> `consolefont` before `block`
 # # -> add to HOOKS -> `encrypt lvm2` between `block` and `filesystems`
 
-# mkinitcpio -p linux
+mkinitcpio -p linux
 ```
 
+Edit grub config
 
 ```bash
-# vim /etc/default/grub
+vim /etc/default/grub
 
-# # # -> uncomment "GRUB_ENABLE_CRYPTODISK=y"
-# # # -> add to cmd line linux default -> "cryptdevice=/dev/nvme0n1p3:vg"
+# # -> uncomment "GRUB_ENABLE_CRYPTODISK=y"
+# # -> add to cmd line linux default -> "cryptdevice=/dev/nvme0n1p3:vg"
 
 > GRUB_ENABLE_CRYPTODISK=y
 > GRUB_CMDLINE_LINUX="cryptdevice=/dev/nvme0n1p3:vg"
 ```
 
+Mount `EFI`
 
 ```bash
-# mkdir /boot/EFI
-# mount /dev/nvme0n1p1 /boot/EFI
+mkdir /boot/EFI
+mount /dev/nvme0n1p1 /boot/EFI
 
-# grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
+grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
 
-# mkdir /boot/grub/locale
-# cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
+mkdir /boot/grub/locale
+cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
 
-# grub-mkconfig -o /boot/grub/grub.cfg
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 ### GRUB Font (optional)
 
 ```bash
-# pacman -S freetype2 (?)
-# grub-mkfont -o /boot/grub/fonts/ter.pf2 --size 22 /usr/share/fonts/misc/ter-x22b.pcf.gz
-# echo "GRUB_FONT=/boot/grub/fonts/ter.pf2" >> /etc/default/grub
-# grub-mkconfig -o /boot/grub/grub.cfg
+pacman -S freetype2 (?)
+grub-mkfont -o /boot/grub/fonts/ter.pf2 --size 22 /usr/share/fonts/misc/ter-x22b.pcf.gz
+echo "GRUB_FONT=/boot/grub/fonts/ter.pf2" >> /etc/default/grub
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 
 ### Configure password (`arch-chroot`)
 
 ```bash
-# passwd
+passwd
 ```
 
 
 ### Configure locale (`arch-chroot`)
 
 ```bash
-# ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
+ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
 
-# hwclock --systohc
-# hwclock --systohc --utc
+hwclock --systohc
+hwclock --systohc --utc
 
-# vim /etc/locale.gen
-> `en_US.UTF-8 UTF-8`
-> `en_GB.UTF-8 UTF-8`
-> `bg_BG.UTF-8 UTF-8`
+vim /etc/locale.gen
 
-# locale-gen
-# echo LANG=en_US.UTF-8 > /etc/locale.conf
-# echo LC_TIME=en_GB.UTF-8 >> /etc/locale.conf
+>> `en_US.UTF-8 UTF-8`
+>> `en_GB.UTF-8 UTF-8`
+>> `bg_BG.UTF-8 UTF-8`
+
+locale-gen
+echo LANG=en_US.UTF-8 > /etc/locale.conf
+echo LC_TIME=en_GB.UTF-8 >> /etc/locale.conf
 ```
 
 
 ### Configure network (`arch-chroot`)
 
 ```bash
-# pacman -S iwd
-# pacman -S dialog wpa_supplicant wireless_tools networkmanager (?)
+pacman -S iwd
+pacman -S dialog wpa_supplicant wireless_tools networkmanager (?)
 
-# echo arch > /etc/hostname
+echo arch > /etc/hostname
 
-# vim /etc/hosts
-# # -> ::1 localhost
-# # -> 127.0.0.1 localhost
-# # -> 127.0.1.1 arch.local  arch
+vim /etc/hosts
+# >> -> ::1 localhost
+# >> -> 127.0.0.1 localhost
+# >> -> 127.0.1.1 arch.local  arch
 
-# vim /etc/resolv.conf
-# # -> nameserver 1.1.1.1
-# # -> nameserver 1.0.0.1
-# # -> nameserver 8.8.8.8
-# # -> nameserver 8.8.8.4
+vim /etc/resolv.conf
+# >> -> nameserver 1.1.1.1
+# >> -> nameserver 1.0.0.1
+# >> -> nameserver 8.8.8.8
+# >> -> nameserver 8.8.8.4
 ```
 
 ```bash
-# vim /etc/iwd/main.conf
+vim /etc/iwd/main.conf
 ```
 
 ```ini
@@ -334,49 +342,38 @@ NameResolvingService=systemd
 # NameResolvingService=resolvconf
 ```
 
-```bash
-# systemctl enable iwd
-# systemctl enable systemd-networkd
-# systemctl enable systemd-resolved
+Enable Network Services
 
-# systemctl disable dhcpcd (?)
-# systemctl enable NetworkManager (?)
-# systemctl enable wpa_supplicant (?)
+```bash
+systemctl enable iwd
+systemctl enable systemd-networkd
+systemctl enable systemd-resolved
+
+systemctl disable dhcpcd (?)
+systemctl enable NetworkManager (?)
+systemctl enable wpa_supplicant (?)
 ```
 
 
 ### Exit `arch-chroot`
 
 ```bash
-# exit
+exit
 ```
 
 
 ## Reboot
 
 ```bash
-# umount -R /mnt
-# umount -a
-# reboot
-```
-
-
-### wifi with `nmcli`
-
-> NetworkManager
-
-```bash
-nmcli device wifi list
-nmcli device wifi connect <'SSID'> password <'SSID_password'>
-nmcli device wifi connect <'SSID'> password <'SSID_password'> hidden yes
-nmcli connection show
-nmcli device
-nmcli connection show
-nmcli connection up uuid <'UUID'>
+umount -R /mnt
+umount -a
+reboot
 ```
 
 
 ---
+---
+
 
 # Arch Linux Post Install
 
@@ -384,7 +381,7 @@ nmcli connection up uuid <'UUID'>
 
 
 ```bash
-# pacman -Syu
+pacman -Syu
 ```
 
 ## Security
@@ -394,10 +391,10 @@ nmcli connection up uuid <'UUID'>
 3. DNS over LTS
 
 ```bash
-# chmod 700 /boot /etc/{iptables,arptables}
-# vim /etc/pam.d/system-login
-# # # -> `auth required pam_tally2.so deny=5 unlock_time=600 onerr=succeed file=/var/log/tallylog`
-# pacman -S unbound expat
+chmod 700 /boot /etc/{iptables,arptables}
+vim /etc/pam.d/system-login
+# >> -> `auth required pam_tally2.so deny=5 unlock_time=600 onerr=succeed file=/var/log/tallylog`
+pacman -S unbound expat
 ```
 
 More on security -> [https://wiki.archlinux.org/index.php/Security](https://wiki.archlinux.org/index.php/Security)
@@ -405,138 +402,64 @@ More on security -> [https://wiki.archlinux.org/index.php/Security](https://wiki
 
 ## Microcode
 
-* For Intel processors, install the `intel-ucode` package.
+* For `AMD` processors, install the `amd-ucode` package.
+* For `Intel` processors, install the `intel-ucode` package.
 * Arch wiki -> [https://wiki.archlinux.org/index.php/Microcode](https://wiki.archlinux.org/index.php/Microcode)
 * Add `/boot/intel-ucode.img` as the **first initrd in the bootloader config file**.
 * `grub-mkconfig` will automatically detect the microcode update and configure `GRUB` appropriately.
 
 ```bash
-# pacman -S intel-ucode
-# grub-mkconfig -o /boot/grub/grub.cfg
+pacman -S amd-ucode | intel-ucode !
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 
 ## Basic User Firewall
 
 ```bash
-# pacman -S ufw
-# ufw enable
-# ufw status verbose
-# systemctl enable ufw
+pacman -S ufw
+ufw enable
+ufw status verbose
+systemctl enable ufw
 ```
 
 ## Check for errors
 
 ```bash
-# systemctl --failed
-# journalctl -p 3 -xb
+systemctl --failed
+journalctl -p 3 -xb
 ```
 
 
 ## Add user
 
 ```bash
-# useradd -m -g users -G wheel <user>
-# passwd <user>
-# EDITOR=vim visudo
-# # -> uncomment %wheel group
-# pacman -S sudo
+useradd -m -g users -G wheel <user>
+passwd <user>
+EDITOR=vim visudo
+# # >> -> uncomment %wheel group
+pacman -S sudo
 ```
 
 ---
 ---
 
-## Install Intel GPU drivers
+## Install GPU drivers
 
-`L390`
-
-
-```bash
-# [!?] -> pacman -S xf86-video-intel <- [!?]
-# pacman -S intel-media-driver intel-media-sdk
-# pacman -S mesa mesa-vdpau libva-mesa-driver
-# pacman -S vulkan-intel vulkan-driver vulkan-mesa-layers vulkan-icd-loader
-# pacman -S libva-utils vdpauinfo
-```
+* [https://wiki.archlinux.org/title/AMDGPU](https://wiki.archlinux.org/title/AMDGPU)
+* [https://wiki.archlinux.org/title/intel_graphics](https://wiki.archlinux.org/title/intel_graphics)
 
 ---
-
-## Disable `nvidia` card and `nouveau` kernel module
-
-`T480`
-
-```bash
-# echo "blacklist nouveau" > /etc/modprobe.d/blacklist-nvidia-nouveau.conf
-# echo "options nouveau modeset=0" >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf
-
-# vim /etc/mkinitcpio.conf
-# # # -> Add -> `FILES=(/etc/modprobe.d/blacklist-nvidia-nouveau.conf)`
-
-# vim /etc/default/grub
-
-# # # -> blacklist nouveau driver using GRUB config
-> GRUB_CMDLINE_LINUX="nouveau.blacklist=1"
-
-# grub-mkconfig --output /boot/grub/grub.cfg
-
-# mkinitcpio -p linux
-# # # -> regenerate the initramfs
-
-# reboot
-# # # -> reboot or install bbswitch too
-# # # -> check if nouveau driver is loader after reboot
-
-# lsmod | grep nouveau
-
-# rmmod nouveau
-# # # -> Should output "Module nouveau is not currently loaded"
-
-# journalctl -b | grep nouveau
-# # # -> Should say that nouveau is blacklisted
-```
-
----
-
-## Install `bbswitch` (laptop only)
-
-`T480`
-
-```bash
-# pacman -S bbswitch
-
-# touch /etc/modules-load.d/bbswitch.conf
-# echo bbswitch >> /etc/modules-load.d/bbswitch.conf
-
-# touch /etc/modprobe.d/bbswitch.conf
-# echo "options bbswitch load_state=0 unload_state=0" >> /etc/modprobe.d/bbswitch.conf
-
-# vim /etc/mkinitcpio.conf
-# # # -> Add `/etc/modprobe.d/bbswitch.conf` to `FILES`
-# # # -> FILES=(/etc/modprobe.d/bbswitch.conf)
-# # # -> FILES=(/etc/modprobe.d/blacklist-nvidia-nouveau.conf /etc/modprobe.d/bbswitch.conf)
-
-# mkinitcpio -p linux
-# reboot
-
-# # # -> get status
-# cat /proc/acpi/bbswitch
-
-# # # -> Turn card OFF
-# tee /proc/acpi/bbswitch <<< OFF
-
-# modprobe -r nouveau
-```
-
 ---
 
 ## crontab & powertop
 
 ```bash
-# pacman -S powertop
-# powertop --auto-tune
+pacman -S powertop
+powertop --auto-tune
 
-# pacman -S cronie
-# crontab -e -> add "@reboot powertop --auto-tune"
+pacman -S cronie
+crontab -e -> add "@reboot powertop --auto-tune"
 ```
 
 ---
@@ -544,39 +467,41 @@ More on security -> [https://wiki.archlinux.org/index.php/Security](https://wiki
 ## auto update mirror list
 
 ```bash
-# pacman -S reflector
-# pacman -S pacman-contrib
+pacman -S reflector
+pacman -S pacman-contrib
 ```
 
 Edit the reflector configuration file at `/etc/xdg/reflector/reflector.conf`
 
 ```bash
-echo "# /etc/xdg/reflector/reflector.conf" > /etc/xdg/reflector/reflector.conf
-echo "# ---------------------------------" >> /etc/xdg/reflector/reflector.conf
-echo "--protocol https --latest 128 --age 24 --sort rate --sort score --sort country --save /etc/pacman.d/mirrorlist" >> /etc/xdg/reflector/reflector.conf
+# setup reflector options
+REFLECTOR_CONF="/etc/xdg/reflector/reflector.conf"
+mv $REFLECTOR_CONF "$REFLECTOR_CONF.BAK"
+touch $REFLECTOR_CONF
+cat >> $REFLECTOR_CONF << EOL
+# $REFLECTOR_CONF
+# ------------------------------------------
+--age 24
+--latest 128
+--protocol https
+--sort rate
+--sort score
+--sort country
+--country 'BG,RO,HU,SI,CZ,NL,PL,UA,CH,DE,FR,IT,FR,DK,LT,LV,EE,FI,NO,SE,GB,PT,RU,CA,US,*,CN'
+--save /etc/pacman.d/mirrorlist
+EOL
 ```
 
-Start and Enable reflector.service and reflector
 
-Edit the systemd reflector service
+Start and Enable `reflector.service` and `reflector.timer`
+
 
 ```bash
-vim /usr/lib/systemd/system/reflector.service
-```
+systemctl start reflector.service
+systemctl enable reflector.service
 
-Add the following line:
-
-```ini
-ExecStartPost=/bin/sh -c 'echo -e "$(reflector --country bg --latest 16 --protocol http --protocol https --sort score --sort rate --sort country) \n\n $(cat /etc/pacman.d/mirrorlist)" > /etc/pacman.d/mirrorlist'
-```
-
-
-```bash
-# systemctl start reflector.service
-# sysmtectl enable reflector.service
-
-# systemctl start reflector.timer
-# systemctl enable reflector.timer
+systemctl start reflector.timer
+systemctl enable reflector.timer
 ```
 
 Create a `pacman hook` that will start `reflector.service` and remove the `.pacnew` file created every time `pacman-mirrorlist` gets an upgrade
@@ -594,7 +519,6 @@ Enter the following content to `mirror-update.hook`
 ```vim
 # /etc/pacman.d/hooks/mirror-update.hook
 # --------------------------------------
-
 [Trigger]
 Operation = Upgrade
 Type = Package
@@ -612,36 +536,43 @@ Exec = /bin/sh -c 'systemctl start reflector.service; if [ -f /etc/pacman.d/mirr
 ## dev tools (optional)
 
 ```bash
-# pacman -S man git bash bash-completion
-# pacman -S llvm gcc clang cmake python rust nodejs npm
-# pacman -S tree htop
-# pacman -S curl wget rsync
-# pacman -S bat fzf ripgrep the_silver_searcher
-# pacman -S openssh
-# pacman -S vim neovim
-# pacman -S gnu-free-fonts
-# pacman -S starship powerline-fonts noto-fonts-emoji
+pacman -S git
+pacman -S tree htop
+pacman -S curl wget rsync
+pacman -S llvm gcc clang cmake python rust nodejs npm
+pacman -S exa bat fzf ripgrep the_silver_searcher
+pacman -S gnu-free-fonts powerline-fonts adobe-source-code-pro-fonts
+pacman -S neovim
+pacman -S starship
+pacman -S alacritty kitty
+
+pacman -S xorg-xdpyinfo xorg-xprop xorg-xrandr xorg-xwininfo
+pacman -S neofetch catimg chafa feh imagemagick jp2a libcaca nitrogen
 ```
+
+---
+---
+
 
 ## Window Manager (optional)
 
 Look at [Sway](./wm.md) doc.
 
 ```bash
-# pacman -S sway swaylock swayidle
+pacman -S sway swaybg swaylock swayidle waybar
 ```
 
 ---
 
 ## Desktop environment (optional)
 
-* OPTIONAL -`Gnome` on `Wayland` instead `Xorg`
+* OPTIONAL -`Gnome` on `Wayland`
 * OPTIONAL - `powertop`
 * OPTIONAL - `crontab`
 
 ```bash
-# pacman -S gdm gnome gnome-extra gnome-shell
-# systemctl enable gdm
+pacman -S gdm gnome gnome-extra gnome-shell
+systemctl enable gdm
 ```
 
 ---
@@ -678,14 +609,6 @@ pacman -Ss bat --color always | less -r
 ```
 
 ---
-
-
-### Gnome extensions (optional)
-
-* [`arch-update`](https://github.com/RaphaelRochet/arch-update)
-* [`remove-rounded-corners`](https://extensions.gnome.org/extension/448/remove-rounded-corners)
-
-
 ---
 
 
@@ -699,7 +622,6 @@ pacman -Ss bat --color always | less -r
 * [Gnome Shell](https://en.wikipedia.org/wiki/GNOME_Shell)
 * [Gnome Display Manager - GDM](https://wiki.archlinux.org/index.php/GDM)
 * [Linux console fonts](https://wiki.archlinux.org/index.php/Linux_console#Fonts)
-* [ZSH](https://wiki.archlinux.org/index.php/Zsh)
 * [Bash tips and trics](https://wiki.archlinux.org/index.php/Bash#Tips_and_tricks)
 * [Color ouput in console](https://wiki.archlinux.org/index.php/Color_output_in_console)
 * [Users and groups](https://wiki.archlinux.org/index.php/users_and_groups)

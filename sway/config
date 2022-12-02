@@ -142,8 +142,18 @@ input "1267:51:Elan_Touchpad" {
   natural_scroll "enabled"
 }
 
+input "1267:51:Elan_TrackPoint" tap "enabled"
 input "1267:51:Elan_TrackPoint" natural_scroll "enabled"
-# ##############################################
+
+# #####  ThinkPad T14 ##### #
+input "2:7:SynPS/2_Synaptics_TouchPad" {
+  tap "enabled",
+  natural_scroll "enabled"
+}
+
+input "2:7:SynPS/2_Synaptics_TouchPad" tap "enabled"
+input "2:7:SynPS/2_Synaptics_TouchPad" natural_scroll "enabled"
+# #############################################################
 
 
 # Hide cursor after some time
@@ -343,7 +353,9 @@ bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 for_window [title="^Volume Control$"] floating enable, border pixel 5, resize set width 542, resize set height 342
 
 ###############################################################################
-# -> Light:
+# -> Light
+# -> Required - Add user to `video` group
+# -> usermod -a -G video <user>
 ###############################################################################
 bindsym XF86MonBrightnessUp exec light -A 5
 bindsym XF86MonBrightnessDown exec light -U 5

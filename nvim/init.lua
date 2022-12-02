@@ -575,7 +575,8 @@ function setup_lsp()
 
   -----------------------------------------------------------
   -- dotnet omnisharp
-  -- pacman aur -S omnisharp-roslyn
+  -- pacman -S dotnet-runtime dotnet-sdk aspnet-runtime
+  -- pacman AUR -S omnisharp-roslyn
   -- https://github.com/omnisharp/omnisharp-roslyn
   -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/omnisharp.lua
   -----------------------------------------------------------
