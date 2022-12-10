@@ -19,7 +19,7 @@ export MOZ_ENABLE_WAYLAND=1
 # GTK3 - Wayland will be selected by default.
 
 # GTK Theme
-# export GTK_THEME=Adwaita:dark
+export GTK_THEME=Adwaita:dark
 
 # Do not set GDK_BACKEND, it will break apps (e.g. Chromium and Electron).
 # export GDK_BACKEND=wayland
