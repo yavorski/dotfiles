@@ -414,6 +414,7 @@ packer.startup(function()
       { "rust-lang/rust.vim" }, -- vim configuration for rust.
       { "simrat39/rust-tools.nvim" }, -- tools for better development in rust using neovim"s builtin lsp - adds extra functionality over rust analyzer
       { "sumneko/lua-language-server" }, -- lua language server coded by lua
+      { "hoffs/omnisharp-extended-lsp.nvim" }, -- extend 'textDocument/definition' handler for OmniSharp Neovim LSP
       { "hrsh7th/cmp-nvim-lsp" }, -- nvim-cmp source for neovim builtin LSP client
     },
     config = function()
@@ -578,15 +579,22 @@ function setup_lsp()
   -- pacman -S dotnet-runtime dotnet-sdk aspnet-runtime
   -- pacman AUR -S omnisharp-roslyn
   -- https://github.com/omnisharp/omnisharp-roslyn
+  -- https://github.com/hoffs/omnisharp-extended-lsp.nvim
   -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/omnisharp.lua
   -----------------------------------------------------------
   local pid = vim.fn.getpid()
   local omnisharp_bin = "/usr/bin/omnisharp"
+  local omnisharp_extended = require('omnisharp_extended')
 
   nvim_lsp.omnisharp.setup({
     on_attach = on_attach,
     capabilities = capabilities,
     cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) },
+
+    -- omnisharp extended handler
+    handlers = {
+      ["textDocument/definition"] = omnisharp_extended.handler,
+    },
 
     -- Enables support for reading code style, naming convention and analyzer settings from .editorconfig.
     enable_editorconfig_support = true,
