@@ -537,14 +537,19 @@ Exec = /bin/sh -c 'systemctl start reflector.service; if [ -f /etc/pacman.d/mirr
 
 ```bash
 pacman -S git
-pacman -S tree htop
 pacman -S curl wget rsync
+pacman -S procs htop bottom
 pacman -S llvm gcc clang cmake python rust nodejs npm
-pacman -S exa bat fzf ripgrep the_silver_searcher
-pacman -S gnu-free-fonts powerline-fonts adobe-source-code-pro-fonts
+pacman -S man tldr tokei
+pacman -S exa bat tree dust
+pacman -S fd fzf skim ripgrep the_silver_searcher
 pacman -S neovim
 pacman -S starship
 pacman -S alacritty kitty
+
+pacman -S gnu-free-fonts terminus-font powerline-fonts
+pacman -S otf-font-awesome adobe-source-code-pro-fonts
+pacman -S ttf-ubuntu-font-family ttf-nerd-fonts-symbols-1000-em-mono
 
 pacman -S xorg-xdpyinfo xorg-xprop xorg-xrandr xorg-xwininfo
 pacman -S neofetch catimg chafa feh imagemagick jp2a libcaca nitrogen
