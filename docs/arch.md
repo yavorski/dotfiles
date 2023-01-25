@@ -547,9 +547,19 @@ pacman -S neovim
 pacman -S starship
 pacman -S alacritty kitty
 
-pacman -S gnu-free-fonts terminus-font powerline-fonts
-pacman -S otf-font-awesome adobe-source-code-pro-fonts
-pacman -S ttf-ubuntu-font-family ttf-nerd-fonts-symbols-1000-em-mono
+pacman -S
+  terminus-font
+  gnu-free-fonts
+  powerline-fonts
+  cantarell-fonts
+  otf-font-awesome
+  noto-fonts-emoji
+  ttf-ubuntu-mono-nerd
+  ttf-ubuntu-font-family
+  adobe-source-code-pro-fonts
+  ttf-nerd-fonts-symbols-common
+  ttf-nerd-fonts-symbols-1000-em
+  ttf-nerd-fonts-symbols-1000-em-mono
 
 pacman -S xorg-xdpyinfo xorg-xprop xorg-xrandr xorg-xwininfo
 pacman -S neofetch catimg chafa feh imagemagick jp2a libcaca nitrogen
