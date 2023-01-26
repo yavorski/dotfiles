@@ -541,7 +541,7 @@ pacman -S curl wget rsync
 pacman -S procs htop bottom
 pacman -S llvm gcc clang cmake python rust nodejs npm
 pacman -S man tldr tokei
-pacman -S exa bat tree dust
+pacman -S exa bat tree duf dust fx
 pacman -S fd fzf skim ripgrep the_silver_searcher
 pacman -S neovim
 pacman -S starship
