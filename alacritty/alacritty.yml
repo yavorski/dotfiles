@@ -3,15 +3,33 @@
 
 # font - changes require restart
 font:
-  size: 13.00
-
+  size: 11.00
   normal:
-    family: Ubuntu Mono
-    style: Bold
-
+    family: JetBrains Mono
+    style: ExtraBold
+  bold:
+    style: ExtraBold
   italic:
-    family: Ubuntu Mono
-    style: Bold Italic
+    style: ExtraBold Italic
+  bold_italic:
+    style: ExtraBold Italic
+
+  # size: 13.00
+  # normal:
+  #   family: Ubuntu Mono # size: 13.00
+  #   family: IBM Plex Mono # size: 11.00
+  #   style: Bold
+  # bold:
+  #   style: Bold
+  # italic:
+  #   style: Bold Italic
+  # bold_italic:
+  #   style: Bold Italic
+
+  # Offset is the extra space around each character
+  offset:
+    x: 0 # letter spacing
+    y: 0 # line height/spacing
 
 # if `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
