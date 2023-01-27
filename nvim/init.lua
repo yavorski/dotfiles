@@ -5,6 +5,12 @@
 -- title filename
 vim.opt.title = true
 
+-- hide cmd line
+vim.opt.cmdheight = 0
+
+-- show status line only in active window
+vim.opt.laststatus = 1
+
 -- syntax highlighting
 vim.opt.syntax = "enable"
 
@@ -29,11 +35,11 @@ vim.opt.cursorline = true
 -- enable folding (default "foldmarker")
 vim.opt.foldmethod = "marker"
 
--- intro / hit-enter prompts / ins-completion-menu
-vim.opt.shortmess = "actI"
+-- intro / messages / hit-enter prompts / ins-completion-menu
+vim.opt.shortmess = "actIsoOFW"
 
 -- line lenght marker
--- vim.opt.colorcolumn = "115"
+-- vim.opt.colorcolumn = "128"
 
 -- signcolumn
 vim.opt.signcolumn = "auto"
