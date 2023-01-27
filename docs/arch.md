@@ -554,6 +554,10 @@ pacman -S
   cantarell-fonts
   otf-font-awesome
   noto-fonts-emoji
+  ttf-ibm-plex
+  ttf-ibmplex-mono-nerd
+  ttf-jetbrains-mono
+  ttf-jetbrains-mono-nerd
   ttf-ubuntu-mono-nerd
   ttf-ubuntu-font-family
   adobe-source-code-pro-fonts
