@@ -303,7 +303,12 @@ packer.startup(function()
   use {
     "chentoast/marks.nvim",
     config = function()
-      require("marks").setup({})
+      require("marks").setup({
+        mappings = {
+          next = "<F2>", -- alacritty
+          prev = "<F14>", -- <Shift>+<F2>
+        }
+      })
     end
   }
 
