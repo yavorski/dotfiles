@@ -3,7 +3,7 @@
   border-radius: 0;
   font-size: 12px;
   font-weight: 700;
-  font-family: "Ubuntu Mono Bold", "Source Code Pro", "Font Awesome 6 Free", monospace;
+  font-family: "Ubuntu Mono Bold", "IBM Plex Mono", "JetBrains Mono", "Source Code Pro", "Font Awesome 6 Free", monospace;
 
   /* fc-list | rg -i "font awesome" */
   /* `otf-font-awesome` is required to be installed for icons */
