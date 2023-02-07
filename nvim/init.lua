@@ -526,6 +526,7 @@ function setup_lsp()
     "pyright",
     "tsserver",
     "dockerls",
+    -- "powershell"
     -- "rust_analyzer",
     -- "omnisharp-roslyn",
     -- "lua-language-server",
@@ -627,6 +628,20 @@ function setup_lsp()
 
     -- Only run analyzers against open files when 'enableRoslynAnalyzers' is true
     analyze_open_documents_only = true,
+  })
+
+  -----------------------------------------------------------
+  -- powershell
+  -- pacman AUR -S powershell-bin powershell-editor-services
+  -- https://aur.archlinux.org/packages/powershell-bin
+  -- https://aur.archlinux.org/packages/powershell-editor-services
+  -- https://github.com/powershell/powershelleditorservices
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#powershell_es
+  -----------------------------------------------------------
+  nvim_lsp.powershell_es.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    bundle_path = "/opt/powershell-editor-services",
   })
 
   -----------------------------------------------------------
