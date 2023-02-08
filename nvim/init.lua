@@ -443,6 +443,7 @@ packer.startup(function()
       { "hrsh7th/cmp-nvim-lua" }, -- nvim-cmp source for neovim Lua API
       { "hrsh7th/cmp-nvim-lsp" }, -- nvim-cmp source for neovim builtin lsp client
       { "hrsh7th/cmp-nvim-lsp-signature-help" }, -- nvim-cmp source for displaying function signatures with the current parameter emphasized
+      { "hrsh7th/cmp-nvim-lsp-document-symbol" }, -- nvim-cmp source for textDocument/documentSymbol via nvim-lsp.
       { "saadparwaiz1/cmp_luasnip" }, -- luasnip completion source for nvim-cmp
       { "L3MON4D3/LuaSnip" } -- snippet engine for neovim written in lua
     },
@@ -723,6 +724,15 @@ function setup_autocomplete()
       { name = "nvim_lsp" },
       { name = "nvim_lsp_signature_help" },
     }
+  })
+
+  -- "/@" suggestions
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources(
+      {{ name = 'nvim_lsp_document_symbol' }},
+      {{ name = 'buffer' }}
+    )
   })
 end
 
