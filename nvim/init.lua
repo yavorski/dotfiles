@@ -418,12 +418,12 @@ packer.startup(function()
     end
   }
 
-  -- LSP - configurations for neovim"s built-in language server client
+  -- LSP - configurations for neovim's built-in language server client
   use {
     "neovim/nvim-lspconfig",
     requires = {
       { "rust-lang/rust.vim" }, -- vim configuration for rust.
-      { "simrat39/rust-tools.nvim" }, -- tools for better development in rust using neovim"s builtin lsp - adds extra functionality over rust analyzer
+      { "simrat39/rust-tools.nvim" }, -- tools for better development in rust using neovim's builtin lsp - adds extra functionality over rust analyzer
       { "sumneko/lua-language-server" }, -- lua language server coded by lua
       { "hoffs/omnisharp-extended-lsp.nvim" }, -- extend 'textDocument/definition' handler for OmniSharp Neovim LSP
       { "hrsh7th/cmp-nvim-lsp" }, -- nvim-cmp source for neovim builtin LSP client
@@ -439,7 +439,7 @@ packer.startup(function()
     requires = {
       { "hrsh7th/cmp-path" }, -- nvim-cmp source for path
       { "hrsh7th/cmp-buffer" }, -- nvim-cmp source for buffer words
-      { "hrsh7th/cmp-cmdline" }, -- nvim-cmp source for vim"s cmdline
+      { "hrsh7th/cmp-cmdline" }, -- nvim-cmp source for vim's cmdline
       { "hrsh7th/cmp-nvim-lua" }, -- nvim-cmp source for neovim Lua API
       { "hrsh7th/cmp-nvim-lsp" }, -- nvim-cmp source for neovim builtin lsp client
       { "hrsh7th/cmp-nvim-lsp-signature-help" }, -- nvim-cmp source for displaying function signatures with the current parameter emphasized
