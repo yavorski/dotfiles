@@ -284,9 +284,9 @@ packer.startup(function()
     requires = { "kyazdani42/nvim-web-devicons" },
     config = function()
       require("nvim-tree").setup()
-      vim.api.nvim_set_keymap("n", "<leader>kb", "<cmd>lua require('nvim-tree').toggle()<cr>", { noremap = true, silent = true })
-      vim.api.nvim_set_keymap("n", "<leader>kr", "<cmd>lua require('nvim-tree').refresh()<cr>", { noremap = true, silent = true })
-      vim.api.nvim_set_keymap("n", "<leader>kf", "<cmd>lua require('nvim-tree').find_file()<cr>", { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("n", "<leader>kb", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("n", "<leader>kr", "<cmd>NvimTreeRefresh<cr>", { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("n", "<leader>kf", "<cmd>NvimTreeFindFile<cr>", { noremap = true, silent = true })
     end
   }
 
