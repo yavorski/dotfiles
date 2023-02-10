@@ -109,6 +109,7 @@ vim.opt.grepprg = "rg --vimgrep --smart-case --hidden --follow"
 vim.g.rust_recommended_style = 0
 
 -- rust reset "expandtab" so we can use "hard tabs"
+vim.cmd[[autocmd FileType ps1 setlocal noexpandtab]]
 vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
 
 -----------------------------------------------------------
@@ -360,6 +361,7 @@ packer.startup(function()
       { "nvim-lua/plenary.nvim" },
       { "kyazdani42/nvim-web-devicons" },
       { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+      -- { "nvim-telescope/telescope-fzf-native.nvim", run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
     },
     config = function()
       require("telescope").setup({
@@ -594,7 +596,7 @@ function setup_lsp()
   -- https://github.com/omnisharp/omnisharp-roslyn
   -- https://github.com/hoffs/omnisharp-extended-lsp.nvim
   -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/omnisharp.lua
-  -----------------------------------------------------------
+  ---------------------------------------------------------------------------------------------------------
   local pid = vim.fn.getpid()
   local omnisharp_bin = "/usr/bin/omnisharp"
   local omnisharp_extended = require('omnisharp_extended')
@@ -642,6 +644,7 @@ function setup_lsp()
   nvim_lsp.powershell_es.setup({
     on_attach = on_attach,
     capabilities = capabilities,
+    -- bundle_path = "C:/dev/ps-es-lsp",
     bundle_path = "/opt/powershell-editor-services",
   })
 
@@ -750,6 +753,15 @@ function setup_autocomplete()
 end
 
 
+------------------------------------------------------------
+-- NeoVide
+-- Put anything you want to happen only in Neovide here
+------------------------------------------------------------
+
+if vim.g.neovide then
+  vim.opt.guifont = { "JetBrainsMono NFM", ":h10:b" }
+end
+
 -------------------------------------------------------------------------------
 -- Required in path
 -------------------------------------------------------------------------------
@@ -757,9 +769,9 @@ end
 -- pacman -S fd ripgrep curl tar nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 
 -- npm i -g typescript
+-- npm i -g bash-language-server
 -- npm i -g typescript-language-server
 -- npm i -g vscode-langservers-extracted
--- npm i -g bash-language-server
 -- npm i -g dockerfile-language-server-nodejs
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
