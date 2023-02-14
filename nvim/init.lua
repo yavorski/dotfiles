@@ -560,7 +560,7 @@ function setup_lsp()
   local sumneko_bin = vim.fn.exepath("lua-language-server")
   local sumneko_root = vim.fn.stdpath("data").."/site/pack/packer/start/lua-language-server"
 
-  nvim_lsp.sumneko_lua.setup({
+  nvim_lsp.lua_ls.setup({
     on_attach = on_attach,
     capabilities = capabilities,
     cmd = { sumneko_bin, "-E", sumneko_root .. "/main.lua" },
@@ -759,7 +759,8 @@ end
 ------------------------------------------------------------
 
 if vim.g.neovide then
-  vim.opt.guifont = { "JetBrainsMono NFM", ":h10:b" }
+  vim.opt.guifont = { "JetBrains Mono", ":h10:b" }
+  -- vim.opt.guifont = { "JetBrainsMono NFM", ":h10:b" }
 end
 
 -------------------------------------------------------------------------------
