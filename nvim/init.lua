@@ -140,10 +140,11 @@ vim.api.nvim_exec([[
 -- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
 
 -----------------------------------------------------------
--- Buffer navigation @todo
+-- Buffer navigation
 -----------------------------------------------------------
 
-vim.api.nvim_set_keymap("n", "gb", "<cmd>bnext<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gbn", "<cmd>bnext<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gbp", "<cmd>bprev<cr>", { noremap = true, silent = true })
 
 -----------------------------------------------------------
 -- Packer
@@ -208,9 +209,15 @@ packer.startup(function()
 
   -- statusline
   use {
-    "hoob3rt/lualine.nvim",
-    requires = { "kyazdani42/nvim-web-devicons", opt = true },
+    "nvim-lualine/lualine.nvim", -- statusline plugin
+    after = "zephyr-nvim", -- init after color scheme in order to prevent any overrides
+    requires = {
+      { "tiagovla/scope.nvim" }, -- scope buffers to tabs
+      { "kyazdani42/nvim-web-devicons", opt = true } -- use dev icons
+    },
     config = function()
+      require("scope").setup()
+
       require("lualine").setup({
         options = {
           theme = "onedark",
@@ -220,62 +227,39 @@ packer.startup(function()
         },
         sections = {
           lualine_c = { "filename", "filesize" } -- display filesize near filename
+        },
+        tabline = {
+          lualine_a = {{
+            "buffers",
+            mode = 0, -- shows only buffer name
+            icons_enabled = false, -- disable icons for tabline
+            show_filename_only = true,
+            show_modified_status = true,
+            hide_filename_extension = false,
+            max_length = vim.o.columns, -- maximum width of buffers component
+            symbols = {
+              modified = " ^", -- buffer is modified
+              directory =  "", -- buffer is a directory
+              alternate_file = "#", -- text for alternate file
+            },
+            filetype_names = {
+              fzf = "FZF",
+              alpha = "Alpha",
+              packer = "Packer",
+              NvimTree = "NvimTree",
+              dashboard = "Dashboard",
+              TelescopePrompt = "Telescope",
+            },
+          }},
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = { "tabs" }
         }
       })
-    end
-  }
 
-  -- tabline
-  use {
-    "kdheepak/tabline.nvim",
-    requires = {
-      { "hoob3rt/lualine.nvim" },
-      { "kyazdani42/nvim-web-devicons", opt = true}
-    },
-    config = function()
-      require("tabline").setup({
-        enable = true,
-        options = {
-        -- If lualine is installed tabline will use separators configured in lualine by default.
-        -- These options can be used to override those settings.
-          section_separators = { "", "" }, -- disable separators
-          component_separators = { "", "" }, -- disable separators
-          max_bufferline_percent = 100, -- set to nil by default, and it uses vim.o.columns * 2/3
-          show_tabs_always = true, -- this shows tabs only when there are more than one tab or if the first tab is named
-          show_devicons = false, -- this shows devicons in buffer section
-          show_bufnr = true, -- this appends [bufnr] to buffer section -- buffer number
-          show_filename_only = false, -- shows base filename only instead of relative path in filename
-          modified_icon = "^ ", -- change the default modified icon
-          modified_italic = false, -- set to true by default; this determines whether the filename turns italic if modified
-          show_tabs_only = false, -- this shows only tabs instead of tabs + buffers
-        }
-      })
-
-      vim.cmd[[
-        set guioptions-=e " Use showtabline in gui vim
-        set sessionoptions+=tabpages,globals " store tabpages and globals in session
-      ]]
-
-      -- show only tab associated buffers
-      -- https://github.com/kdheepak/tabline.nvim/issues/14#issuecomment-1181342696
-      local tabline = require('tabline')
-      local augroup = vim.api.nvim_create_augroup("TablineBuffers", {})
-
-      local function show_only_tab_associated_buffers()
-        local data = vim.t.tabline_data
-        if data == nil then
-          tabline._new_tab_data(vim.fn.tabpagenr())
-          data = vim.t.tabline_data
-        end
-        data.show_all_buffers = false
-        vim.t.tabline_data = data
-        vim.cmd([[redrawtabline]])
-      end
-
-      vim.api.nvim_create_autocmd({ "TabEnter" }, {
-        group = augroup,
-        callback = show_only_tab_associated_buffers,
-      })
+      require("lualine").refresh()
     end
   }
 
