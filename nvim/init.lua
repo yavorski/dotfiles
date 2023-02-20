@@ -81,7 +81,6 @@ vim.opt.smartindent = true    -- autoindent new lines
 -- list
 vim.opt.list = false
 vim.opt.listchars = { space = "_", eol = " ", tab = "» ", trail = "~" }
--- vim.opt.listchars = { space = "_", eol = "⇃", tab = "» ", trail = "~" }
 
 -----------------------------------------------------------
 -- grep/vimgrep/ripgrep
@@ -100,17 +99,6 @@ vim.opt.grepprg = "rg --vimgrep --smart-case --hidden --follow"
 -- <Leader>
 -- vim.g.mapleader = [[\]]      -- Default is "\"
 -- vim.g.maplocalleader = [[\]] -- Default is "\"
-
------------------------------------------------------------
--- Rust
------------------------------------------------------------
-
--- rust respect user settings
-vim.g.rust_recommended_style = 0
-
--- rust reset "expandtab" so we can use "hard tabs"
-vim.cmd[[autocmd FileType ps1 setlocal noexpandtab]]
-vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
 
 -----------------------------------------------------------
 -- edit cmd
@@ -138,6 +126,20 @@ vim.api.nvim_exec([[
 
 -- 2 spaces for selected filetypes
 -- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
+
+-----------------------------------------------------------
+-- Rust
+-----------------------------------------------------------
+
+-- rust respect user settings
+vim.g.rust_recommended_style = 0
+
+-----------------------------------------------------------
+-- Reset "expandtab" in order to use "hard tabs"
+-----------------------------------------------------------
+
+vim.cmd[[autocmd FileType ps1 setlocal noexpandtab]]
+vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
 
 -----------------------------------------------------------
 -- Buffer navigation
