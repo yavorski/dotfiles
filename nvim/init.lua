@@ -241,7 +241,7 @@ packer.startup(function()
             max_length = vim.o.columns, -- maximum width of buffers component
             symbols = {
               modified = " ^", -- buffer is modified
-              directory =  "", -- buffer is a directory
+              directory = "", -- buffer is a directory
               alternate_file = "#", -- text for alternate file
             },
             filetype_names = {
@@ -741,7 +741,6 @@ end
 
 ------------------------------------------------------------
 -- NeoVide
--- Put anything you want to happen only in Neovide here
 ------------------------------------------------------------
 
 if vim.g.neovide then
