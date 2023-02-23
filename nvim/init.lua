@@ -145,8 +145,22 @@ vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
 -- Buffer navigation
 -----------------------------------------------------------
 
+-- standard prev/next
 vim.api.nvim_set_keymap("n", "gbn", "<cmd>bnext<cr>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "gbp", "<cmd>bprev<cr>", { noremap = true, silent = true })
+
+-- require nvim-lualine/lualine.nvim plugin
+vim.api.nvim_set_keymap("n", "gb1", "<cmd>LualineBuffersJump! 1<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gb2", "<cmd>LualineBuffersJump! 2<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gb3", "<cmd>LualineBuffersJump! 3<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gb4", "<cmd>LualineBuffersJump! 4<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gb5", "<cmd>LualineBuffersJump! 5<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gb6", "<cmd>LualineBuffersJump! 6<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gb7", "<cmd>LualineBuffersJump! 7<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gb8", "<cmd>LualineBuffersJump! 8<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gb9", "<cmd>LualineBuffersJump! 9<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gb0", "<cmd>LualineBuffersJump! 10<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "gb$", "<cmd>LualineBuffersJump $<cr>", { noremap = true, silent = true })
 
 -----------------------------------------------------------
 -- Packer
