@@ -399,8 +399,10 @@ packer.startup(function()
 
   -- tree-sitter is a parser generator tool and an incremental parsing library
   -- tree-sitter can build a concrete syntax tree for a source file and efficiently update the syntax tree as the source file is edited
+  -- nvim-treesitter-textobjects -- syntax aware text-objects, select, move, swap, and peek support
   use {
     "nvim-treesitter/nvim-treesitter",
+    requires = { "nvim-treesitter/nvim-treesitter-textobjects" },
     -- run = ":TSUpdate", -- https://github.com/wbthomason/packer.nvim/issues/1050
     run = function()
       if vim.fn.exists(":TSUpdate") == 2 then
@@ -415,6 +417,46 @@ packer.startup(function()
         },
         indent = {
           enable = true -- indentation based on treesitter for the = operator
+        },
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true, -- automatically jump forward to textobj, similar to targets.vim
+            keymaps = {
+              -- visual mode
+              ["aa"] = "@parameter.outer",
+              ["ia"] = "@parameter.inner",
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+            },
+          },
+          move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {
+              ["]m"] = "@function.outer",
+              ["]]"] = "@class.outer",
+            },
+            goto_next_end = {
+              ["]M"] = "@function.outer",
+              ["]["] = "@class.outer",
+            },
+            goto_previous_start = {
+              ["[m"] = "@function.outer",
+              ["[["] = "@class.outer",
+            },
+            goto_previous_end = {
+              ["[M"] = "@function.outer",
+              ["[]"] = "@class.outer",
+            },
+          },
+          swap = {
+            enable = true,
+            swap_next = { ["<leader>sw"] = "@parameter.inner" },
+            swap_previous = { ["<leader>sW"] = "@parameter.inner" },
+          },
         }
       })
     end
