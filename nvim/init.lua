@@ -807,7 +807,7 @@ end
 -------------------------------------------------------------------------------
 -- Required in path
 -------------------------------------------------------------------------------
--- pacman -S gcc pyright rust-analyzer lua-language-server gopls
+-- pacman -S gcc pyright rust-analyzer lua-language-server gopls shellcheck
 -- pacman -S fd ripgrep curl tar nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 
 -- npm i -g typescript
