@@ -229,7 +229,8 @@ packer.startup(function()
     after = "zephyr-nvim", -- init after color scheme in order to prevent any overrides
     requires = {
       { "tiagovla/scope.nvim" }, -- scope buffers to tabs
-      { "kyazdani42/nvim-web-devicons", opt = true } -- use dev icons
+      { "kyazdani42/nvim-web-devicons", opt = true }, -- use dev icons
+      { "whoissethdaniel/lualine-lsp-progress.nvim" }, -- display lsp progress
     },
     config = function()
       require("scope").setup()
@@ -242,7 +243,7 @@ packer.startup(function()
           component_separators = "", -- disable separators
         },
         sections = {
-          lualine_c = { "filename", "filesize" } -- display filesize near filename
+          lualine_c = { "filename", "filesize", "lsp_progress" } -- display filesize near filename & lsp progress
         },
         tabline = {
           lualine_a = {{
