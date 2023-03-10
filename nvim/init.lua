@@ -1,5 +1,5 @@
 ------------------------------------------------------------
--- [[ init.lua ]] --
+-- [[ neovim ]] [[ init.lua ]] --
 ------------------------------------------------------------
 
 -- title filename
@@ -65,6 +65,9 @@ vim.opt.smartcase = true
 -- complete menu
 vim.opt.completeopt = "menu,menuone,noselect"
 
+-- reload file on external change
+vim.opt.autoread = true
+
 -- backups
 vim.opt.backup = false
 vim.opt.swapfile = false
@@ -78,7 +81,16 @@ vim.opt.softtabstop = 2       -- insert 2 spaces when tab is pressed
 vim.opt.expandtab = true      -- use spaces instead of tabs
 vim.opt.smartindent = true    -- autoindent new lines
 
+-----------------------------------------------------------
+-- Reset "expandtab" in order to use "hard tabs"
+-----------------------------------------------------------
+
+vim.cmd[[autocmd FileType ps1 setlocal noexpandtab]]
+vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
+
+-----------------------------------------------------------
 -- list
+-----------------------------------------------------------
 vim.opt.list = false
 vim.opt.listchars = { space = "_", eol = " ", tab = "» ", trail = "~" }
 
@@ -133,13 +145,6 @@ vim.api.nvim_exec([[
 
 -- rust respect user settings
 vim.g.rust_recommended_style = 0
-
------------------------------------------------------------
--- Reset "expandtab" in order to use "hard tabs"
------------------------------------------------------------
-
-vim.cmd[[autocmd FileType ps1 setlocal noexpandtab]]
-vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
 
 -----------------------------------------------------------
 -- Buffer navigation
@@ -400,10 +405,8 @@ packer.startup(function()
 
   -- tree-sitter is a parser generator tool and an incremental parsing library
   -- tree-sitter can build a concrete syntax tree for a source file and efficiently update the syntax tree as the source file is edited
-  -- nvim-treesitter-textobjects -- syntax aware text-objects, select, move, swap, and peek support
   use {
     "nvim-treesitter/nvim-treesitter",
-    requires = { "nvim-treesitter/nvim-treesitter-textobjects" },
     -- run = ":TSUpdate", -- https://github.com/wbthomason/packer.nvim/issues/1050
     run = function()
       if vim.fn.exists(":TSUpdate") == 2 then
@@ -418,7 +421,18 @@ packer.startup(function()
         },
         indent = {
           enable = true -- indentation based on treesitter for the = operator
-        },
+        }
+      })
+    end
+  }
+
+  -- nvim-treesitter-textobjects -- syntax aware text-objects, select, move, swap, and peek support
+  use {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+		after = "nvim-treesitter",
+    requires = "nvim-treesitter/nvim-treesitter",
+    config = function()
+      require("nvim-treesitter.configs").setup({
         textobjects = {
           select = {
             enable = true,
