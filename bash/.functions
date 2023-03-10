@@ -7,20 +7,24 @@ function rmbackup() {
 }
 
 function backup() {
-  rm -rf $BAK_DIR
-  mkdir -p $BAK_DIR
+  local now=$(date +'%Y%m%d%H%M%S')
+  local bak_dir=$BAK_DIR/$now
 
-  [ -f ~/.bashrc ] && cp ~/.bashrc $BAK_DIR
-  [ -f ~/.bash_profile ] && cp ~/.bash_profile $BAK_DIR
-  [ -f ~/.inputrc ] && cp ~/.inputrc $BAK_DIR
-  [ -f ~/.gitconfig ] && cp ~/.gitconfig $BAK_DIR
-  [ -f ~/.vimrc ] && cp ~/.vimrc $BAK_DIR
-  [ -f ~/.gvimrc ] && cp ~/.gvimrc $BAK_DIR
-  [ -f ~/.config/nvim/init.vim ] && cp ~/.config/nvim/init.vim $BAK_DIR
-  [ -f ~/.config/nvim/ginit.vim ] && cp ~/.config/nvim/ginit.vim $BAK_DIR
+  mkdir -p $bak_dir
+
+  [ -f ~/.bashrc ] && cp ~/.bashrc $bak_dir
+  [ -f ~/.bash_profile ] && cp ~/.bash_profile $bak_dir
+  [ -f ~/.inputrc ] && cp ~/.inputrc $bak_dir
+  [ -f ~/.gitconfig ] && cp ~/.gitconfig $bak_dir
+  [ -f ~/.vimrc ] && cp ~/.vimrc $bak_dir
+  [ -f ~/.config/nvim/init.lua ] && cp ~/.config/nvim/init.lua $bak_dir
 }
 
-function pretty_print_path() {
+function mkd() {
+  mkdir -p "$@" && cd "$_";
+}
+
+function pretty_path() {
   echo $PATH | sed 's/:/\n/g'
 }
 
@@ -40,14 +44,16 @@ function setup_npm_global_dir() {
   # export NPM_CONFIG_PREFIX=$HOME/.npm-global
 }
 
-function setup_i3() {
-  local id=$1 # L390
+function clean_neovim_dirs() {
+  if [[ $1 = "-v" || $1 == "--verbose" ]]; then
+		echo "DEL ~/.cache/nvim"
+		echo "DEL ~/.local/share/nvim"
+		echo "DEL ~/.config/nvim/plugin"
+  fi
 
-  mv ~/.config/i3/"${id}".config ~/.config/i3/config
-  mv ~/.config/i3status/"${id}".config ~/.config/i3status/config
-
-  rm -r ~/.config/i3/*.config
-  rm -r ~/.config/i3status/*.config
+	rm -rf ~/.cache/nvim
+	rm -rf ~/.local/share/nvim
+	rm -rf ~/.config/nvim/plugin
 }
 
 function show_colors() {
@@ -62,10 +68,6 @@ function show_colors() {
     done
     echo # New line
   done
-}
-
-function mkd() {
-  mkdir -p "$@" && cd "$_";
 }
 
 # Show all the names (CNs and SANs) listed in the SSL certificate for a given domain

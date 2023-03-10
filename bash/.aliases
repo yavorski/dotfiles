@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+# vim/nvim
+# alias vim="nvim"
+
 # Easier navigation: .., ..., ...., ....., ~ and -
+alias ~="cd ~"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias ~="cd ~"
 
 # Shortcuts
 alias g="git"
@@ -14,29 +17,14 @@ alias h="history"
 alias d="cd ~/dev"
 alias dl="cd ~/Downloads"
 
-# vim/nvim
-alias vim="nvim"
-
-# Week number
-alias week='date +%V'
-
 # Always use color output for `ls`
 alias ls='ls --color=auto'
 
-# List all files colorized in long format
-alias l="ls -lF --color"
-
 # List all files colorized with human readable file size
-alias lh="ls -lhF --color"
-
-# List all files colorized in long format, including dot files
-alias la="ls -laF --color"
-
-# List all files with human readable file size
-alias lah="ls -lahF --color"
+alias l="ls -lhF --color"
 
 # List only directories
-alias lsd="ls -lF --color | grep --color=never '^d'"
+alias lsd="ls -l --color -d */"
 
 # Always enable colored `grep` output
 alias grep="grep --color=auto"
