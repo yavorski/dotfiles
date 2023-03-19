@@ -7,25 +7,27 @@ function rmbackup() {
 }
 
 function backup() {
-  local now=$(date +'%Y%m%d%H%M%S')
+  local now
+  now=$(date +'%Y%m%d%H%M%S')
   local bak_dir=$BAK_DIR/$now
 
-  mkdir -p $bak_dir
+  mkdir -p "$bak_dir"
 
-  [ -f ~/.bashrc ] && cp ~/.bashrc $bak_dir
-  [ -f ~/.bash_profile ] && cp ~/.bash_profile $bak_dir
-  [ -f ~/.inputrc ] && cp ~/.inputrc $bak_dir
-  [ -f ~/.gitconfig ] && cp ~/.gitconfig $bak_dir
-  [ -f ~/.vimrc ] && cp ~/.vimrc $bak_dir
-  [ -f ~/.config/nvim/init.lua ] && cp ~/.config/nvim/init.lua $bak_dir
+  [ -f ~/.bashrc ] && cp ~/.bashrc "$bak_dir"
+  [ -f ~/.bash_profile ] && cp ~/.bash_profile "$bak_dir"
+  [ -f ~/.inputrc ] && cp ~/.inputrc "$bak_dir"
+  [ -f ~/.gitconfig ] && cp ~/.gitconfig "$bak_dir"
+  [ -f ~/.vimrc ] && cp ~/.vimrc "$bak_dir"
+  [ -f ~/.config/nvim/init.lua ] && cp ~/.config/nvim/init.lua "$bak_dir"
 }
 
 function mkd() {
-  mkdir -p "$@" && cd "$_";
+  mkdir -p "$@" && cd "$_" || return
 }
 
 function pretty_path() {
-  echo $PATH | sed 's/:/\n/g'
+  # shellcheck disable=SC2001
+  echo "$PATH" | sed "s/:/\n/g"
 }
 
 function batdiff() {
@@ -34,14 +36,14 @@ function batdiff() {
 }
 
 function setup_npm_global_dir() {
-  mkdir -p $HOME/.npm-global
-  npm config set prefix $HOME/.npm-global
+  mkdir -p "$HOME/.npm"
+  npm config set prefix "$HOME/.npm"
 
   # ./bash/.exports
-  # export PATH=$HOME/.npm-global/bin:$PATH
+  # export PATH=$HOME/.npm/bin:$PATH
 
   # alternative with env var only
-  # export NPM_CONFIG_PREFIX=$HOME/.npm-global
+  # export NPM_CONFIG_PREFIX=$HOME/.npm
 }
 
 function clean_neovim_dirs() {
@@ -57,12 +59,12 @@ function clean_neovim_dirs() {
 }
 
 function show_colors() {
-  for fgbg in 38 48 ; do # Foreground / Background
-    for color in {0..255} ; do # Colors
+  for fgbg in 38 48; do # Foreground / Background
+    for color in {0..255}; do # Colors
       # Display the color
-      printf "\e[${fgbg};5;%sm  %3s  \e[0m" $color $color
+      printf "\e[${fgbg};5;%sm  %3s  \e[0m" "$color" "$color"
       # Display 6 colors per lines
-      if [ $((($color + 1) % 6)) == 4 ] ; then
+      if [ $((("$color" + 1) % 6)) == 4 ]; then
         echo # New line
       fi
     done
@@ -81,10 +83,12 @@ function getcertnames() {
   echo "Testing ${domain} …";
   echo ""; # newline
 
-  local tmp=$(echo -e "GET / HTTP/1.0\nEOT" | openssl s_client -connect "${domain}:443" -servername "${domain}" 2>&1);
+  local tmp
+  tmp=$(echo -e "GET / HTTP/1.0\nEOT" | openssl s_client -connect "${domain}:443" -servername "${domain}" 2>&1);
 
   if [[ "${tmp}" = *"-----BEGIN CERTIFICATE-----"* ]]; then
-    local certText=$(echo "${tmp}" | openssl x509 -text -certopt "no_aux, no_header, no_issuer, no_pubkey, no_serial, no_sigdump, no_signame, no_validity, no_version");
+    local certText
+    certText=$(echo "${tmp}" | openssl x509 -text -certopt "no_aux, no_header, no_issuer, no_pubkey, no_serial, no_sigdump, no_signame, no_validity, no_version");
     echo "Common Name:";
     echo ""; # newline
     echo "${certText}" | grep "Subject:" | sed -e "s/^.*CN=//" | sed -e "s/\/emailAddress=.*//";

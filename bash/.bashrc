@@ -11,4 +11,4 @@
 export DOTFILES=$HOME/.config/bash
 
 # Init dotfiles
-[[ -f $DOTFILES/.init ]] && source $DOTFILES/.init
+[[ -f $DOTFILES/.init ]] && source "$DOTFILES/.init"

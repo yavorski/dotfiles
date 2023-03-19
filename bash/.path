@@ -1,25 +1,21 @@
 #!/usr/bin/env bash
 # -----------------
-#
 # Add certain directories to path
 # Pretty print path with "pretty_print_path" function
 # ---------------------------------------------------
 
 function extend_path() {
-  if command -v ruby &> /dev/null; then
-    local ruby_dir_bin="$(ruby -e 'puts Gem.user_dir')/bin"
-  fi
-
-  declare -a local dirs=(
-    $HOME/bin
-    $HOME/.local/bin
-    $HOME/.cargo/bin
-    $HOME/.npm-global/bin
-    $HOME/go/bin
-    $ruby_dir_bin
+  local dir
+  declare -a dirs=(
+    "$HOME/bin"
+    "$HOME/go/bin"
+    "$HOME/.fly/bin"
+    "$HOME/.npm/bin"
+    "$HOME/.cargo/bin"
+    "$HOME/.local/bin"
   )
 
-  for dir in ${dirs[@]}; do
+  for dir in "${dirs[@]}"; do
     if [ -d "$dir" ] && [[ ! ":$PATH:" == *":$dir:"* ]]; then
       export PATH="$PATH:$dir"
     fi

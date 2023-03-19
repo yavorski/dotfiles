@@ -17,7 +17,7 @@ export HISTCONTROL=ignoredups
 # export LC_ALL="en_US.UTF-8"
 
 # Highlight section titles in manual pages
-export LESS_TERMCAP_md="${yellow}"
+# export LESS_TERMCAP_md="${yellow}"
 
 # Set vimpager as default
 # export PAGER=/usr/bin/vimpager
@@ -30,7 +30,7 @@ export LESS_TERMCAP_md="${yellow}"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # bat man fix fedora
-if [ $HOSTNAME = "fedora" ]; then
+if [ "$HOSTNAME" = "fedora" ]; then
   export MANROFFOPT="-c"
 fi
 

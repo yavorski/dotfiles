@@ -9,20 +9,19 @@
 # ----------------------------------------------------------
 
 declare -a files=(
-  $DOTFILES/.path
-  $DOTFILES/.settings
-  $DOTFILES/.exports
-  $DOTFILES/.wayland
-  $DOTFILES/.aliases
-  $DOTFILES/.functions
-  $DOTFILES/.prompt
-  $DOTFILES/.wm
-  $HOME/.path
-  $HOME/.extra
-  ../.extra
+  "$DOTFILES/.path"
+  "$DOTFILES/.settings"
+  "$DOTFILES/.exports"
+  "$DOTFILES/.wayland"
+  "$DOTFILES/.aliases"
+  "$DOTFILES/.functions"
+  "$DOTFILES/.prompt"
+  "$DOTFILES/.wm"
+  "$HOME/.path"
+  "$HOME/.extra"
 );
 
-for file in ${files[@]}; do
+for file in "${files[@]}"; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done;
 
