@@ -37,6 +37,9 @@ alias rip="curl ifconfig.me"
 # Sway WM Screenshot
 alias screenshot='grim -t png -g "$(slurp)" ~/Screenshots/screenshot-$(date +%d-%m-%Y-%H-%M-%S).png'
 
+# Turn OFF keyboard mic led - ThinkPad T14
+alias turn-off-mic-led="light -s sysfs/leds/platform::micmute -S 0"
+
 # Battery status
 
 # #####  ThinkPad L390 ##### #
