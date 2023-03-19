@@ -382,7 +382,8 @@ packer.startup(function()
             "--line-number",
             "--column",
             "--smart-case",
-            "--hidden"
+            "--hidden",
+            "--trim"
           }
         },
         pickers = {
