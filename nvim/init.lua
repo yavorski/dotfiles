@@ -248,7 +248,12 @@ packer.startup(function()
           component_separators = "", -- disable separators
         },
         sections = {
-          lualine_c = { "filename", "filesize", "lsp_progress" } -- display filesize near filename & lsp progress
+          lualine_a = { "mode" },
+          lualine_b = { "branch", "diff", "diagnostics" },
+          lualine_c = { "filename", "filesize", "lsp_progress" },
+          lualine_x = { "searchcount", "encoding", "fileformat", "filetype" },
+          lualine_y = { "progress" },
+          lualine_z = { "location" }
         },
         tabline = {
           lualine_a = {{
