@@ -237,8 +237,14 @@ echo KEYMAP=us > /etc/vconsole.conf
 echo FONT=ter-v18b >> /etc/vconsole.conf
 
 vim /etc/mkinitcpio.conf
+# # -> add to BINARIES -> `setfont`
 # # -> add to HOOKS -> `consolefont` before `block`
 # # -> add to HOOKS -> `encrypt lvm2` between `block` and `filesystems`
+
+```mkinitcpio
+BINARIES=(setfont)
+HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems fsck)
+```
 
 mkinitcpio -p linux
 ```
