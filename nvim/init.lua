@@ -350,8 +350,20 @@ packer.startup(function()
     end
   }
 
-  -- stylus support - outdated
-  -- use { "iloginow/vim-stylus" }
+  -- polyglot - don't play along with tree-sitter
+  -- use { "sheerun/vim-polyglot" }
+
+  -- stylus syntax
+  use { "wavded/vim-stylus" }
+
+  -- razor syntax
+  use {
+    "adamclerk/vim-razor",
+    config = function()
+      vim.api.nvim_create_augroup("Razor", { clear = true })
+      vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, { group = "Razor", pattern = { "*.razor", "*.cshtml" }, command = "setlocal filetype=razor" })
+    end
+  }
 
   -- multiple cursors - very slow
   -- use { "mg979/vim-visual-multi" }
