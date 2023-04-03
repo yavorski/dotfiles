@@ -151,21 +151,21 @@ vim.g.rust_recommended_style = 0
 -----------------------------------------------------------
 
 -- standard prev/next
-vim.api.nvim_set_keymap("n", "gbn", "<cmd>bnext<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gbp", "<cmd>bprev<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gbn", "<cmd>bnext<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gbp", "<cmd>bprev<cr>", { noremap = true, silent = true })
 
 -- require nvim-lualine/lualine.nvim plugin
-vim.api.nvim_set_keymap("n", "gb1", "<cmd>LualineBuffersJump! 1<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gb2", "<cmd>LualineBuffersJump! 2<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gb3", "<cmd>LualineBuffersJump! 3<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gb4", "<cmd>LualineBuffersJump! 4<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gb5", "<cmd>LualineBuffersJump! 5<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gb6", "<cmd>LualineBuffersJump! 6<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gb7", "<cmd>LualineBuffersJump! 7<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gb8", "<cmd>LualineBuffersJump! 8<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gb9", "<cmd>LualineBuffersJump! 9<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gb0", "<cmd>LualineBuffersJump! 10<cr>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "gb$", "<cmd>LualineBuffersJump $<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gb1", "<cmd>LualineBuffersJump! 1<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gb2", "<cmd>LualineBuffersJump! 2<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gb3", "<cmd>LualineBuffersJump! 3<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gb4", "<cmd>LualineBuffersJump! 4<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gb5", "<cmd>LualineBuffersJump! 5<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gb6", "<cmd>LualineBuffersJump! 6<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gb7", "<cmd>LualineBuffersJump! 7<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gb8", "<cmd>LualineBuffersJump! 8<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gb9", "<cmd>LualineBuffersJump! 9<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gb0", "<cmd>LualineBuffersJump! 10<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "gb$", "<cmd>LualineBuffersJump $<cr>", { noremap = true, silent = true })
 
 -----------------------------------------------------------
 -- Packer
@@ -296,9 +296,9 @@ packer.startup(function()
     requires = { "kyazdani42/nvim-web-devicons" },
     config = function()
       require("nvim-tree").setup()
-      vim.api.nvim_set_keymap("n", "<leader>kb", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true })
-      vim.api.nvim_set_keymap("n", "<leader>kr", "<cmd>NvimTreeRefresh<cr>", { noremap = true, silent = true })
-      vim.api.nvim_set_keymap("n", "<leader>kf", "<cmd>NvimTreeFindFile<cr>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>kb", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>kr", "<cmd>NvimTreeRefresh<cr>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>kf", "<cmd>NvimTreeFindFile<cr>", { noremap = true, silent = true })
     end
   }
 
@@ -414,10 +414,10 @@ packer.startup(function()
       require("telescope").load_extension("fzf")
 
       -- set key bindings
-      vim.api.nvim_set_keymap("n", "<leader>b", "<cmd>lua require('telescope.builtin').buffers()<cr>", { noremap = true, silent = true })
-      vim.api.nvim_set_keymap("n", "<leader>p", "<cmd>lua require('telescope.builtin').find_files()<cr>", { noremap = true, silent = true })
-      vim.api.nvim_set_keymap("n", "<leader>rg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", { noremap = true, silent = true })
-      vim.api.nvim_set_keymap("n", "<leader>th", "<cmd>lua require('telescope.builtin').help_tags()<cr>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>b", "<cmd>Telescope buffers<cr>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>p", "<cmd>Telescope find_files<cr>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>rg", "<cmd>Telescope live_grep<cr>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>th", "<cmd>Telescope help_tags<cr>", { noremap = true, silent = true })
     end
   }
 
