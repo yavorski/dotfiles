@@ -36,3 +36,6 @@ fi
 
 # Force color
 export FORCE_COLOR=true
+
+# True color
+# export COLORTERM=truecolor
