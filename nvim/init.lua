@@ -503,7 +503,7 @@ packer.startup(function()
       { "rust-lang/rust.vim" }, -- vim configuration for rust.
       { "simrat39/rust-tools.nvim" }, -- tools for better development in rust using neovim's builtin lsp - adds extra functionality over rust analyzer
       { "sumneko/lua-language-server" }, -- lua language server coded by lua
-      { "hoffs/omnisharp-extended-lsp.nvim" }, -- extend 'textDocument/definition' handler for OmniSharp Neovim LSP
+      { "hoffs/omnisharp-extended-lsp.nvim" }, -- extend "textDocument/definition" handler for OmniSharp Neovim LSP
       { "hrsh7th/cmp-nvim-lsp" }, -- nvim-cmp source for neovim builtin LSP client
     },
     config = function()
@@ -544,9 +544,9 @@ end)
 -----------------------------------------------------------
 -- Documentation
 -- https://langserver.org/
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
 -- https://microsoft.github.io/language-server-protocol/implementors/servers/
------------------------------------------------------------
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+------------------------------------------------------------------------------------
 function setup_lsp()
   local nvim_lsp = require("lspconfig")
 
@@ -671,11 +671,12 @@ function setup_lsp()
   -- pacman AUR -S omnisharp-roslyn
   -- https://github.com/omnisharp/omnisharp-roslyn
   -- https://github.com/hoffs/omnisharp-extended-lsp.nvim
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#omnisharp
   -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/server_configurations/omnisharp.lua
   ---------------------------------------------------------------------------------------------------------
   local pid = vim.fn.getpid()
   local omnisharp_bin = "/usr/bin/omnisharp"
-  local omnisharp_extended = require('omnisharp_extended')
+  local omnisharp_extended = require("omnisharp_extended")
 
   nvim_lsp.omnisharp.setup({
     on_attach = on_attach,
@@ -696,7 +697,7 @@ function setup_lsp()
     -- Enables support for roslyn analyzers, code fixes and rulesets.
     enable_roslyn_analyzers = true,
 
-    -- Specifies whether 'using' directives should be grouped and sorted during document formatting.
+    -- Specifies whether "using" directives should be grouped and sorted during document formatting.
     organize_imports_on_format = false,
 
     -- Enables support for showing unimported types and unimported extension methods in completion lists.
@@ -705,7 +706,7 @@ function setup_lsp()
     -- Specifies whether to include preview versions of the .NET SDK when determining which version to use for project loading.
     sdk_include_prereleases = true,
 
-    -- Only run analyzers against open files when 'enableRoslynAnalyzers' is true
+    -- Only run analyzers against open files when "enableRoslynAnalyzers" is true
     analyze_open_documents_only = true,
   })
 
@@ -716,7 +717,7 @@ function setup_lsp()
   -- https://aur.archlinux.org/packages/powershell-editor-services
   -- https://github.com/powershell/powershelleditorservices
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#powershell_es
-  -----------------------------------------------------------
+  --------------------------------------------------------------------------------------------------
   nvim_lsp.powershell_es.setup({
     on_attach = on_attach,
     capabilities = capabilities,
@@ -810,20 +811,20 @@ function setup_autocomplete()
   })
 
   -- "/@" suggestions
-  cmp.setup.cmdline('/', {
+  cmp.setup.cmdline("/", {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources(
-      {{ name = 'nvim_lsp_document_symbol' }},
-      {{ name = 'buffer' }}
+      {{ name = "nvim_lsp_document_symbol" }},
+      {{ name = "buffer" }}
     )
   })
 
   -- cmdline & path suggestions
-  cmp.setup.cmdline(':', {
+  cmp.setup.cmdline(":", {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources(
-      {{ name = 'path' }},
-      {{ name = 'cmdline' }}
+      {{ name = "path" }},
+      {{ name = "cmdline" }}
     )
   })
 end

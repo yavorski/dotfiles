@@ -2,7 +2,6 @@
 
 Supported systems
 
-* `Linux`
 * `Arch Linux`
 
 ## Pre Install

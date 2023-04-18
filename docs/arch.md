@@ -64,8 +64,8 @@ diff -y mirrorlist mirrorlist.BAK
 
 ```bash
 pacman -Sy terminus-font
-setfont ter-v16b
 setfont ter-v18b
+setfont ter-v20b
 setfont ter-v22b
 ```
 
@@ -279,9 +279,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 ```bash
 pacman -S freetype2 (?)
-grub-mkfont -o /boot/grub/fonts/ter.pf2 --size 22 /usr/share/fonts/misc/ter-x22b.pcf.gz
+grub-mkfont --output /boot/grub/fonts/ter.pf2 --size 22 /usr/share/fonts/misc/ter-x22b.pcf.gz
 echo "GRUB_FONT=/boot/grub/fonts/ter.pf2" >> /etc/default/grub
-grub-mkconfig -o /boot/grub/grub.cfg
+grub-mkconfig --output /boot/grub/grub.cfg
 ```
 
 
@@ -316,7 +316,7 @@ echo LC_TIME=en_GB.UTF-8 >> /etc/locale.conf
 
 ```bash
 pacman -S iwd
-pacman -S dialog wpa_supplicant wireless_tools networkmanager (?)
+# pacman -Ss networkmanager (!?)
 
 echo arch > /etc/hostname
 
@@ -355,9 +355,8 @@ systemctl enable iwd
 systemctl enable systemd-networkd
 systemctl enable systemd-resolved
 
-systemctl disable dhcpcd (?)
-systemctl enable NetworkManager (?)
-systemctl enable wpa_supplicant (?)
+# do not use with iwd & networkd
+# systemctl enable NetworkManager (!?)
 ```
 
 
@@ -639,26 +638,21 @@ pacman -Ss bat --color always | less -r
 
 ### References
 
-* [General recommendations](https://wiki.archlinux.org/index.php/General_recommendations)
-* [Sway](https://wiki.archlinux.org/index.php/Sway)
-* [Window manager](https://wiki.archlinux.org/index.php/Window_manager)
-* [Display manager](https://wiki.archlinux.org/index.php/Display_manager)
-* [Gnome](https://wiki.archlinux.org/index.php/GNOME)
-* [Gnome Shell](https://en.wikipedia.org/wiki/GNOME_Shell)
-* [Gnome Display Manager - GDM](https://wiki.archlinux.org/index.php/GDM)
-* [Linux console fonts](https://wiki.archlinux.org/index.php/Linux_console#Fonts)
-* [Bash tips and trics](https://wiki.archlinux.org/index.php/Bash#Tips_and_tricks)
-* [Color ouput in console](https://wiki.archlinux.org/index.php/Color_output_in_console)
-* [Users and groups](https://wiki.archlinux.org/index.php/users_and_groups)
-* [Desktop environments](https://wiki.archlinux.org/index.php/desktop_environment)
-* [Encrypt entire system](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system)
-* [KMS](https://nouveau.freedesktop.org/wiki/KernelModeSetting/)
+* [Install Guide](https://wiki.archlinux.org/title/Installation_guide)
+
+* [KMS](https://wiki.archlinux.org/title/kernel_mode_setting)
 * [Kernel Module](https://wiki.archlinux.org/index.php/Kernel_module)
 * [Kernel Module Blacklisting](https://wiki.archlinux.org/index.php/Kernel_module#Blacklisting)
-* [The Linux Kernel Module Programming Guide](http://tldp.org/LDP/lkmpg/2.6/html/index.html)
 * [Mkinitcpio](https://wiki.archlinux.org/index.php/Mkinitcpio)
-* [Prime](https://wiki.archlinux.org/index.php/PRIME)
-* [bbswitch](https://github.com/Bumblebee-Project/bbswitch)
-* [Bumblebee](https://wiki.archlinux.org/index.php/Bumblebee)
+* [Encrypt entire system](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system)
+
+* [Linux console ](https://wiki.archlinux.org/index.php/Linux_console#Fonts)
+* [Bash tips and trics](https://wiki.archlinux.org/index.php/Bash#Tips_and_tricks)
+* [Color ouput in console](https://wiki.archlinux.org/index.php/Color_output_in_console)
+
+* [Users and groups](https://wiki.archlinux.org/index.php/users_and_groups)
+* [General recommendations](https://wiki.archlinux.org/index.php/General_recommendations)
+
 * [Pacman](https://wiki.archlinux.org/index.php/Pacman)
 * [Pacman - tips and tricks](https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks)
+
