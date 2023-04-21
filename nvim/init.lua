@@ -352,6 +352,16 @@ packer.startup(function()
     end
   }
 
+  -- color highlighter/display hex colors
+  use {
+    "norcalli/nvim-colorizer.lua",
+    config = function()
+      require("colorizer").setup({
+        "vim", "lua", "css", "html", "yml", "yaml", "markdown", "javascript",
+      })
+    end
+  }
+
   -- polyglot - don't play along with tree-sitter
   -- use { "sheerun/vim-polyglot" }
 
