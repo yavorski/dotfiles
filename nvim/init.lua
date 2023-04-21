@@ -447,7 +447,8 @@ packer.startup(function()
       require("nvim-treesitter.configs").setup({
         ensure_installed = "all",
         highlight = {
-          enable = true -- false will disable the extension
+          enable = true, -- false will disable the extension
+          -- additional_vim_regex_highlighting = false -- setting to true will run `:h syntax` and tree-sitter at the same time
         },
         indent = {
           enable = true -- indentation based on treesitter for the = operator
