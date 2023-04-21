@@ -284,7 +284,8 @@ packer.startup(function()
           lualine_x = {},
           lualine_y = {},
           lualine_z = { "tabs" }
-        }
+        },
+        extensions = { "nvim-tree" }
       })
 
       require("lualine").refresh()
