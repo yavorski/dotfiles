@@ -805,8 +805,14 @@ function setup_autocomplete()
 
   cmp.setup({
     window = {
-      completion = cmp.config.window.bordered({ border = "solid" }),
-      documentation = cmp.config.window.bordered({ border = "solid" }),
+      completion = cmp.config.window.bordered({
+        border = "solid",
+        winhighlight = "Normal:Pmenu,FloatBorder:Pmenu",
+      }),
+      documentation = cmp.config.window.bordered({
+        border = "solid",
+        winhighlight = "Normal:Pmenu,FloatBorder:Pmenu",
+      }),
     },
     snippet = {
       expand = function(args)
