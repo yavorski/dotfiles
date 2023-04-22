@@ -307,7 +307,11 @@ packer.startup(function()
     "kyazdani42/nvim-tree.lua",
     requires = { "kyazdani42/nvim-web-devicons" },
     config = function()
-      require("nvim-tree").setup()
+      require("nvim-tree").setup({
+        update_focused_file = {
+          enable = true
+        }
+      })
       vim.keymap.set("n", "<leader>kb", "<cmd>NvimTreeToggle<cr>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>kr", "<cmd>NvimTreeRefresh<cr>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>kf", "<cmd>NvimTreeFindFile<cr>", { noremap = true, silent = true })
