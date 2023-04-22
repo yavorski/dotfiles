@@ -430,6 +430,7 @@ packer.startup(function()
       vim.keymap.set("n", "<leader>p", "<cmd>Telescope find_files<cr>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>rg", "<cmd>Telescope live_grep<cr>", { noremap = true, silent = true })
       vim.keymap.set("n", "<leader>th", "<cmd>Telescope help_tags<cr>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>", { noremap = true, silent = true })
     end
   }
 
