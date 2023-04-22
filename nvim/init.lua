@@ -209,6 +209,16 @@ packer.startup(function()
   -- packer
   use { "wbthomason/packer.nvim" }
 
+  -- delete buffers without losing window layout
+  use {
+    "famiu/bufdelete.nvim",
+    config = function()
+      -- override built in bd
+      vim.cmd[[cabbrev bd Bdelete]]
+      vim.cmd[[cabbrev bdelete Bdelete]]
+    end
+  }
+
   -- colorscheme
   use {
     "nvimdev/zephyr-nvim",
