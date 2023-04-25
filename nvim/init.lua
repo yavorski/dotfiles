@@ -22,6 +22,7 @@ vim.opt.termguicolors = true
 
 -- set colorscheme
 -- vim.cmd[[colorscheme zephyr]]
+-- vim.cmd[[colorscheme dark-knight]]
 
 -- disable word wrap
 vim.opt.wrap = false
@@ -221,10 +222,12 @@ packer.startup(function()
 
   -- colorscheme
   use {
-    "nvimdev/zephyr-nvim",
+    -- "~/dev/dark-knight-nvim",
+    "yavorski/dark-knight-nvim",
     requires = { "nvim-treesitter/nvim-treesitter", opt = true },
     config = function()
-      require("zephyr")
+      require("dark-knight").setup({})
+      vim.cmd.colorscheme("dark-knight")
     end
   }
 
@@ -241,7 +244,7 @@ packer.startup(function()
   -- statusline
   use {
     "nvim-lualine/lualine.nvim", -- statusline plugin
-    after = "zephyr-nvim", -- init after color scheme in order to prevent any overrides
+    -- after = "dark-knight-nvim", -- init after color scheme in order to prevent any overrides
     requires = {
       { "tiagovla/scope.nvim" }, -- scope buffers to tabs
       { "kyazdani42/nvim-web-devicons", opt = true }, -- use dev icons
@@ -253,7 +256,7 @@ packer.startup(function()
 
       require("lualine").setup({
         options = {
-          theme = "onedark",
+          theme = "dark-knight", -- "onedark"
           icons_enabled = true,
           section_separators = "", -- disable separators
           component_separators = "", -- disable separators
