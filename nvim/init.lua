@@ -374,7 +374,7 @@ packer.startup(function()
     "norcalli/nvim-colorizer.lua",
     config = function()
       require("colorizer").setup({
-        "vim", "lua", "css", "sass", "scss", "styl", "html", "yml", "yaml", "markdown", "javascript", "typescript"
+        "vim", "lua", "css", "sass", "scss", "stylus", "html", "yml", "yaml", "markdown", "javascript", "typescript"
       })
     end
   }
