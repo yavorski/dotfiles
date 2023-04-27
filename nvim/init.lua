@@ -184,7 +184,7 @@ local function install_packer_if_needed()
 
   if fn.empty(fn.glob(install_path)) > 0 then
     fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-    vim.cmd [[packadd packer.nvim]]
+    vim.cmd[[packadd packer.nvim]]
     return true
   end
 
@@ -203,7 +203,16 @@ if not packer_loaded then
   return "! -> installing packer close and reopen neovim"
 end
 
--- setup packer
+-- config
+packer.init({
+  display = {
+    open_fn = function()
+      return require("packer.util").float({ border = "single" })
+    end
+  }
+})
+
+-- setup plugins
 packer.startup(function()
   local use = packer.use
 
