@@ -484,6 +484,20 @@ packer.startup(function()
     end
   }
 
+  -- tree-sitter playground
+  use {
+    "nvim-treesitter/playground",
+		after = "nvim-treesitter",
+    requires = "nvim-treesitter/nvim-treesitter",
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        playground = {
+          enable = true
+        }
+      })
+    end
+  }
+
   -- nvim-treesitter-textobjects -- syntax aware text-objects, select, move, swap, and peek support
   use {
     "nvim-treesitter/nvim-treesitter-textobjects",
