@@ -406,14 +406,6 @@ packer.startup(function()
   -- multiple cursors - very slow
   -- use { "mg979/vim-visual-multi" }
 
-  -- emmet html/css/js/lorem
-  use {
-    "mattn/emmet-vim",
-    config = function()
-      vim.api.nvim_set_var("user_emmet_mode", "a") --//-- enable all functions in all modes
-    end
-  }
-
   -- find, filter, preview, pick
   -- highly extendable fuzzy finder over lists -> :Telescope
   use {
@@ -658,6 +650,7 @@ function setup_lsp()
     "pyright",
     "tsserver",
     "dockerls",
+    "emmet_ls",
     -- "powershell"
     -- "rust_analyzer",
     -- "omnisharp-roslyn",
@@ -904,6 +897,7 @@ end
 -- pacman -S gcc pyright rust-analyzer lua-language-server gopls shellcheck
 -- pacman -S fd ripgrep curl tar nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 
+-- npm i -g emmet-ls
 -- npm i -g typescript
 -- npm i -g bash-language-server
 -- npm i -g typescript-language-server
