@@ -406,6 +406,14 @@ packer.startup(function()
   -- multiple cursors - very slow
   -- use { "mg979/vim-visual-multi" }
 
+  -- emmet html/css/js/lorem
+  use {
+    "mattn/emmet-vim",
+    config = function()
+      vim.api.nvim_set_var("user_emmet_mode", "a") --//-- enable all functions in all modes
+    end
+  }
+
   -- find, filter, preview, pick
   -- highly extendable fuzzy finder over lists -> :Telescope
   use {
