@@ -784,11 +784,11 @@ function setup_lsp()
   -- single double rounded solid shadow none
   -----------------------------------------------------------
   local windows = require("lspconfig.ui.windows")
-  windows.default_options.border = "solid";
+  windows.default_options.border = "single";
 
   -- https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization#borders
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "solid" })
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "solid" })
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" })
 end
 
 
@@ -833,11 +833,11 @@ function setup_autocomplete()
   cmp.setup({
     window = {
       completion = cmp.config.window.bordered({
-        border = "solid",
+        border = "single",
         winhighlight = "Normal:Pmenu,FloatBorder:Pmenu",
       }),
       documentation = cmp.config.window.bordered({
-        border = "solid",
+        border = "single",
         winhighlight = "Normal:Pmenu,FloatBorder:Pmenu",
       }),
     },
