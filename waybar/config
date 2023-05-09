@@ -7,8 +7,7 @@
   // Choose the order of the modules
   "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
   "modules-center": [],
-  "modules-right": ["idle_inhibitor", "cpu", "memory", "temperature", "backlight", "network", "pulseaudio", "battery", "clock", "sway/language", "tray"],
-  // "modules-right": ["mpd", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "sway/language", "battery", "clock", "tray"],
+  "modules-right": ["idle_inhibitor", "cpu", "memory", "disk", "disk#disk-home", "temperature", "backlight", "network", "pulseaudio", "battery", "clock", "sway/language", "tray"],
 
   // Modules configuration
   "sway/workspaces": {
@@ -33,13 +32,13 @@
   },
 
   "sway/mode": {
-    "format": "<span style=\"italic\">{}</span>"
+    "format": "{}"
   },
 
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
-      "activated": "",
+      "activated": "",
       "deactivated": ""
     }
   },
@@ -61,7 +60,22 @@
   },
 
   "memory": {
-    "format": "{}% "
+    "format": "{percentage}%  {swapPercentage}% ",
+    "tooltip": true,
+    "tooltip-format": "{percentage}%  used {used}GB / total {total}GB \n{swapPercentage}%  [swap] used {swapUsed}GB / total {swapAvail}GB"
+  },
+
+  "disk": {
+    "interval": 420,
+    "format": "{percentage_used}% ",
+    "path": "/"
+  },
+
+  "disk#disk-home": {
+    "disk": "disk-home",
+    "interval": 420,
+    "format": "{percentage_used}% ",
+    "path": "/home"
   },
 
   "temperature": {
@@ -93,17 +107,18 @@
     "format-alt": "{time} {icon}",
     // "format-good": "", // An empty format will hide the module
     // "format-full": "",
-    // "format-icons": ["", "", "", "", ""],
-    "format-icons": ["ß--", "ß-", "ß", "ß+", "ß++"]
+    "format-icons": ["", "", "", "", ""],
+    // "format-icons": ["ß--", "ß-", "ß", "ß+", "ß++"]
   },
 
   "network": {
     // "interface": "wlp2*", // (Optional) To force the use of this interface
-    "format-wifi": "{essid} ({signalStrength}%) ",
+    "format-wifi": "{essid} ",
     "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
     "format-linked": "{ifname} (No IP) ",
     "format-disconnected": "Disconnected ⚠",
-    "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    "format-alt": "{ifname}: {ipaddr}/{cidr} ",
+    "tooltip-format-wifi": "{essid} [ {signalStrength}% ] "
   },
 
   "pulseaudio": {
@@ -137,5 +152,12 @@
     "escape": true,
     // "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
     // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+  },
+
+  "sway/language": {
+    "format": "",
+    "tooltip": true,
+    "tooltip-format": "{flag} {long}",
+    "on-click": "swaymsg input type:keyboard xkb_switch_layout next",
   }
 }
