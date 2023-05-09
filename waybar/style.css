@@ -54,7 +54,7 @@ window#waybar.chromium {
 
 #workspaces button.focused {
   color: #ffffff;
-  background-color: #f44336;
+  background-color: #e2224e;
   /* box-shadow: inset 0 -3px #ffffff; */
 }
 
@@ -116,7 +116,7 @@ window#waybar.chromium {
 
 #battery.charging {
   color: #ffffff;
-  background-color: #26a65b;
+  background-color: #138f5f;
 }
 
 @keyframes blink {
