@@ -28,7 +28,8 @@ set termguicolors
 
 " set color scheme
 " colorscheme one
-colorscheme slate
+" colorscheme slate
+colorscheme wildcharm
 
 " Disable word wrap
 set nowrap
