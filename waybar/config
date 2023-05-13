@@ -2,7 +2,6 @@
   "layer": "top", // Waybar at top layer
   "position": "top", // Waybar position (top|bottom|left|right)
   "height": 28, // Waybar height (to be removed for auto height)
-  // "width": 1280, // Waybar width
 
   // Choose the order of the modules
   "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
@@ -62,7 +61,7 @@
   "memory": {
     "format": "{percentage}%  {swapPercentage}% ",
     "tooltip": true,
-    "tooltip-format": "{percentage}%  used {used}GB / total {total}GB \n{swapPercentage}%  [swap] used {swapUsed}GB / total {swapAvail}GB"
+    "tooltip-format": "{percentage}%  memory {used}GB / {total}GB \n{swapPercentage}%  swap {swapUsed}GB / {swapAvail}GB"
   },
 
   "disk": {
