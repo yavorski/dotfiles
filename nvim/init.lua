@@ -11,6 +11,9 @@ vim.opt.cmdheight = 0
 -- show status line only in active window
 vim.opt.laststatus = 1
 
+-- showcmd in statusline
+vim.opt.showcmdloc = "statusline"
+
 -- syntax highlighting
 vim.opt.syntax = "enable"
 
@@ -273,7 +276,7 @@ packer.startup(function()
         sections = {
           lualine_a = { "mode" },
           lualine_b = { "branch", "diff", "diagnostics" },
-          lualine_c = { "filename", "filesize", "lsp_progress" },
+          lualine_c = { "filename", "filesize", "lsp_progress", "%S" },
           lualine_x = { "selectioncount", "searchcount", "lsp_client_name", "encoding", "fileformat", "filetype" },
           lualine_y = { "progress" },
           lualine_z = { "location" }
