@@ -236,7 +236,7 @@ packer.startup(function()
     requires = { "nvim-treesitter/nvim-treesitter", opt = true },
     config = function()
       require("dark-knight").setup({})
-      vim.cmd.colorscheme("dark-knight")
+      vim.cmd[[colorscheme dark-knight]]
     end
   }
 
@@ -274,7 +274,7 @@ packer.startup(function()
           lualine_a = { "mode" },
           lualine_b = { "branch", "diff", "diagnostics" },
           lualine_c = { "filename", "filesize", "lsp_progress" },
-          lualine_x = { "searchcount", "lsp_client_name", "encoding", "fileformat", "filetype" },
+          lualine_x = { "selectioncount", "searchcount", "lsp_client_name", "encoding", "fileformat", "filetype" },
           lualine_y = { "progress" },
           lualine_z = { "location" }
         },
