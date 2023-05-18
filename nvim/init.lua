@@ -262,6 +262,7 @@ packer.startup(function()
       { "kyazdani42/nvim-web-devicons", opt = true }, -- use dev icons
       { "whoissethdaniel/lualine-lsp-progress.nvim" }, -- display lsp progress
       { "yavorski/lualine-lsp-client-name.nvim" }, -- display lsp client name
+      { "yavorski/lualine-macro-recording.nvim" }, -- display macro recording
     },
     config = function()
       require("scope").setup()
@@ -276,7 +277,7 @@ packer.startup(function()
         sections = {
           lualine_a = { "mode" },
           lualine_b = { "branch", "diff", "diagnostics" },
-          lualine_c = { "filename", "filesize", "lsp_progress", "%S" },
+          lualine_c = { "filename", "filesize", "lsp_progress", "macro_recording", "%S" },
           lualine_x = { "selectioncount", "searchcount", "lsp_client_name", "encoding", "fileformat", "filetype" },
           lualine_y = { "progress" },
           lualine_z = { "location" }
