@@ -166,16 +166,11 @@ endif
 " ------------------------------------------------------------
 " Automatic commands
 " ------------------------------------------------------------
-if has("autocmd")
-  " Treat .md files as Markdown
-  autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+" Trim trailing whitespace on save
+autocmd BufWritePre * :%s/\s\+$//e
 
-  " Rust
-  autocmd BufNewFile,BufRead *.rs setlocal tabstop=2 shiftwidth=2 softtabstop=2 noexpandtab
-
-  " Trim trailing whitespace on save
-  autocmd BufWritePre * :%s/\s\+$//e
-endif
+" Rust
+autocmd BufNewFile,BufRead *.rs setlocal tabstop=2 shiftwidth=2 softtabstop=2 noexpandtab
 " ------------------------------------------------------------
 
 " ------------------------------------------------------------
