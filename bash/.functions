@@ -48,14 +48,18 @@ function setup_npm_global_dir() {
 
 function clean_neovim_dirs() {
   if [[ $1 = "-v" || $1 == "--verbose" ]]; then
-		echo "DEL ~/.cache/nvim"
-		echo "DEL ~/.local/share/nvim"
-		echo "DEL ~/.config/nvim/plugin"
+    echo "DEL ~/.cache/nvim"
+    echo "DEL ~/.local/share/nvim"
+    echo "DEL ~/.local/state/nvim"
+    echo "DEL ~/.config/nvim/plugin"
+    echo "DEL ~/.config/nvim/lazy-lock.json"
   fi
 
-	rm -rf ~/.cache/nvim
-	rm -rf ~/.local/share/nvim
-	rm -rf ~/.config/nvim/plugin
+  rm -rf ~/.cache/nvim
+  rm -rf ~/.local/share/nvim
+  rm -rf ~/.local/state/nvim
+  rm -rf ~/.config/nvim/plugin
+  rm -rf ~/.config/nvim/lazy-lock.json
 }
 
 function show_colors() {
