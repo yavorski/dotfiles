@@ -8,34 +8,29 @@ window:
   dynamic_title: true
   dynamic_padding: true
 
+# Font configuration
+# family: Ubuntu Mono # size: 13.00 # Bold # Bold Italic
+# family: IntelOne Mono # size 11.50 # Bold # Bold Italic
+# family: IBM Plex Mono # size: 11.00 # Bold # Bold Italic
+# family: JetBrains Mono # size: 11.00 # ExtraBold # ExtraBold Italic
 font:
-  size: 11.00
+  size: 11.50
   normal:
-    family: JetBrains Mono
-    style: ExtraBold
+    family: IntelOne Mono
+    style: Bold
   bold:
-    style: ExtraBold
+    style: Bold
   italic:
-    style: ExtraBold Italic
+    style: Bold Italic
   bold_italic:
-    style: ExtraBold Italic
+    style: Bold Italic
 
-  # size: 13.00
-  # normal:
-  #   family: Ubuntu Mono # size: 13.00
-  #   family: IBM Plex Mono # size: 11.00
-  #   style: Bold
-  # bold:
-  #   style: Bold
-  # italic:
-  #   style: Bold Italic
-  # bold_italic:
-  #   style: Bold Italic
-
-  # Offset is the extra space around each character
+  # Offset is the extra space around each character.
+  # `offset.x` as modifying the letter spacing.
+  # `offset.y` as modifying the line spacing,
   offset:
-    x: 0 # letter spacing
-    y: 0 # line height/spacing
+    x: 0
+    y: -1 # IntelOne
 
 # if `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true

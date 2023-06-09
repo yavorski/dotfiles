@@ -569,6 +569,7 @@ pacman -S
   ttf-nerd-fonts-symbols-common
   ttf-nerd-fonts-symbols-1000-em
   ttf-nerd-fonts-symbols-1000-em-mono
+  AUR ttf-intel-one-mono
 
 pacman -S xorg-xdpyinfo xorg-xprop xorg-xrandr xorg-xwininfo
 pacman -S neofetch catimg chafa feh imagemagick jp2a libcaca nitrogen
