@@ -1,7 +1,13 @@
 # ~/.config/alacritty/alacritty.yml
-# ------------------------------------------
+# ---------------------------------
 
-# font - changes require restart
+# Window configuration
+window:
+  title: Alacritty
+  decorations: none
+  dynamic_title: true
+  dynamic_padding: true
+
 font:
   size: 11.00
   normal:
@@ -34,35 +40,47 @@ font:
 # if `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
-# colors (tomorrow night bright)
+# colors
 colors:
   # default colors
   primary:
-    background: '0x000000'
-    foreground: '0xeaeaea'
+    foreground: "#eaeaea"
+    background: "#000000"
 
   # normal colors
   normal:
-    black:   '0x000000'
-    red:     '0xd54e53'
-    green:   '0x4aca89' # 0xb9ca4a
-    yellow:  '0xe6c547'
-    blue:    '0x7aa6da'
-    magenta: '0xab47bc' # 0xc397d8
-    cyan:    '0x70c0ba'
-    white:   '0xeaeaea'
+    black:   "#000000"
+    red:     "#f94a4f"
+    green:   "#32f891"
+    yellow:  "#faf76e"
+    blue:    "#41b2f7"
+    magenta: "#f54bf9"
+    cyan:    "#32f8f4"
+    white:   "#eaeaea"
 
   # bright colors
   bright:
-    black:   '0x666666'
-    red:     '0xff3334'
-    green:   '0x9ec400'
-    yellow:  '0xe7c547'
-    blue:    '0x7aa6da'
-    magenta: '0xb77ee0'
-    cyan:    '0x54ced6'
-    white:   '0xffffff'
+    black:   "#444444"
+    red:     "#f7191f"
+    green:   "#32f891"
+    yellow:  "#f9f655"
+    blue:    "#41b2f7"
+    magenta: "#f54bf9"
+    cyan:    "#32f8f4"
+    white:   "#ffffff"
 
-#  hide title bar and window decorations
-window:
-  decorations: None
+# Shell
+# You can set `shell.program` to the path of your favorite shell, e.g. `/bin/fish`.
+# Entries in `shell.args` are passed unmodified as arguments to the shell.
+#
+# Default:
+# - (Linux/BSD/macOS) `$SHELL` or the user's login shell, if `$SHELL` is unset
+# - (Windows) powershell
+
+#shell:
+#  program: /bin/bash
+#  args:
+#    - --login
+
+# Startup directory
+#working_directory: None
