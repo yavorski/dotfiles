@@ -11,12 +11,12 @@
   border: none;
   font-size: 13px;
   font-weight: bold; /* 700, 800, 900 */
-  font-family: "IntelOne Mono", "JetBrains Mono", "IBM Plex Mono", "Ubuntu Mono Bold", "Source Code Pro", "Font Awesome 6 Free", monospace;
+  font-family: "IntelOne Mono", "IBM Plex Mono", "JetBrains Mono", "Ubuntu Mono", "Font Awesome 6 Free", monospace;
 }
 
 /* Waybar */
 window#waybar {
-  color: #f5f5f5;
+  color: #f4f4f4;
   background-color: #020202;
   transition-duration: .5s;
   transition-property: background-color;
@@ -42,7 +42,7 @@ tooltip { border-radius: 4px; border: 2px solid #000000; }
   padding: 0 8px;
   margin-right: 2px;
   border-radius: 2px;
-  color: #f5f5f5;
+  color: #f7f7f7;
   box-shadow: none;
   text-shadow: none;
   background-image: none;
@@ -65,33 +65,44 @@ tooltip { border-radius: 4px; border: 2px solid #000000; }
 #language,
 #backlight,
 #pulseaudio,
+#scratchpad,
 #temperature,
-#custom-media,
+#custom-pacman,
 #idle_inhibitor {
   margin: 0;
   padding: 0 8px;
-  color: #f5f5f5;
+  color: #f2f2f2;
   border-radius: 2px;
 }
 
-/* window title */
-#window {
-  padding: 0 16px;
-  background-color: #0a0a10;
-}
+/* window app id + title */
+#window { background-color: #0a0a10; }
+#window.app-id { color: #32f8f4; padding-left: 16px; }
+#window.app-title { padding-left: 0; padding-right: 16px; }
+#waybar.empty #window.app-id { padding-right: 16px; }
+#waybar.empty #window.app-title { background-color: transparent; }
 
 /* Modules Styles */
-#mode { background-color: #00ae6c; }
-#tray { background-color: #000000; }
+#mode { background-color: #06bd5f; }
+#tray { background-color: #020202; }
 
-#network.disconnected { background-color: #f53c3c; }
-#pulseaudio.muted { background-color: #e63f66; }
-#temperature.critical { background-color: #fa005f; }
+#scratchpad.count { padding-right: 0 }
+#custom-pacman { background-color: #0a0a10; }
+
+#cpu.good { margin: 0 2px; color: #020202; background-color: #32f891; }
+#cpu.warning { margin: 0 2px; color: #020202; background-color: #faf76e; }
+#cpu.critical { margin: 0 2px; color: #fafafa; background-color: #f94a4f; }
+
+#memory.good { margin: 0 2px; color: #020202; background-color: #32f891; }
+#memory.warning { margin: 0 2px; color: #020202; background-color: #faf76e; }
+#memory.critical { margin: 0 2px; color: #fafafa; background-color: #f94a4f; }
+
+#disk.critical { margin: 0 2px; color: #fafafa; background-color: #f94a4f; }
+#temperature.critical { margin: 0 2px; color: #fafafa; background-color: #f94a4f; }
+#network.disconnected { margin: 0 2px; color: #fafafa; background-color: #f94a4f; }
+
+#pulseaudio { background-color: #0a0a10; }
+#pulseaudio.muted { color: #fafafa; background-color:	#12a5b5; }
 
 #battery.charging { background-color: #00ae6c; }
-#battery.critical:not(.charging) { color: #ffffff; background-color: #f53c3c; }
-
-#custom-media { background-color: #00ae6c; }
-#custom-media.custom-vlc { background-color: #f5a97f; }
-
-#idle_inhibitor.activated { background-color: #000000; }
+#battery.critical:not(.charging) { color: #fafafa; background-color: #f94a4f; }
