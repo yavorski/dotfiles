@@ -1163,6 +1163,7 @@ AutoComplete.setup = function()
       end,
     },
     mapping = cmp.mapping.preset.insert({
+      ["<C-a>"] = cmp.mapping.abort(),
       ["<C-e>"] = cmp.mapping.abort(),
       ["<C-c>"] = cmp.mapping.close(),
       ["<C-d>"] = cmp.mapping.scroll_docs(4),
@@ -1178,12 +1179,12 @@ AutoComplete.setup = function()
       ["<Down>"] = cmp.mapping(AutoComplete.select_next_suggestion, { "i", "s" }),
     }),
     sources = cmp.config.sources({
-      { name = "path" },
-      { name = "buffer" },
-      { name = "luasnip" },
-      { name = "nvim_lua" },
-      { name = "nvim_lsp" },
-      { name = "nvim_lsp_signature_help" }
+      { name = "nvim_lsp_signature_help", priority = 64, group_index = 1 },
+      { name = "nvim_lsp", priority = 32, group_index = 2 },
+      { name = "nvim_lua", priority = 16, group_index = 3 },
+      { name = "luasnip", priority = 8, group_index = 4 },
+      { name = "buffer", priority = 4, group_index = 5 },
+      { name = "path", priority = 2, group_index = 6 },
     })
   })
 
