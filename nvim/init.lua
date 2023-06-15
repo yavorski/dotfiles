@@ -1245,7 +1245,8 @@ Lazy.setup()
 ------------------------------------------------------------
 
 if vim.g.neovide then
-  vim.opt.guifont = { "JetBrains Mono", ":h10:b" }
+  vim.opt.guifont = { "IntelOne Mono", ":h11.25:b" }
+  -- vim.opt.guifont = { "JetBrains Mono", ":h10:b" }
   -- vim.opt.guifont = { "JetBrainsMono NFM", ":h10:b" }
 end
 
