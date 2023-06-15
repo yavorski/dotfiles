@@ -1,18 +1,17 @@
-###############################################################################
+# ------------------------------------------------------------------------------
 # ~/.config/sway/config
-# -> Read `man 5 sway` for a complete reference
-###############################################################################
+# ------------------------------------------------------------------------------
+# Read `man 5 sway` for a complete reference
+# ------------------------------------------------------------------------------
 
+# Set font
+# ------------------------------------------------------------------------------
+font IntelOne Mono Bold 9
+# font Source Code Pro Bold 9
 
-###############################################################################
-# -> Set font (HiDPI)
-font Source Code Pro Bold 9
-###############################################################################
-
-
-###############################################################################
-# -> Variables
-###############################################################################
+# ------------------------------------------------------------------------------
+# Variables
+# ------------------------------------------------------------------------------
 
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
@@ -23,120 +22,82 @@ set $down j
 set $up k
 set $right l
 
-
-###############################################################################
-# -> Terminal emulator
-###############################################################################
-# set $term kitty
+# ------------------------------------------------------------------------------
+# Terminal emulator
+# ------------------------------------------------------------------------------
 set $term alacritty
 
+# ------------------------------------------------------------------------------
+# Application Launcher
+# It's recommended that you pass the final command to sway
+# ------------------------------------------------------------------------------
 
-###############################################################################
-# -> Application Launcher
-# -> Note: it's recommended that you pass the final command to sway
-###############################################################################
-
-# alacritty menu
+# Alacritty menu
 set $app_menu alacritty \
   -qq \
   --class="AppMenu" \
   --title="AppMenu" \
   --command sh -c "compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec"
 
-# kitty menu
-# set $app_menu kitty \
-#   --class="AppMenu" \
-#   --title="AppMenu" \
-#   --single-instance \
-#   --instance-group=kitty_app_menu \
-#   --override window_border_width=5.0 \
-#   --override initial_window_width=542 \
-#   --override initial_window_height=342 \
-#   sh -c "compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec"
-
 # style menu window
 # for_window [app_id="AppMenu"] border pixel 5
 # for_window [app_id="AppMenu"] floating enable
 # for_window [app_id="AppMenu"] resize set width 542
 # for_window [app_id="AppMenu"] resize set height 342
-for_window [title="^AppMenu$"] floating enable, border pixel 5, resize set width 640, resize set height 400
+for_window [title="^AppMenu$"] floating enable, border pixel 5, resize set width 680, resize set height 420
 
 # kill menu
-set $killmenu swaymsg [title="^AppMenu$"] kill
+set $kill_app_menu swaymsg [title="^AppMenu$"] kill
 
+# ------------------------------------------------------------------------------
+# Output/Display configuration
+# ------------------------------------------------------------------------------
 
-###############################################################################
-# -> Output configuration
-###############################################################################
-
-# #####  ThinkPad T480 ##### #
+# -> ThinkPad T480
 # output eDP-1 scale 2
 # output eDP-1 resolution 2560x1440 position 0,0
-###############################################################################
 
-# #####  ThinkPad L390 ##### #
+# ->  ThinkPad T14
 output eDP-1 scale 1
 output eDP-1 resolution 1920x1080 position 0,0
-###############################################################################
 
-
-###############################################################################
 # -> Wallpaper/Background
 output * bg ~/dev/wallpapers/arch-10.png fill
-###############################################################################
 
+# ------------------------------------------------------------------------------
+# Idle configuration
+# ------------------------------------------------------------------------------
 
-###############################################################################
-# -> Idle configuration
-###############################################################################
-
-# This will lock your screen after 500 seconds of inactivity,
-# then turn off your displays after another 100 seconds,
-# and turn your screens back on when resumed.
+# Lock screen after 500 seconds of inactivity,
+# then turn off display after another 100 seconds,
+# and turn screen back on when resumed.
 # It will also lock your screen before your computer goes to sleep.
 
-set $lock 'swaylock -f -F -e -k -l -c 333333 -i ~/dev/wallpapers/arch-1.png'
+set $lock "swaylock -f -F -e -k -l -c 333333 -i ~/dev/wallpapers/arch-1.png"
 
 exec swayidle -w \
   timeout 500 $lock \
-  timeout 600 'swaymsg "output * dpms off"' \
-  resume 'swaymsg "output * dpms on"' \
+  timeout 600 "swaymsg 'output * dpms off'" \
+  resume "swaymsg 'output * dpms on'" \
   before-sleep $lock
 
-
-# xwayland version
+# vlc idle xwayland version
 for_window [class="vlc"] inhibit_idle fullscreen
 
-# wayland vesion
+# vlc idle wayland vesion
 for_window [app_id="vlc"] inhibit_idle fullscreen
 
+# ------------------------------------------------------------------------------
+# Input configuration
+# ------------------------------------------------------------------------------
 
-###############################################################################
-# -> Input configuration
-###############################################################################
-
-#
-# Example configuration:
-#
-#
-# input "2:14:SynPS/2_Synaptics_TouchPad" {
-#   dwt enabled
-#   tap enabled
-#   natural_scroll enabled
-#   middle_emulation enabled
-# }
-#
-#
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 input "*" xkb_layout "us,bg(phonetic)"
-input "*" xkb_options "ctrl:nocaps,grp:win_space_toggle"
+input "*" xkb_options "ctrl:nocaps,grp:alt_shift_toggle"
 
-# #####  ThinkPad T480 ##### #
-# input "1739:0:Synaptics_TM3276-022" natural_scroll "enabled"
-# ############################################################
-
-# #####  ThinkPad L390 ##### #
+# ThinkPad L390
+# ------------------------------------------------------------------------------
 input "1267:51:Elan_Touchpad" {
   tap "enabled"
   natural_scroll "enabled"
@@ -145,7 +106,8 @@ input "1267:51:Elan_Touchpad" {
 input "1267:51:Elan_TrackPoint" tap "enabled"
 input "1267:51:Elan_TrackPoint" natural_scroll "enabled"
 
-# #####  ThinkPad T14 ##### #
+# ThinkPad T14
+# ------------------------------------------------------------------------------
 input "2:7:SynPS/2_Synaptics_TouchPad" {
   tap "enabled",
   natural_scroll "enabled"
@@ -153,19 +115,15 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
 
 input "2:7:SynPS/2_Synaptics_TouchPad" tap "enabled"
 input "2:7:SynPS/2_Synaptics_TouchPad" natural_scroll "enabled"
-# #############################################################
 
-
-# Hide cursor after some time
+# ------------------------------------------------------------------------------
+# Hide mouse cursor after 5 seconds
+# ------------------------------------------------------------------------------
 seat seat0 hide_cursor 5000
 
-
-###############################################################################
-# -> Key bindings
-###############################################################################
-
-# -> Basics key bindings
-###############################################################################
+# ------------------------------------------------------------------------------
+# Key bindings
+# ------------------------------------------------------------------------------
 
 # Start a terminal
 bindsym $mod+Return exec $term
@@ -174,11 +132,11 @@ bindsym $mod+Return exec $term
 bindsym Mod1+F4 kill
 bindsym $mod+Shift+q kill
 
-# Start your launcher
+# Start launcher
 bindsym $mod+d exec $app_menu
 
 # Kill menu
-bindsym $mod+Shift+d exec $killmenu
+bindsym $mod+Shift+d exec $kill_app_menu
 
 # Lock
 bindsym $mod+Escape exec $lock
@@ -186,34 +144,34 @@ bindsym $mod+Escape exec $lock
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
 # Despite the name, also works for non-floating windows.
-# Change normal to inverse to use left mouse button for resizing and right
-# mouse button for dragging.
+# Change normal to inverse to use left mouse button for resizing and right mouse button for dragging.
 floating_modifier $mod normal
 
 # Reload the configuration file
 bindsym $mod+Shift+c reload
 
 # Exit sway (logs you out of your Wayland session)
-# bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
-bindsym $mod+Shift+e exec swaynag \
-  --type warning \
-  --font 'Source Code Pro Bold 9' \
-  --message 'Do you really want to exit sway? This will end your Wayland session.' \
-  --button ' Exit Sway ' 'swaymsg exit' \
-  --dismiss-button ' ✖ ' \
-  --border-bottom-size 0
+# bindsym $mod+Shift+e exec swaynag \
+#   --type warning \
+#   --font "IntelOne Mono Bold 9" \
+#   --message "Do you really want to exit sway? This will end your Wayland session." \
+#   --button " Exit Sway " "swaymsg exit" \
+#   --dismiss-button " ✖ " \
+#   --border-bottom-size 0
 
+# [AUR] pacman -S nwg-bar
+bindsym $mod+Shift+F12 exec nwg-bar -i 96
 
-###############################################################################
-# -> Moving around key bindings
-###############################################################################
+# ------------------------------------------------------------------------------
+# Moving around key bindings
+# ------------------------------------------------------------------------------
 
 # Move your focus around
-bindsym $mod+$left focus down # def left
-bindsym $mod+$down focus left # def down
-bindsym $mod+$up focus right # def up
-bindsym $mod+$right focus up # def right
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
 
 # Or use $mod+[up|down|left|right]
 bindsym $mod+Left focus left
@@ -233,10 +191,12 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-
-###############################################################################
-# -> Workspaces:
-###############################################################################
+# ------------------------------------------------------------------------------
+# Workspaces
+# ------------------------------------------------------------------------------
+# Use 1-10 as the default for workspaces.
+# Workspaces can have any name you want, not just numbers.
+# ------------------------------------------------------------------------------
 
 # Switch to workspace
 bindsym $mod+1 workspace 1
@@ -251,9 +211,8 @@ bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
 # Cycle workspaces
-# bindsym Mod1+Tab workspace next_on_input
-# bindsym Mod1+Shift+Tab workspace prev_on_input
-# bindsym Mod1+Tab workspace back_and_forth
+bindsym Mod1+Tab workspace next
+# bindsym Mod1+Shift+Tab workspace prev
 
 # Move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
@@ -267,22 +226,17 @@ bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
-# Note: workspaces can have any name you want, not just numbers.
-# We just use 1-10 as the default.
+# ------------------------------------------------------------------------------
+# Layout
+# ------------------------------------------------------------------------------
 
-###############################################################################
-# -> Layout stuff:
-###############################################################################
-
-# You can "split" the current object of your focus with
-# $mod+b or $mod+v, for horizontal and vertical splits
-# respectively.
-bindsym $mod+b splith
+# "split" the current object of your focus with $mod+b or $mod+v
+bindsym $mod+g splith
 bindsym $mod+v splitv
 
 # Switch the current container between different layout styles
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
+# bindsym $mod+w layout tabbed
+# bindsym $mod+s layout stacking
 bindsym $mod+e layout toggle split
 
 # Make the current focus fullscreen
@@ -295,33 +249,42 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # Move focus to the parent container
-bindsym $mod+a focus parent
+# bindsym $mod+a focus parent
 
+# Toggle border
+bindsym $mod+b border pixel 4
+bindsym $mod+Shift+b border none
 
-###############################################################################
-# -> Scratchpad:
-###############################################################################
+# Printscreen
+# bindsym Print exec wl_screenshot
 
-# Sway has a "scratchpad", which is a bag of holding for windows.
+# Dismiss notifications
+# bindsym $mod+delete exec makoctl dismiss
+
+# ------------------------------------------------------------------------------
+# Scratchpad
+# ------------------------------------------------------------------------------
+
+# Sway "scratchpad", is a place for holding windows.
 # You can send windows there and get them back later.
 
 # Move the currently focused window to the scratchpad
 bindsym $mod+Shift+minus move scratchpad
 
-# Show the next scratchpad window or hide the focused scratchpad window.
+# Show next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym $mod+minus scratchpad show
 
+# ------------------------------------------------------------------------------
+# Resizing containers
+# ------------------------------------------------------------------------------
 
-###############################################################################
-# -> Resizing containers:
-###############################################################################
+# left will shrink the containers width
+# right will grow the containers width
+# up will shrink the containers height
+# down will grow the containers height
 
 mode "resize" {
-  # left will shrink the containers width
-  # right will grow the containers width
-  # up will shrink the containers height
-  # down will grow the containers height
   bindsym $left resize shrink width 10px
   bindsym $down resize grow height 10px
   bindsym $up resize shrink height 10px
@@ -333,17 +296,16 @@ mode "resize" {
   bindsym Up resize shrink height 10px
   bindsym Right resize grow width 10px
 
-  # Return to default mode
+  # Escape resize mode
   bindsym Return mode "default"
   bindsym Escape mode "default"
 }
 
 bindsym $mod+r mode "resize"
 
-
-###############################################################################
-# -> Audio
-###############################################################################
+# ------------------------------------------------------------------------------
+# Audio
+# ------------------------------------------------------------------------------
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
@@ -352,34 +314,62 @@ bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 # style volume control window
 for_window [title="^Volume Control$"] floating enable, border pixel 5, resize set width 542, resize set height 342
 
-###############################################################################
-# -> Light
-# -> Required - Add user to `video` group
-# -> usermod -a -G video <user>
-###############################################################################
+# ------------------------------------------------------------------------------
+# Light / Brightness configuration
+# ------------------------------------------------------------------------------
+# Add user to `video` group
+# usermod -a -G video <user>
+# ------------------------------------------------------------------------------
 bindsym XF86MonBrightnessUp exec light -A 5
 bindsym XF86MonBrightnessDown exec light -U 5
 
+# ------------------------------------------------------------------------------
+# Window Title bar & Window Borders
+# ------------------------------------------------------------------------------
 
-###############################################################################
-# -> Window Title bar
-###############################################################################
-default_border none
 # titlebar_padding 4 3
 # titlebar_border_thickness 0
+
+default_border none
+# default_floating_border pixel 3
+# floating_minimum_size 1280 x 768
+
+# show shell in window title
 for_window [shell=".*"] title_format "%title | %shell"
 
+# ------------------------------------------------------------------------------
+# Floating Applications
+# ------------------------------------------------------------------------------
+for_window [class="^vlc$"] floating enable
+for_window [app_id="pavucontrol"] floating enable
 
-###############################################################################
+for_window [title="Transmission"] floating enable
+for_window [app_id="transmission-gtk"] floating enable
+
+for_window [app_id="org.gnome.Nautilus"] floating enable
+for_window [app_id="org.gnome.Calendar"] floating enable
+for_window [app_id="org.gnome.Calculator"] floating enable
+for_window [app_id="org.gnome.font-viewer"] floating enable, resize set width 1280, resize set height 768
+
+for_window [app_id="gnome-disks"] floating enable, resize set width 1280, resize set height 768
+for_window [app_id="gnome-tweaks"] floating enable, resize set width 1280, resize set height 768
+for_window [app_id="gnome-system-monitor"] floating enable, resize set width 1280, resize set height 768
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="dialog"] floating enable
+for_window [window_type="dialog"] floating enable
+
+# ------------------------------------------------------------------------------
 # -> Chrome Live Caption
-###############################################################################
+# ------------------------------------------------------------------------------
 # for_window [name="^Live Caption$"] floating enable
 
+# ------------------------------------------------------------------------------
+# Default Status Bar
+# Read `man 5 sway-bar` for more information about this section.
+# ------------------------------------------------------------------------------
 
-###############################################################################
-# -> Status Bar:
-# -> Read `man 5 sway-bar` for more information about this section.
-###############################################################################
 # bar {
 #   mode dock
 #   position top
@@ -401,15 +391,15 @@ for_window [shell=".*"] title_format "%title | %shell"
 #   }
 # }
 
-
-###############################################################################
+# ------------------------------------------------------------------------------
 # -> Waybar
-###############################################################################
+# ------------------------------------------------------------------------------
 bar {
   swaybar_command waybar
 }
 
-
-###############################################################################
+# ------------------------------------------------------------------------------
+# Include default settings
+# ------------------------------------------------------------------------------
 include /etc/sway/config.d/*
-###############################################################################
+# ------------------------------------------------------------------------------

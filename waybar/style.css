@@ -17,7 +17,7 @@
 /* Waybar */
 window#waybar {
   color: #f4f4f4;
-  background-color: #020202;
+  background-color: #000000;
   transition-duration: .5s;
   transition-property: background-color;
 }
