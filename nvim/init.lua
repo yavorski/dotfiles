@@ -448,6 +448,7 @@ Lazy.use {
 Lazy.use {
   "nvim-lualine/lualine.nvim",
   lazy = false,
+  priority = 512,
   dependencies = {
     { "tiagovla/scope.nvim" }, -- scope buffers to tabs
     { "nvim-tree/nvim-web-devicons" }, -- use dev icons
