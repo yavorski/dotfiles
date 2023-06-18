@@ -547,6 +547,8 @@ Lazy.use {
     }
   },
   keys = {
+    { "<leader>T", "<cmd>Telescope<cr>", silent = true, desc = "Telescope" },
+    { "<leader>tt", "<cmd>Telescope<cr>", silent = true, desc = "Telescope" },
     { "<leader>b", "<cmd>Telescope buffers<cr>", silent = true, desc = "Telescope Buffers" },
     { "<leader>/", "<cmd>Telescope live_grep<cr>", silent = true, desc = "Telescope Search" },
     { "<leader>f", "<cmd>Telescope find_files<cr>", silent = true, desc = "Telescope Files" },
