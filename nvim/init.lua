@@ -824,6 +824,7 @@ local LSP = {
       "tsserver",
       "dockerls",
       "emmet_ls",
+      -- "csharp_ls",
       -- "powershell"
       -- "rust_analyzer",
       -- "omnisharp-roslyn",
@@ -840,7 +841,7 @@ LSP.init = function()
   LSP.keymaps()
   LSP.setup_lua()
   LSP.setup_rust()
-  -- LSP.setup_dotnet()
+  LSP.setup_dotnet()
   LSP.setup_powershell()
   LSP.setup_listed_servers()
 end
@@ -1021,14 +1022,14 @@ LSP.setup_dotnet = function()
   local omnisharp_bin = "/usr/bin/omnisharp"
 
   -- @todo fix - requires telescope, so lazy is broken
-  local omnisharp_extended = require("omnisharp_extended")
+  -- local omnisharp_extended = require("omnisharp_extended")
 
   require("lspconfig").omnisharp.setup({
     capabilities = LSP.capabilities(),
     cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) },
 
     -- omnisharp extended handler
-    handlers = { ["textDocument/definition"] = omnisharp_extended.handler },
+    -- handlers = { ["textDocument/definition"] = omnisharp_extended.handler },
 
     -- Enables support for reading code style, naming convention and analyzer settings from .editorconfig.
     enable_editorconfig_support = true,
@@ -1046,10 +1047,27 @@ LSP.setup_dotnet = function()
     enable_import_completion = false,
 
     -- Specifies whether to include preview versions of the .NET SDK when determining which version to use for project loading.
-    sdk_include_prereleases = true,
+    sdk_include_prereleases = false,
 
     -- Only run analyzers against open files when "enableRoslynAnalyzers" is true
     analyze_open_documents_only = true,
+
+    -- disable lsp semantic tokens
+    -- https://github.com/omnisharp/omnisharp-roslyn/issues/2483
+    on_attach = function(client, buffer)
+      -- client.server_capabilities.semanticTokensProvider = nil
+
+      local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
+      local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
+
+      for i, v in ipairs(tokenModifiers) do
+        tokenModifiers[i] = string.gsub(v, "%s*[- ]%s*", "_")
+      end
+
+      for i, v in ipairs(tokenTypes) do
+        tokenTypes[i] = string.gsub(v, "%s*[- ]%s*", "_")
+      end
+    end
   })
 end
 
