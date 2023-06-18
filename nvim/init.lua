@@ -589,13 +589,10 @@ Lazy.use {
 Lazy.use {
   "folke/trouble.nvim",
   cmd = { "Trouble", "TroubleToggle" },
-  dependencies = { "nvim-tree/nvim-web-devicons" },
   opts = {
     icons = false,
     padding = false,
     indent_lines = false,
-    -- auto_preview = true,
-    -- action_keys = { toggle_preview = "<space>" },
     auto_jump = {
       "lsp_references",
       "lsp_definitions",
@@ -604,8 +601,13 @@ Lazy.use {
     },
     signs = { hint = "★", error = "✖", warning = "◀", other = "⬕", information = "▣" },
   },
-  init = function()
-    -- prevent initial auto_preview on open
+  config = function(plugin, options)
+    require("trouble").setup(options)
+
+    -- close on escape
+    vim.cmd [[ exe "nnoremap <esc> <cmd>TroubleClose<cr>" .. maparg("<esc>", "n") ]]
+
+    -- prevent jump/preview on open
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "Trouble",
       callback = function()
@@ -707,7 +709,7 @@ Lazy.use {
     }
   },
   init = function()
-    vim.keymap.set("n", "<esc>", "<cmd>Noice dismiss<cr>")
+    vim.cmd [[ exe "nnoremap <esc> <cmd>Noice dismiss<cr>" .. maparg("<esc>", "n") ]]
   end
 }
 
