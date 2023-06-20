@@ -340,6 +340,7 @@ for_window [shell=".*"] title_format "%title | %shell"
 # ------------------------------------------------------------------------------
 # Floating Applications
 # ------------------------------------------------------------------------------
+for_window [app_id="eog"] floating enable
 for_window [class="^vlc$"] floating enable
 for_window [app_id="pavucontrol"] floating enable
 
