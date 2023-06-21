@@ -356,6 +356,7 @@ Lazy.use {
 -- minimap - window with buffer text overview
 Lazy.use {
   "echasnovski/mini.map",
+  event = "VeryLazy",
   keys = {{ "<leader>M", function() require("mini.map").toggle() end, silent = true, desc = "MiniMapToggle" }},
   config = function()
     local minimap = require("mini.map")
@@ -365,20 +366,23 @@ Lazy.use {
         encode = minimap.gen_encode_symbols.dot("4x2")
       },
       window = {
-        width = 12,
+        width = 1,
+        -- width = 12,
         show_integration_count = false
       },
-      integrations = {
-        minimap.gen_integration.gitsigns(),
-        minimap.gen_integration.diagnostic({
-          info = "DiagnosticFloatingInfo",
-          hint = "DiagnosticFloatingHint",
-          warn = "DiagnosticFloatingWarn",
-          error = "DiagnosticFloatingError"
-        }),
-        minimap.gen_integration.builtin_search()
-      }
+      -- integrations = {
+      --   minimap.gen_integration.gitsigns(),
+      --   minimap.gen_integration.diagnostic({
+      --     info = "DiagnosticFloatingInfo",
+      --     hint = "DiagnosticFloatingHint",
+      --     warn = "DiagnosticFloatingWarn",
+      --     error = "DiagnosticFloatingError"
+      --   }),
+      --   minimap.gen_integration.builtin_search()
+      -- }
     })
+
+    minimap.open()
   end
 }
 
