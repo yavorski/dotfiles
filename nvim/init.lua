@@ -643,10 +643,11 @@ Lazy.use {
     notify = { view = "mini" },
     messages = { enabled = true },
     popupmenu = { kind_icons = false },
-    cmdline_output = { enabled = true},
+    cmdline_output = { enabled = true },
     presets = {
+      command_palette = true,
       long_message_to_split = true,
-      cmdline_output_to_split = true,
+      cmdline_output_to_split = false,
     },
     cmdline = {
       view = "cmdline_popup",
@@ -670,7 +671,8 @@ Lazy.use {
       history = { view = "popup" }
     },
     routes = {
-      { view = "notify", filter = { event = "msg_showmode" } }
+      { view = "notify", filter = { event = "msg_showmode" } },
+      { view = "split", filter = { event = "msg_show", min_height = 10 } },
     },
     format = {
       level = { icons = { error = "✖ ", warn = "◀ ", info = "▣ " } }
