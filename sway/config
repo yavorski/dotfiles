@@ -28,26 +28,24 @@ set $right l
 set $term alacritty
 
 # ------------------------------------------------------------------------------
+# Floating Terminal
+# ------------------------------------------------------------------------------
+set $term_float alacritty --class="Terminal"
+for_window [app_id="Terminal"] floating enable, border pixel 4, resize set width 85ppt, resize set height 85ppt
+
+# ------------------------------------------------------------------------------
 # Application Launcher
 # It's recommended that you pass the final command to sway
 # ------------------------------------------------------------------------------
 
 # Alacritty menu
-set $app_menu alacritty \
-  -qq \
-  --class="AppMenu" \
-  --title="AppMenu" \
-  --command sh -c "compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec"
-
-# style menu window
-# for_window [app_id="AppMenu"] border pixel 5
-# for_window [app_id="AppMenu"] floating enable
-# for_window [app_id="AppMenu"] resize set width 542
-# for_window [app_id="AppMenu"] resize set height 342
-for_window [title="^AppMenu$"] floating enable, border pixel 5, resize set width 680, resize set height 420
+set $app_menu alacritty -qq --class="AppMenu" --title="Application Launcher" --command sh -c "compgen -c | sort -u | shuf | fzf | xargs -r swaymsg -t command exec"
 
 # kill menu
-set $kill_app_menu swaymsg [title="^AppMenu$"] kill
+set $kill_app_menu swaymsg [app_id="AppMenu"] kill
+
+# style menu window
+for_window [app_id="AppMenu"] floating enable, border pixel 5, resize set width 700, resize set height 440
 
 # ------------------------------------------------------------------------------
 # Output/Display configuration
@@ -127,6 +125,7 @@ seat seat0 hide_cursor 5000
 
 # Start a terminal
 bindsym $mod+Return exec $term
+bindsym $mod+Shift+Return exec $term_float
 
 # Kill focused window
 bindsym Mod1+F4 kill
@@ -340,8 +339,8 @@ for_window [shell=".*"] title_format "%title | %shell"
 # ------------------------------------------------------------------------------
 # Floating Applications
 # ------------------------------------------------------------------------------
+for_window [class="vlc"] floating enable
 for_window [app_id="eog"] floating enable
-for_window [class="^vlc$"] floating enable
 for_window [app_id="pavucontrol"] floating enable
 
 for_window [title="Transmission"] floating enable

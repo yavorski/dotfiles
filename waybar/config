@@ -52,8 +52,7 @@
     "rewrite": {
       "(.*) - Chromium": "$1",
       "(.*) — Mozilla Firefox": "$1",
-      "(.*) - VLC media player": "$1",
-      "AppMenu": "Application Launcher"
+      "(.*) - VLC media player": "$1"
     }
   },
 
