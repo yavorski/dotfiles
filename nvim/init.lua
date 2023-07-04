@@ -542,7 +542,7 @@ Lazy.use {
   opts = {
     defaults = {
       sorting_strategy = "ascending",
-      file_ignore_patterns = { "^.git/", "node_modules" },
+      file_ignore_patterns = { "^.git/", "node_modules", "wwwroot/lib" },
       vimgrep_arguments = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--hidden", "--trim" }
     },
     pickers = {
