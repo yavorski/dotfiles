@@ -25,3 +25,6 @@ set incsearch
 
 " Allow backspace in insert mode
 set backspace=indent,eol,start
+
+" Clear highlighting of :set hlsearch
+nnoremap <silent> <C-L> :nohlsearch<CR>
