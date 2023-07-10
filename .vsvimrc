@@ -1,0 +1,30 @@
+" ------------------------------------------------------------
+" [[ vim ]] [[ vsvimrc ]] - minimal configuration
+" ------------------------------------------------------------
+
+" Make Vim more useful
+set nocompatible
+
+" Don't show status line
+set laststatus=0
+
+" system clipboard
+set clipboard=unnamed,unnamedplus
+
+" ignore case in search patterns
+set ignorecase
+
+" override the ignorecase option if the search containse upper characters
+set smartcase
+
+" Highlight searches
+set hlsearch
+
+" Highlight dynamically as pattern is typed
+set incsearch
+
+" Allow backspace in insert mode
+set backspace=indent,eol,start
+
+" Clear highlighting of :set hlsearch
+nnoremap <silent> <C-L> :nohlsearch<CR>
