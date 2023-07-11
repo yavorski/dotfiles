@@ -29,10 +29,8 @@ export HISTCONTROL=ignoredups
 # Set bat as man pager
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
-# bat man fix fedora
-if [ "$HOSTNAME" = "fedora" ]; then
-  export MANROFFOPT="-c"
-fi
+# bat man fix
+export MANROFFOPT="-c"
 
 # Force color
 export FORCE_COLOR=true

@@ -41,11 +41,4 @@ alias screenshot='grim -t png -g "$(slurp)" ~/Screenshots/screenshot-$(date +%d-
 alias turn-off-mic-led="light -s sysfs/leds/platform::micmute -S 0"
 
 # Battery status
-
-# #####  ThinkPad L390 ##### #
 # alias battery="cat /sys/class/power_supply/BAT0/capacity"
-# ##############################################
-
-# #####  ThinkPad T480 ##### #
-# alias battery="cat /sys/class/power_supply/BAT0/capacity /sys/class/power_supply/BAT1/capacity"
-# ##############################################

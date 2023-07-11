@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 
 # start sway ##
-if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty5 ]]; then
   exec sway
   # exec sway -d 2> ~/dev/sway.log
 fi
-
-# # start x/i3 ##
-# if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty2 ]]; then
-#   exec startx
-#   # exec startx /usr/bin/i3
-# fi
