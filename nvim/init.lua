@@ -27,8 +27,7 @@ vim.opt.background = "dark"
 vim.opt.termguicolors = true
 
 -- set colorscheme
--- vim.cmd[[colorscheme zephyr]]
--- vim.cmd[[colorscheme dark-knight]]
+-- vim.cmd[[colorscheme catppuccin]]
 
 -- disable word wrap
 vim.opt.wrap = false
@@ -184,6 +183,216 @@ vim.keymap.set("n", "gb9", "<cmd>LualineBuffersJump! 9<cr>", { silent = true })
 vim.keymap.set("n", "gb0", "<cmd>LualineBuffersJump! 10<cr>", { silent = true })
 
 ------------------------------------------------------------
+-- Color Scheme
+------------------------------------------------------------
+
+local Dark = {
+  colors = {
+    rosewater = "#f5e0dc", -- "#f5e0dc" - Winbar
+    flamingo  = "#f2cdcd", -- "#f2cdcd" - Target word
+    pink      = "#ff1493", -- "#f5c2e7" ! Just pink
+    mauve     = "#c678dd", -- "#cba6f7" ! Tag
+    red       = "#e95678", -- "#f38ba8" ! Error
+    maroon    = "#d16d9e", -- "#eba0ac" ! Lighter red
+    peach     = "#f5a97f", -- "#fab387" ! Number
+    yellow    = "#faf76e", -- "#f9e2af" ! Warning
+    green     = "#4bf99e", -- "#a6e3a1" ! Diff add
+    teal      = "#94e2d5", -- "#94e2d5" - Hint
+    trick     = "#1abc9c", -- "#1abc9c" - Trick!!
+    stealth   = "#14ff80", -- "#1abc9c" - Type!!
+    sky       = "#89dceb", -- "#89dceb" - Operator!
+    sapphire  = "#36d0e0", -- "#74c7ec" - Constructor
+    blue      = "#4ba6f9", -- "#89b4fa" ! Diff changed
+    skyblue   = "#54b9f7", -- "#41b2f7" ! Sky blue!!
+    lavender  = "#89b4fa", -- "#b4befe" ! CursorLine Nr
+    text      = "#cdd6f4", -- "#cdd6f4" - Default fg
+    subtext1  = "#bac2de", -- "#bac2de" - Indicator
+    subtext0  = "#a6adc8", -- "#a6adc8" - Float title
+    overlay2  = "#9399b2", -- "#9399b2" - Popup fg
+    overlay1  = "#7f849c", -- "#7f849c" - Conceal color
+    overlay0  = "#6c7086", -- "#6c7086" - Fold color
+    surface2  = "#585b70", -- "#585b70" - Default comment
+    surface1  = "#45475a", -- "#45475a" - Darker comment
+    surface0  = "#313244", -- "#313244" - Darkest comment
+    base      = "#1e1e2e", -- "#1e1e2e" - Default bg
+    mantle    = "#181825", -- "#181825" - Darker bg
+    mantlex   = "#161622", -- "#14141f" ! Darker bg
+    dark      = "#13131d", -- "#151521" - Darker bg
+    crust     = "#11111b", -- "#11111b" - Darkest bg
+  }
+}
+
+function Dark.editor(colors)
+  return {
+    -- nvim
+    LineNr = { bg = colors.mantle },
+    VertSplit = { fg = colors.crust, bg = colors.crust },
+
+    FoldColumn = { bg = colors.mantle },
+    SignColumn = { bg = colors.mantle },
+    SignColumnSB = { bg = colors.mantle },
+
+    MsgArea = { bg = colors.dark },
+    FloatBorder = { fg = colors.blue, bg = colors.mantle },
+
+    Pmenu = { bg = colors.crust },
+    PmenuSbar = { bg = colors.mantle },
+    PmenuThumb = { bg = colors.teal },
+
+    -- Search = { bg = colors.skyblue, fg = colors.mantle },
+    -- IncSearch = { bg = colors.red },
+    -- CurSearch = { bg = colors.peach },
+
+    -- Mini
+    MiniMapSymbolView = { fg = colors.red },
+    MiniIndentscopeSymbol = { fg = colors.red },
+
+    -- nvim marks
+    MarkSignHL = { bg = colors.mantle },
+    MarkSignNumHL = { bg = colors.mantle },
+
+    -- nvim tree
+    NvimTreeRootFolder = { fg = colors.peach },
+    NvimTreeWinSeparator = { fg = colors.crust, bg = colors.crust },
+    NvimTreeFolderName = { fg = colors.skyblue },
+    NvimTreeFolderIcon = { fg = colors.skyblue },
+
+    -- nvim gitsigns
+    GitSignsAdd = { fg = colors.green, bg = colors.mantle },
+    GitSignsChange = { fg = colors.yellow, bg = colors.mantle },
+    GitSignsDelete = { fg = colors.red, bg = colors.mantle },
+
+    -- nvim telescope
+    TelescopeSelection = { bg = colors.surface0 },
+    TelescopeSelectionCaret = { fg = colors.flamingo },
+    TelescopePromptCounter = { fg = colors.flamingo },
+    TelescopePromptPrefix = { bg = colors.surface0 },
+    TelescopePromptNormal = { bg = colors.surface0 },
+    TelescopeResultsNormal = { bg = colors.mantlex },
+    TelescopePreviewNormal = { bg = colors.crust },
+    TelescopePromptBorder = { bg = colors.surface0, fg = colors.surface0 },
+    TelescopeResultsBorder = { bg = colors.mantlex, fg = colors.mantlex },
+    TelescopePreviewBorder = { bg = colors.crust, fg = colors.crust },
+    TelescopePromptTitle = { fg = colors.surface0, bg = colors.surface0 },
+    TelescopeResultsTitle = { fg = colors.mantlex, bg = colors.mantlex },
+    TelescopePreviewTitle = { fg = colors.crust, bg = colors.crust },
+  }
+end
+
+function Dark.syntax(colors)
+  return {
+    -- nvim
+    Include = { fg = colors.pink },
+    Constant = { fg = colors.peach },
+    Exception = { fg = colors.red },
+
+    -- Type = { fg = colors.stealth },
+    -- Structure = { fg = colors.stealth },
+    -- StorageClass = { fg = colors.stealth },
+
+    Repeat = { fg = colors.maroon },
+
+    -- tree-sitter
+    ["@constant"] = { fg = colors.peach },
+    ["@constant.builtin"] = { fg = colors.pink },
+
+    ["@exception"] = { fg = colors.red },
+
+    ["@keyword.return"] = { fg = colors.red },
+    ["@keyword.export"] = { fg = colors.pink },
+    ["@keyword.operator"] = { fg = colors.stealth },
+    ["@keyword.coroutine"] = { fg = colors.stealth },
+
+    -- rust
+    ["@lsp.typemod.keyword.async.rust"] = { fg = colors.stealth },
+    ["@lsp.typemod.keyword.await.rust"] = { fg = colors.stealth },
+
+    -- dotnet tree-sitter
+    ["@type.c_sharp"] = { fg = colors.trick },
+    ["@type.qualifier.c_sharp"] = { link = "@keyword" },
+    ["@keyword.operator.c_sharp"] = { fg = colors.yellow },
+    ["@keyword.coroutine.c_sharp"] = { fg = colors.yellow },
+
+    -- dotnet lsp semantic tokens
+    ["@lsp.type.keyword.cs"] = { link = "@lsp" }, -- disable "keyword" since everything is a "keyword" and uses only 1 color
+    ["@lsp.type.class_name.cs"] = { fg = colors.trick },
+    ["@lsp.type.struct_name.cs"] = { fg = colors.peach },
+    ["@lsp.type.namespace_name.cs"] = { fg = colors.peach },
+    ["@lsp.type.interface_name.cs"] = { fg = colors.peach },
+    ["@lsp.type.enum_name.cs"] = { fg = colors.rosewater },
+    ["@lsp.type.enum_member_name.cs"] = { link = "@constant" },
+    ["@lsp.type.property_name.cs"] = { link = "@property" },
+    ["@lsp.type.parameter_name.cs"] = { link = "@parameter" },
+
+    -- css
+    ["cssPseudo"] = { fg = colors.mauve },
+    ["cssBoxProp"] = { link = "@property" },
+    ["cssFontProp"] = { link = "@property" },
+    ["cssTextProp"] = { link = "@property" },
+    ["cssColorProp"] = { link = "@property" },
+    ["cssVisualProp"] = { link = "@property" },
+    ["cssBorderProp"] = { link = "@property" },
+    ["cssAdvancedProp"] = { link = "@property" },
+    ["cssBackgroundProp"] = { link = "@property" },
+
+    -- stylus
+    ["stylusId"] = { fg = colors.pink },
+    ["stylusClass"] = { fg = colors.red },
+    ["stylusImport"] = { fg = colors.pink },
+    ["stylusVariable"] = { fg = colors.green },
+    ["stylusProperty"] = { link = "@property" },
+
+    -- xml
+    ["xmlAttrib"] = { fg = colors.peach }
+  }
+end
+
+function Dark.lualine()
+  local line = require("catppuccin.utils.lualine")("mocha")
+  local colors = Dark.colors;
+
+  line.normal = {
+    a = { bg = colors.green, fg = colors.base, gui = "bold" },
+    b = { bg = colors.surface1, fg = colors.text, gui = "bold" },
+    c = { bg = colors.dark, fg = colors.text },
+    y = { fg = colors.teal }
+  }
+
+  line.insert = {
+    a = { bg = colors.skyblue, fg = colors.mantle, gui = "bold" },
+    b = { bg = colors.surface1, fg = colors.skyblue },
+  }
+
+  line.terminal = {
+    a = { bg = colors.green, fg = colors.base, gui = "bold" },
+    b = { bg = colors.surface1, fg = colors.teal },
+  }
+
+  line.command = {
+    a = { bg = colors.yellow, fg = colors.base, gui = "bold" },
+    b = { bg = colors.surface1, fg = colors.yellow },
+  }
+
+  line.visual = {
+    a = { bg = colors.peach, fg = colors.base, gui = "bold" },
+    b = { bg = colors.surface1, fg = colors.peach },
+  }
+
+  line.replace = {
+    a = { bg = colors.red, fg = colors.base, gui = "bold" },
+    b = { bg = colors.surface1, fg = colors.red },
+  }
+
+  line.inactive = {
+    a = { bg = colors.dark, fg = colors.skyblue },
+    b = { bg = colors.dark, fg = colors.surface1, gui = "bold" },
+    c = { bg = colors.dark, fg = colors.overlay0 },
+  }
+
+  return line
+end
+
+------------------------------------------------------------
 -- Lazy
 ------------------------------------------------------------
 -- ~/.cache/nvim
@@ -242,12 +451,28 @@ end
 
 -- colorscheme
 Lazy.use {
-  "yavorski/dark-knight-nvim",
-  -- dir = "~/dev/dark-knight-nvim",
+  "catppuccin/nvim",
   lazy = false,
   priority = 1024,
-  config = function()
-    vim.cmd[[colorscheme dark-knight]]
+  opts = {
+    flavour = "mocha",
+    background = {
+      dark = "mocha",
+      light = "mocha"
+    },
+    term_colors = true,
+    transparent_background = false,
+    integrations = { which_key = true },
+    color_overrides = { mocha = Dark.colors },
+    highlight_overrides = {
+      mocha = function(colors)
+        return vim.tbl_extend("error", Dark.editor(colors), Dark.syntax(colors))
+      end
+    },
+  },
+  config = function(plugin, opts)
+    require("catppuccin").setup(opts)
+    vim.cmd[[ colorscheme catppuccin ]]
   end
 }
 
@@ -461,43 +686,47 @@ Lazy.use {
     { "yavorski/lualine-macro-recording.nvim" }, -- display macro recording
     { "whoissethdaniel/lualine-lsp-progress.nvim" }, -- display lsp progress
   },
-  opts = {
-    options = {
-      theme = "dark-knight",
-      icons_enabled = true,
-      section_separators = "", -- disable separators
-      component_separators = "", -- disable separators
-    },
-    sections = {
-      lualine_a = { "mode" },
-      lualine_b = { "branch", "diff", "diagnostics" },
-      lualine_c = { "filename", "filesize", "lsp_progress", "macro_recording", "%S" },
-      lualine_x = { "selectioncount", "searchcount", "lsp_client_name", "encoding", "fileformat", "filetype" },
-      lualine_y = { "progress" },
-      lualine_z = { "location" }
-    },
-    tabline = {
-      lualine_a = {{
-        "buffers",
-        mode = 0, -- shows only buffer name
-        icons_enabled = false,
-        show_filename_only = true,
-        show_modified_status = true,
-        hide_filename_extension = false,
-        max_length = vim.o.columns, -- maximum width of buffers component
-        symbols = { modified = " ^", directory = "", alternate_file = "#" },
-        filetype_names = {
-          fzf = "FZF",
-          lazy = "Lazy",
-          NvimTree = "NvimTree",
-          checkhealth = "CheckHealth",
-          TelescopePrompt = "Telescope",
-        },
-      }},
-      lualine_z = { "tabs" }
-    },
-    extensions = { "nvim-tree" }
-  },
+  opts = function()
+    local catppuccin = Dark.lualine()
+
+    return {
+      options = {
+        theme = catppuccin,
+        icons_enabled = true,
+        section_separators = "", -- disable separators
+        component_separators = "", -- disable separators
+      },
+      sections = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch", "diff", "diagnostics" },
+        lualine_c = { "filename", "filesize", "lsp_progress", "macro_recording", "%S" },
+        lualine_x = { "selectioncount", "searchcount", "lsp_client_name", "encoding", "fileformat", "filetype" },
+        lualine_y = { "progress" },
+        lualine_z = { "location" }
+      },
+      tabline = {
+        lualine_a = {{
+          "buffers",
+          mode = 0, -- shows only buffer name
+          icons_enabled = false,
+          show_filename_only = true,
+          show_modified_status = true,
+          hide_filename_extension = false,
+          max_length = vim.o.columns, -- maximum width of buffers component
+          symbols = { modified = " ^", directory = "", alternate_file = "#" },
+          filetype_names = {
+            fzf = "FZF",
+            lazy = "Lazy",
+            NvimTree = "NvimTree",
+            checkhealth = "CheckHealth",
+            TelescopePrompt = "Telescope",
+          },
+        }},
+        lualine_z = { "tabs" }
+      },
+      extensions = { "nvim-tree" }
+    }
+  end,
   config = function(plugin, options)
     require("scope").setup()
     require("lualine").setup(options)
