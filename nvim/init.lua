@@ -1286,23 +1286,6 @@ LSP.setup_dotnet = function()
 
     -- Only run analyzers against open files when "enableRoslynAnalyzers" is true
     analyze_open_documents_only = true,
-
-    -- disable lsp semantic tokens
-    -- https://github.com/omnisharp/omnisharp-roslyn/issues/2483
-    on_attach = function(client, buffer)
-      -- client.server_capabilities.semanticTokensProvider = nil
-
-      local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
-      local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
-
-      for i, v in ipairs(tokenModifiers) do
-        tokenModifiers[i] = string.gsub(v, "%s*[- ]%s*", "_")
-      end
-
-      for i, v in ipairs(tokenTypes) do
-        tokenTypes[i] = string.gsub(v, "%s*[- ]%s*", "_")
-      end
-    end
   })
 end
 
