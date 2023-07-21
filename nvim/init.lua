@@ -285,19 +285,15 @@ function Dark.syntax(colors)
     Include = { fg = colors.pink },
     Constant = { fg = colors.peach },
     Exception = { fg = colors.red },
-
-    -- Type = { fg = colors.stealth },
-    -- Structure = { fg = colors.stealth },
-    -- StorageClass = { fg = colors.stealth },
-
     Repeat = { fg = colors.maroon },
+    -- Type = { fg = colors.stealth },
+    -- Structure = { fg = colors.peach },
+    -- StorageClass = { fg = colors.yellow },
 
     -- tree-sitter
     ["@constant"] = { fg = colors.peach },
     ["@constant.builtin"] = { fg = colors.pink },
-
     ["@exception"] = { fg = colors.red },
-
     ["@keyword.return"] = { fg = colors.red },
     ["@keyword.export"] = { fg = colors.pink },
     ["@keyword.operator"] = { fg = colors.stealth },
@@ -315,14 +311,11 @@ function Dark.syntax(colors)
 
     -- dotnet lsp semantic tokens
     ["@lsp.type.keyword.cs"] = { link = "@lsp" }, -- disable "keyword" since everything is a "keyword" and uses only 1 color
-    ["@lsp.type.class_name.cs"] = { fg = colors.trick },
-    ["@lsp.type.struct_name.cs"] = { fg = colors.peach },
-    ["@lsp.type.namespace_name.cs"] = { fg = colors.peach },
-    ["@lsp.type.interface_name.cs"] = { fg = colors.peach },
-    ["@lsp.type.enum_name.cs"] = { fg = colors.rosewater },
-    ["@lsp.type.enum_member_name.cs"] = { link = "@constant" },
-    ["@lsp.type.property_name.cs"] = { link = "@property" },
-    ["@lsp.type.parameter_name.cs"] = { link = "@parameter" },
+    ["@lsp.type.class.cs"] = { fg = colors.trick },
+    ["@lsp.type.struct.cs"] = { fg = colors.peach },
+    ["@lsp.type.interface.cs"] = { fg = colors.green },
+    ["@lsp.type.enum.cs"] = { fg = colors.flamingo },
+    ["@lsp.type.namespace.cs"] = { fg = colors.peach, style = { "italic" } },
 
     -- css
     ["cssPseudo"] = { fg = colors.mauve },
