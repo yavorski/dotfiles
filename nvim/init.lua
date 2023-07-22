@@ -1104,20 +1104,20 @@ LSP.buffer_keymaps = function(buffer)
     vim.keymap.set(mode, lhs, rhs, { silent = true, buffer = buffer, desc = desc })
   end
 
-  -- keymap("n", "gr", vim.lsp.buf.references, "LSP References")
-  keymap("n", "gr", "<cmd>TroubleToggle lsp_references<cr>", "LSP References")
+  keymap("n", "gr", vim.lsp.buf.references, "LSP References")
+  keymap("n", "<leader>gr", "<cmd>TroubleToggle lsp_references<cr>", "LSP References")
 
-  -- keymap("n", "gd", vim.lsp.buf.definition, "LSP Definition")
-  keymap("n", "gd", "<cmd>TroubleToggle lsp_definitions<cr>", "LSP Definition")
+  keymap("n", "gd", vim.lsp.buf.definition, "LSP Definition")
+  keymap("n", "<leader>gd", "<cmd>TroubleToggle lsp_definitions<cr>", "LSP Definition")
 
   -- no trouble declaration
   keymap("n", "gD", vim.lsp.buf.declaration, "LSP Declaration")
 
-  -- keymap("n", "gi", vim.lsp.buf.implementation, "LSP Implementation")
-  keymap("n", "gi", "<cmd>TroubleToggle lsp_implementations<cr>", "LSP Implementation")
+  keymap("n", "gi", vim.lsp.buf.implementation, "LSP Implementation")
+  keymap("n", "<leader>gi", "<cmd>TroubleToggle lsp_implementations<cr>", "LSP Implementation")
 
-  -- keymap("n", "g<space>", vim.lsp.buf.type_definition, "LSP Type Definition")
-  keymap("n", "g<space>", "<cmd>TroubleToggle lsp_type_definitions<cr>", "LSP Type Definition")
+  keymap("n", "g<space>", vim.lsp.buf.type_definition, "LSP Type Definition")
+  keymap("n", "<leader>g<space>", "<cmd>TroubleToggle lsp_type_definitions<cr>", "LSP Type Definition")
 
   keymap("n", "K", vim.lsp.buf.hover, "LSP Hover")
   keymap("n", "<C-k>", vim.lsp.buf.signature_help, "LSP Signature Help")
@@ -1144,6 +1144,7 @@ LSP.buffer_keymaps = function(buffer)
   keymap("n", "<leader>wq", "<cmd>TroubleToggle workspace_diagnostics<cr>", "LSP Workspace Diagnostics")
   keymap("n", "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "LSP Workspace List Folders")
 
+  require("which-key").register({ ["<leader>g"] = "LSP Trouble" })
   require("which-key").register({ ["<leader>w"] = "LSP Workspace" })
 end
 
