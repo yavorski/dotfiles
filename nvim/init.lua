@@ -160,6 +160,13 @@ vim.api.nvim_exec2([[
 vim.g.rust_recommended_style = 0
 
 ------------------------------------------------------------
+-- close quickfix/location lists
+------------------------------------------------------------
+
+vim.cmd [[ exe "nnoremap <esc> <cmd>lclose<cr>" .. maparg("<esc>", "n") ]]
+vim.cmd [[ exe "nnoremap <esc> <cmd>cclose<cr>" .. maparg("<esc>", "n") ]]
+
+------------------------------------------------------------
 -- Buffer navigation
 ------------------------------------------------------------
 
