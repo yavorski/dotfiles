@@ -1067,6 +1067,7 @@ local LSP = {
 LSP.init = function()
   LSP.UI()
   LSP.keymaps()
+  LSP.overloads()
   LSP.setup_lua()
   LSP.setup_rust()
   LSP.setup_dotnet()
@@ -1167,6 +1168,46 @@ LSP.capabilities = function()
   local capabilities = vim.tbl_deep_extend("force", {}, client_capabilities, lsp_capabilities)
   -- capabilities.textDocument.completion.completionItem.snippetSupport = true
   return capabilities
+end
+
+------------------------------------------------------------
+-- LSP - navigation through method overloads
+------------------------------------------------------------
+LSP.overloads = function()
+  vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("UserLspConfigOverload", {}),
+    callback = function(event)
+      local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+      if client.server_capabilities.signatureHelpProvider then
+        require("lsp-overloads").setup(client, {
+          display_automatically = false,
+          ui = {
+            border = "solid",
+            close_events = {
+              "CursorMoved",
+              "CursorMovedI",
+              "BufHidden",
+              "InsertLeave",
+              "InsertEnter",
+              "InsertChange",
+              "TextChanged",
+              "TextChangedI"
+            },
+          },
+          keymaps = {
+            next_signature = "<C-n>",
+            previous_signature = "<C-p>",
+            next_parameter = "<C-l>",
+            previous_parameter = "<C-h>",
+            close_signature = "<esc>"
+          },
+        })
+
+        vim.keymap.set({ "n", "i" }, "<A-s>", "<cmd>LspOverloadsSignature<CR>", { silent = false });
+      end
+    end
+  })
 end
 
 ------------------------------------------------------------
@@ -1307,6 +1348,7 @@ Lazy.use {
     { "folke/neodev.nvim" }, -- init.lua, plugin development, signature help, docs and completion for the nvim lua api
     { "hrsh7th/cmp-nvim-lsp" }, -- nvim-cmp source for neovim builtin LSP client
     { "simrat39/rust-tools.nvim" }, -- extra functionality over rust analyzer
+    { "issafalcon/lsp-overloads.nvim" }, -- extends the native nvim-lsp handlers to allow easier navigation through method overloads
     { "hoffs/omnisharp-extended-lsp.nvim", enabled = false }, -- extend "textDocument/definition" handler for OmniSharp Neovim LSP
   },
   config = function()
