@@ -1321,7 +1321,7 @@ LSP.setup_dotnet = function()
     organize_imports_on_format = false,
 
     -- Enables support for showing unimported types and unimported extension methods in completion lists.
-    enable_import_completion = false,
+    enable_import_completion = true,
 
     -- Specifies whether to include preview versions of the .NET SDK when determining which version to use for project loading.
     sdk_include_prereleases = false,
