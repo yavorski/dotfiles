@@ -753,7 +753,8 @@ Lazy.use {
 
 -- find, filter, preview, pick
 -- highly extendable fuzzy finder over lists
-local is_windows = vim.loop.os_uname().sysname == "Windows" or "Windows_NT"
+local sysname = vim.loop.os_uname().sysname
+local is_windows = sysname == "Windows" or sysname == "Windows_NT"
 local fzf_windows_native = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
 
 Lazy.use {
@@ -1296,14 +1297,16 @@ end
 ------------------------------------------------------------
 LSP.setup_dotnet = function()
   local pid = vim.fn.getpid()
-  local omnisharp_bin = "/usr/bin/omnisharp"
+  local omnisharp_linux = "/usr/bin/omnisharp"
+  local omnisharp_windows = "C:/dev/omnisharp-win-x64/OmniSharp.exe"
+  local omnisharp_binary = is_windows and omnisharp_windows or omnisharp_linux
 
   -- @todo fix - requires telescope, so lazy is broken
   -- local omnisharp_extended = require("omnisharp_extended")
 
   require("lspconfig").omnisharp.setup({
     capabilities = LSP.capabilities(),
-    cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) },
+    cmd = { omnisharp_binary, "--languageserver" , "--hostPID", tostring(pid) },
 
     -- omnisharp extended handler
     -- handlers = { ["textDocument/definition"] = omnisharp_extended.handler },
