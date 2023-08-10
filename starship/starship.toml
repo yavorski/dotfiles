@@ -2,8 +2,8 @@
 # -----------------------
 
 [character]
-success_symbol = "[𝝺](bold cyan)"
 error_symbol = "[✖](bold red)"
+success_symbol = "[𝝺](bold cyan)"
 
 [username]
 show_always = true
@@ -19,3 +19,4 @@ format = "[$hostname]($style) in "
 [[battery.display]]
 threshold = 15
 style = "bold red"
+discharging_symbol = '  '
