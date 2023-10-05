@@ -1060,6 +1060,7 @@ local LSP = {
       "tsserver",
       "dockerls",
       "emmet_ls",
+      "angularls",
       -- "csharp_ls",
       -- "powershell"
       -- "rust_analyzer",
@@ -1559,6 +1560,7 @@ end
 -- npm i -g emmet-ls
 -- npm i -g typescript
 -- npm i -g bash-language-server
+-- npm i -g @angular/language-server
 -- npm i -g typescript-language-server
 -- npm i -g vscode-langservers-extracted
 -- npm i -g dockerfile-language-server-nodejs
