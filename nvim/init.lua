@@ -1559,11 +1559,16 @@ end
 -- Required in path
 --------------------------------------------------------------------------------
 -- npm i -g emmet-ls
+-- npm i -g @olrtg/emmet-language-server
+
 -- npm i -g typescript
--- npm i -g bash-language-server
--- npm i -g @angular/language-server
 -- npm i -g typescript-language-server
 -- npm i -g vscode-langservers-extracted
+
+-- npm i -g @angular/language-server
+-- // -- install as project dev dependency too
+
+-- npm i -g bash-language-server
 -- npm i -g dockerfile-language-server-nodejs
 
 -- pacman -S zig gcc rust-analyzer lua-language-server pyright shellcheck
