@@ -1059,9 +1059,9 @@ local LSP = {
       "pyright",
       "tsserver",
       "dockerls",
-      "angularls",
       "emmet_language_server",
       -- "emmet_ls",
+      -- "angularls",
       -- "csharp_ls",
       -- "powershell"
       -- "rust_analyzer",
@@ -1081,6 +1081,7 @@ LSP.init = function()
   LSP.setup_lua()
   LSP.setup_rust()
   LSP.setup_dotnet()
+  LSP.setup_angular()
   LSP.setup_powershell()
   LSP.setup_listed_servers()
 end
@@ -1243,6 +1244,23 @@ LSP.setup_rust = function()
     server = {
       capabilities = LSP.capabilities(),
     }
+  })
+end
+
+------------------------------------------------------------
+-- LSP Angular
+------------------------------------------------------------
+LSP.setup_angular = function()
+  -- @todo fix windows path
+  local als = vim.fn.expand("$HOME/.npm/lib/node_modules/@angular/language-server")
+  local cmd = { "ngserver", "--stdio", "--tsProbeLocations", als, "--ngProbeLocations", als }
+
+  require("lspconfig").angularls.setup({
+    cmd = cmd,
+    capabilities = LSP.capabilities(),
+    on_new_config = function(new_config, new_root_dir)
+      new_config.cmd = cmd
+    end,
   })
 end
 
