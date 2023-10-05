@@ -1059,8 +1059,9 @@ local LSP = {
       "pyright",
       "tsserver",
       "dockerls",
-      "emmet_ls",
       "angularls",
+      "emmet_language_server",
+      -- "emmet_ls",
       -- "csharp_ls",
       -- "powershell"
       -- "rust_analyzer",
