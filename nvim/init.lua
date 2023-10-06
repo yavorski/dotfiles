@@ -1251,8 +1251,7 @@ end
 -- LSP Angular
 ------------------------------------------------------------
 LSP.setup_angular = function()
-  -- @todo fix windows path
-  local als = vim.fn.expand("$HOME/.npm/lib/node_modules/@angular/language-server")
+  local als = vim.fn.expand((is_windows and "$APPDATA/npm" or "$HOME/.npm/lib").."/node_modules/@angular/language-server")
   local cmd = { "ngserver", "--stdio", "--tsProbeLocations", als, "--ngProbeLocations", als }
 
   require("lspconfig").angularls.setup({
@@ -1581,10 +1580,9 @@ end
 
 -- npm i -g typescript
 -- npm i -g typescript-language-server
--- npm i -g vscode-langservers-extracted
 
 -- npm i -g @angular/language-server
--- // -- install as project dev dependency too
+-- npm i -g vscode-langservers-extracted
 
 -- npm i -g bash-language-server
 -- npm i -g dockerfile-language-server-nodejs
