@@ -541,38 +541,45 @@ Exec = /bin/sh -c 'systemctl start reflector.service; if [ -f /etc/pacman.d/mirr
 ## dev tools (optional)
 
 ```bash
-pacman -S git
+pacman -S git git-delta
 pacman -S curl wget rsync
 pacman -S procs htop bottom
 pacman -S llvm gcc clang cmake python rust nodejs npm
 pacman -S man tldr tokei
 pacman -S exa bat tree duf dust fx
 pacman -S fd fzf skim ripgrep the_silver_searcher
+pacman -S helix
 pacman -S neovim
+pacman -S neovide
 pacman -S starship
 pacman -S alacritty kitty
 
+pacman -S xorg-xdpyinfo xorg-xprop xorg-xrandr xorg-xwininfo
+pacman -S neofetch catimg chafa feh imagemagick jp2a libcaca nitrogen
+```
+
+## fonts (optional)
+
+```bash
 pacman -S
   terminus-font
   gnu-free-fonts
-  powerline-fonts
   cantarell-fonts
+  powerline-fonts
   otf-font-awesome
   noto-fonts-emoji
+  adobe-source-code-pro-fonts
+
+pacman -S
   ttf-ibm-plex
   ttf-ibmplex-mono-nerd
   ttf-jetbrains-mono
   ttf-jetbrains-mono-nerd
   ttf-ubuntu-mono-nerd
   ttf-ubuntu-font-family
-  adobe-source-code-pro-fonts
+  ttf-nerd-fonts-symbols-mono
   ttf-nerd-fonts-symbols-common
-  ttf-nerd-fonts-symbols-1000-em
-  ttf-nerd-fonts-symbols-1000-em-mono
   AUR ttf-intel-one-mono
-
-pacman -S xorg-xdpyinfo xorg-xprop xorg-xrandr xorg-xwininfo
-pacman -S neofetch catimg chafa feh imagemagick jp2a libcaca nitrogen
 ```
 
 ---
@@ -581,10 +588,12 @@ pacman -S neofetch catimg chafa feh imagemagick jp2a libcaca nitrogen
 
 ## Window Manager (optional)
 
-Look at [Sway](./wm.md) doc.
+* [Sway - Arch wiki](https://wiki.archlinux.org/title/Sway)
+* [Sway - Github wiki](https://github.com/swaywm/sway/wiki)
 
 ```bash
-pacman -S sway swaybg swaylock swayidle waybar
+pacman -S sway swaybg swayimg swayidle swaylock waybar
+# pacman -S polkit / seatd # [needs configuration]
 ```
 
 ---

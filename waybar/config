@@ -131,7 +131,9 @@
   },
 
   "pulseaudio": {
-    // "scroll-step": 1, // %, can be a float
+    "max-volume": 100,
+    "scroll-step": 5.0,
+    "on-click": "pavucontrol",
     "format": "{volume}% {icon} {format_source}",
     "format-muted": " {format_source}",
     "format-source": "{volume}% ",
@@ -146,8 +148,7 @@
       "portable": "",
       "car": "",
       "default": ["", "", ""]
-    },
-    "on-click": "pavucontrol"
+    }
   },
 
   "sway/scratchpad#count": {

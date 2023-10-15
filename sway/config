@@ -6,7 +6,7 @@
 
 # Set font
 # ------------------------------------------------------------------------------
-font IntelOne Mono Bold 9
+font Intel One Mono Bold 9
 # font Source Code Pro Bold 9
 
 # ------------------------------------------------------------------------------
@@ -30,7 +30,8 @@ set $term alacritty
 # ------------------------------------------------------------------------------
 # Floating Terminal
 # ------------------------------------------------------------------------------
-set $term_float alacritty --class="Terminal"
+set $term_float_kitty kitty --class="Terminal"
+set $term_float_alacritty alacritty --class="Terminal"
 for_window [app_id="Terminal"] floating enable, border pixel 4, resize set width 85ppt, resize set height 85ppt
 
 # ------------------------------------------------------------------------------
@@ -125,7 +126,7 @@ seat seat0 hide_cursor 5000
 
 # Start a terminal
 bindsym $mod+Return exec $term
-bindsym $mod+Shift+Return exec $term_float
+bindsym $mod+Shift+Return exec $term_float_kitty
 
 # Kill focused window
 bindsym Mod1+F4 kill
@@ -149,18 +150,23 @@ floating_modifier $mod normal
 # Reload the configuration file
 bindsym $mod+Shift+c reload
 
-# Exit sway (logs you out of your Wayland session)
+# Exit sway
+bindsym $mod+Shift+End exec swaynag \
+  --type warning \
+  --font "Intel One Mono Bold 10" \
+  --message "Do you really want to exit sway? This will end your Wayland session." \
+  --button " Exit Sway " "swaymsg exit" \
+  --dismiss-button " ✖ " \
+  --border-bottom-size 0
 
-# bindsym $mod+Shift+e exec swaynag \
-#   --type warning \
-#   --font "IntelOne Mono Bold 9" \
-#   --message "Do you really want to exit sway? This will end your Wayland session." \
-#   --button " Exit Sway " "swaymsg exit" \
-#   --dismiss-button " ✖ " \
-#   --border-bottom-size 0
+# Kill swaynag
+bindsym $mod+Shift+Insert exec killall swaynag
 
-# [AUR] pacman -S nwg-bar
+# [AUR] pacman -S nwg-bar-bin
+# Works on T14 with Left Shift
+# Works on L390 with Right Shift
 bindsym $mod+Shift+F12 exec nwg-bar -i 96
+bindsym $mod+Shift+Delete exec nwg-bar -i 96
 
 # ------------------------------------------------------------------------------
 # Moving around key bindings

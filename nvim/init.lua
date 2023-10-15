@@ -143,6 +143,9 @@ vim.api.nvim_exec2([[
   augroup end
 ]], { output = false })
 
+-- treat json files as jsonc
+-- vim.cmd[[autocmd BufRead,BufNewFile *.json set filetype=jsonc]]
+
 -- disable indentline for markdown files (avoid concealing)
 -- vim.cmd[[autocmd FileType markdown let g:indentLine_enabled=0]]
 
@@ -250,7 +253,7 @@ function Dark.editor(colors)
     -- IncSearch = { bg = colors.red },
     -- CurSearch = { bg = colors.peach },
 
-    -- Mini
+    -- nvim mini
     MiniMapSymbolView = { fg = colors.red },
     MiniIndentscopeSymbol = { fg = colors.red },
 
@@ -296,6 +299,9 @@ function Dark.syntax(colors)
     -- Type = { fg = colors.stealth },
     -- Structure = { fg = colors.peach },
     -- StorageClass = { fg = colors.yellow },
+
+    -- lsp
+    ["@lsp.type.comment"] = { link = "@lsp" }, -- disable lsp comments, use tree-sitter instead
 
     -- tree-sitter
     ["@constant"] = { fg = colors.peach },
@@ -625,6 +631,7 @@ Lazy.use {
     { "<leader>kb", "<cmd>NvimTreeToggle<cr>", silent = true, desc = "NvimTreeToggle" },
     { "<leader>kr", "<cmd>NvimTreeRefresh<cr>", silent = true, desc = "NvimTreeRefresh" },
     { "<leader>kf", "<cmd>NvimTreeFindFile<cr>", silent = true, desc = "NvimTreeFindFile" },
+    { "<leader>ko", "<cmd>NvimTreeFindFile!<cr>", silent = true, desc = "NvimTreeFindFile!" },
     { "<leader>K", function() require("nvim-tree.api").tree.toggle({ focus = false }) end, silent = true, desc = "NvimTreeToggle" }
   }
 }
@@ -772,7 +779,7 @@ Lazy.use {
   opts = {
     defaults = {
       sorting_strategy = "ascending",
-      file_ignore_patterns = { "^.git/", "node_modules", "wwwroot/lib" },
+      file_ignore_patterns = { "^.git/", "node_modules", "wwwroot/lib", "bin", "obj", "debug" },
       vimgrep_arguments = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--hidden", "--trim" }
     },
     pickers = {
@@ -832,6 +839,10 @@ Lazy.use {
       "lsp_definitions",
       "lsp_implementations",
       "lsp_type_definitions"
+    },
+    include_declaration = {
+      "lsp_definitions",
+      "lsp_implementations",
     },
     signs = { hint = "★", error = "✖", warning = "◀", other = "⬕", information = "▣" },
   },
@@ -1053,9 +1064,11 @@ local LSP = {
       "html",
       "cssls",
       "gopls",
+      "taplo",
       "jsonls",
       "bashls",
       "clangd",
+      "yamlls",
       "pyright",
       "tsserver",
       "dockerls",
@@ -1193,6 +1206,7 @@ LSP.overloads = function()
 
       if client.server_capabilities.signatureHelpProvider then
         require("lsp-overloads").setup(client, {
+          silent = false,
           display_automatically = false,
           ui = {
             border = "solid",
@@ -1322,14 +1336,14 @@ LSP.setup_dotnet = function()
   local omnisharp_binary = is_windows and omnisharp_windows or omnisharp_linux
 
   -- @todo fix - requires telescope, so lazy is broken
-  -- local omnisharp_extended = require("omnisharp_extended")
+  local omnisharp_extended = require("omnisharp_extended")
 
   require("lspconfig").omnisharp.setup({
     capabilities = LSP.capabilities(),
     cmd = { omnisharp_binary, "--languageserver" , "--hostPID", tostring(pid) },
 
     -- omnisharp extended handler
-    -- handlers = { ["textDocument/definition"] = omnisharp_extended.handler },
+    handlers = { ["textDocument/definition"] = omnisharp_extended.handler },
 
     -- Enables support for reading code style, naming convention and analyzer settings from .editorconfig.
     enable_editorconfig_support = true,
@@ -1380,7 +1394,7 @@ Lazy.use {
     { "hrsh7th/cmp-nvim-lsp" }, -- nvim-cmp source for neovim builtin LSP client
     { "simrat39/rust-tools.nvim" }, -- extra functionality over rust analyzer
     { "issafalcon/lsp-overloads.nvim" }, -- extends the native nvim-lsp handlers to allow easier navigation through method overloads
-    { "hoffs/omnisharp-extended-lsp.nvim", enabled = false }, -- extend "textDocument/definition" handler for OmniSharp Neovim LSP
+    { "hoffs/omnisharp-extended-lsp.nvim", enabled = true }, -- extend "textDocument/definition" handler for OmniSharp Neovim LSP
   },
   config = function()
     LSP.init()
@@ -1555,7 +1569,7 @@ Lazy.setup()
 ------------------------------------------------------------
 
 if vim.g.neovide then
-  vim.opt.guifont = { "IntelOne Mono", ":h11.25:b" }
+  vim.opt.guifont = { "Intel One Mono", ":h11.25:b" }
   -- vim.opt.guifont = { "JetBrains Mono", ":h10:b" }
   -- vim.opt.guifont = { "JetBrainsMono NFM", ":h10:b" }
 end
@@ -1576,19 +1590,37 @@ end
 --------------------------------------------------------------------------------
 -- Required in path
 --------------------------------------------------------------------------------
--- npm i -g emmet-ls
+-- npm i -g emmet-ls # outdated
 -- npm i -g @olrtg/emmet-language-server
 
--- npm i -g typescript
--- npm i -g typescript-language-server
+-- npm i -g bash-language-server
+-- pacman -S bash-language-server
 
+-- npm i -g typescript-language-server
+-- pacman -S typescript-language-server
+
+-- [ angular ]
 -- npm i -g @angular/language-server
+
+-- # -> [ html, css, json, eslint ]
 -- npm i -g vscode-langservers-extracted
 
--- npm i -g bash-language-server
+-- # -> [ docker ]
 -- npm i -g dockerfile-language-server-nodejs
 
--- pacman -S zig gcc rust-analyzer lua-language-server pyright shellcheck
+-- pacman -S zig zls
+-- pacman -S gcc clang
+-- pacman -S taplo taplo-cli
+-- pacman -S rust rust-analyzer
+-- pacman -S lua-language-server
+-- pacman -S yaml-language-server
+
+-- pacman -S gopls
+-- pacman -S shellcheck
+
+-- pacman -S pyright
+-- pacman -S python-lsp-server
+
 -- pacman -S fd ripgrep tar curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 ------------------------------------------------------------------------------------
 

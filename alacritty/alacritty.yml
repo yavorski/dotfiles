@@ -10,13 +10,13 @@ window:
 
 # Font configuration
 # family: Ubuntu Mono # size: 13.00 # Bold # Bold Italic
-# family: IntelOne Mono # size 11.50 # Bold # Bold Italic
+# family: Intel One Mono # size 11.50 # Bold # Bold Italic
 # family: IBM Plex Mono # size: 11.00 # Bold # Bold Italic
 # family: JetBrains Mono # size: 11.00 # ExtraBold # ExtraBold Italic
 font:
   size: 11.50
   normal:
-    family: IntelOne Mono
+    family: Intel One Mono
     style: Bold
   bold:
     style: Bold
@@ -30,7 +30,7 @@ font:
   # `offset.y` as modifying the line spacing,
   offset:
     x: 0
-    y: -1 # IntelOne
+    y: -1 # Intel One
 
 # if `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
