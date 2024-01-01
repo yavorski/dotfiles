@@ -643,6 +643,40 @@ Lazy.use {
   end
 }
 
+-- misc fns - put, put_text, setup_auto_root, setup_restore_cursor, zoom
+Lazy.use {
+  "echasnovski/mini.misc",
+  keys = {
+    { "<F11>", function() require("mini.misc").zoom() end, silent = true, desc = "MiniMisc Zoom In/Out" },
+    { "<leader>Z", function() require("mini.misc").zoom() end, silent = true, desc = "MiniMisc Zoom In/Out" }
+  }
+}
+
+-- pick - files, pattern match, buffers, help tags, cli output
+Lazy.use {
+  "echasnovski/mini.pick",
+  dependencies = {
+    { "echasnovski/mini.misc", config = true },
+    { "echasnovski/mini.extra", config = true }
+  },
+  cmd = "Pick",
+  opts = {
+    window = {
+      config = function()
+        local width = math.floor(0.618 * vim.o.columns)
+        local height = math.floor(0.618 * vim.o.lines)
+        return {
+          anchor = "NW",
+          width = width,
+          height = height,
+          row = math.floor(0.5 * (vim.o.lines - height)),
+          col = math.floor(0.5 * (vim.o.columns - width)),
+        }
+      end
+    }
+  }
+}
+
 -- file explorer sidebar
 Lazy.use {
   "nvim-tree/nvim-tree.lua",
