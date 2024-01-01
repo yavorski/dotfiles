@@ -129,11 +129,12 @@ vim.g.maplocalleader = [[ ]]
 -- edit cmd
 ------------------------------------------------------------
 
--- remove whitespace on save
-vim.cmd[[au BufWritePre * :%s/\s\+$//e]]
-
--- don't auto comment new lines
-vim.cmd[[au BufEnter * set fo-=c fo-=r fo-=o]]
+-- trim trailing whitespace on save
+-- vim.cmd[[au BufWritePre * :%s/\s\+$//e]]
+local tws_autocmd_id = vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  command = [[:%s/\s\+$//e]]
+})
 
 -- highlight on yank
 vim.api.nvim_exec2([[
@@ -144,13 +145,13 @@ vim.api.nvim_exec2([[
 ]], { output = false })
 
 -- treat json files as jsonc
--- vim.cmd[[autocmd BufRead,BufNewFile *.json set filetype=jsonc]]
+-- vim.cmd[[autocmd BufEnter *.json set filetype=jsonc]]
 
--- disable indentline for markdown files (avoid concealing)
--- vim.cmd[[autocmd FileType markdown let g:indentLine_enabled=0]]
+-- don't auto comment new lines
+vim.cmd[[autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o]]
 
 -- remove line lenght marker for selected filetypes
--- vim.cmd[[autocmd FileType text,markdown,xml,html,xhtml,javascript setlocal cc=0]]
+-- vim.cmd[[autocmd FileType text,markdown,xml,html,xhtml,javascript setlocal colorcolumn=0]]
 
 -- 2 spaces for selected filetypes
 -- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
@@ -254,6 +255,7 @@ function Dark.editor(colors)
     -- CurSearch = { bg = colors.peach },
 
     -- nvim mini
+    MiniTrailspace = { bg = colors.red },
     MiniMapSymbolView = { fg = colors.red },
     MiniIndentscopeSymbol = { fg = colors.red },
 
@@ -517,6 +519,30 @@ Lazy.use { "echasnovski/mini.comment", event = "VeryLazy", config = true }
 
 -- surround - add, delete, replace, find, highlight - [n,v] <sa> <sd> <sr>
 Lazy.use { "echasnovski/mini.surround", event = "VeryLazy", config = true }
+
+-- trim/highlight trailing whitespace
+Lazy.use {
+  "echasnovski/mini.trailspace",
+  event = "VeryLazy",
+  config = function()
+    require("mini.trailspace").setup({})
+    vim.api.nvim_del_autocmd(tws_autocmd_id)
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = "*",
+      callback = function()
+        MiniTrailspace.trim()
+        MiniTrailspace.trim_last_lines()
+      end
+    })
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "lazy",
+      callback = function(data)
+        vim.b[data.buf].minitrailspace_disable = true
+        vim.api.nvim_buf_call(data.buf, MiniTrailspace.unhighlight)
+      end
+    })
+  end
+}
 
 -- split/join code blocks, fn args, arrays, tables - [n,v] <sj>
 Lazy.use {
