@@ -520,6 +520,9 @@ Lazy.use { "echasnovski/mini.comment", event = "VeryLazy", config = true }
 -- surround - add, delete, replace, find, highlight - [n,v] <sa> <sd> <sr>
 Lazy.use { "echasnovski/mini.surround", event = "VeryLazy", config = true }
 
+-- automatic highlighting of word under cursor
+-- Lazy.use { "echasnovski/mini.cursorword", event = "VeryLazy", config = true }
+
 -- trim/highlight trailing whitespace
 Lazy.use {
   "echasnovski/mini.trailspace",
