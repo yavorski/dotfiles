@@ -130,19 +130,11 @@ vim.g.maplocalleader = [[ ]]
 ------------------------------------------------------------
 
 -- trim trailing whitespace on save
--- vim.cmd[[au BufWritePre * :%s/\s\+$//e]]
+-- vim.cmd[[autocmd BufWritePre * :%s/\s\+$//e]]
 local tws_autocmd_id = vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   command = [[:%s/\s\+$//e]]
 })
-
--- highlight on yank
-vim.api.nvim_exec2([[
-  augroup YankHighlight
-    autocmd!
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
-  augroup end
-]], { output = false })
 
 -- treat json files as jsonc
 -- vim.cmd[[autocmd BufEnter *.json set filetype=jsonc]]
@@ -150,8 +142,11 @@ vim.api.nvim_exec2([[
 -- don't auto comment new lines
 vim.cmd[[autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o]]
 
+-- highlight on yank
+vim.cmd[[autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "YankHighlight" })]]
+
 -- remove line lenght marker for selected filetypes
--- vim.cmd[[autocmd FileType text,markdown,xml,html,xhtml,javascript setlocal colorcolumn=0]]
+-- vim.cmd[[autocmd FileType xml,html,xhtml,text,toml,yaml,markdown,javascript setlocal colorcolumn=0]]
 
 -- 2 spaces for selected filetypes
 -- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
@@ -199,41 +194,42 @@ vim.keymap.set("n", "gb0", "<cmd>LualineBuffersJump! 10<cr>", { silent = true })
 
 local Dark = {
   colors = {
-    rosewater = "#f5e0dc", -- "#f5e0dc" - Winbar
-    flamingo  = "#f2cdcd", -- "#f2cdcd" - Target word
-    pink      = "#ff1493", -- "#f5c2e7" ! Just pink
-    mauve     = "#c678dd", -- "#cba6f7" ! Tag
-    red       = "#e95678", -- "#f38ba8" ! Error
-    maroon    = "#d16d9e", -- "#eba0ac" ! Lighter red
-    peach     = "#f5a97f", -- "#fab387" ! Number
-    yellow    = "#faf76e", -- "#f9e2af" ! Warning
-    green     = "#4bf99e", -- "#a6e3a1" ! Diff add
-    teal      = "#94e2d5", -- "#94e2d5" - Hint
-    trick     = "#1abc9c", -- "#1abc9c" - Trick!!
-    stealth   = "#14ff80", -- "#1abc9c" - Type!!
-    sky       = "#89dceb", -- "#89dceb" - Operator!
-    sapphire  = "#36d0e0", -- "#74c7ec" - Constructor
-    blue      = "#4ba6f9", -- "#89b4fa" ! Diff changed
-    skyblue   = "#54b9f7", -- "#41b2f7" ! Sky blue!!
-    lavender  = "#89b4fa", -- "#b4befe" ! CursorLine Nr
-    text      = "#cdd6f4", -- "#cdd6f4" - Default fg
-    subtext1  = "#bac2de", -- "#bac2de" - Indicator
-    subtext0  = "#a6adc8", -- "#a6adc8" - Float title
-    overlay2  = "#9399b2", -- "#9399b2" - Popup fg
-    overlay1  = "#7f849c", -- "#7f849c" - Conceal color
-    overlay0  = "#6c7086", -- "#6c7086" - Fold color
-    surface2  = "#585b70", -- "#585b70" - Default comment
-    surface1  = "#45475a", -- "#45475a" - Darker comment
-    surface0  = "#313244", -- "#313244" - Darkest comment
-    base      = "#1e1e2e", -- "#1e1e2e" - Default bg
-    mantle    = "#181825", -- "#181825" - Darker bg
-    mantlex   = "#161622", -- "#14141f" ! Darker bg
-    dark      = "#13131d", -- "#151521" - Darker bg
-    crust     = "#11111b", -- "#11111b" - Darkest bg
+    rosewater = "#f5e0dc", -- -- "#f5e0dc" -- -- Winbar
+    flamingo  = "#f2cdcd", -- -- "#f2cdcd" -- -- Target word
+    pink      = "#ff1493", -- -- "#f5c2e7" -- -- [!] Just pink
+    mauve     = "#c678dd", -- -- "#cba6f7" -- -- [!] Tag
+    red       = "#e95678", -- -- "#f38ba8" -- -- [!] Error
+    maroon    = "#d16d9e", -- -- "#eba0ac" -- -- [!] Lighter red
+    peach     = "#f5a97f", -- -- "#fab387" -- -- [!] Number
+    yellow    = "#faf76e", -- -- "#f9e2af" -- -- [!] Warning
+    green     = "#4bf99e", -- -- "#a6e3a1" -- -- [!] Diff add
+    teal      = "#94e2d5", -- -- "#94e2d5" -- -- Hint
+    sky       = "#89dceb", -- -- "#89dceb" -- -- Operator
+    sapphire  = "#36d0e0", -- -- "#74c7ec" -- -- Constructor
+    blue      = "#4ba6f9", -- -- "#89b4fa" -- -- [!] Diff changed
+    lavender  = "#89b4fa", -- -- "#b4befe" -- -- [!] CursorLine Nr
+    text      = "#cdd6f4", -- -- "#cdd6f4" -- -- Default fg
+    subtext1  = "#bac2de", -- -- "#bac2de" -- -- Indicator
+    subtext0  = "#a6adc8", -- -- "#a6adc8" -- -- Float title
+    overlay2  = "#9399b2", -- -- "#9399b2" -- -- Popup fg
+    overlay1  = "#7f849c", -- -- "#7f849c" -- -- Conceal color
+    overlay0  = "#6c7086", -- -- "#6c7086" -- -- Fold color
+    surface2  = "#585b70", -- -- "#585b70" -- -- Default comment
+    surface1  = "#45475a", -- -- "#45475a" -- -- Darker comment
+    surface0  = "#313244", -- -- "#313244" -- -- Darkest comment
+    base      = "#1e1e2e", -- -- "#1e1e2e" -- -- Default bg
+    mantle    = "#181825", -- -- "#181825" -- -- Darker bg
+    crust     = "#11111b", -- -- "#11111b" -- -- Darkest bg
+    trick     = "#1abc9c", -- -- "#1abc9c" -- -- [*] Trick
+    stealth   = "#14ff80", -- -- "#14ff80" -- -- [*] Type
+    skyblue   = "#54b9f7", -- -- "#41b2f7" -- -- [*] Sky blue
+    mantlex   = "#161622", -- -- "#14141f" -- -- [*] Darker bg
+    dark      = "#13131d", -- -- "#151521" -- -- [*] Darker bg
   }
 }
 
 function Dark.editor(colors)
+  local mocha = require("catppuccin.palettes.mocha")
   return {
     -- nvim
     LineNr = { bg = colors.mantle },
@@ -250,9 +246,10 @@ function Dark.editor(colors)
     PmenuSbar = { bg = colors.mantle },
     PmenuThumb = { bg = colors.teal },
 
-    -- Search = { bg = colors.skyblue, fg = colors.mantle },
-    -- IncSearch = { bg = colors.red },
-    -- CurSearch = { bg = colors.peach },
+    Search = { fg = colors.base, bg = mocha.yellow },
+    IncSearch = { fg = colors.base, bg = mocha.mauve },
+    CurSearch = { fg = colors.base, bg = mocha.red },
+    YankHighlight = { fg = colors.base, bg = mocha.green },
 
     -- nvim mini
     MiniTrailspace = { bg = colors.red },
