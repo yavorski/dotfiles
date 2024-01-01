@@ -1,0 +1,72 @@
+# https://alacritty.org/
+# ~/.config/alacritty/alacritty.toml
+# ----------------------------------
+
+[window]
+title = "Alacritty"
+decorations = "none"
+dynamic_title = true
+dynamic_padding = true
+
+# font
+# ----------------------------------
+# Intel One Mono [ 11.50 | Bold | Bold Italic ]
+# JetBrains Mono [ 11.00 | ExtraBold | ExtraBold Italic ]
+[font]
+size = 11.50
+
+[font.offset]
+x = 0
+y = -1
+
+[font.normal]
+style = "Bold"
+family = "Intel One Mono"
+
+[font.bold]
+style = "Bold"
+
+[font.italic]
+style = "Bold Italic"
+
+[font.bold_italic]
+style = "Bold Italic"
+
+# colors
+# ----------------------------------
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.primary]
+background = "#000000"
+foreground = "#eaeaea"
+
+[colors.normal]
+black = "#000000"
+blue = "#41b2f7"
+cyan = "#32f8f4"
+green = "#32f891"
+magenta = "#f54bf9"
+red = "#f94a4f"
+white = "#eaeaea"
+yellow = "#faf76e"
+
+[colors.bright]
+black = "#444444"
+blue = "#41b2f7"
+cyan = "#32f8f4"
+green = "#32f891"
+magenta = "#f54bf9"
+red = "#f7191f"
+white = "#ffffff"
+yellow = "#f9f655"
+
+# shell - defaults to $shell
+# ----------------------------------
+# [shell]
+# args = "--login"
+# program = "/bin/bash"
+
+# startup directory - defaults to ~
+# ----------------------------------
+# working_directory = "<string>" | "None"
