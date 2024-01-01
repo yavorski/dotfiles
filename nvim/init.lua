@@ -833,6 +833,7 @@ Lazy.use {
   dependencies = {
     { "nvim-lua/plenary.nvim" },
     { "nvim-tree/nvim-web-devicons" },
+    { "echasnovski/mini.fuzzy", enabled = false },
     {
       "nvim-telescope/telescope-fzf-native.nvim",
       build = is_windows and fzf_windows_native or "make",
@@ -842,6 +843,7 @@ Lazy.use {
   opts = {
     defaults = {
       sorting_strategy = "ascending",
+      -- generic_sorter = require("mini.fuzzy").get_telescope_sorter,
       file_ignore_patterns = { "^.git/", "node_modules", "wwwroot/lib", "bin", "obj", "debug" },
       vimgrep_arguments = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--hidden", "--trim" }
     },
