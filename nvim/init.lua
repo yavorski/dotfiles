@@ -844,7 +844,7 @@ Lazy.use {
     defaults = {
       sorting_strategy = "ascending",
       -- generic_sorter = require("mini.fuzzy").get_telescope_sorter,
-      file_ignore_patterns = { "^.git/", "node_modules", "wwwroot/lib", "bin", "obj", "debug" },
+      file_ignore_patterns = { "^.git/", "^.git\\", "node_modules", "wwwroot/lib", "bin", "obj", "debug" },
       vimgrep_arguments = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--hidden", "--trim" }
     },
     pickers = {
