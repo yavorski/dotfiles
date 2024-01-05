@@ -17,9 +17,6 @@ vim.opt.laststatus = 3
 -- showcmd in statusline
 vim.opt.showcmdloc = "statusline"
 
--- syntax highlighting
-vim.opt.syntax = "enable"
-
 -- dark/light
 vim.opt.background = "dark"
 
@@ -28,6 +25,15 @@ vim.opt.termguicolors = true
 
 -- set colorscheme
 -- vim.cmd[[colorscheme catppuccin]]
+
+-- syntax highlighting
+vim.opt.syntax = "enable"
+
+-- syntax highlighting until match column
+vim.opt.synmaxcol = 512
+
+-- limit memory for pattern matching on single line
+vim.opt.maxmempattern = 1024
 
 -- disable word wrap
 vim.opt.wrap = false
@@ -649,6 +655,10 @@ Lazy.use {
 -- misc fns - put, put_text, setup_auto_root, setup_restore_cursor, zoom
 Lazy.use {
   "echasnovski/mini.misc",
+  dependencies = {
+    { "echasnovski/mini.pick", config = true },
+    { "echasnovski/mini.extra", config = true }
+  },
   keys = {
     { "<F11>", function() require("mini.misc").zoom() end, silent = true, desc = "MiniMisc Zoom In/Out" },
     { "<leader>Z", function() require("mini.misc").zoom() end, silent = true, desc = "MiniMisc Zoom In/Out" }
@@ -1039,8 +1049,18 @@ Lazy.use {
     ensure_installed = "all",
     indent = { enable = true }, -- indentation for = operator
     autotag = { enable = true }, -- auto close/rename html tag
-    highlight = { enable = true }, -- false will disable the extension
     playground = { enable = false }, -- Inspect/TSHighlightCapturesUnderCursor
+    highlight = {
+      enable = true, -- false will disable the extension
+      disable = function(lang, buf)
+        local max_filesize = 100 * 1024 -- 100kb
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+          return true
+        end
+      end,
+      additional_vim_regex_highlighting = false -- setting this to true will run syntax and tree-sitter at the same time
+    },
     incremental_selection = {
       enable = true,
       keymaps = {
