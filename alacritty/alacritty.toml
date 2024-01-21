@@ -64,7 +64,7 @@ yellow = "#f9f655"
 # shell - defaults to $shell
 # ----------------------------------
 # [shell]
-# args = "--login"
+# args = ["--login"]
 # program = "/bin/bash"
 
 # startup directory - defaults to ~

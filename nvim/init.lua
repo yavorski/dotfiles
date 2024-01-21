@@ -102,6 +102,7 @@ vim.opt.smartindent = true    -- autoindent new lines
 
 vim.cmd[[autocmd FileType ps1 setlocal noexpandtab]]
 vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
+vim.cmd[[autocmd FileType make setlocal noexpandtab]]
 
 ------------------------------------------------------------
 -- list
@@ -890,7 +891,9 @@ Lazy.use {
       enabled = true,
       trim_prompt = false,
       backend = { is_windows and "builtin" or "fzf_lua" },
-      fzf_lua = { winopts = { width = 0.4, height = 0.25 } },
+      fzf_lua = {
+        -- winopts = { width = 0.4, height = 0.25 }
+      },
       builtin = {
         border = "solid",
         min_width = { 80, 0.2 },
