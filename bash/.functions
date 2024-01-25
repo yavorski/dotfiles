@@ -35,6 +35,15 @@ function batdiff() {
   # git diff --name-only --diff-filter=d | xargs bat --diff
 }
 
+# use windows' git when working with wsl under C:\ drive
+# function git() {
+#   if pwd -P | rg --quiet "^\/mnt\/c\/*"; then
+#     git.exe "$@"
+#   else
+#     command git "$@"
+#   fi
+# }
+
 function setup_npm_global_dir() {
   mkdir -p "$HOME/.npm"
   npm config set prefix "$HOME/.npm"
