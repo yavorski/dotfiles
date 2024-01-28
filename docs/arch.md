@@ -54,7 +54,7 @@ vim /etc/pacman.d/mirrorlist
 
 pacman -Syyy
 pacman -S reflector
-reflector --protocol https --latest 128 --age 24 --sort rate --sort score --sort country --save /etc/pacman.d/mirrorlist
+reflector --protocol https --latest 32 --age 24 --sort rate --sort score --sort country --save /etc/pacman.d/mirrorlist
 
 cd /etc/pacman.d/
 diff -y mirrorlist mirrorlist.BAK
@@ -487,12 +487,12 @@ cat >> $REFLECTOR_CONF << EOL
 # $REFLECTOR_CONF
 # ------------------------------------------
 --age 24
---latest 128
+--latest 32
 --protocol https
 --sort rate
 --sort score
 --sort country
---country 'BG,RO,HU,SI,CZ,NL,PL,UA,CH,DE,FR,IT,FR,DK,LT,LV,EE,FI,NO,SE,GB,PT,RU,CA,US,*,CN'
+--country 'BG,RO,PL,SI,HU,CZ,FR,NL,DE,UA,CH,IT,DK,LT,LV,GB'
 --save /etc/pacman.d/mirrorlist
 EOL
 ```
@@ -665,4 +665,3 @@ pacman -Ss bat --color always | less -r
 
 * [Pacman](https://wiki.archlinux.org/index.php/Pacman)
 * [Pacman - tips and tricks](https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks)
-
