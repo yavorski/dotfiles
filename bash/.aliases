@@ -17,6 +17,9 @@ alias h="history"
 alias d="cd ~/dev"
 alias dl="cd ~/Downloads"
 
+# Kill all jobs
+alias kj="jobs -p | xargs kill -9"
+
 # Always use color output for `ls`
 alias ls='ls --color=auto'
 
