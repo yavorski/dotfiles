@@ -604,7 +604,10 @@ Lazy.use {
 Lazy.use {
   "echasnovski/mini.bufremove",
   cmd = { "Bdelete", "Bwipeout" },
-  keys = {{ "<leader>q", "<cmd>Bdelete<cr>", silent = true, desc = "Quit Buffer" }},
+  keys = {
+    { "<leader>q", "<cmd>Bdelete<cr>", silent = true, desc = "Quit Buffer" },
+    { "<leader>w", "<cmd>Bwipeout<cr>", silent = true, desc = "Wipeout Buffer" }
+  },
   init = function()
     -- override native bd
     vim.cmd[[cabbrev bd Bdelete]]
@@ -1251,13 +1254,13 @@ LSP.buffer_keymaps = function(buffer)
   keymap("n", "<leader>ti", "<cmd>Telescope lsp_implementations layout_strategy=vertical<cr>", "Telescope LSP Implementations")
   keymap("n", "<leader>ts", "<cmd>Telescope lsp_document_symbols layout_strategy=vertical<cr>", "Telescope LSP Document Symbols")
 
-  keymap("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "LSP Add Workspace Folder")
-  keymap("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "LSP Remove Workspace Folder")
-  keymap("n", "<leader>wq", "<cmd>TroubleToggle workspace_diagnostics<cr>", "LSP Workspace Diagnostics")
-  keymap("n", "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "LSP Workspace List Folders")
+  keymap("n", "<leader>Wa", vim.lsp.buf.add_workspace_folder, "LSP Add Workspace Folder")
+  keymap("n", "<leader>Wr", vim.lsp.buf.remove_workspace_folder, "LSP Remove Workspace Folder")
+  keymap("n", "<leader>Wq", "<cmd>TroubleToggle workspace_diagnostics<cr>", "LSP Workspace Diagnostics")
+  keymap("n", "<leader>Wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "LSP Workspace List Folders")
 
   require("which-key").register({ ["<leader>g"] = "LSP Trouble" })
-  require("which-key").register({ ["<leader>w"] = "LSP Workspace" })
+  require("which-key").register({ ["<leader>W"] = "LSP Workspace" })
 end
 
 ------------------------------------------------------------
