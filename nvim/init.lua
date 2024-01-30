@@ -1415,8 +1415,8 @@ end
 
 ------------------------------------------------------------
 -- LSP dotnet - omnisharp
+-- pacman -S [AUR] omnisharp-roslyn
 -- pacman -S dotnet-runtime dotnet-sdk aspnet-runtime
--- pacman AUR -S omnisharp-roslyn
 -- https://github.com/omnisharp/omnisharp-roslyn
 -- https://github.com/hoffs/omnisharp-extended-lsp.nvim
 ------------------------------------------------------------
@@ -1462,7 +1462,7 @@ end
 ------------------------------------------------------------
 -- LSP powershell
 -- https://github.com/powershell/powershelleditorservices
--- pacman AUR -S powershell-bin powershell-editor-services
+-- pacman -S [AUR] powershell-bin powershell-editor-services
 ------------------------------------------------------------
 LSP.setup_powershell = function()
   local win_path = "C:/dev/ps-es-lsp"
@@ -1681,23 +1681,24 @@ end
 --------------------------------------------------------------------------------
 -- Required in path
 --------------------------------------------------------------------------------
--- npm i -g emmet-ls # outdated
+-- npm i -g @angular/language-server
+-- npm i -g emmet-ls [ issues/outdated ]
 -- npm i -g @olrtg/emmet-language-server
+-- npm i -g dockerfile-language-server-nodejs
 
 -- npm i -g bash-language-server
 -- pacman -S bash-language-server
 
--- npm i -g typescript-language-server
--- pacman -S typescript-language-server
+-- npm i -g typescript typescript-language-server
+-- pacman -S typescript typescript-language-server
 
--- [ angular ]
--- npm i -g @angular/language-server
-
--- # -> [ html, css, json, eslint ]
+-- [ html, css, json, eslint, markdown ]
 -- npm i -g vscode-langservers-extracted
-
--- # -> [ docker ]
--- npm i -g dockerfile-language-server-nodejs
+-- pacman -S eslint-language-server
+-- pacman -S vscode-css-languageserver
+-- pacman -S vscode-html-languageserver
+-- pacman -S vscode-json-languageserver
+-- pacman -S vscode-markdown-languageserver
 
 -- pacman -S zig zls
 -- pacman -S gcc clang
@@ -1705,18 +1706,18 @@ end
 -- pacman -S rust rust-analyzer
 -- pacman -S lua-language-server
 -- pacman -S yaml-language-server
-
--- pacman -S gopls
 -- pacman -S shellcheck
+-- pacman -S [AUR] shellcheck-bin
+-- pacman -S gopls
+-- pacman -S pyright python-lsp-server
+-- pacman -S fd ripgrep curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
+--------------------------------------------------------------------------------
 
--- pacman -S pyright
--- pacman -S python-lsp-server
-
--- pacman -S fd ripgrep tar curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
-------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 -- LSP server configurations
-------------------------------------------------------------------------------------
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- https://github.com/hrsh7th/nvim-cmp
+-- https://github.com/neovim/nvim-lspconfig
+-- https://github.com/echasnovski/mini.nvim
+-- https://vonheikemen.github.io/devlog/tools/neovim-lsp-client-guide/
+--------------------------------------------------------------------------------
