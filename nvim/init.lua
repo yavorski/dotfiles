@@ -1044,8 +1044,9 @@ Lazy.use {
   end
 }
 
--- tree-sitter is a parser generator tool and an incremental parsing library
--- tree-sitter can build a concrete syntax tree for a source file and efficiently update the syntax tree as the source file is edited
+-- tree-sitter
+-- nvim --headless +"Lazy load nvim-treesitter" +TSUpdate +qa!
+-- nvim --headless +"Lazy load nvim-treesitter" +"TSInstallSync! all" +qa!
 Lazy.use {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
@@ -1081,6 +1082,9 @@ Lazy.use {
     }
   },
   config = function(plugin, options)
+    if is_windows then
+      require("nvim-treesitter.install").compilers = { "zig", "cc", "gcc", "clang", "cl" }
+    end
     require("nvim-treesitter.configs").setup(options)
   end
 }
@@ -1713,6 +1717,7 @@ end
 -- pacman -S [AUR] shellcheck-bin
 -- pacman -S gopls
 -- pacman -S pyright python-lsp-server
+-- pacman -S tree-sitter tree-sitter-cli
 -- pacman -S fd ripgrep curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 --------------------------------------------------------------------------------
 
