@@ -35,9 +35,17 @@ If (!$PROFILE.Contains("NuGet_profile")) {
 		}
 	}
 
-	Set-Alias -Name g -Value git
 	function GitStatus { git status }
+	function CdDev { Set-Location -Path C:\dev }
+
+	Set-Alias -Name d -Value CdDev
+
+	Set-Alias -Name g -Value git
 	Set-Alias -Name gs -Value GitStatus
+
+	Set-Alias -Name l -Value eza
+	Set-Alias -Name ls -Value eza
+	Set-Alias -Name exa -Value eza
 
 	Set-Location -Path C:\dev
 }
