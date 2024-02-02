@@ -839,7 +839,8 @@ Lazy.use {
 -- highly extendable fuzzy finder over lists
 local sysname = vim.loop.os_uname().sysname
 local is_windows = sysname == "Windows" or sysname == "Windows_NT"
-local fzf_windows_native = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
+local is_linux = not is_windows
+-- local fzf_windows_native = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
 
 Lazy.use {
   "nvim-telescope/telescope.nvim",
@@ -847,17 +848,12 @@ Lazy.use {
   dependencies = {
     { "nvim-lua/plenary.nvim" },
     { "nvim-tree/nvim-web-devicons" },
-    { "echasnovski/mini.fuzzy", enabled = false },
-    {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = is_windows and fzf_windows_native or "make",
-      config = function() require("telescope").load_extension("fzf") end
-    }
+    { "echasnovski/mini.fuzzy", enabled = is_windows },
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make", enabled = is_linux, config = function() require("telescope").load_extension("fzf") end }
   },
   opts = {
     defaults = {
       sorting_strategy = "ascending",
-      -- generic_sorter = require("mini.fuzzy").get_telescope_sorter,
       file_ignore_patterns = { "^.git/", "^.git\\", "node_modules", "wwwroot/lib", "bin", "obj", "debug" },
       vimgrep_arguments = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--hidden", "--trim" }
     },
@@ -879,6 +875,13 @@ Lazy.use {
     { "<leader>th", "<cmd>Telescope help_tags<cr>", silent = true, desc = "Telescope Help Tags" },
     { "<leader>tg", "<cmd>Telescope git_status<cr>", silent = true, desc = "Telescope Git Status" },
   },
+  config = function(plugin, options)
+    if is_windows then
+      local fuzzy = require("mini.fuzzy")
+      options.defaults.generic_sorter = fuzzy.get_telescope_sorter
+    end
+    require("telescope").setup(options)
+  end,
   init = function()
     require("which-key").register({ ["<leader>t"] = "Telescope" })
   end
