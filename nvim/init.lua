@@ -158,6 +158,19 @@ vim.cmd[[autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "Y
 -- 2 spaces for selected filetypes
 -- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
 
+-- Normalize Line Endings
+local function normalize_line_endings(options)
+  -- local save_cursor = vim.fn.getpos(".")
+  if options.count == -1 then
+    vim.cmd([[silent! keepalt keepjumps %s/\r\n/\r/g]])
+  else
+    vim.cmd([[silent! '<,'>s/\r\n/\r/g]])
+  end
+  -- vim.fn.setpos(".", save_cursor)
+end
+
+vim.api.nvim_create_user_command("NormalizeLineEndings", normalize_line_endings, { nargs = "?", range = "%", addr = "lines", desc = "Normalize Line Endings" })
+
 ------------------------------------------------------------
 -- Rust
 ------------------------------------------------------------
