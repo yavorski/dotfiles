@@ -1377,15 +1377,18 @@ end
 -- LSP Angular
 ------------------------------------------------------------
 LSP.setup_angular = function()
-  local als = vim.fn.expand((is_windows and "$APPDATA/npm" or "$HOME/.npm/lib").."/node_modules/@angular/language-server")
-  local cmd = { "ngserver", "--stdio", "--tsProbeLocations", als, "--ngProbeLocations", als }
+  local npm = is_windows and "$APPDATA/npm" or "$HOME/.npm/lib"
+  local ts_path = vim.fn.expand(npm .. "/node_modules/typescript/lib")
+  local als_path = vim.fn.expand(npm .. "/node_modules/@angular/language-server/bin")
+  local server_cmd = { "ngserver", "--stdio", "--tsProbeLocations", ts_path, "--ngProbeLocations", als_path }
 
   require("lspconfig").angularls.setup({
-    cmd = cmd,
+    cmd = server_cmd,
+    filetypes = { "html" },
     capabilities = LSP.capabilities(),
-    on_new_config = function(new_config, new_root_dir)
-      new_config.cmd = cmd
-    end,
+    on_new_config = function(new_config)
+      new_config.cmd = server_cmd
+    end
   })
 end
 
