@@ -13,6 +13,10 @@ If (!$PROFILE.Contains("NuGet_profile")) {
 
 	# Set-PSReadLineOption -EditMode Vi
 	Set-PSReadLineOption -EditMode Windows
+
+  Set-PSReadLineKeyHandler -Key Tab -Function Complete
+  # Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
+
 	Set-PSReadLineKeyHandler -Chord ctrl+p -Function PreviousHistory
 	Set-PSReadLineKeyHandler -Chord ctrl+n -Function NextHistory
 
