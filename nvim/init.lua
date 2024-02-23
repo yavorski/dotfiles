@@ -1058,8 +1058,9 @@ Lazy.use {
 }
 
 -- tree-sitter
--- nvim --headless +"Lazy load nvim-treesitter" +TSUpdate +qa!
+-- nvim --headless +"Lazy load nvim-treesitter" +TSUpdateSync +qa!
 -- nvim --headless +"Lazy load nvim-treesitter" +"TSInstallSync! all" +qa!
+-- nvim --headless +"Lazy load nvim-treesitter" +"TSInstallFromGrammar! all" +qa!
 Lazy.use {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
@@ -1095,9 +1096,8 @@ Lazy.use {
     }
   },
   config = function(plugin, options)
-    if is_windows then
-      require("nvim-treesitter.install").compilers = { "zig", "cc", "gcc", "clang", "cl" }
-    end
+    -- require("nvim-treesitter.install").compilers = { "cc", "gcc", "clang", "cl", "zig" }
+    require("nvim-treesitter.install").prefer_git = false
     require("nvim-treesitter.configs").setup(options)
   end
 }
