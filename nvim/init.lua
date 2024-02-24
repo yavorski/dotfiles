@@ -160,13 +160,13 @@ vim.cmd[[autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "Y
 
 -- Normalize Line Endings
 local function normalize_line_endings(options)
-  -- local save_cursor = vim.fn.getpos(".")
+  -- local cursor_position = vim.api.nvim_win_get_cursor(0)
   if options.count == -1 then
     vim.cmd([[silent! keepalt keepjumps %s/\r\n/\r/g]])
   else
     vim.cmd([[silent! '<,'>s/\r\n/\r/g]])
   end
-  -- vim.fn.setpos(".", save_cursor)
+  -- vim.api.nvim_win_set_cursor(0, cursor_position)
 end
 
 vim.api.nvim_create_user_command("NormalizeLineEndings", normalize_line_endings, { nargs = "?", range = "%", addr = "lines", desc = "Normalize Line Endings" })
@@ -546,14 +546,16 @@ Lazy.use {
   event = "VeryLazy",
   config = function()
     require("mini.trailspace").setup({})
+
+    local trim = function()
+      MiniTrailspace.trim()
+      MiniTrailspace.trim_last_lines()
+    end
+
     vim.api.nvim_del_autocmd(tws_autocmd_id)
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*",
-      callback = function()
-        MiniTrailspace.trim()
-        MiniTrailspace.trim_last_lines()
-      end
-    })
+    vim.api.nvim_create_autocmd("BufWritePre", { pattern = "*", callback = trim })
+    vim.api.nvim_create_user_command("TrimTralingWhiteSpace", trim, { desc = "Trim Trailing White Space" })
+
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "lazy",
       callback = function(data)
