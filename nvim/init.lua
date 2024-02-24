@@ -750,7 +750,7 @@ Lazy.use {
 -- git status signs
 Lazy.use {
   "lewis6991/gitsigns.nvim",
-  event = { "BufReadPre", "BufNewFile" },
+  event = { "BufReadPost", "BufNewFile" },
   opts = {
     trouble = false,
     on_attach = function(buffer)
@@ -837,14 +837,39 @@ Lazy.use {
   "ibhagwan/fzf-lua",
   cmd = "FzfLua",
   opts = {
+    winopts = {
+      preview = {
+        default = "bat"
+      }
+    },
     keymap = {
       builtin = {
         ["<C-u>"] = "preview-page-up",
         ["<C-d>"] = "preview-page-down"
+      },
+      fzf = {
+        ["ctrl-b"] = "half-page-up",
+        ["ctrl-f"] = "half-page-down",
+        ["shift-up"] = "preview-page-up",
+        ["shift-down"]  = "preview-page-down"
+      }
+    },
+    lsp = {
+      code_actions = {
+        previewer = "codeaction_native",
+        preview_pager = [[ delta --hunk-header-style="omit" --file-style="omit" --width=$FZF_PREVIEW_COLUMNS ]],
+        winopts = {
+          border = "rounded",
+          preview = {
+            scrollbar = false,
+            layout = "vertical",
+            vertical = "down:75%",
+          }
+        }
       }
     }
   },
-  config = function(_, opts)
+  config = function(plugin, opts)
     require("fzf-lua").setup(opts)
     -- require("fzf-lua").register_ui_select()
   end
@@ -940,33 +965,14 @@ Lazy.use {
       "lsp_definitions",
       "lsp_implementations",
     },
+    action_keys = {
+      jump_close = { "o", "<cr>" }
+    },
     signs = { hint = "★", error = "✖", warning = "◀", other = "⬕", information = "▣" },
   },
   config = function(plugin, options)
     require("trouble").setup(options)
-
-    -- close on escape
     vim.cmd [[ exe "nnoremap <esc> <cmd>TroubleClose<cr>" .. maparg("<esc>", "n") ]]
-
-    -- prevent jump/preview on open
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "Trouble",
-      callback = function()
-        local time = 0;
-        local timer = vim.loop.new_timer()
-
-        if timer ~= nil then
-          timer:start(0, 16, function()
-            if time == 256 then
-              timer:stop()
-              timer:close()
-            end
-            time = time + 16
-            vim.schedule(function() vim.api.nvim_feedkeys("gg", "n", true) end)
-          end)
-        end
-      end
-    })
   end
 }
 
@@ -1173,20 +1179,21 @@ local LSP = {
     servers = {
       "html",
       "cssls",
-      "gopls",
       "taplo",
       "jsonls",
       "bashls",
-      "clangd",
       "yamlls",
-      "pyright",
-      "tsserver",
       "dockerls",
       "emmet_language_server",
+      -- "gopls",
+      -- "clangd",
+      -- "pyright",
+      -- "tsserver",
       -- "emmet_ls",
       -- "angularls",
       -- "csharp_ls",
-      -- "powershell"
+      -- "omnisharp",
+      -- "powershell",
       -- "rust_analyzer",
       -- "omnisharp-roslyn",
       -- "lua-language-server",
@@ -1201,8 +1208,6 @@ LSP.init = function()
   LSP.UI()
   LSP.keymaps()
   LSP.overloads()
-  LSP.setup_lua()
-  LSP.setup_rust()
   LSP.setup_dotnet()
   LSP.setup_angular()
   LSP.setup_powershell()
@@ -1367,7 +1372,7 @@ end
 LSP.setup_rust = function()
   require("rust-tools").setup({
     server = {
-      capabilities = LSP.capabilities(),
+      capabilities = LSP.capabilities()
     }
   })
 end
@@ -1397,12 +1402,7 @@ end
 ------------------------------------------------------------
 LSP.setup_neodev = function()
   require("neodev").setup({
-    library = {
-      types = true,
-      enabled = true,
-      runtime = true,
-      plugins = true,
-    },
+    library = { types = true, enabled = true, runtime = true, plugins = true },
     lspconfig = true,
     pathStrict = true,
     setup_jsonls = true,
@@ -1424,12 +1424,10 @@ LSP.setup_lua = function()
     settings = {
       Lua = {
         format = { enable = true },
-        workspace = { checkThirdParty = false },
+        runtime = { version = "LuaJIT" },
         completion = { callSnippet = "Replace" },
         diagnostics = { globals = { "vim", "teardown" } },
-        -- runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
-        -- workspace = { library = vim.api.nvim_get_runtime_file("", true), checkThirdParty = false }
-        -- workspace = { library = { [vim.fn.expand("$VIMRUNTIME/lua")] = true, [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true } }
+        workspace = { checkThirdParty = false, library = { vim.env.VIMRUNTIME } }
       }
     }
   })
@@ -1448,15 +1446,16 @@ LSP.setup_dotnet = function()
   local omnisharp_windows = "C:/dev/omnisharp-win-x64/OmniSharp.exe"
   local omnisharp_binary = is_windows and omnisharp_windows or omnisharp_linux
 
-  -- @todo fix - requires telescope, so lazy is broken
-  local omnisharp_extended = require("omnisharp_extended")
-
   require("lspconfig").omnisharp.setup({
     capabilities = LSP.capabilities(),
     cmd = { omnisharp_binary, "--languageserver" , "--hostPID", tostring(pid) },
 
     -- omnisharp extended handler
-    handlers = { ["textDocument/definition"] = omnisharp_extended.handler },
+    handlers = {
+      ["textDocument/definition"] = function(...)
+        return require("omnisharp_extended").handler(...)
+      end
+    },
 
     -- Enables support for reading code style, naming convention and analyzer settings from .editorconfig.
     enable_editorconfig_support = true,
@@ -1501,17 +1500,57 @@ end
 ------------------------------------------------------------
 Lazy.use {
   "neovim/nvim-lspconfig",
-  event = { "BufReadPre", "BufNewFile" },
+  event = { "BufReadPost", "BufWritePost", "BufNewFile" },
   dependencies = {
-    { "folke/neodev.nvim" }, -- init.lua, plugin development, signature help, docs and completion for the nvim lua api
     { "hrsh7th/cmp-nvim-lsp" }, -- nvim-cmp source for neovim builtin LSP client
-    { "simrat39/rust-tools.nvim" }, -- extra functionality over rust analyzer
     { "issafalcon/lsp-overloads.nvim" }, -- extends the native nvim-lsp handlers to allow easier navigation through method overloads
-    { "hoffs/omnisharp-extended-lsp.nvim", enabled = true }, -- extend "textDocument/definition" handler for OmniSharp Neovim LSP
   },
   config = function()
     LSP.init()
   end
+}
+
+-- init.lua, plugin development, signature help, docs and completion for the nvim lua api
+Lazy.use { "folke/neodev.nvim", ft = "lua", config = LSP.setup_lua }
+
+-- extra functionality over rust analyzer
+Lazy.use { "simrat39/rust-tools.nvim", ft = "rust", config = LSP.setup_rust }
+
+-- extend "textDocument/definition" handler for OmniSharp Neovim LSP
+Lazy.use { "hoffs/omnisharp-extended-lsp.nvim" }
+
+-- LSP TypeScript TS Server
+Lazy.use {
+  "pmizio/typescript-tools.nvim",
+  dependencies = { "neovim/nvim-lspconfig", "nvim-lua/plenary.nvim" },
+  event = { "BufReadPre *.ts,*.tsx,*.js,*.jsx,*.mjs", "BufNewFile *.ts,*.tsx,*.js,*.jsx,*.mjs" },
+  opts = {
+    -- capabilities = LSP.capabilities(),
+    settings = {
+      -- locale of all tsserver messages
+      tsserver_locale = "en",
+
+      -- memory limit in megabytes or "auto" - basically no limit
+      tsserver_max_memory = "auto",
+
+      -- spawn additional tsserver instance to calculate diagnostics on it
+      separate_diagnostic_server = true,
+
+      -- "change"|"insert_leave" determine when the client asks the server about diagnostic
+      publish_diagnostic_on = "insert_leave",
+
+      -- fn completion
+      complete_function_calls = true,
+      include_completions_with_insert_text = true,
+
+      -- ts preferences
+      tsserver_file_preferences = {
+        includeInlayVariableTypeHints = true,
+        includeInlayParameterNameHints = "all",
+        includeInlayFunctionLikeReturnTypeHints = true,
+      }
+    }
+  }
 }
 
 ------------------------------------------------------------
