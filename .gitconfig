@@ -191,9 +191,8 @@
   navigate = true # use n/N keys
   side-by-side = true # split diff
   line-numbers = true # show line number
+  syntax-theme = Dracula # syntax theme
   keep-plus-minus-markers = false # toggle -/+ markers
-  syntax-theme = Monokai Extended Origin
 
 # git diff | nvim -d
 # git diff | bat -ldiff
-

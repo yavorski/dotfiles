@@ -12,36 +12,44 @@ alias .....="cd ../../../.."
 
 # Shortcuts
 alias g="git"
+alias gs="git status"
+
 alias j="jobs"
 alias h="history"
+
 alias d="cd ~/dev"
 alias dl="cd ~/Downloads"
 
+# List files
+alias l="eza"
+alias ls="eza"
+alias ll="eza --long"
+alias lsa="eza --long --all"
+alias lst="eza --tree"
+alias lsd="eza --only-dirs"
+alias lsf="eza --only-files"
+
 # Kill all jobs
 alias kj="jobs -p | xargs kill -9"
-
-# Always use color output for `ls`
-alias ls='ls --color=auto'
-
-# List all files colorized with human readable file size
-alias l="ls -lhF --color"
-
-# List only directories
-alias lsd="ls -l --color -d */"
 
 # Always enable colored `grep` output
 alias grep="grep --color=auto"
 alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 
+# bat
+# bat --help | bathelp
+alias bathelp="bat --plain --language=help"
+alias batman="bat --plain --language=Manpage"
+
 # IP address
 alias rip="curl ifconfig.me"
-
-# Sway WM Screenshot
-alias screenshot='grim -t png -g "$(slurp)" ~/Screenshots/screenshot-$(date +%d-%m-%Y-%H-%M-%S).png'
 
 # Turn OFF keyboard mic led - ThinkPad T14
 alias turn-off-mic-led="light -s sysfs/leds/platform::micmute -S 0"
 
+# Sway WM Screenshot
+alias screenshot='grim -t png -g "$(slurp)" ~/Screenshots/screenshot-$(date +%d-%m-%Y-%H-%M-%S).png'
+
 # Battery status
-# alias battery="cat /sys/class/power_supply/BAT0/capacity"
+alias battery="cat /sys/class/power_supply/BAT0/status /sys/class/power_supply/BAT0/capacity | paste -sd ' '"

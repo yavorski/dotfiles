@@ -26,6 +26,9 @@ export HISTCONTROL=ignoredups
 # Don't clear the screen after quitting a manual page
 # export MANPAGER='less -X'
 
+# bat
+export BAT_THEME="Dracula"
+
 # Set bat as man pager
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
