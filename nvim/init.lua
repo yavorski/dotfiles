@@ -678,10 +678,7 @@ Lazy.use {
     { "echasnovski/mini.pick", config = true },
     { "echasnovski/mini.extra", config = true }
   },
-  keys = {
-    { "<F11>", function() require("mini.misc").zoom() end, silent = true, desc = "MiniMisc Zoom In/Out" },
-    { "<leader>Z", function() require("mini.misc").zoom() end, silent = true, desc = "MiniMisc Zoom In/Out" }
-  }
+  keys = {{ "<leader><F11>", function() require("mini.misc").zoom() end, silent = true, desc = "MiniMisc Zoom In/Out" }}
 }
 
 -- pick - files, pattern match, buffers, help tags, cli output
@@ -1721,9 +1718,15 @@ Lazy.setup()
 ------------------------------------------------------------
 
 if vim.g.neovide then
+  vim.g.neovide_remember_window_size = true
   vim.opt.guifont = { "Intel One Mono", ":h11.25:b" }
   -- vim.opt.guifont = { "JetBrains Mono", ":h10:b" }
   -- vim.opt.guifont = { "JetBrainsMono NFM", ":h10:b" }
+
+  -- @hack: fix lualine tabline width
+  -- if is_windows then
+  --   vim.defer_fn(function() vim.cmd [[ exe "Lazy reload lualine.nvim" ]] end, 2^11);
+  -- end
 end
 
 --------------------------------------------------------------------------------
