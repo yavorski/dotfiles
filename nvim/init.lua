@@ -1300,10 +1300,25 @@ end
 -- LSP - client capabilities
 ------------------------------------------------------------
 LSP.capabilities = function()
-  local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+  -- client capabilities object describing the LSP client capabilities
   local client_capabilities = vim.lsp.protocol.make_client_capabilities()
-  local capabilities = vim.tbl_deep_extend("force", {}, client_capabilities, lsp_capabilities)
+
+  -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+  local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+  -- @perf: didChangeWatchedFiles is too slow
+  -- @todo: Remove this when https://github.com/neovim/neovim/issues/23291#issuecomment-1686709265 is fixed
+  local workarround_perf_fix = {
+    workspace = {
+      didChangeWatchedFiles = { dynamicRegistration = false },
+    }
+  }
+
+  local capabilities = vim.tbl_deep_extend("force", {}, client_capabilities, lsp_capabilities, workarround_perf_fix)
+
+  -- @todo
   -- capabilities.textDocument.completion.completionItem.snippetSupport = true
+
   return capabilities
 end
 
@@ -1424,7 +1439,10 @@ LSP.setup_lua = function()
         runtime = { version = "LuaJIT" },
         completion = { callSnippet = "Replace" },
         diagnostics = { globals = { "vim", "teardown" } },
-        workspace = { checkThirdParty = false, library = { vim.env.VIMRUNTIME } }
+        workspace = {
+          checkThirdParty = false,
+          -- library = { vim.env.VIMRUNTIME }
+        }
       }
     }
   })
@@ -1540,8 +1558,12 @@ Lazy.use {
       complete_function_calls = true,
       include_completions_with_insert_text = true,
 
+      -- specify commands exposed as code_actions
+      -- expose_as_code_action = "all",
+
       -- ts preferences
       tsserver_file_preferences = {
+        quotePreference = "auto",
         includeInlayVariableTypeHints = true,
         includeInlayParameterNameHints = "all",
         includeInlayFunctionLikeReturnTypeHints = true,
