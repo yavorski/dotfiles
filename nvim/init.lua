@@ -780,7 +780,7 @@ Lazy.use {
     { "nvim-tree/nvim-web-devicons" }, -- use dev icons
     { "yavorski/lualine-lsp-client-name.nvim" }, -- display lsp client name
     { "yavorski/lualine-macro-recording.nvim" }, -- display macro recording
-    { "whoissethdaniel/lualine-lsp-progress.nvim" }, -- display lsp progress
+    { "whoissethdaniel/lualine-lsp-progress.nvim" }, -- display lsp progress -- NOTE no longer maintained
   },
   opts = function()
     local catppuccin = Dark.lualine()
@@ -1379,6 +1379,7 @@ LSP.setup_listed_servers = function()
 end
 
 ------------------------------------------------------------
+-- NOTE this is no longer maintained
 -- LSP Rust rust_analyzer -- simrat39/rust-tools.nvim
 ------------------------------------------------------------
 LSP.setup_rust = function()
