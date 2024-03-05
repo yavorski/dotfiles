@@ -44,6 +44,9 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
   }
 }
 
+# bat
+$env:BAT_THEME = "Dracula"
+
 function GitStatus { git status }
 function CdDev { Set-Location -Path C:\dev }
 
