@@ -966,8 +966,10 @@ Lazy.use {
       "lsp_type_definitions"
     },
     include_declaration = {
+      "lsp_references",
       "lsp_definitions",
       "lsp_implementations",
+      "lsp_type_definitions",
     },
     action_keys = {
       jump_close = { "o", "<cr>" }
