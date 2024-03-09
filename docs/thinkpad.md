@@ -23,10 +23,13 @@
 
 ## Update `uefi-bios`
 
+* [Bootable optical disk emulation](https://wiki.archlinux.org/title/Flashing_BIOS_from_Linux#Bootable_optical_disk_emulation)
+* [geteltorito AUR](https://aur.archlinux.org/packages/geteltorito)
+
 ```bash
-λ sudo apt-get install genisoimage
-λ geteltorito -o uefi_bios_update.img n24ur10w.iso
-λ sudo dd if=uefi-bios_update.img of=/dev/sda1
+λ geteltorito.pl -o <image>.img <image>.iso
+λ geteltorito.pl -o uefi_bios.img r10ur26w.iso
+λ sudo dd if=uefi_bios.img of=/dev/sda bs=512K
 ```
 
 ## Make win10 bootable usb
