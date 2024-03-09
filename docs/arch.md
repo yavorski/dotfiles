@@ -243,7 +243,7 @@ vim /etc/mkinitcpio.conf
 
 ```mkinitcpio
 BINARIES=(setfont)
-HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems fsck)
+HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems fsck)
 ```
 
 mkinitcpio -p linux
@@ -258,6 +258,7 @@ vim /etc/default/grub
 # # -> add to cmd line linux default -> "cryptdevice=/dev/nvme0n1p3:vg"
 
 > GRUB_ENABLE_CRYPTODISK=y
+> GRUB_EARLY_INITRD_LINUX_STOCK=""
 > GRUB_CMDLINE_LINUX="cryptdevice=/dev/nvme0n1p3:vg"
 ```
 
@@ -409,9 +410,9 @@ More on security -> [https://wiki.archlinux.org/index.php/Security](https://wiki
 
 * For `AMD` processors, install the `amd-ucode` package.
 * For `Intel` processors, install the `intel-ucode` package.
+* Add `microcode` hook in `/etc/mkinitcpio.conf`
+* Delete `ALL_microcode=(/boot/*-ucode.img)` from `/etc/mkinitcpio.d/linux.preset`
 * Arch wiki -> [https://wiki.archlinux.org/index.php/Microcode](https://wiki.archlinux.org/index.php/Microcode)
-* Add `/boot/intel-ucode.img` as the **first initrd in the bootloader config file**.
-* `grub-mkconfig` will automatically detect the microcode update and configure `GRUB` appropriately.
 
 ```bash
 pacman -S amd-ucode | intel-ucode !
