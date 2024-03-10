@@ -1077,7 +1077,7 @@ Lazy.use {
   build = ":TSUpdate",
   event = { "BufReadPost", "BufNewFile" },
   dependencies = {
-    { "windwp/nvim-ts-autotag" }, -- auto close/rename html tag
+    { "windwp/nvim-ts-autotag", config = true }, -- auto close/rename html tag
     { "nvim-treesitter/playground", enabled = false }, -- view treesitter information
   },
   opts = {
