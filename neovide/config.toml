@@ -1,0 +1,43 @@
+# ------------------------------------------
+# Intel One Mono
+# ------------------------------------------
+
+[font]
+size = 14.00
+
+[font.normal]
+style = "Bold"
+family = "Intel One Mono"
+
+[font.bold]
+style = "Bold"
+
+[font.italic]
+style = "Bold Italic"
+slant = "Italic"
+
+[font.bold_italic]
+style = "Bold Italic"
+slant = "Italic"
+
+# ------------------------------------------
+# JetBrains Mono NL
+# ------------------------------------------
+
+# [font]
+# size = 14.15
+
+# [font.normal]
+# style = "ExtraBold"
+# family = "JetBrains Mono NL"
+
+# [font.bold]
+# style = "ExtraBold"
+
+# [font.italic]
+# style = "Bold Italic"
+# slant = "Italic"
+
+# [font.bold_italic]
+# style = "Bold Italic"
+# slant = "Italic"
