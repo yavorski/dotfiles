@@ -4,40 +4,42 @@
 
 [font]
 size = 14.00
+allow_float_size = false
 
-[font.normal]
+[[font.normal]]
 style = "Bold"
 family = "Intel One Mono"
 
-[font.bold]
+[[font.bold]]
 style = "Bold"
 
-[font.italic]
-style = "Bold Italic"
+[[font.italic]]
 slant = "Italic"
+style = "Bold Italic"
 
-[font.bold_italic]
-style = "Bold Italic"
+[[font.bold_italic]]
 slant = "Italic"
+style = "Bold Italic"
 
 # ------------------------------------------
 # JetBrains Mono NL
 # ------------------------------------------
 
 # [font]
-# size = 14.15
+# size = 14.00
+# allow_float_size = false
 
-# [font.normal]
-# style = "ExtraBold"
-# family = "JetBrains Mono NL"
+[[font.normal]]
+style = "ExtraBold"
+family = "JetBrains Mono NL"
 
-# [font.bold]
-# style = "ExtraBold"
+[[font.bold]]
+style = "ExtraBold"
 
-# [font.italic]
-# style = "Bold Italic"
-# slant = "Italic"
+[[font.italic]]
+slant = "Italic"
+style = "ExtraBold Italic"
 
-# [font.bold_italic]
-# style = "Bold Italic"
-# slant = "Italic"
+[[font.bold_italic]]
+slant = "Italic"
+style = "ExtraBold Italic"

@@ -41,6 +41,9 @@ vim.opt.wrap = false
 -- show line number
 vim.opt.number = true
 
+-- show relative line number
+vim.opt.relativenumber = true
+
 -- highlight current line
 vim.opt.cursorline = true
 
@@ -1569,7 +1572,7 @@ Lazy.use {
       include_completions_with_insert_text = true,
 
       -- specify commands exposed as code_actions
-      -- expose_as_code_action = "all",
+      expose_as_code_action = "all",
 
       -- ts preferences
       tsserver_file_preferences = {
@@ -1750,15 +1753,10 @@ Lazy.setup()
 ------------------------------------------------------------
 
 if vim.g.neovide then
+  vim.opt.linespace = 1
   vim.g.neovide_remember_window_size = true
-  vim.opt.guifont = { "Intel One Mono", ":h11.25:b" }
-  -- vim.opt.guifont = { "JetBrains Mono", ":h10:b" }
-  -- vim.opt.guifont = { "JetBrainsMono NFM", ":h10:b" }
-
-  -- @hack: fix lualine tabline width
-  -- if is_windows then
-  --   vim.defer_fn(function() vim.cmd [[ exe "Lazy reload lualine.nvim" ]] end, 2^11);
-  -- end
+  -- vim.opt.guifont = { "Intel One Mono", ":h11.25:b" }
+  -- vim.opt.guifont = { "JetBrains Mono NL", ":h10:b" }
 end
 
 --------------------------------------------------------------------------------
