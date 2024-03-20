@@ -874,6 +874,14 @@ Lazy.use {
           }
         }
       }
+    },
+    diagnostics = {
+      winopts = {
+        preview = {
+          layout = "vertical",
+          vertical = "down:65%",
+        }
+      }
     }
   },
   config = function(plugin, opts)
@@ -962,6 +970,7 @@ Lazy.use {
     icons = false,
     padding = false,
     indent_lines = false,
+    auto_close = true,
     auto_jump = {
       "lsp_references",
       "lsp_definitions",
@@ -1273,6 +1282,10 @@ LSP.buffer_keymaps = function(buffer)
   keymap("n", "<leader>R", vim.lsp.buf.rename, "LSP Rename")
   keymap("n", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format")
   keymap("v", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format Visual")
+
+  -- NOTE use vim.diagnostic.count() when it is available
+  keymap("n", "<leader>d", function() if #vim.diagnostic.get() > 0 then require("trouble").toggle("workspace_diagnostics") else print("No workspace diagnostics") end end, "LSP Workspace Diagnostics")
+  keymap("n", "<leader>D", function() if #vim.diagnostic.get(0) > 0 then require("trouble").toggle("document_diagnostics") else print("No document diagnostics") end end, "LSP Document Diagnostics")
 
   keymap("n", "<leader>ca", vim.lsp.buf.code_action, "LSP Code Action")
   keymap("v", "<leader>ca", vim.lsp.buf.code_action, "LSP Code Action")
@@ -1753,7 +1766,7 @@ Lazy.setup()
 ------------------------------------------------------------
 
 if vim.g.neovide then
-  vim.opt.linespace = 1
+  vim.opt.linespace = is_linux and 1 or 3
   vim.g.neovide_remember_window_size = true
   -- vim.opt.guifont = { "Intel One Mono", ":h11.25:b" }
   -- vim.opt.guifont = { "JetBrains Mono NL", ":h10:b" }
