@@ -846,7 +846,9 @@ Lazy.use {
   opts = {
     winopts = {
       preview = {
-        default = "bat"
+        default = "bat",
+        tags = { previewer = "bat" },
+        btags = { previewer = "bat" },
       }
     },
     keymap = {
@@ -861,27 +863,23 @@ Lazy.use {
         ["shift-down"]  = "preview-page-down"
       }
     },
+    git = {
+      status = { winopts = { preview = { layout = "vertical", vertical = "down:75%" } } },
+      commits = { winopts = { preview = { layout = "vertical", vertical = "down:75%" } } },
+      bcommits = { winopts = { preview = { layout = "vertical", vertical = "down:75%" } } }
+    },
     lsp = {
+      winopts = {
+        preview = { layout = "vertical", vertical = "down:70%" }
+      },
       code_actions = {
         previewer = "codeaction_native",
         preview_pager = [[ delta --hunk-header-style="omit" --file-style="omit" --width=$FZF_PREVIEW_COLUMNS ]],
-        winopts = {
-          border = "rounded",
-          preview = {
-            scrollbar = false,
-            layout = "vertical",
-            vertical = "down:75%",
-          }
-        }
-      }
+        winopts = { preview = { scrollbar = false, layout = "vertical", vertical = "down:75%" } }
+      },
     },
     diagnostics = {
-      winopts = {
-        preview = {
-          layout = "vertical",
-          vertical = "down:65%",
-        }
-      }
+      winopts = { preview = { layout = "vertical", vertical = "down:70%" } }
     }
   },
   config = function(plugin, opts)
@@ -910,11 +908,27 @@ Lazy.use {
     defaults = {
       sorting_strategy = "ascending",
       file_ignore_patterns = { "^.git/", "^.git\\", "node_modules", "wwwroot/lib", "bin", "obj", "debug" },
-      vimgrep_arguments = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--hidden", "--trim" }
+      vimgrep_arguments = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--hidden", "--trim" },
+      layout_config = {
+        vertical = { preview_height = 0.55 },
+        horizontal = { preview_width = 0.50 },
+      },
     },
     pickers = {
       find_files = {
         hidden = true
+      },
+      lsp_references = {
+        trim_text = false,
+        include_declaration = true,
+        include_current_line = true,
+        initial_mode = "normal",
+        mappings = {
+          n = {
+            ["<C-n>"] = "move_selection_next",
+            ["<C-p>"] = "move_selection_previous"
+          }
+        }
       }
     }
   },
