@@ -156,6 +156,9 @@ local tws_autocmd_id = vim.api.nvim_create_autocmd("BufWritePre", {
 -- treat json files as jsonc
 -- vim.cmd[[autocmd BufEnter *.json set filetype=jsonc]]
 
+-- disable relative numbers
+vim.cmd[[autocmd FileType qf,lhelp,lquickfix setlocal norelativenumber]]
+
 -- don't auto comment new lines
 vim.cmd[[autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o]]
 
@@ -983,24 +986,11 @@ Lazy.use {
   opts = {
     icons = false,
     padding = false,
-    indent_lines = false,
     auto_close = true,
-    auto_jump = {
-      "lsp_references",
-      "lsp_definitions",
-      "lsp_implementations",
-      "lsp_type_definitions"
-    },
-    include_declaration = {
-      "lsp_references",
-      "lsp_definitions",
-      "lsp_implementations",
-      "lsp_type_definitions",
-    },
-    action_keys = {
-      jump_close = { "o", "<cr>" }
-    },
+    indent_lines = false,
     signs = { hint = "★", error = "✖", warning = "◀", other = "⬕", information = "▣" },
+    auto_jump = { "lsp_references", "lsp_definitions", "lsp_implementations", "lsp_type_definitions" },
+    include_declaration = { "lsp_references", "lsp_definitions", "lsp_implementations", "lsp_type_definitions" },
   },
   config = function(plugin, options)
     require("trouble").setup(options)
