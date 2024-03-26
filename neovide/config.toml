@@ -3,8 +3,8 @@
 # ------------------------------------------
 
 [font]
-size = 14.00
-allow_float_size = false
+size = 15.15
+allow_float_size = true
 
 [[font.normal]]
 style = "Bold"
@@ -23,9 +23,14 @@ style = "Bold Italic"
 
 # ------------------------------------------
 # JetBrains Mono NL
+# set linespace = 1 for JBM
 # ------------------------------------------
 
-# [font]
+# [font] # -> linux
+# size = 15.00
+# allow_float_size = true
+
+# [font] # -> windows
 # size = 14.00
 # allow_float_size = false
 

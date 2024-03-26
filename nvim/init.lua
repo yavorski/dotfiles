@@ -1770,7 +1770,7 @@ Lazy.setup()
 ------------------------------------------------------------
 
 if vim.g.neovide then
-  vim.opt.linespace = is_linux and 1 or 3
+  vim.opt.linespace = is_linux and 0 or 3
   vim.g.neovide_remember_window_size = true
   -- vim.opt.guifont = { "Intel One Mono", ":h11.25:b" }
   -- vim.opt.guifont = { "JetBrains Mono NL", ":h10:b" }
