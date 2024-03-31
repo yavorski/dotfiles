@@ -143,6 +143,15 @@ vim.cmd[[map <F1> <ESC>]]
 vim.cmd[[map! <F1> <ESC>]]
 
 ------------------------------------------------------------
+-- sysname
+------------------------------------------------------------
+
+local sysname = vim.loop.os_uname().sysname
+
+local is_linux = sysname == "Linux"
+local is_windows = sysname == "Windows_NT"
+
+------------------------------------------------------------
 -- edit cmd
 ------------------------------------------------------------
 
@@ -164,9 +173,6 @@ vim.cmd[[autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-
 
 -- highlight on yank
 vim.cmd[[autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "YankHighlight" })]]
-
--- remove line lenght marker for selected filetypes
--- vim.cmd[[autocmd FileType xml,html,xhtml,text,toml,yaml,markdown,javascript setlocal colorcolumn=0]]
 
 -- 2 spaces for selected filetypes
 -- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
@@ -532,6 +538,9 @@ Lazy.use { "jlcrochet/vim-razor", ft = { "razor", "cshtml" } }
 -- emmet html/css/js/lorem - [i] <c-m> <c-y>,
 Lazy.use { "mattn/emmet-vim", ft = { "html", "cshtml", "razor", "markdown" } }
 
+-- auto rename html tag - windwp/nvim-ts-autotag does not work with custom tags
+Lazy.use { "andrewradev/tagalong.vim", ft = { "html", "cshtml", "razor", "markdown" } }
+
 -- shows key bindings in popup
 Lazy.use { "folke/which-key.nvim", event = "VeryLazy", config = true }
 
@@ -550,8 +559,11 @@ Lazy.use { "echasnovski/mini.comment", event = "VeryLazy", config = true }
 -- surround - add, delete, replace, find, highlight - [n,v] <sa> <sd> <sr>
 Lazy.use { "echasnovski/mini.surround", event = "VeryLazy", config = true }
 
--- automatic highlighting of word under cursor
--- Lazy.use { "echasnovski/mini.cursorword", event = "VeryLazy", config = true }
+-- misc fns - put, put_text, setup_auto_root, setup_restore_cursor, zoom
+Lazy.use {
+  "echasnovski/mini.misc",
+  keys = {{ "<leader><F11>", function() require("mini.misc").zoom() end, silent = true, desc = "MiniMisc Zoom In/Out" }}
+}
 
 -- trim/highlight trailing whitespace
 Lazy.use {
@@ -684,41 +696,6 @@ Lazy.use {
   end
 }
 
--- misc fns - put, put_text, setup_auto_root, setup_restore_cursor, zoom
-Lazy.use {
-  "echasnovski/mini.misc",
-  dependencies = {
-    { "echasnovski/mini.pick", config = true },
-    { "echasnovski/mini.extra", config = true }
-  },
-  keys = {{ "<leader><F11>", function() require("mini.misc").zoom() end, silent = true, desc = "MiniMisc Zoom In/Out" }}
-}
-
--- pick - files, pattern match, buffers, help tags, cli output
-Lazy.use {
-  "echasnovski/mini.pick",
-  dependencies = {
-    { "echasnovski/mini.misc", config = true },
-    { "echasnovski/mini.extra", config = true }
-  },
-  cmd = "Pick",
-  opts = {
-    window = {
-      config = function()
-        local width = math.floor(0.618 * vim.o.columns)
-        local height = math.floor(0.618 * vim.o.lines)
-        return {
-          anchor = "NW",
-          width = width,
-          height = height,
-          row = math.floor(0.5 * (vim.o.lines - height)),
-          col = math.floor(0.5 * (vim.o.columns - width)),
-        }
-      end
-    }
-  }
-}
-
 -- file explorer sidebar
 Lazy.use {
   "nvim-tree/nvim-tree.lua",
@@ -791,9 +768,9 @@ Lazy.use {
   dependencies = {
     { "tiagovla/scope.nvim" }, -- scope buffers to tabs
     { "nvim-tree/nvim-web-devicons" }, -- use dev icons
+    { "yavorski/lsp-progress.nvim", config = true }, -- lsp progress
     { "yavorski/lualine-lsp-client-name.nvim" }, -- display lsp client name
     { "yavorski/lualine-macro-recording.nvim" }, -- display macro recording
-    { "whoissethdaniel/lualine-lsp-progress.nvim" }, -- display lsp progress -- NOTE no longer maintained
   },
   opts = function()
     local catppuccin = Dark.lualine()
@@ -808,7 +785,7 @@ Lazy.use {
       sections = {
         lualine_a = { "mode" },
         lualine_b = { "branch", "diff", "diagnostics" },
-        lualine_c = { "filename", "filesize", "lsp_progress", "macro_recording", "%S" },
+        lualine_c = { "filename", "filesize", require("lsp-progress").progress, "macro_recording", "%S" },
         lualine_x = { "selectioncount", "searchcount", "lsp_client_name", "encoding", "fileformat", "filetype" },
         lualine_y = { "progress" },
         lualine_z = { "location" }
@@ -891,13 +868,8 @@ Lazy.use {
   end
 }
 
--- find, filter, preview, pick
--- highly extendable fuzzy finder over lists
-local sysname = vim.loop.os_uname().sysname
-local is_windows = sysname == "Windows" or sysname == "Windows_NT"
-local is_linux = not is_windows
+-- Telescope - find, filter, preview, pick
 -- local fzf_windows_native = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
-
 Lazy.use {
   "nvim-telescope/telescope.nvim",
   cmd = "Telescope",
@@ -905,7 +877,7 @@ Lazy.use {
     { "nvim-lua/plenary.nvim" },
     { "nvim-tree/nvim-web-devicons" },
     { "echasnovski/mini.fuzzy", enabled = is_windows },
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "make", enabled = is_linux, config = function() require("telescope").load_extension("fzf") end }
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make", config = function() require("telescope").load_extension("fzf") end, enabled = is_linux }
   },
   opts = {
     defaults = {
@@ -1160,6 +1132,8 @@ Lazy.use {
         }, {}),
         c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
         f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
+        t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
+        d = { "%f[%d]%d+" }, -- digits
       },
     }
   end,
@@ -1345,8 +1319,8 @@ LSP.capabilities = function()
 
   local capabilities = vim.tbl_deep_extend("force", {}, client_capabilities, lsp_capabilities, workarround_perf_fix)
 
-  -- @todo
-  -- capabilities.textDocument.completion.completionItem.snippetSupport = true
+  -- snippet support
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
 
   return capabilities
 end
