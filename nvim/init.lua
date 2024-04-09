@@ -562,7 +562,8 @@ Lazy.use { "echasnovski/mini.surround", event = "VeryLazy", config = true }
 -- misc fns - put, put_text, setup_auto_root, setup_restore_cursor, zoom
 Lazy.use {
   "echasnovski/mini.misc",
-  keys = {{ "<leader><F11>", function() require("mini.misc").zoom() end, silent = true, desc = "MiniMisc Zoom In/Out" }}
+  keys = {{ "<leader><F11>", function() require("mini.misc").zoom() end, silent = true, desc = "MiniMisc Zoom In/Out" }},
+  config = true
 }
 
 -- trim/highlight trailing whitespace
