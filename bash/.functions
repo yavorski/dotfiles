@@ -85,6 +85,39 @@ function show_colors() {
   done
 }
 
+# Set windows terminal settings
+function setup_windows_terminal() {
+  local device=$1
+  local windows_username
+
+  pushd /mnt/c > /dev/null || exit 1
+    windows_username=$(/mnt/c/Windows/System32/cmd.exe /c "echo %USERNAME%" | sed -e "s/\r//g")
+  popd > /dev/null || exit 1
+
+  local settings="/mnt/c/Users/$windows_username/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState"
+
+  local tmp_json="$settings/tmp.json"
+  local settings_json="$settings/settings.json"
+
+  echo "Device: $device"
+
+  read -r current_value < <(jq --raw-output '.profiles.defaults.font.cellHeight' "$settings_json")
+  echo "Current value = $current_value"
+
+  if [ "$device" == "laptop" ]; then
+    jq '.profiles.defaults.font.cellHeight |= "1.4624"' "$settings_json" > "$tmp_json"
+  fi
+
+   if [ "$device" == "desktop" ]; then
+    jq '.profiles.defaults.font.cellHeight |= "1.5000"' "$settings_json" > "$tmp_json"
+  fi
+
+  mv "$tmp_json" "$settings_json"
+
+  read -r new_value < <(jq --raw-output '.profiles.defaults.font.cellHeight' "$settings_json")
+  echo "Updated value = $new_value"
+}
+
 # Show all the names (CNs and SANs) listed in the SSL certificate for a given domain
 function getcertnames() {
   if [ -z "${1}" ]; then
