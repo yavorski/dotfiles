@@ -1259,7 +1259,9 @@ LSP.buffer_keymaps = function(buffer)
   keymap("n", "K", vim.lsp.buf.hover, "LSP Hover")
   keymap("n", "<C-k>", vim.lsp.buf.signature_help, "LSP Signature Help")
 
+  keymap("n", "<leader>r", vim.lsp.buf.rename, "LSP Rename")
   keymap("n", "<leader>R", vim.lsp.buf.rename, "LSP Rename")
+
   keymap("n", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format")
   keymap("v", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format Visual")
 
