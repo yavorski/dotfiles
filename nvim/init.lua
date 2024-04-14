@@ -768,8 +768,8 @@ Lazy.use {
   priority = 512,
   dependencies = {
     { "tiagovla/scope.nvim" }, -- scope buffers to tabs
-    { "nvim-tree/nvim-web-devicons" }, -- use dev icons
-    { "yavorski/lsp-progress.nvim", config = true }, -- lsp progress
+    { "nvim-tree/nvim-web-devicons" }, -- use nvim dev icons
+    { "yavorski/lualine-lsp-progress.nvim" }, -- display lsp progress
     { "yavorski/lualine-lsp-client-name.nvim" }, -- display lsp client name
     { "yavorski/lualine-macro-recording.nvim" }, -- display macro recording
   },
@@ -786,7 +786,7 @@ Lazy.use {
       sections = {
         lualine_a = { "mode" },
         lualine_b = { "branch", "diff", "diagnostics" },
-        lualine_c = { "filename", "filesize", require("lsp-progress").progress, "macro_recording", "%S" },
+        lualine_c = { "filename", "filesize", "lsp_progress", "macro_recording", "%S" },
         lualine_x = { "selectioncount", "searchcount", "lsp_client_name", "encoding", "fileformat", "filetype" },
         lualine_y = { "progress" },
         lualine_z = { "location" }
@@ -874,6 +874,7 @@ Lazy.use {
 Lazy.use {
   "nvim-telescope/telescope.nvim",
   cmd = "Telescope",
+  event = is_windows and "VeryLazy" or nil,
   dependencies = {
     { "nvim-lua/plenary.nvim" },
     { "nvim-tree/nvim-web-devicons" },
@@ -941,7 +942,7 @@ Lazy.use {
     select = {
       enabled = true,
       trim_prompt = false,
-      backend = { "fzf_lua", "builtin" },
+      backend = { is_windows and "builtin" or "fzf_lua" },
       builtin = {
         border = "solid",
         min_width = { 80, 0.2 },
@@ -1001,7 +1002,7 @@ Lazy.use {
     lsp = {
       hover = { enabled = false },
       message = { enabled = true },
-      progress = { enabled = false },
+      progress = { enabled = true },
       signature = { enabled = false },
       documentation = { enabled = false }
     },
