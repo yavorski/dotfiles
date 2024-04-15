@@ -86,18 +86,12 @@ function show_colors() {
 }
 
 # Set windows terminal settings
-function setup_windows_terminal() {
+function _setup_windows_terminal() {
   local device=$1
-  local windows_username
+  local settings_dir=$2
 
-  pushd /mnt/c > /dev/null || exit 1
-    windows_username=$(/mnt/c/Windows/System32/cmd.exe /c "echo %USERNAME%" | sed -e "s/\r//g")
-  popd > /dev/null || exit 1
-
-  local settings="/mnt/c/Users/$windows_username/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState"
-
-  local tmp_json="$settings/tmp.json"
-  local settings_json="$settings/settings.json"
+  local tmp_json="$settings_dir/tmp.json"
+  local settings_json="$settings_dir/settings.json"
 
   echo "Device: $device"
 
@@ -116,6 +110,21 @@ function setup_windows_terminal() {
 
   read -r new_value < <(jq --raw-output '.profiles.defaults.font.cellHeight' "$settings_json")
   echo "Updated value = $new_value"
+}
+
+function setup_windows_terminal() {
+  local device=$1
+  local windows_username
+
+  pushd /mnt/c > /dev/null || exit 1
+    windows_username=$(/mnt/c/Windows/System32/cmd.exe /c "echo %USERNAME%" | sed -e "s/\r//g")
+  popd > /dev/null || exit 1
+
+  # portable
+  _setup_windows_terminal "$device" "/mnt/c/Users/$windows_username/AppData/Local/Microsoft/Windows Terminal"
+
+  # stable msi
+  _setup_windows_terminal "$device" "/mnt/c/Users/$windows_username/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState"
 }
 
 # Show all the names (CNs and SANs) listed in the SSL certificate for a given domain
