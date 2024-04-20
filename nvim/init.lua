@@ -703,9 +703,8 @@ Lazy.use {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   cmd = "NvimTreeToggle",
   opts = {
-    update_focused_file = {
-      enable = true
-    }
+    git = { timeout = 1024 },
+    update_focused_file = { enable = true },
   },
   keys = {
     { "<leader>kb", "<cmd>NvimTreeToggle<cr>", silent = true, desc = "NvimTreeToggle" },
