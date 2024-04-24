@@ -941,7 +941,7 @@ Lazy.use {
     select = {
       enabled = true,
       trim_prompt = false,
-      backend = { is_windows and "builtin" or "fzf_lua" },
+      backend = { "builtin", "fzf_lua" },
       builtin = {
         border = "solid",
         min_width = { 80, 0.2 },
