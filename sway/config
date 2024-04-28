@@ -358,10 +358,10 @@ for_window [app_id="org.gnome.Calculator"] floating enable
 for_window [app_id="org.gnome.font-viewer"] floating enable, resize set width 1280, resize set height 768
 
 for_window [app_id="evince"] floating enable, resize set width 85ppt, resize set height 95ppt
-for_window [app_id="file-roller"] floating enable, resize set width 1280, resize set height 768
 for_window [app_id="gnome-disks"] floating enable, resize set width 1280, resize set height 768
-for_window [app_id="gnome-tweaks"] floating enable, resize set width 1280, resize set height 768
-for_window [app_id="gnome-system-monitor"] floating enable, resize set width 1280, resize set height 768
+for_window [app_id="org.gnome.tweaks"] floating enable, resize set width 1280, resize set height 768
+for_window [app_id="org.gnome.FileRoller"] floating enable, resize set width 1280, resize set height 768
+for_window [app_id="org.gnome.SystemMonitor"] floating enable, resize set width 1280, resize set height 768
 
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable
