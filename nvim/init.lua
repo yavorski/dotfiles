@@ -1445,12 +1445,9 @@ LSP.setup_lua = function()
       Lua = {
         format = { enable = true },
         runtime = { version = "LuaJIT" },
+        diagnostics = { globals = { "vim" } },
         completion = { callSnippet = "Replace" },
-        diagnostics = { globals = { "vim", "teardown" } },
-        workspace = {
-          checkThirdParty = false,
-          -- library = { vim.env.VIMRUNTIME }
-        }
+        workspace = { checkThirdParty = "Disable" }
       }
     }
   })
