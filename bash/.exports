@@ -3,6 +3,9 @@
 # Make vim the default editor
 export EDITOR="nvim"
 
+# Make nvim the default sudo editor
+export SUDO_EDITOR="nvim"
+
 # Allow larger history size - default is 500
 # For setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTSIZE=8192
