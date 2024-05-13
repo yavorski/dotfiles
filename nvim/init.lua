@@ -65,7 +65,10 @@ vim.opt.mouse = "a"
 -- min number of screen lines above/below the cursor
 vim.opt.scrolloff = 4
 
--- vertical split to the right
+-- horizontal splits will be below
+vim.opt.splitbelow = true
+
+-- vertical splits will be to the right
 vim.opt.splitright = true
 
 -- reduce scroll during window split
@@ -79,6 +82,9 @@ vim.opt.ignorecase = true
 
 -- override the "ignorecase" option if the search containse upper characters
 vim.opt.smartcase = true
+
+-- show search results while typing
+vim.opt.incsearch = true
 
 -- complete menu
 vim.opt.completeopt = "menu,menuone,noselect"
@@ -103,9 +109,13 @@ vim.opt.smartindent = true    -- autoindent new lines
 -- Reset "expandtab" in order to use "hard tabs"
 ------------------------------------------------------------
 
+-- rust enable tabs and user settings
+vim.g.rust_recommended_style = 0
+
+-- enable tabs for the following filetypes
 vim.cmd[[autocmd FileType ps1 setlocal noexpandtab]]
-vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
 vim.cmd[[autocmd FileType make setlocal noexpandtab]]
+vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
 
 ------------------------------------------------------------
 -- list
@@ -136,18 +146,10 @@ vim.g.maplocalleader = [[ ]]
 -- vim.g.maplocalleader = [[\]]
 
 ------------------------------------------------------------
--- Map <F1> to <ESC>
-------------------------------------------------------------
-
-vim.cmd[[map <F1> <ESC>]]
-vim.cmd[[map! <F1> <ESC>]]
-
-------------------------------------------------------------
 -- sysname
 ------------------------------------------------------------
 
 local sysname = vim.loop.os_uname().sysname
-
 local is_linux = sysname == "Linux"
 local is_windows = sysname == "Windows_NT"
 
@@ -155,8 +157,12 @@ local is_windows = sysname == "Windows_NT"
 -- edit cmd
 ------------------------------------------------------------
 
+-- enable all filetype plugins
+-- vim.cmd[[filetype plugin indent on]]
+
 -- trim trailing whitespace on save
 -- vim.cmd[[autocmd BufWritePre * :%s/\s\+$//e]]
+
 local tws_autocmd_id = vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   command = [[:%s/\s\+$//e]]
@@ -191,14 +197,14 @@ end
 vim.api.nvim_create_user_command("NormalizeLineEndings", normalize_line_endings, { nargs = "?", range = "%", addr = "lines", desc = "Normalize Line Endings" })
 
 ------------------------------------------------------------
--- Rust
+-- Map <F1> to <ESC>
 ------------------------------------------------------------
 
--- rust respect user settings
-vim.g.rust_recommended_style = 0
+vim.cmd[[map <F1> <ESC>]]
+vim.cmd[[map! <F1> <ESC>]]
 
 ------------------------------------------------------------
--- close quickfix/location lists
+-- close quickfix/location lists with <ESC>
 ------------------------------------------------------------
 
 vim.cmd [[ exe "nnoremap <esc> <cmd>lclose<cr>" .. maparg("<esc>", "n") ]]
