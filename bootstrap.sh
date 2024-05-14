@@ -4,7 +4,7 @@ source bash/.functions
 
 function bootstrap() {
   echo ""
-  rsync -avh --no-perms .vimrc .inputrc .gitconfig "$HOME"
+  rsync -avh --no-perms .vimrc .inputrc .gitconfig .shellcheckrc "$HOME"
 
   echo ""
   rsync -avh --no-perms --delete bash nvim kitty alacritty starship/starship.toml "$HOME/.config"
@@ -27,6 +27,10 @@ function bootstrap() {
   source "$HOME/.bashrc"
 }
 
+if ! command -v rsync &> /dev/null; then
+  echo "Error: rsync is not installed or available in PATH"
+  exit 1
+fi
 
 if [[ "$1" == "-f" || "$1" == "--force" ]]; then
   backup
@@ -41,4 +45,3 @@ else
 fi
 
 unset bootstrap
-

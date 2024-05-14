@@ -26,7 +26,6 @@ function mkd() {
 }
 
 function pretty_path() {
-  # shellcheck disable=SC2001
   echo "$PATH" | sed "s/:/\n/g"
 }
 

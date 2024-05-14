@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# start sway ##
+# start sway window manager
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty5 ]]; then
   exec sway
-  # exec sway -d 2> ~/dev/sway.log
+  # exec sway --debug 2> ~/dev/sway.log
 fi

@@ -16,6 +16,7 @@ declare -a files=(
   "$DOTFILES/.aliases"
   "$DOTFILES/.functions"
   "$DOTFILES/.prompt"
+  "$DOTFILES/.tools"
   "$DOTFILES/.wm"
   "$HOME/.path"
   "$HOME/.extra"

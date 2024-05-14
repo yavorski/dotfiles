@@ -545,18 +545,18 @@ Exec = /bin/sh -c 'systemctl start reflector.service; if [ -f /etc/pacman.d/mirr
 pacman -S git git-delta
 pacman -S curl wget rsync
 pacman -S procs htop bottom
-pacman -S llvm gcc clang cmake python rust nodejs npm
-pacman -S man tldr tokei
-pacman -S exa bat tree duf dust fx
+pacman -S bat man tldr
+pacman -S tree exa lsd zoxide
+pacman -S duf dust
+pacman -S fx tokei
 pacman -S fd fzf skim ripgrep the_silver_searcher
-pacman -S helix
-pacman -S neovim
-pacman -S neovide
+pacman -S helix neovim neovide
 pacman -S starship
 pacman -S alacritty kitty
+pacman -S llvm gcc clang cmake python rust nodejs npm typescript
 
 pacman -S xorg-xdpyinfo xorg-xprop xorg-xrandr xorg-xwininfo
-pacman -S neofetch catimg chafa feh imagemagick jp2a libcaca nitrogen
+pacman -S fastfetch neofetch catimg chafa feh imagemagick jp2a libcaca nitrogen
 ```
 
 ## fonts (optional)
@@ -666,3 +666,5 @@ pacman -Ss bat --color always | less -r
 
 * [Pacman](https://wiki.archlinux.org/index.php/Pacman)
 * [Pacman - tips and tricks](https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks)
+
+* [List of command-line utilities written in Rust](https://gist.github.com/yavorski/8729c8c5a9a79d4b6817ef152d592bf8)

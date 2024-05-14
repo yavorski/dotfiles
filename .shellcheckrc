@@ -1,0 +1,3 @@
+source-path=SCRIPTDIR
+external-sources=false
+exclude=/usr/share/nvm/init-nvm.sh

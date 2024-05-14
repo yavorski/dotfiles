@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# init zoxide if it is available
+if command -v zoxide &>/dev/null; then
+  eval "$(zoxide init bash)"
+fi
+
+# init fnm nodejs version manager
+if command -v fnm &>/dev/null; then
+  eval "$(fnm env)"
+fi
+
+# prefer lsd if available
+if ! command -v lsd &>/dev/null; then
+  alias lsd="eza --only-dirs"
+fi
