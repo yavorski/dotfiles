@@ -32,7 +32,7 @@
     "bower_components"
   ],
   "font_size": 10.42,
-  "font_face": "Source Code Pro Bold",
+  "font_face": "Intel One Mono Bold",
   "highlight_line": false,
   "highlight_modified_tabs": true,
   "ignored_packages": [],
