@@ -8,11 +8,8 @@ vim.opt.title = true
 -- hide cmd line
 vim.opt.cmdheight = 0
 
--- show status line only in active window
--- vim.opt.laststatus = 1
-
--- show status line globally for active window
-vim.opt.laststatus = 3
+-- show status line
+vim.opt.laststatus = 2
 
 -- showcmd in statusline
 vim.opt.showcmdloc = "statusline"
@@ -204,11 +201,12 @@ vim.cmd[[map <F1> <ESC>]]
 vim.cmd[[map! <F1> <ESC>]]
 
 ------------------------------------------------------------
--- close quickfix/location lists with <ESC>
+-- close quickfix list and location list with <ESC>
 ------------------------------------------------------------
 
-vim.cmd [[ exe "nnoremap <esc> <cmd>lclose<cr>" .. maparg("<esc>", "n") ]]
-vim.cmd [[ exe "nnoremap <esc> <cmd>cclose<cr>" .. maparg("<esc>", "n") ]]
+-- BUG - nvim v0.10 is hiding/flashing lualine when cmdheight is 0, HACK redraw
+vim.cmd [[ exe "nnoremap <esc> <cmd>lclose<cr><cmd>redrawstatus<cr>" .. maparg("<esc>", "n") ]]
+vim.cmd [[ exe "nnoremap <esc> <cmd>cclose<cr><cmd>redrawstatus<cr>" .. maparg("<esc>", "n") ]]
 
 ------------------------------------------------------------
 -- Buffer navigation
@@ -544,8 +542,11 @@ Lazy.use { "jlcrochet/vim-razor", ft = { "razor", "cshtml" } }
 -- emmet html/css/js/lorem - [i] <c-m> <c-y>,
 Lazy.use { "mattn/emmet-vim", ft = { "html", "cshtml", "razor", "markdown" } }
 
--- auto rename html tag - windwp/nvim-ts-autotag does not work with custom tags
+-- auto close/rename html tag
 Lazy.use { "andrewradev/tagalong.vim", ft = { "html", "cshtml", "razor", "markdown" } }
+
+-- auto close/rename html tag
+Lazy.use { "windwp/nvim-ts-autotag", ft = { "html", "cshtml", "razor", "markdown" }, opts = { opts = { enable_close_on_slash = true } } }
 
 -- shows key bindings in popup
 Lazy.use { "folke/which-key.nvim", event = "VeryLazy", config = true }
@@ -556,7 +557,7 @@ Lazy.use { "echasnovski/mini.jump", event = "VeryLazy", config = true }
 -- move any selection in any direction - [v] <Alt+hjkl>
 Lazy.use { "echasnovski/mini.move", event = "VeryLazy", config = true }
 
--- auto pairs -> "windwp/nvim-autopairs"
+-- auto pairs
 Lazy.use { "echasnovski/mini.pairs", event = "VeryLazy", config = true }
 
 -- auto comment - [n,v] <gc>
@@ -565,12 +566,11 @@ Lazy.use { "echasnovski/mini.comment", event = "VeryLazy", config = true }
 -- surround - add, delete, replace, find, highlight - [n,v] <sa> <sd> <sr>
 Lazy.use { "echasnovski/mini.surround", event = "VeryLazy", config = true }
 
+-- show notifications - same issue like noice while search
+-- Lazy.use { "echasnovski/mini.notify", event = "VeryLazy", config = true }
+
 -- misc fns - put, put_text, setup_auto_root, setup_restore_cursor, zoom
-Lazy.use {
-  "echasnovski/mini.misc",
-  keys = {{ "<leader><F11>", function() require("mini.misc").zoom() end, silent = true, desc = "MiniMisc Zoom In/Out" }},
-  config = true
-}
+Lazy.use { "echasnovski/mini.misc", event = "VeryLazy", config = true, priority = 1 }
 
 -- trim/highlight trailing whitespace
 Lazy.use {
@@ -709,7 +709,7 @@ Lazy.use {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   cmd = "NvimTreeToggle",
   opts = {
-    git = { timeout = 1024 },
+    git = { timeout = 2048 },
     update_focused_file = { enable = true },
   },
   keys = {
@@ -784,6 +784,7 @@ Lazy.use {
     return {
       options = {
         theme = catppuccin,
+        globalstatus = true,
         icons_enabled = true,
         section_separators = "", -- disable separators
         component_separators = "", -- disable separators
@@ -978,10 +979,13 @@ Lazy.use {
 }
 
 -- ui for messages, cmdline, search and popupmenu
+-- @todo enable when these are resolved
+-- https://www.github.com/neovim/neovim/pull/27950
+-- https://www.github.com/folke/noice.nvim/issues/679
 Lazy.use {
   "folke/noice.nvim",
-  -- dir = "~/dev/open-sos/noice.nvim",
   event = "VeryLazy",
+  enabled = false,
   dependencies = {{ "muniftanjim/nui.nvim" }},
   opts = {
     notify = { view = "mini" },
@@ -1071,14 +1075,9 @@ Lazy.use {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
   event = { "BufReadPost", "BufNewFile" },
-  dependencies = {
-    { "windwp/nvim-ts-autotag", config = true }, -- auto close/rename html tag
-    { "nvim-treesitter/playground", enabled = false }, -- view treesitter information
-  },
   opts = {
     ensure_installed = "all",
     indent = { enable = true }, -- indentation for = operator
-    autotag = { enable = true }, -- auto close/rename html tag
     playground = { enable = false }, -- Inspect/TSHighlightCapturesUnderCursor
     highlight = {
       enable = true, -- false will disable the extension
@@ -1139,7 +1138,6 @@ Lazy.use {
         }, {}),
         c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
         f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
-        x = { "constructor" },
         t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
         d = { "%f[%d]%d+" }, -- digits
       },
@@ -1147,6 +1145,7 @@ Lazy.use {
   end,
   config = function(plugin, options)
     require("mini.ai").setup(options)
+    --- @diagnostic disable-next-line: missing-fields
     require("nvim-treesitter.configs").setup({
       textobjects = {
         move = {
@@ -1262,25 +1261,23 @@ LSP.buffer_keymaps = function(buffer)
   keymap("n", "g<space>", vim.lsp.buf.type_definition, "LSP Type Definition")
   keymap("n", "<leader>g<space>", "<cmd>TroubleToggle lsp_type_definitions<cr>", "LSP Type Definition")
 
-  keymap("n", "K", vim.lsp.buf.hover, "LSP Hover")
+  -- keymap("n", "K", vim.lsp.buf.hover, "LSP Hover")
   keymap("n", "<C-k>", vim.lsp.buf.signature_help, "LSP Signature Help")
 
   keymap("n", "<leader>r", vim.lsp.buf.rename, "LSP Rename")
   keymap("n", "<leader>R", vim.lsp.buf.rename, "LSP Rename")
 
-  keymap("n", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format")
-  keymap("v", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format Visual")
-
-  -- NOTE use vim.diagnostic.count() when it is available
-  keymap("n", "<leader>d", function() if #vim.diagnostic.get() > 0 then require("trouble").toggle("workspace_diagnostics") else print("No workspace diagnostics") end end, "LSP Workspace Diagnostics")
-  keymap("n", "<leader>D", function() if #vim.diagnostic.get(0) > 0 then require("trouble").toggle("document_diagnostics") else print("No document diagnostics") end end, "LSP Document Diagnostics")
-
   keymap("n", "<leader>ca", vim.lsp.buf.code_action, "LSP Code Action")
   keymap("v", "<leader>ca", vim.lsp.buf.code_action, "LSP Code Action")
 
-  keymap("n", "[d", vim.diagnostic.goto_prev, "LSP Diagnostic Prev")
-  keymap("n", "]d", vim.diagnostic.goto_next, "LSP Diagnostic Next")
+  -- <CTRL-W-d> is default
   keymap("n", "<leader>er", vim.diagnostic.open_float, "LSP Diagnostic Open Float")
+
+  keymap("n", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format")
+  keymap("v", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format Visual")
+
+  keymap("n", "<leader>d", "<cmd>TroubleToggle document_diagnostics<cr>", "LSP Document Diagnostics")
+  keymap("n", "<leader>D", "<cmd>TroubleToggle workspace_diagnostics<cr>", "LSP Workspace Diagnostics")
 
   keymap("n", "<leader>tq", "<cmd>Telescope diagnostics layout_strategy=vertical<cr>", "Telescope LSP Diagnostics")
   keymap("n", "<leader>tr", "<cmd>Telescope lsp_references layout_strategy=vertical<cr>", "Telescope LSP References")
@@ -1320,7 +1317,7 @@ LSP.capabilities = function()
   local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
   -- @perf: didChangeWatchedFiles is too slow
-  -- @todo: Remove this when https://github.com/neovim/neovim/issues/23291#issuecomment-1686709265 is fixed
+  -- @todo: Remove this when https://www.github.com/neovim/neovim/issues/23291#issuecomment-1686709265 is fixed
   local workarround_perf_fix = {
     workspace = {
       didChangeWatchedFiles = { dynamicRegistration = false },
@@ -1348,17 +1345,14 @@ LSP.overloads = function()
         require("lsp-overloads").setup(client, {
           silent = false,
           display_automatically = false,
+          --- @diagnostic disable-next-line: missing-fields
           ui = {
             border = "solid",
             close_events = {
-              "CursorMoved",
-              "CursorMovedI",
               "BufHidden",
-              "InsertLeave",
-              "InsertEnter",
-              "InsertChange",
-              "TextChanged",
-              "TextChangedI"
+              "CursorMoved", "CursorMovedI",
+              "InsertLeave", "InsertEnter", "InsertChange",
+              "TextChanged", "TextChangedI"
             },
           },
           keymaps = {
@@ -1751,10 +1745,8 @@ Lazy.setup()
 ------------------------------------------------------------
 
 if vim.g.neovide then
-  vim.opt.linespace = is_linux and 0 or 3
+  vim.opt.linespace = is_linux and 0 or 2
   vim.g.neovide_remember_window_size = true
-  -- vim.opt.guifont = { "Intel One Mono", ":h11.25:b" }
-  -- vim.opt.guifont = { "JetBrains Mono NL", ":h10:b" }
 end
 
 --------------------------------------------------------------------------------
