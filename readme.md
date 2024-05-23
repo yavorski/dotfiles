@@ -46,3 +46,13 @@ If `~/.path` exists, it will be sourced along with the other files.
 
 * `λ` - greek small letter lamda
 * `𝝺` - mathematical sans-serif bold small lamda
+
+## Preview
+
+### Desktop
+
+![arch-neofetch-neovim](https://i.postimg.cc/38VPDNZ2/desktop.png)
+
+### nvim/neovide
+
+![arch-neofetch-neovide](https://i.postimg.cc/TdpzwgnR/neovide.png)
