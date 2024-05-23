@@ -1,9 +1,9 @@
 # ------------------------------------------
-# Intel One Mono
+# Intel One Mono for linux
 # ------------------------------------------
 
 [font]
-size = 15.15
+size = 11.25
 allow_float_size = true
 
 [[font.normal]]
@@ -23,16 +23,9 @@ style = "Bold Italic"
 
 # ------------------------------------------
 # JetBrains Mono NL
-# set linespace = 1 for JBM
+# set size = 10.25 for JBM windows
+# set linespace = 2 for JBM for windows
 # ------------------------------------------
-
-# [font] # -> linux
-# size = 15.00
-# allow_float_size = true
-
-# [font] # -> windows
-# size = 14.00
-# allow_float_size = false
 
 [[font.normal]]
 style = "ExtraBold"
