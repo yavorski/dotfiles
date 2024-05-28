@@ -89,6 +89,10 @@ vim.opt.completeopt = "menu,menuone,noselect"
 -- reload file on external change
 vim.opt.autoread = true
 
+-- LF line endings
+vim.opt.fileformat = "unix"
+vim.opt.fileformats = { "unix", "mac", "dos" }
+
 -- backups
 vim.opt.backup = false
 vim.opt.swapfile = false
@@ -181,17 +185,46 @@ vim.cmd[[autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "Y
 -- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
 
 -- Normalize Line Endings
+-- HACK to detect visual mode
+-- https://www.petergundel.de/neovim/lua/hack/2023/12/17/get-neovim-mode-when-executing-a-command.html
+-- Executing a command with : in visual line/block mode changes mode to normal mode, making it unclear what the previous mode was.
+-- Checking the count option helps: -1 indicates "no range," implying the command was executed from normal mode (if only considering normal and visual modes).
 local function normalize_line_endings(options)
-  -- local cursor_position = vim.api.nvim_win_get_cursor(0)
+  local cursor_position = vim.api.nvim_win_get_cursor(0)
+
   if options.count == -1 then
-    vim.cmd([[silent! keepalt keepjumps %s/\r\n/\r/g]])
+    vim.cmd("silent! keepalt keepjumps %s/\r//g")
   else
-    vim.cmd([[silent! '<,'>s/\r\n/\r/g]])
+    vim.cmd("silent! keepalt keepjumps '<,'>s/\r//g")
   end
-  -- vim.api.nvim_win_set_cursor(0, cursor_position)
+
+  vim.api.nvim_win_set_cursor(0, cursor_position)
 end
 
+-- user command
 vim.api.nvim_create_user_command("NormalizeLineEndings", normalize_line_endings, { nargs = "?", range = "%", addr = "lines", desc = "Normalize Line Endings" })
+
+-- Force convert file to LF
+local function forcelf(options)
+  local cursor_position = vim.api.nvim_win_get_cursor(0)
+  local is_gitsigns_loaded = pcall(require, "gitsigns")
+
+  if is_gitsigns_loaded then
+    vim.cmd("Gitsigns detach")
+  end
+
+  vim.cmd("set fileformat=unix")
+  normalize_line_endings(options)
+
+  if is_gitsigns_loaded then
+    vim.cmd("Gitsigns attach")
+  end
+
+  vim.api.nvim_win_set_cursor(0, cursor_position)
+end
+
+-- user command
+vim.api.nvim_create_user_command("ForceLF", forcelf, { nargs = "?", range = "%", addr = "lines", desc = "Set LF Line Endings" })
 
 ------------------------------------------------------------
 -- Map <F1> to <ESC>
