@@ -227,21 +227,6 @@ end
 vim.api.nvim_create_user_command("ForceLF", forcelf, { nargs = "?", range = "%", addr = "lines", desc = "Set LF Line Endings" })
 
 ------------------------------------------------------------
--- Map <F1> to <ESC>
-------------------------------------------------------------
-
-vim.cmd[[map <F1> <ESC>]]
-vim.cmd[[map! <F1> <ESC>]]
-
-------------------------------------------------------------
--- close quickfix list and location list with <ESC>
-------------------------------------------------------------
-
--- BUG - nvim v0.10 is hiding/flashing lualine when cmdheight is 0, HACK redraw
-vim.cmd [[ exe "nnoremap <esc> <cmd>lclose<cr><cmd>redrawstatus<cr>" .. maparg("<esc>", "n") ]]
-vim.cmd [[ exe "nnoremap <esc> <cmd>cclose<cr><cmd>redrawstatus<cr>" .. maparg("<esc>", "n") ]]
-
-------------------------------------------------------------
 -- Buffer navigation
 ------------------------------------------------------------
 
@@ -992,6 +977,7 @@ Lazy.use {
   }
 }
 
+-- NOTE switch to dev/v3-beta
 -- diagnostics, references, telescope results, quickfix and location list
 Lazy.use {
   "folke/trouble.nvim",
@@ -1004,15 +990,11 @@ Lazy.use {
     signs = { hint = "★", error = "✖", warning = "◀", other = "⬕", information = "▣" },
     auto_jump = { "lsp_references", "lsp_definitions", "lsp_implementations", "lsp_type_definitions" },
     include_declaration = { "lsp_references", "lsp_definitions", "lsp_implementations", "lsp_type_definitions" },
-  },
-  config = function(plugin, options)
-    require("trouble").setup(options)
-    vim.cmd [[ exe "nnoremap <esc> <cmd>TroubleClose<cr>" .. maparg("<esc>", "n") ]]
-  end
+  }
 }
 
+-- NOTE enable when these are resolved
 -- ui for messages, cmdline, search and popupmenu
--- @todo enable when these are resolved
 -- https://www.github.com/neovim/neovim/pull/27950
 -- https://www.github.com/folke/noice.nvim/issues/679
 Lazy.use {
@@ -1094,10 +1076,7 @@ Lazy.use {
         win_options = { winhighlight = { Normal = "NormalFloat" } }
       }
     }
-  },
-  init = function()
-    vim.cmd [[ exe "nnoremap <esc> <cmd>Noice dismiss<cr>" .. maparg("<esc>", "n") ]]
-  end
+  }
 }
 
 -- tree-sitter
@@ -1772,6 +1751,57 @@ Lazy.install()
 
 -- install all configured plugins
 Lazy.setup()
+
+------------------------------------------------------------
+-- Map <esc>
+-- Map <F1> to <ESC>
+-- close all floating windows
+-- close quickfix list, location list, trouble & noice
+------------------------------------------------------------
+
+vim.cmd("map <F1> <esc>")
+vim.cmd("map! <F1> <esc>")
+
+-- close quickfix/location list
+local function close_qf_loc_list()
+  -- Check if the quickfix list is open
+  if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
+    vim.cmd("cclose")
+  end
+  -- Check if the location list is open
+  if vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 then
+    vim.cmd("lclose")
+  end
+end
+
+-- close trouble
+local function close_trouble()
+  local is_trouble_loaded, trouble = pcall(require, "trouble")
+  if is_trouble_loaded then
+    if trouble.is_open() then
+      trouble.close()
+    end
+  end
+end
+
+-- dismiss noice
+local function close_noice()
+  local is_noice_loaded = pcall(require, "noice")
+  if is_noice_loaded then
+    vim.cmd("Noice dismiss")
+  end
+end
+
+-- escape fn
+local function escape()
+  close_noice()
+  close_trouble()
+  close_qf_loc_list()
+  vim.cmd("fclose!")
+end
+
+-- map <esc> key
+vim.keymap.set("n", "<esc>", escape, { silent = true, noremap = true, desc = "Escape" })
 
 ------------------------------------------------------------
 -- NeoVide
