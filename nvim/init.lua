@@ -977,20 +977,31 @@ Lazy.use {
   }
 }
 
--- NOTE switch to dev/v3-beta
+-- NOTE TODO telescope integration
 -- diagnostics, references, telescope results, quickfix and location list
 Lazy.use {
   "folke/trouble.nvim",
-  cmd = { "Trouble", "TroubleToggle" },
+  cmd = { "Trouble", "TroubleQuickFixList" },
   opts = {
-    icons = false,
-    padding = false,
-    auto_close = true,
-    indent_lines = false,
-    signs = { hint = "★", error = "✖", warning = "◀", other = "⬕", information = "▣" },
-    auto_jump = { "lsp_references", "lsp_definitions", "lsp_implementations", "lsp_type_definitions" },
-    include_declaration = { "lsp_references", "lsp_definitions", "lsp_implementations", "lsp_type_definitions" },
-  }
+    auto_close = true, -- auto close when there are no items
+    auto_open = false, -- auto open when there are items
+    auto_preview = true, -- automatically open preview when on an item
+    auto_refresh = true, -- auto refresh when open
+    auto_jump = true, -- auto jump to the item when there's only one
+    focus = true, -- Focus the window when opened
+    restore = true, -- restores the last location in the list when opening
+    follow = true, -- Follow the current item
+    indent_guides = true, -- show indent guides
+    max_items = 200, -- limit number of items that can be displayed per section
+    multiline = true, -- render multi-line messages
+    pinned = false, -- When pinned, the opened trouble window will be bound to the current buffer
+  },
+  config = function(plugin, options)
+    require("trouble").setup(options)
+    vim.api.nvim_create_user_command("TroubleFocus", require("trouble").focus, { });
+    vim.api.nvim_create_user_command("TroubleClose", require("trouble").close, { });
+    vim.api.nvim_create_user_command("TroubleQuickFixList", "Trouble quickfix", { });
+  end
 }
 
 -- NOTE enable when these are resolved
@@ -1259,19 +1270,19 @@ LSP.buffer_keymaps = function(buffer)
   end
 
   keymap("n", "gr", vim.lsp.buf.references, "LSP References")
-  keymap("n", "<leader>gr", "<cmd>TroubleToggle lsp_references<cr>", "LSP References")
+  keymap("n", "<leader>gr", "<cmd>Trouble lsp_references toggle<cr>", "LSP References")
 
   keymap("n", "gd", vim.lsp.buf.definition, "LSP Definition")
-  keymap("n", "<leader>gd", "<cmd>TroubleToggle lsp_definitions<cr>", "LSP Definition")
+  keymap("n", "<leader>gd", "<cmd>Trouble lsp_definitions toggle<cr>", "LSP Definition")
 
-  -- no trouble declaration
   keymap("n", "gD", vim.lsp.buf.declaration, "LSP Declaration")
+  keymap("n", "<leader>gD", "<cmd>Trouble lsp_declarations toggle<cr>", "LSP Declaration")
 
   keymap("n", "gi", vim.lsp.buf.implementation, "LSP Implementation")
-  keymap("n", "<leader>gi", "<cmd>TroubleToggle lsp_implementations<cr>", "LSP Implementation")
+  keymap("n", "<leader>gi", "<cmd>Trouble lsp_implementations toggle<cr>", "LSP Implementation")
 
   keymap("n", "g<space>", vim.lsp.buf.type_definition, "LSP Type Definition")
-  keymap("n", "<leader>g<space>", "<cmd>TroubleToggle lsp_type_definitions<cr>", "LSP Type Definition")
+  keymap("n", "<leader>g<space>", "<cmd>Trouble lsp_type_definitions toggle<cr>", "LSP Type Definition")
 
   -- keymap("n", "K", vim.lsp.buf.hover, "LSP Hover")
   keymap("n", "<C-k>", vim.lsp.buf.signature_help, "LSP Signature Help")
@@ -1288,8 +1299,8 @@ LSP.buffer_keymaps = function(buffer)
   keymap("n", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format")
   keymap("v", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format Visual")
 
-  keymap("n", "<leader>d", "<cmd>TroubleToggle document_diagnostics<cr>", "LSP Document Diagnostics")
-  keymap("n", "<leader>D", "<cmd>TroubleToggle workspace_diagnostics<cr>", "LSP Workspace Diagnostics")
+  keymap("n", "<leader>d", "<cmd>Trouble diagnostics toggle<cr>", "LSP Workspace Diagnostics")
+  keymap("n", "<leader>D", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", "LSP Document Diagnostics")
 
   keymap("n", "<leader>tq", "<cmd>Telescope diagnostics layout_strategy=vertical<cr>", "Telescope LSP Diagnostics")
   keymap("n", "<leader>tr", "<cmd>Telescope lsp_references layout_strategy=vertical<cr>", "Telescope LSP References")
@@ -1299,7 +1310,7 @@ LSP.buffer_keymaps = function(buffer)
 
   keymap("n", "<leader>Wa", vim.lsp.buf.add_workspace_folder, "LSP Add Workspace Folder")
   keymap("n", "<leader>Wr", vim.lsp.buf.remove_workspace_folder, "LSP Remove Workspace Folder")
-  keymap("n", "<leader>Wq", "<cmd>TroubleToggle workspace_diagnostics<cr>", "LSP Workspace Diagnostics")
+  keymap("n", "<leader>Wq", "<cmd>Trouble diagnostics toggle<cr>", "LSP Workspace Diagnostics")
   keymap("n", "<leader>Wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "LSP Workspace List Folders")
 
   require("which-key").register({ ["<leader>g"] = "LSP Trouble" })
