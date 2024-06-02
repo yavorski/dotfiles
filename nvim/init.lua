@@ -550,6 +550,7 @@ Lazy.use { "nvim-tree/nvim-web-devicons" }
 
 -- rust.vim
 Lazy.use { "rust-lang/rust.vim", ft = "rust" }
+-- Lazy.use { "mrcjkb/rustaceanvim", ft = "rust", version = "^4" }
 
 -- stylus syntax
 Lazy.use { "wavded/vim-stylus", ft = "stylus" }
@@ -1210,6 +1211,7 @@ local LSP = {
       "bashls",
       "yamlls",
       "dockerls",
+      "rust_analyzer",
       "emmet_language_server",
       -- "gopls",
       -- "clangd",
@@ -1220,7 +1222,6 @@ local LSP = {
       -- "csharp_ls",
       -- "omnisharp",
       -- "powershell",
-      -- "rust_analyzer",
       -- "omnisharp-roslyn",
       -- "lua-language-server",
     }
@@ -1409,18 +1410,6 @@ LSP.setup_listed_servers = function()
 end
 
 ------------------------------------------------------------
--- NOTE this is no longer maintained
--- LSP Rust rust_analyzer -- simrat39/rust-tools.nvim
-------------------------------------------------------------
-LSP.setup_rust = function()
-  require("rust-tools").setup({
-    server = {
-      capabilities = LSP.capabilities()
-    }
-  })
-end
-
-------------------------------------------------------------
 -- LSP Angular
 ------------------------------------------------------------
 LSP.setup_angular = function()
@@ -1555,9 +1544,6 @@ Lazy.use {
 
 -- init.lua, plugin development, signature help, docs and completion for the nvim lua api
 Lazy.use { "folke/neodev.nvim", ft = "lua", config = LSP.setup_lua }
-
--- extra functionality over rust analyzer
-Lazy.use { "simrat39/rust-tools.nvim", ft = "rust", config = LSP.setup_rust }
 
 -- extend "textDocument/definition" handler for OmniSharp Neovim LSP
 Lazy.use { "hoffs/omnisharp-extended-lsp.nvim" }
