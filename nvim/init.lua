@@ -1235,6 +1235,7 @@ LSP.init = function()
   LSP.UI()
   LSP.keymaps()
   LSP.overloads()
+  LSP.setup_lua()
   LSP.setup_dotnet()
   LSP.setup_angular()
   LSP.setup_powershell()
@@ -1429,28 +1430,9 @@ LSP.setup_angular = function()
 end
 
 ------------------------------------------------------------
--- LSP Lua for neovim lua api
--- folke/neodev.nvim - should be first in setup order
-------------------------------------------------------------
-LSP.setup_neodev = function()
-  require("neodev").setup({
-    library = { types = true, enabled = true, runtime = true, plugins = true },
-    lspconfig = true,
-    pathStrict = true,
-    setup_jsonls = true,
-    override = function(root_dir, library)
-      library.enabled = true
-      library.plugins = true
-    end
-  })
-end
-
-------------------------------------------------------------
 -- LSP Lua lus_ls -- sumneko/lua-language-server
 ------------------------------------------------------------
 LSP.setup_lua = function()
-  LSP.setup_neodev()
-
   require("lspconfig").lua_ls.setup({
     capabilities = LSP.capabilities(),
     settings = {
@@ -1543,7 +1525,14 @@ Lazy.use {
 }
 
 -- init.lua, plugin development, signature help, docs and completion for the nvim lua api
-Lazy.use { "folke/neodev.nvim", ft = "lua", config = LSP.setup_lua }
+Lazy.use {
+  "folke/lazydev.nvim",
+  dependencies = {{ "bilal2453/luvit-meta" }},
+  ft = "lua",
+  opts = {
+    library = { "luvit-meta/library" }
+  }
+}
 
 -- extend "textDocument/definition" handler for OmniSharp Neovim LSP
 Lazy.use { "hoffs/omnisharp-extended-lsp.nvim" }
@@ -1691,6 +1680,7 @@ AutoComplete.setup = function()
       { name = "nvim_lsp_signature_help", priority = 64, group_index = 1 },
       { name = "nvim_lsp", priority = 32, group_index = 2 },
       { name = "nvim_lua", priority = 16, group_index = 3 },
+      { name = "lazydev", priority = 12, group_index = 4 },
       { name = "luasnip", priority = 8, group_index = 4 },
       { name = "buffer", priority = 4, group_index = 5 },
       { name = "path", priority = 2, group_index = 6 },
