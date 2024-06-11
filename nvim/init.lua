@@ -1212,6 +1212,7 @@ local LSP = {
       "yamlls",
       "dockerls",
       "rust_analyzer",
+      "azure_pipelines_ls",
       "emmet_language_server",
       -- "gopls",
       -- "clangd",
@@ -1818,8 +1819,8 @@ end
 -- npm i -g @angular/language-server
 -- npm i -g emmet-ls [ issues/outdated ]
 -- npm i -g @olrtg/emmet-language-server
+-- npm i -g azure-pipelines-language-server
 -- npm i -g dockerfile-language-server-nodejs
-
 -- npm i -g bash-language-server
 -- pacman -S bash-language-server
 
