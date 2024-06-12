@@ -122,7 +122,7 @@ vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
 -- list
 ------------------------------------------------------------
 vim.opt.list = false
-vim.opt.listchars = { space = "_", eol = " ", tab = "» ", trail = "~" }
+vim.opt.listchars = { space = "·", eol = " ", tab = "» ", trail = "~" }
 
 ------------------------------------------------------------
 -- grep/vimgrep/ripgrep
