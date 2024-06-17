@@ -562,7 +562,7 @@ Lazy.use { "jlcrochet/vim-razor", ft = { "razor", "cshtml" } }
 Lazy.use { "mattn/emmet-vim", ft = { "html", "cshtml", "razor", "markdown" } }
 
 -- auto close/rename html tag
-Lazy.use { "andrewradev/tagalong.vim", ft = { "html", "cshtml", "razor", "markdown" } }
+-- Lazy.use { "andrewradev/tagalong.vim", ft = { "html", "cshtml", "razor", "markdown" }, enabled = false }
 
 -- auto close/rename html tag
 Lazy.use { "windwp/nvim-ts-autotag", ft = { "html", "cshtml", "razor", "markdown" }, opts = { opts = { enable_close_on_slash = true } } }
