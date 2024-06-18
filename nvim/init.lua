@@ -767,10 +767,12 @@ Lazy.use {
     trouble = false,
     on_attach = function(buffer)
       local gs = package.loaded.gitsigns
-      vim.keymap.set("n", "[h", gs.prev_hunk, { buffer = buffer, silent = true, desc = "Prev Hunk" })
-      vim.keymap.set("n", "]h", gs.next_hunk, { buffer = buffer, silent = true, desc = "Next Hunk" })
-      vim.keymap.set("n", "gsp", gs.prev_hunk, { buffer = buffer, silent = true, desc = "Prev Hunk" })
-      vim.keymap.set("n", "gsn", gs.next_hunk, { buffer = buffer, silent = true, desc = "Next Hunk" })
+      vim.keymap.set("n", "[h", function() gs.nav_hunk("prev") end, { buffer = buffer, silent = true, desc = "Prev Hunk" })
+      vim.keymap.set("n", "]h", function() gs.nav_hunk("next") end, { buffer = buffer, silent = true, desc = "Next Hunk" })
+      vim.keymap.set("n", "gsp", function() gs.nav_hunk("prev") end, { buffer = buffer, silent = true, desc = "Prev Hunk" })
+      vim.keymap.set("n", "gsn", function() gs.nav_hunk("next") end, { buffer = buffer, silent = true, desc = "Next Hunk" })
+      vim.keymap.set("n", "gsl", function() gs.nav_hunk("last") end, { buffer = buffer, silent = true, desc = "Last Hunk" })
+      vim.keymap.set("n", "gsf", function() gs.nav_hunk("first") end, { buffer = buffer, silent = true, desc = "First Hunk" })
       vim.keymap.set("n", "gsr", gs.reset_hunk, { buffer = buffer, silent = true, desc = "Reset Hunk" })
       vim.keymap.set("n", "gsb", gs.blame_line, { buffer = buffer, silent = true, desc = "Blame Line" })
       vim.keymap.set("n", "gss", gs.stage_hunk, { buffer = buffer, silent = true, desc = "Stage Hunk" })
