@@ -694,31 +694,10 @@ Lazy.use {
   "echasnovski/mini.map",
   event = "VeryLazy",
   keys = {{ "<leader>M", function() require("mini.map").toggle() end, silent = true, desc = "MiniMapToggle" }},
-  config = function()
-    local minimap = require("mini.map")
-
-    minimap.setup({
-      symbols = {
-        encode = minimap.gen_encode_symbols.dot("4x2")
-      },
-      window = {
-        width = 1,
-        -- width = 12,
-        show_integration_count = false
-      },
-      -- integrations = {
-      --   minimap.gen_integration.gitsigns(),
-      --   minimap.gen_integration.diagnostic({
-      --     info = "DiagnosticFloatingInfo",
-      --     hint = "DiagnosticFloatingHint",
-      --     warn = "DiagnosticFloatingWarn",
-      --     error = "DiagnosticFloatingError"
-      --   }),
-      --   minimap.gen_integration.builtin_search()
-      -- }
-    })
-
-    minimap.open()
+  opts = { window = { width = 1, show_integration_count = false } },
+  config = function(plugin, options)
+    require("mini.map").setup(options)
+    require("mini.map").open()
   end
 }
 
