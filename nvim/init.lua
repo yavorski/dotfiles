@@ -466,15 +466,20 @@ end
 -- ~/.local/state/nvim/lazy
 -- ~/.config/nvim/lazy-lock.json
 ------------------------------------------------------------
+-- nvim --headless "+Lazy! sync" +qa
+------------------------------------------------------------
 
 local Lazy = {
   plugins = {},
-  path = vim.fn.stdpath("data").."/lazy/lazy.nvim",
+  path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim",
   repository = "https://github.com/folke/lazy.nvim.git",
   config = {
+    rocks = {
+      enabled = false,
+    },
     defaults = {
-      lazy = true,
-      version = false
+      lazy = true, -- lazy load plugins by default
+      version = false, -- always use the latest git commit
     },
     performance = {
       rtp = {
@@ -484,7 +489,7 @@ local Lazy = {
           "tohtml",
           "tarPlugin",
           "zipPlugin",
-          "netrwPlugin"
+          "netrwPlugin",
         }
       }
     }
@@ -493,8 +498,8 @@ local Lazy = {
 
 -- lazy install
 function Lazy.install()
-  if not vim.loop.fs_stat(Lazy.path) then
-    vim.fn.system({ "git", "clone", "--filter=blob:none", Lazy.repository, "--branch=stable", Lazy.path })
+  if not vim.uv.fs_stat(Lazy.path) then
+    vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", Lazy.repository, Lazy.path })
   end
 
   -- run time path
@@ -1703,7 +1708,7 @@ Lazy.use {
     { "hrsh7th/cmp-nvim-lsp-signature-help" }, -- nvim-cmp source for displaying function signatures with the current parameter emphasized
     { "hrsh7th/cmp-nvim-lsp-document-symbol" }, -- nvim-cmp source for textDocument/documentSymbol via nvim-lsp.
     { "saadparwaiz1/cmp_luasnip" }, -- luasnip completion source for nvim-cmp
-    { "l3mon4d3/luasnip" }, -- snippet engine
+    { "l3mon4d3/luasnip" }, -- snippet engine -- TODO remove, use builtin snippet engine
   },
   config = function()
     AutoComplete.init()
