@@ -42,6 +42,9 @@ alias egrep="egrep --color=auto"
 alias bathelp="bat --plain --language=help"
 alias batman="bat --plain --language=Manpage"
 
+# neofetch
+alias neofetch="fastfetch --load-config neofetch"
+
 # IP address
 alias rip="curl ifconfig.me"
 
