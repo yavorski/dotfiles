@@ -1224,6 +1224,7 @@ LSP.init = function()
   LSP.setup_angular()
   LSP.setup_powershell()
   LSP.setup_listed_servers()
+  LSP.setup_azure_pipelines()
 end
 
 ------------------------------------------------------------
@@ -1490,6 +1491,28 @@ LSP.setup_powershell = function()
   require("lspconfig").powershell_es.setup({
     capabilities = LSP.capabilities(),
     bundle_path = is_windows and win_path or linux_path
+  })
+end
+
+------------------------------------------------------------
+-- LSP azure pipelines
+------------------------------------------------------------
+LSP.setup_azure_pipelines = function()
+  local lsp = require("lspconfig")
+  local patterns = { "azure*.yml", ".azure/*.yml", "pipelines/*.yml", "azure-pipelines/*.yml" }
+  local service_schema = "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"
+
+  lsp.azure_pipelines_ls.setup({
+    capabilities = LSP.capabilities(),
+    root_dir = lsp.util.root_pattern(patterns),
+    single_file_support = true,
+    settings = {
+      yaml = {
+        schemas = {
+          [service_schema] = patterns
+        }
+      }
+    }
   })
 end
 
