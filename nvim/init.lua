@@ -1186,30 +1186,27 @@ local LSP = {
       severity_sort = true,
       update_in_insert = false,
       float = { border = "solid" },
-      icons = { Info = "▣", Hint = "★", Warn = "◀", Error = "✖" }
+      icons = { Info = "▪", Hint = "★", Warn = "◮", Error = "✖" }
     },
 
     servers = {
       "html",
       "cssls",
       "taplo",
-      "jsonls",
       "bashls",
+      "jsonls",
       "yamlls",
       "dockerls",
       "rust_analyzer",
-      "azure_pipelines_ls",
       "emmet_language_server",
-      -- "gopls",
-      -- "clangd",
-      -- "pyright",
-      -- "tsserver",
       -- "emmet_ls",
+      -- "tsserver",
       -- "angularls",
       -- "csharp_ls",
       -- "omnisharp",
       -- "powershell",
       -- "omnisharp-roslyn",
+      -- "azure_pipelines_ls",
       -- "lua-language-server",
     }
   }
