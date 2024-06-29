@@ -1786,12 +1786,21 @@ local function close_noice()
   end
 end
 
+-- reopen mini map
+local function reopen_minimap()
+  local is_minimap_loaded, minimap = pcall(require, "mini.map")
+  if is_minimap_loaded then
+    minimap.open()
+  end
+end
+
 -- escape fn
 local function escape()
   close_noice()
   close_trouble()
   close_qf_loc_list()
   vim.cmd("fclose!")
+  reopen_minimap()
 end
 
 -- map <esc> key
