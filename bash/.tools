@@ -2,7 +2,8 @@
 
 # init zoxide if it is available
 if command -v zoxide &>/dev/null; then
-  eval "$(zoxide init bash)"
+  # replace cd cmd with z
+  eval "$(zoxide init --cmd cd bash)"
 fi
 
 # init fnm nodejs version manager
