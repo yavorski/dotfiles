@@ -70,7 +70,7 @@ setfont ter-v22b
 ```
 
 
-## Verify the boot mode.
+## Verify the boot mode
 
 If UEFI mode is enabled on an UEFI motherboard, Archiso will boot Arch Linux accordingly via systemd-boot.
 To verify this, list the efivars directory:
@@ -225,6 +225,8 @@ vim /mnt/etc/crypttab
 
 ## Enter `arch-chroot`
 
+### Install base system
+
 ```bash
 arch-chroot /mnt
 
@@ -235,21 +237,32 @@ pacman -S grub efibootmgr os-prober linux linux-headers linux-firmware mkinitcpi
 
 echo KEYMAP=us > /etc/vconsole.conf
 echo FONT=ter-v18b >> /etc/vconsole.conf
+```
 
+### Configure `mkinitcpio`
+
+```bash
 vim /etc/mkinitcpio.conf
 # # -> add to BINARIES -> `setfont`
 # # -> add to HOOKS -> `consolefont` before `block`
 # # -> add to HOOKS -> `encrypt lvm2` between `block` and `filesystems`
+```
 
-```mkinitcpio
+File `/etc/mkinitcpio.conf` should look like this:
+
+```bash
+# /etc/mkinitcpio.conf
 BINARIES=(setfont)
 HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems fsck)
 ```
 
+Generate initial ramdisk environment for booting the Linux kernel based on the specified preset:
+
+```bash
 mkinitcpio -p linux
 ```
 
-Edit grub config
+### Edit/Configure grub config
 
 ```bash
 vim /etc/default/grub
@@ -262,7 +275,7 @@ vim /etc/default/grub
 > GRUB_CMDLINE_LINUX="cryptdevice=/dev/nvme0n1p3:vg"
 ```
 
-Mount `EFI`
+### Mount `EFI`
 
 ```bash
 mkdir /boot/EFI
@@ -285,15 +298,13 @@ echo "GRUB_FONT=/boot/grub/fonts/ter.pf2" >> /etc/default/grub
 grub-mkconfig --output /boot/grub/grub.cfg
 ```
 
-
-### Configure password (`arch-chroot`)
+### Configure password
 
 ```bash
 passwd
 ```
 
-
-### Configure locale (`arch-chroot`)
+### Configure locale
 
 ```bash
 ln -sf /usr/share/zoneinfo/Europe/Sofia /etc/localtime
@@ -312,12 +323,11 @@ echo LANG=en_US.UTF-8 > /etc/locale.conf
 echo LC_TIME=en_GB.UTF-8 >> /etc/locale.conf
 ```
 
-
-### Configure network (`arch-chroot`)
+### Configure network
 
 ```bash
 pacman -S iwd
-# pacman -Ss networkmanager (!?)
+# pacman -Ss networkmanager # not needed if you prefer iwd
 
 echo arch > /etc/hostname
 
@@ -357,16 +367,14 @@ systemctl enable systemd-networkd
 systemctl enable systemd-resolved
 
 # do not use with iwd & networkd
-# systemctl enable NetworkManager (!?)
+# systemctl enable NetworkManager
 ```
-
 
 ### Exit `arch-chroot`
 
 ```bash
 exit
 ```
-
 
 ## Reboot
 
@@ -376,15 +384,11 @@ umount -a
 reboot
 ```
 
-
 ---
----
-
 
 # Arch Linux Post Install
 
 ---
-
 
 ```bash
 pacman -Syu
@@ -420,7 +424,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 
-## Basic User Firewall
+## Basic Firewall
 
 ```bash
 pacman -S ufw
@@ -448,7 +452,6 @@ pacman -S sudo
 ```
 
 ---
----
 
 ## Install GPU drivers
 
@@ -456,9 +459,8 @@ pacman -S sudo
 * [https://wiki.archlinux.org/title/intel_graphics](https://wiki.archlinux.org/title/intel_graphics)
 
 ---
----
 
-## crontab & powertop
+## Install `crontab` & `powertop`
 
 ```bash
 pacman -S powertop
@@ -584,8 +586,6 @@ pacman -S
 ```
 
 ---
----
-
 
 ## Window Manager (optional)
 
@@ -607,12 +607,12 @@ pacman -S sway swaybg swayimg swayidle swaylock waybar
 
 ```bash
 pacman -S gdm gnome gnome-extra gnome-shell
-systemctl enable gdm
+systemctl enable gdm # Gnome Display Manager - Login Screen
 ```
 
 ---
 
-## `mkinitcpio`
+## Info `mkinitcpio`
 
 `mkinitcpio` is a Bash script used to create an [initial ramdisk](https://en.wikipedia.org/wiki/Initial_ramdisk) environment.
 From the [mkinitcpio(8)](https://jlk.fjfi.cvut.cz/arch/manpages/man/mkinitcpio.8) man page:
@@ -623,7 +623,7 @@ This makes it possible to have, for example, encrypted root file systems and roo
 
 ---
 
-## pacman
+## Info `pacman`
 
 * `pacman -Ss <keyword>` - search pacakge
 * `pacman -R <package-name>` - remove pkg
@@ -634,37 +634,36 @@ This makes it possible to have, for example, encrypted root file systems and roo
 * `pacman -R $(pacman -Qdtq)` - remove all of these unnecessary packages
 * `pactree <package-name>` - view the dependency tree of a package
 
-`Pacman` has a **color** option. `->` Uncomment the `Color` line in `/etc/pacman.conf`
+Options:
 
-> Colors
-
-```bash
-git diff --color=always | less -r
-pacman -Ss bat --color always | less -r
-```
+* `pacman` has a `color` option. `->` Uncomment the `Color` line in `/etc/pacman.conf`
+* `pacman` has a `ParallelDownloads` option. `->` Set the `ParallelDownloads` line in `/etc/pacman.conf`
 
 ---
----
 
+## Info `paccache`
+
+A `pacman` cache cleaning utility
+
+* `paccache -d` - Perform a dry-run and show the number of candidate packages for deletion
+* `paccache -r` - Remove all but the 3 most recent package versions from the `pacman` cache
+* `paccache -rk 3` - Set the number of package versions to keep
+
+---
 
 ### References
 
 * [Install Guide](https://wiki.archlinux.org/title/Installation_guide)
-
 * [KMS](https://wiki.archlinux.org/title/kernel_mode_setting)
 * [Kernel Module](https://wiki.archlinux.org/index.php/Kernel_module)
 * [Kernel Module Blacklisting](https://wiki.archlinux.org/index.php/Kernel_module#Blacklisting)
 * [Mkinitcpio](https://wiki.archlinux.org/index.php/Mkinitcpio)
 * [Encrypt entire system](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system)
-
 * [Linux console ](https://wiki.archlinux.org/index.php/Linux_console#Fonts)
 * [Bash tips and trics](https://wiki.archlinux.org/index.php/Bash#Tips_and_tricks)
 * [Color ouput in console](https://wiki.archlinux.org/index.php/Color_output_in_console)
-
 * [Users and groups](https://wiki.archlinux.org/index.php/users_and_groups)
 * [General recommendations](https://wiki.archlinux.org/index.php/General_recommendations)
-
 * [Pacman](https://wiki.archlinux.org/index.php/Pacman)
 * [Pacman - tips and tricks](https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks)
-
 * [List of command-line utilities written in Rust](https://gist.github.com/yavorski/8729c8c5a9a79d4b6817ef152d592bf8)
