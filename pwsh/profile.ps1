@@ -12,7 +12,7 @@ Import-Module mklink
 Import-Module posh-git
 Import-Module PSReadLine
 Invoke-Expression (&starship init powershell)
-Invoke-Expression (& { (zoxide init powershell | Out-String) })
+Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
 
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
