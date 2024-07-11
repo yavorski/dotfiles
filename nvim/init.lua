@@ -896,7 +896,7 @@ Lazy.use {
     defaults = {
       sorting_strategy = "ascending",
       file_ignore_patterns = { "^.git/", "^.git\\", "node_modules", "wwwroot/lib", "bin", "obj", "debug" },
-      vimgrep_arguments = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--hidden", "--trim" },
+      vimgrep_arguments = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--hidden", "--trim", "--glob", "!package-lock.json" },
       layout_config = {
         vertical = { preview_height = 0.55 },
         horizontal = { preview_width = 0.50 },
