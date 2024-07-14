@@ -158,6 +158,10 @@ local is_windows = sysname == "Windows_NT"
 -- edit cmd
 ------------------------------------------------------------
 
+-- In addition to mini.surround and mini.splitjoin
+-- Disable built in |s| key which deletes character under cursor
+-- vim.keymap.set({ "n", "x" }, "s", "<Nop>")
+
 -- enable all filetype plugins
 -- vim.cmd[[filetype plugin indent on]]
 
@@ -575,7 +579,30 @@ Lazy.use { "mattn/emmet-vim", ft = { "html", "cshtml", "razor", "markdown" } }
 Lazy.use { "windwp/nvim-ts-autotag", ft = { "html", "cshtml", "razor", "markdown" }, opts = { opts = { enable_close_on_slash = true } } }
 
 -- shows key bindings in popup
-Lazy.use { "folke/which-key.nvim", event = "VeryLazy", config = true }
+Lazy.use {
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  opts = {
+    win = { no_overlap = false },
+    delay = function(ctx) return ctx.plugin and 0 or 500 end,
+    icons = { rules = false, mappings = false, keys = { BS = "⇠ " } },
+    spec = {
+      { "gs", group = "Git Signs" },
+      { "gm", group = "Go to Mark" },
+      { "gb", group = "Go to Buffer" },
+      { "sj", mode = { "n", "x" }, desc = "Split/Join" },
+      { "<leader>k", group = "NvimTree" },
+      { "<leader>t", group = "Telescope" },
+      { "<leader>g", group = "LSP Trouble" },
+      { "<leader>W", group = "LSP Workspace" },
+      { "<leader>?", "<cmd>WhichKey<cr>", desc = "Which Key" },
+    },
+    triggers = {
+      { "<auto>", mode = "nxsot" },
+      { "s", mode = { "n", "v", "x" } },
+    },
+  }
+}
 
 -- jump/repeat with f, F, t, T on multiple lines
 Lazy.use { "echasnovski/mini.jump", event = "VeryLazy", config = true }
@@ -591,6 +618,25 @@ Lazy.use { "echasnovski/mini.comment", event = "VeryLazy", config = true }
 
 -- surround - add, delete, replace, find, highlight - [n,v] <sa> <sd> <sr>
 Lazy.use { "echasnovski/mini.surround", event = "VeryLazy", config = true }
+
+-- split/join code blocks, fn args, arrays, tables - [n,v] <sj>
+Lazy.use {
+  "echasnovski/mini.splitjoin",
+  event = "VeryLazy",
+  config = function()
+    local splitjoin = require("mini.splitjoin")
+
+    splitjoin.setup({
+      mappings = { toggle = "sj" },
+      join = {
+        hooks_post = {
+          splitjoin.gen_hook.pad_brackets(),
+          splitjoin.gen_hook.del_trailing_separator(),
+        }
+      }
+    })
+  end
+}
 
 -- show notifications - same issue like noice while search
 -- Lazy.use { "echasnovski/mini.notify", event = "VeryLazy", config = true }
@@ -621,29 +667,6 @@ Lazy.use {
         vim.api.nvim_buf_call(data.buf, MiniTrailspace.unhighlight)
       end
     })
-  end
-}
-
--- split/join code blocks, fn args, arrays, tables - [n,v] <sj>
-Lazy.use {
-  "echasnovski/mini.splitjoin",
-  event = "VeryLazy",
-  config = function()
-    local splitjoin = require("mini.splitjoin")
-    local pad_brackets = splitjoin.gen_hook.pad_brackets()
-    local del_separator = splitjoin.gen_hook.del_trailing_separator()
-
-    splitjoin.setup({
-      mappings = { toggle = "sj" },
-      join = {
-        hooks_post = {
-          pad_brackets,
-          del_separator
-        }
-      }
-    })
-
-    require("which-key").register({ sj = "Toggle Split Join" })
   end
 }
 
@@ -731,18 +754,17 @@ Lazy.use {
   "chentoast/marks.nvim",
   event = { "BufReadPre", "BufNewFile" },
   opts = {
-    refresh_interval = 420,
+    refresh_interval = 5000,
     default_mappings = false,
-    mappings = {
-      set = "m", -- "mx" set "x" mark
-      delete = "dm", -- "dmx" del "x" mark
-      set_next = "mn", -- set next lower case letter
-      delete_line = "dm-", -- delete marks on curent line
-      delete_buf = "dm<space>", -- delete marks in current buffer
-      prev = "mM", -- go to prev mark
-      next = "mm", -- go to next mark
-    }
-  }
+  },
+  config = function(plugin, options)
+    local marks = require("marks")
+    marks.setup(options)
+    vim.keymap.set("n", "gmn", marks.next, { silent = true, desc = "Go to next mark" })
+    vim.keymap.set("n", "gmp", marks.prev, { silent = true, desc = "Go to prev mark" })
+    vim.keymap.set("n", "gmd", marks.delete_buf, { silent = true, desc = "Delete marks" })
+    vim.keymap.set("n", "<leader>m", marks.toggle, { silent = true, desc = "Mark Toggle" })
+  end
 }
 
 -- git status signs
@@ -767,10 +789,7 @@ Lazy.use {
       vim.keymap.set("n", "gsu", gs.undo_stage_hunk, { buffer = buffer, silent = true, desc = "Undo Staged Hunk" })
       vim.keymap.set("n", "gsB", function() gs.blame_line({ full = true }) end, { buffer = buffer, silent = true, desc = "Blame Line Full" })
     end
-  },
-  init = function()
-    require("which-key").register({ gs = "Git Signs" })
-  end
+  }
 }
 
 -- statusline
@@ -940,9 +959,6 @@ Lazy.use {
       options.defaults.generic_sorter = fuzzy.get_telescope_sorter
     end
     require("telescope").setup(options)
-  end,
-  init = function()
-    require("which-key").register({ ["<leader>t"] = "Telescope" })
   end
 }
 
@@ -1301,9 +1317,6 @@ LSP.buffer_keymaps = function(buffer)
   keymap("n", "<leader>Wr", vim.lsp.buf.remove_workspace_folder, "LSP Remove Workspace Folder")
   keymap("n", "<leader>Wq", "<cmd>Trouble diagnostics toggle<cr>", "LSP Workspace Diagnostics")
   keymap("n", "<leader>Wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "LSP Workspace List Folders")
-
-  require("which-key").register({ ["<leader>g"] = "LSP Trouble" })
-  require("which-key").register({ ["<leader>W"] = "LSP Workspace" })
 end
 
 ------------------------------------------------------------
