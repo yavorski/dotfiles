@@ -1730,7 +1730,7 @@ Lazy.use {
     { "hrsh7th/cmp-nvim-lsp-signature-help" }, -- nvim-cmp source for displaying function signatures with the current parameter emphasized
     { "hrsh7th/cmp-nvim-lsp-document-symbol" }, -- nvim-cmp source for textDocument/documentSymbol via nvim-lsp.
     { "saadparwaiz1/cmp_luasnip" }, -- luasnip completion source for nvim-cmp
-    { "l3mon4d3/luasnip" }, -- snippet engine -- TODO remove, use builtin snippet engine
+    { "l3mon4d3/luasnip", build = is_linux and "make install_jsregexp" or false }, -- snippet engine -- TODO remove, use builtin snippet engine
   },
   config = function()
     AutoComplete.init()
