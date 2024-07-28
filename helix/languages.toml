@@ -1,0 +1,51 @@
+# helix --health
+# helix --health rust
+
+[[language]]
+name = "git-commit"
+rulers = []
+
+[[language]]
+name = "make"
+indent = { tab-width = 2, unit = "\t" }
+
+[[language]]
+name = "html"
+auto-format = false
+indent = { tab-width = 2, unit = "  " }
+language-servers = [ "angular", "emmet-ls", "vscode-html-language-server" ]
+file-types = [ "html", "htm", "shtml", "xhtml", "xht", "jsp", "asp", "aspx", "jshtm", "volt", "rhtml", "cshtml" ]
+
+[[language]]
+name = "css"
+auto-format = false
+indent = { tab-width = 2, unit = "  " }
+language-servers = [ "vscode-css-language-server" ]
+
+[[language]]
+name = "scss"
+auto-format = false
+comment-token = "//"
+file-types = [ "scss", "styl" ]
+indent = { tab-width = 2, unit = "  " }
+language-servers = [{ name = "vscode-css-language-server", only-features = [ "completion" ] }]
+
+[[language]]
+name = "c-sharp"
+indent = { tab-width = 2, unit = "\t" }
+# ln -s /usr/bin/omnisharp /usr/bin/OmniSharp
+
+# @angular/language-service needs to be installed locally per project
+[language-server.angular]
+required-root-patterns = ["angular.json"]
+
+[language-server.emmet-ls]
+command = "emmet-language-server"
+args = [ "--stdio" ]
+
+[language-server.lua-language-server.config.Lua]
+format.enable = true
+runtime.version = "LuaJIT"
+diagnostics.globals = [ "vim" ]
+completion.callSnippet = "Replace"
+workspace.checkThirdParty = "Disable"

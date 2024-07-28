@@ -7,7 +7,7 @@ function bootstrap() {
   rsync -avh --no-perms .vimrc .inputrc .gitconfig .shellcheckrc "$HOME"
 
   echo ""
-  rsync -avh --no-perms --delete bash nvim kitty alacritty starship/starship.toml "$HOME/.config"
+  rsync -avh --no-perms --delete bash nvim helix kitty alacritty starship/starship.toml "$HOME/.config"
 
   echo ""
   rsync -avh --no-perms --delete sway waybar "$HOME/.config"
