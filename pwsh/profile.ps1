@@ -58,6 +58,7 @@ Set-Alias -Name l -Value eza
 Set-Alias -Name ls -Value eza
 Set-Alias -Name exa -Value eza
 Set-Alias -Name uu -Value coreutils
+Set-Alias -Name helix -Value hx
 
 Set-Location -Path C:\dev
 
