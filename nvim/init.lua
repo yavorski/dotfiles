@@ -72,7 +72,7 @@ vim.opt.splitright = true
 vim.opt.splitkeep = "screen"
 
 -- system clipboard
-vim.opt.clipboard = "unnamedplus"
+-- vim.opt.clipboard = "unnamedplus"
 
 -- ignore case in search patterns
 vim.opt.ignorecase = true
@@ -153,6 +153,14 @@ vim.g.maplocalleader = [[ ]]
 local sysname = vim.loop.os_uname().sysname
 local is_linux = sysname == "Linux"
 local is_windows = sysname == "Windows_NT"
+
+------------------------------------------------------------
+-- copy/paste system clipboard
+------------------------------------------------------------
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { silent = true, desc = "[sc] Yank" })
+vim.keymap.set({ "n", "v" }, "<leader>Y", [["+yy]], { silent = true, desc = "[sc] Yank Line" })
+vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]], { silent = true, desc = "[sc] Paste After" })
+vim.keymap.set({ "n", "v" }, "<leader>P", [["+P]], { silent = true, desc = "[sc] Paste Before" })
 
 ------------------------------------------------------------
 -- edit cmd
