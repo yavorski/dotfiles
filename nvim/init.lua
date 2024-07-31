@@ -286,6 +286,8 @@ local Dark = {
     skyblue   = "#54b9f7", -- -- "#41b2f7" -- -- [*] Sky blue
     mantlex   = "#161622", -- -- "#14141f" -- -- [*] Darker bg
     dark      = "#13131d", -- -- "#151521" -- -- [*] Darker bg
+    darker    = "#111111", -- -- "#111111" -- -- [*] Darker bg
+    black     = "#000000", -- -- "#000000" -- -- [*] Just black
   }
 }
 
@@ -343,9 +345,9 @@ function Dark.editor(colors)
     TelescopePromptBorder = { bg = colors.surface0, fg = colors.surface0 },
     TelescopeResultsBorder = { bg = colors.mantlex, fg = colors.mantlex },
     TelescopePreviewBorder = { bg = colors.crust, fg = colors.crust },
-    TelescopePromptTitle = { fg = colors.surface0, bg = colors.surface0 },
-    TelescopeResultsTitle = { fg = colors.mantlex, bg = colors.mantlex },
-    TelescopePreviewTitle = { fg = colors.crust, bg = colors.crust },
+    TelescopePromptTitle = { fg = colors.blue, bg = colors.dark },
+    TelescopeResultsTitle = { fg = colors.blue, bg = colors.black },
+    TelescopePreviewTitle = { fg = colors.blue, bg = colors.black },
   }
 end
 
