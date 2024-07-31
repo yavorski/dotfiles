@@ -1794,12 +1794,23 @@ local function reopen_minimap()
   end
 end
 
+-- clear mini jump
+local function stop_jumping()
+  local is_minijump_loaded, minijump = pcall(require, "mini.jump")
+  if is_minijump_loaded then
+    if minijump.state.jumping then
+      minijump.stop_jumping()
+    end
+  end
+end
+
 -- escape fn
 local function escape()
   close_noice()
   close_trouble()
   close_qf_loc_list()
   vim.cmd("fclose!")
+  stop_jumping()
   reopen_minimap()
 end
 
