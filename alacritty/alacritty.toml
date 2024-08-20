@@ -68,3 +68,9 @@ yellow = "#f9f655"
 # program = 'C:\Windows\System32\wsl.exe'
 
 # working_directory = "<string>" | "None"
+
+# fix pwsh numpad enter
+# [[keyboard.bindings]]
+# key = "NumpadEnter"
+# mods = "None"
+# action = "ReceiveChar"
