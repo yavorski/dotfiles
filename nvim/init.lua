@@ -864,6 +864,7 @@ Lazy.use {
 Lazy.use {
   "ibhagwan/fzf-lua",
   cmd = "FzfLua",
+  enabled = false,
   opts = {
     winopts = {
       preview = {
