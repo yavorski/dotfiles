@@ -599,7 +599,7 @@ Lazy.use {
       { "gm", group = "Go to Mark" },
       { "gb", group = "Go to Buffer" },
       { "sj", mode = { "n", "x" }, desc = "Split/Join" },
-      { "<leader>k", group = "NvimTree" },
+      { "<leader>\\", group = "NvimTree" },
       { "<leader>t", group = "Telescope" },
       { "<leader>g", group = "LSP Trouble" },
       { "<leader>W", group = "LSP Workspace" },
@@ -749,11 +749,10 @@ Lazy.use {
     update_focused_file = { enable = true },
   },
   keys = {
-    { "<leader>kb", "<cmd>NvimTreeToggle<cr>", silent = true, desc = "NvimTreeToggle" },
-    { "<leader>kr", "<cmd>NvimTreeRefresh<cr>", silent = true, desc = "NvimTreeRefresh" },
-    { "<leader>kf", "<cmd>NvimTreeFindFile<cr>", silent = true, desc = "NvimTreeFindFile" },
-    { "<leader>ko", "<cmd>NvimTreeFindFile!<cr>", silent = true, desc = "NvimTreeFindFile!" },
-    { "<leader>K", function() require("nvim-tree.api").tree.toggle({ focus = false }) end, silent = true, desc = "NvimTreeToggle" }
+    { [[<leader>\\]], "<cmd>NvimTreeToggle<cr>", silent = true, desc = "NvimTreeToggle" },
+    { [[<leader>\r]], "<cmd>NvimTreeRefresh<cr>", silent = true, desc = "NvimTreeRefresh" },
+    { [[<leader>\f]], "<cmd>NvimTreeFindFile<cr>", silent = true, desc = "NvimTreeFindFile" },
+    { [[<leader>\F]], "<cmd>NvimTreeFindFile!<cr>", silent = true, desc = "NvimTreeFindFile!" },
   }
 }
 
@@ -1298,12 +1297,14 @@ LSP.buffer_keymaps = function(buffer)
   keymap("n", "g<space>", vim.lsp.buf.type_definition, "LSP Type Definition")
   keymap("n", "<leader>g<space>", "<cmd>Trouble lsp_type_definitions toggle<cr>", "LSP Type Definition")
 
-  -- keymap("n", "K", vim.lsp.buf.hover, "LSP Hover")
+  -- default is K
+  keymap("n", "<leader>k", vim.lsp.buf.hover, "LSP Hover")
   keymap("n", "<C-k>", vim.lsp.buf.signature_help, "LSP Signature Help")
 
   keymap("n", "<leader>r", vim.lsp.buf.rename, "LSP Rename")
   keymap("n", "<leader>R", vim.lsp.buf.rename, "LSP Rename")
 
+  keymap("n", "<leader>a", vim.lsp.buf.code_action, "LSP Code Action")
   keymap("n", "<leader>ca", vim.lsp.buf.code_action, "LSP Code Action")
   keymap("v", "<leader>ca", vim.lsp.buf.code_action, "LSP Code Action")
 
