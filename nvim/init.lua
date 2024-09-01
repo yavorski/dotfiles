@@ -580,6 +580,9 @@ Lazy.use { "jlcrochet/vim-razor", ft = { "razor", "cshtml" } }
 -- emmet html/css/js/lorem - [i] <c-m> <c-y>,
 Lazy.use { "mattn/emmet-vim", ft = { "html", "cshtml", "razor", "markdown" } }
 
+-- roslyn.nvim -> c-sharp dotnet lsp -> Microsoft.CodeAnalysis.LanguageServer
+Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = { config = { filetypes = { "cs" } } } }
+
 -- auto close/rename html tag
 -- Lazy.use { "andrewradev/tagalong.vim", ft = { "html", "cshtml", "razor", "markdown" }, enabled = false }
 
@@ -1228,10 +1231,8 @@ local LSP = {
       -- "emmet_ls",
       -- "tsserver",
       -- "angularls",
-      -- "csharp_ls",
-      -- "omnisharp",
       -- "powershell",
-      -- "omnisharp-roslyn",
+      -- "roslyn/dotnet"
       -- "azure_pipelines_ls",
       -- "lua-language-server",
     }
@@ -1246,7 +1247,6 @@ LSP.init = function()
   LSP.keymaps()
   LSP.overloads()
   LSP.setup_lua()
-  LSP.setup_dotnet()
   LSP.setup_angular()
   LSP.setup_powershell()
   LSP.setup_listed_servers()
@@ -1458,53 +1458,6 @@ LSP.setup_lua = function()
 end
 
 ------------------------------------------------------------
--- LSP dotnet - omnisharp
--- pacman -S [AUR] omnisharp-roslyn
--- pacman -S dotnet-runtime dotnet-sdk aspnet-runtime
--- https://github.com/omnisharp/omnisharp-roslyn
--- https://github.com/hoffs/omnisharp-extended-lsp.nvim
-------------------------------------------------------------
-LSP.setup_dotnet = function()
-  local pid = vim.fn.getpid()
-  local omnisharp_linux = "/usr/bin/omnisharp"
-  local omnisharp_windows = "C:/dev/omnisharp-win-x64/OmniSharp.exe"
-  local omnisharp_binary = is_windows and omnisharp_windows or omnisharp_linux
-
-  require("lspconfig").omnisharp.setup({
-    capabilities = LSP.capabilities(),
-    cmd = { omnisharp_binary, "--languageserver" , "--hostPID", tostring(pid) },
-
-    -- omnisharp extended handler
-    handlers = {
-      ["textDocument/definition"] = function(...)
-        return require("omnisharp_extended").handler(...)
-      end
-    },
-
-    -- Enables support for reading code style, naming convention and analyzer settings from .editorconfig.
-    enable_editorconfig_support = true,
-
-    -- If true, MSBuild project system will only load projects for files that were opened in the editor.
-    enable_ms_build_load_projects_on_demand = false,
-
-    -- Enables support for roslyn analyzers, code fixes and rulesets.
-    enable_roslyn_analyzers = true,
-
-    -- Specifies whether "using" directives should be grouped and sorted during document formatting.
-    organize_imports_on_format = false,
-
-    -- Enables support for showing unimported types and unimported extension methods in completion lists.
-    enable_import_completion = true,
-
-    -- Specifies whether to include preview versions of the .NET SDK when determining which version to use for project loading.
-    sdk_include_prereleases = false,
-
-    -- Only run analyzers against open files when "enableRoslynAnalyzers" is true
-    analyze_open_documents_only = true,
-  })
-end
-
-------------------------------------------------------------
 -- LSP powershell
 -- https://github.com/powershell/powershelleditorservices
 -- pacman -S [AUR] powershell-bin powershell-editor-services
@@ -1565,9 +1518,6 @@ Lazy.use {
     library = { "luvit-meta/library" }
   }
 }
-
--- extend "textDocument/definition" handler for OmniSharp Neovim LSP
-Lazy.use { "hoffs/omnisharp-extended-lsp.nvim" }
 
 -- LSP TypeScript TS Server
 Lazy.use {
@@ -1899,6 +1849,16 @@ end
 -- pacman -S tree-sitter tree-sitter-cli
 -- pacman -S fd ripgrep curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 --------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+-- Roslyn
+--------------------------------------------------------------------------------
+
+-- Download `Microsoft.CodeAnalysis.LanguageServer.linux-x64` pkg from https://dev.azure.com/azure-public/vside/_artifacts/feed/vs-impl
+-- extract and move the contents of <zip-root>/content/LanguageServer/<yourArch> inside:
+-- Linux: ~/.local/share/nvim/roslyn
+-- Windows: %LOCALAPPDATA%\nvim-data\roslyn
+-- Verify by running `dotnet Microsoft.CodeAnalysis.LanguageServer.dll --version` in `roslyn` directory
 
 --------------------------------------------------------------------------------
 -- LSP server configurations
