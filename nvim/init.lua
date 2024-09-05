@@ -155,20 +155,8 @@ local is_linux = sysname == "Linux"
 local is_windows = sysname == "Windows_NT"
 
 ------------------------------------------------------------
--- copy/paste system clipboard
-------------------------------------------------------------
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { silent = true, desc = "[sc] Yank" })
-vim.keymap.set({ "n", "v" }, "<leader>Y", [["+yy]], { silent = true, desc = "[sc] Yank Line" })
-vim.keymap.set({ "n", "v" }, "<leader>p", [["+p]], { silent = true, desc = "[sc] Paste After" })
-vim.keymap.set({ "n", "v" }, "<leader>P", [["+P]], { silent = true, desc = "[sc] Paste Before" })
-
-------------------------------------------------------------
 -- edit cmd
 ------------------------------------------------------------
-
--- In addition to mini.surround and mini.splitjoin
--- Disable built in |s| key which deletes character under cursor
--- vim.keymap.set({ "n", "x" }, "s", "<Nop>")
 
 -- enable all filetype plugins
 -- vim.cmd[[filetype plugin indent on]]
@@ -239,16 +227,37 @@ end
 vim.api.nvim_create_user_command("ForceLF", forcelf, { nargs = "?", range = "%", addr = "lines", desc = "Set LF Line Endings" })
 
 ------------------------------------------------------------
--- Buffer navigation
+-- Keymaps
 ------------------------------------------------------------
 
--- standard prev/next
+-- disable built in |m| key - marks operations
+vim.keymap.set({ "n", "v", "x" }, "m", "<Nop>", { silent = true })
+
+-- disable built in |s| key - deletes char under cursor
+-- vim.keymap.set({ "n", "v", "x" }, "s", "<Nop>", { silent = true })
+
+-- match brackets remap
+-- vim.keymap.set({ "n", "v", "x" }, "mm", "%", { silent = true })
+vim.keymap.set("n", "mm", "<Plug>(MatchitNormalForward)", { silent = true })
+vim.keymap.set({ "v", "x" }, "mm", "<Plug>(MatchitVisualForward)", { silent = true })
+
+-- comment - additional keymaps
+vim.api.nvim_set_keymap("v", "<C-c>", "gc", { silent = true })
+vim.api.nvim_set_keymap("n", "<C-c>", "gcc", { silent = true })
+
+-- copy/paste system clipboard
+vim.keymap.set({ "n", "v", "x" }, "<leader>y", [["+y]], { silent = true, desc = "[sc] Yank" })
+vim.keymap.set({ "n", "v", "x" }, "<leader>Y", [["+yy]], { silent = true, desc = "[sc] Yank Line" })
+vim.keymap.set({ "n", "v", "x" }, "<leader>p", [["+p]], { silent = true, desc = "[sc] Paste After" })
+vim.keymap.set({ "n", "v", "x" }, "<leader>P", [["+P]], { silent = true, desc = "[sc] Paste Before" })
+
+-- buffer navigation -standard prev/next
 vim.keymap.set("n", "[b", "<cmd>bprev<cr>", { silent = true })
 vim.keymap.set("n", "]b", "<cmd>bnext<cr>", { silent = true })
-vim.keymap.set("n", "gbp", "<cmd>bprev<cr>", { silent = true })
-vim.keymap.set("n", "gbn", "<cmd>bnext<cr>", { silent = true })
+vim.keymap.set("n", "gp", "<cmd>bprev<cr>", { silent = true })
+vim.keymap.set("n", "gn", "<cmd>bnext<cr>", { silent = true })
 
--- require nvim-lualine/lualine.nvim plugin
+-- buffer navigation require nvim-lualine/lualine.nvim plugin
 vim.keymap.set("n", "gb$", "<cmd>LualineBuffersJump $<cr>", { silent = true })
 vim.keymap.set("n", "gb1", "<cmd>LualineBuffersJump! 1<cr>", { silent = true })
 vim.keymap.set("n", "gb2", "<cmd>LualineBuffersJump! 2<cr>", { silent = true })
@@ -770,7 +779,7 @@ Lazy.use {
   config = function(plugin, options)
     local marks = require("marks")
     marks.setup(options)
-    vim.keymap.set("n", "gmn", marks.next, { silent = true, desc = "Go to next mark" })
+    vim.keymap.set("n", "gmm", marks.next, { silent = true, desc = "Go to next mark" })
     vim.keymap.set("n", "gmp", marks.prev, { silent = true, desc = "Go to prev mark" })
     vim.keymap.set("n", "gmd", marks.delete_buf, { silent = true, desc = "Delete marks" })
     vim.keymap.set("n", "<leader>m", marks.toggle, { silent = true, desc = "Mark Toggle" })
