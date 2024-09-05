@@ -577,8 +577,8 @@ Lazy.use { "wavded/vim-stylus", ft = "stylus" }
 -- razor syntax -> adamclerk/vim-razor
 Lazy.use { "jlcrochet/vim-razor", ft = { "razor", "cshtml" } }
 
--- emmet html/css/js/lorem - [i] <c-m> <c-y>,
-Lazy.use { "mattn/emmet-vim", ft = { "html", "cshtml", "razor", "markdown" } }
+-- emmet html/css/js/lorem - [i] <C-m> <C-y>,
+-- Lazy.use { "mattn/emmet-vim", ft = { "html", "cshtml", "razor", "markdown" } }
 
 -- roslyn.nvim -> c-sharp dotnet lsp -> Microsoft.CodeAnalysis.LanguageServer
 Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = { config = { filetypes = { "cs" } } } }
@@ -1227,14 +1227,13 @@ local LSP = {
       "yamlls",
       "dockerls",
       "rust_analyzer",
-      "emmet_language_server",
-      -- "emmet_ls",
       -- "tsserver",
       -- "angularls",
       -- "powershell",
       -- "roslyn/dotnet"
       -- "azure_pipelines_ls",
       -- "lua-language-server",
+      -- "emmet_language_server",
     }
   }
 }
@@ -1247,6 +1246,7 @@ LSP.init = function()
   LSP.keymaps()
   LSP.overloads()
   LSP.setup_lua()
+  LSP.setup_emmet()
   LSP.setup_angular()
   LSP.setup_powershell()
   LSP.setup_listed_servers()
@@ -1453,6 +1453,19 @@ LSP.setup_lua = function()
         completion = { callSnippet = "Replace" },
         workspace = { checkThirdParty = "Disable" }
       }
+    }
+  })
+end
+
+------------------------------------------------------------
+-- LSP Emmet
+------------------------------------------------------------
+LSP.setup_emmet = function()
+  require("lspconfig").emmet_language_server.setup({
+    filetypes = {
+      "css", "less", "sass", "scss", "stylus",
+      "html", "pug", "eruby", "cshtml", "razor",
+      "javascript", "javascriptreact", "typescriptreact",
     }
   })
 end
