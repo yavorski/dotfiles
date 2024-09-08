@@ -734,8 +734,8 @@ Lazy.use {
     vim.cmd[[cabbrev bwipeout Bwipeout]]
   end,
   config = function()
-    vim.api.nvim_create_user_command("Bdelete", function(opts) require("mini.bufremove").delete(0, opts.bang) end, { bang = true })
-    vim.api.nvim_create_user_command("Bwipeout", function(opts) require("mini.bufremove").wipeout(0, opts.bang) end, { bang = true })
+    vim.api.nvim_create_user_command("Bdelete", function(opts) require("mini.bufremove").delete(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
+    vim.api.nvim_create_user_command("Bwipeout", function(opts) require("mini.bufremove").wipeout(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
   end
 }
 
