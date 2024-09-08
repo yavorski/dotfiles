@@ -227,6 +227,42 @@ end
 vim.api.nvim_create_user_command("ForceLF", forcelf, { nargs = "?", range = "%", addr = "lines", desc = "Set LF Line Endings" })
 
 ------------------------------------------------------------
+-- Buffer Only CMD
+------------------------------------------------------------
+
+local function buffer_only(discard_modified_buffers)
+  vim.cmd("silent! tabonly!")
+
+  local buffers = vim.api.nvim_list_bufs()
+  local current_buffer = vim.api.nvim_get_current_buf()
+  local current_buffer_filetype = vim.api.nvim_get_option_value("filetype", { buf = current_buffer })
+
+  if current_buffer_filetype == "NvimTree" then
+    return vim.api.nvim_notify("NvimTree", vim.log.levels.INFO, {})
+  end
+
+  for _, buffer in ipairs(buffers) do
+    local ft = vim.api.nvim_get_option_value("filetype", { buf = buffer })
+    local stopper = buffer == current_buffer or ft == "minimap" or ft == "NvimTree" or not vim.api.nvim_buf_is_valid(buffer)
+
+    if not stopper then
+      if discard_modified_buffers then
+        vim.api.nvim_buf_delete(buffer, { force = true })
+      else
+        if vim.api.nvim_get_option_value("modified", { buf = buffer }) then
+          vim.api.nvim_set_option_value("buflisted", true, { buf = buffer })
+        else
+          vim.api.nvim_buf_delete(buffer, { force = false })
+        end
+      end
+    end
+  end
+end
+
+-- user command
+vim.api.nvim_create_user_command("BufferOnly", function(opts) buffer_only(opts.bang) end, { bang = true })
+
+------------------------------------------------------------
 -- Keymaps
 ------------------------------------------------------------
 
