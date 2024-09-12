@@ -489,7 +489,7 @@ function Dark.lualine()
   }
 
   line.terminal = {
-    a = { bg = colors.green, fg = colors.base, gui = "bold" },
+    a = { bg = colors.pink, fg = colors.base, gui = "bold" },
     b = { bg = colors.surface1, fg = colors.teal },
   }
 
@@ -592,7 +592,11 @@ Lazy.use {
     },
     term_colors = true,
     transparent_background = false,
-    integrations = { which_key = true },
+    integrations = {
+      fzf = true,
+      nvimtree = true,
+      which_key = true,
+    },
     color_overrides = { mocha = Dark.colors },
     highlight_overrides = {
       mocha = function(colors)
@@ -600,9 +604,9 @@ Lazy.use {
       end
     },
   },
-  config = function(plugin, opts)
-    require("catppuccin").setup(opts)
-    vim.cmd[[ colorscheme catppuccin ]]
+  config = function(_, options)
+    require("catppuccin").setup(options)
+    vim.cmd("colorscheme catppuccin-mocha")
   end
 }
 
@@ -781,7 +785,7 @@ Lazy.use {
   event = "VeryLazy",
   keys = {{ "<leader>M", function() require("mini.map").toggle() end, silent = true, desc = "MiniMapToggle" }},
   opts = { window = { width = 1, show_integration_count = false } },
-  config = function(plugin, options)
+  config = function(_, options)
     require("mini.map").setup(options)
     require("mini.map").open()
   end
@@ -812,7 +816,7 @@ Lazy.use {
     refresh_interval = 5000,
     default_mappings = false,
   },
-  config = function(plugin, options)
+  config = function(_, options)
     local marks = require("marks")
     marks.setup(options)
     vim.keymap.set("n", "gmm", marks.next, { silent = true, desc = "Go to next mark" })
@@ -901,7 +905,7 @@ Lazy.use {
       extensions = { "nvim-tree" }
     }
   end,
-  config = function(plugin, options)
+  config = function(_, options)
     require("scope").setup()
     require("lualine").setup(options)
   end
@@ -1165,7 +1169,7 @@ Lazy.use {
     playground = { enable = false }, -- Inspect/TSHighlightCapturesUnderCursor
     highlight = {
       enable = true, -- false will disable the extension
-      disable = function(lang, buf)
+      disable = function(_, buf)
         local max_filesize = 100 * 1024 -- 100kb
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
         if ok and stats and stats.size > max_filesize then
@@ -1184,7 +1188,7 @@ Lazy.use {
       }
     }
   },
-  config = function(plugin, options)
+  config = function(_, options)
     -- require("nvim-treesitter.install").compilers = { "cc", "gcc", "clang", "cl", "zig" }
     require("nvim-treesitter.install").prefer_git = false
     require("nvim-treesitter.configs").setup(options)
@@ -1227,7 +1231,7 @@ Lazy.use {
       },
     }
   end,
-  config = function(plugin, options)
+  config = function(_, options)
     require("mini.ai").setup(options)
     --- @diagnostic disable-next-line: missing-fields
     require("nvim-treesitter.configs").setup({
@@ -1421,7 +1425,7 @@ LSP.overloads = function()
     callback = function(event)
       local client = vim.lsp.get_client_by_id(event.data.client_id)
 
-      if client.server_capabilities.signatureHelpProvider then
+      if client ~= nil and client.server_capabilities.signatureHelpProvider then
         require("lsp-overloads").setup(client, {
           silent = false,
           display_automatically = false,
