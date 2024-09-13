@@ -818,8 +818,8 @@ Lazy.use {
     trouble = false,
     on_attach = function(buffer)
       local gs = package.loaded.gitsigns
-      vim.keymap.set("n", "[h", function() gs.nav_hunk("prev") end, { buffer = buffer, silent = true, desc = "Prev Hunk" })
-      vim.keymap.set("n", "]h", function() gs.nav_hunk("next") end, { buffer = buffer, silent = true, desc = "Next Hunk" })
+      vim.keymap.set("n", "[g", function() gs.nav_hunk("prev") end, { buffer = buffer, silent = true, desc = "Prev Hunk" })
+      vim.keymap.set("n", "]g", function() gs.nav_hunk("next") end, { buffer = buffer, silent = true, desc = "Next Hunk" })
       vim.keymap.set("n", "gsp", function() gs.nav_hunk("prev") end, { buffer = buffer, silent = true, desc = "Prev Hunk" })
       vim.keymap.set("n", "gsn", function() gs.nav_hunk("next") end, { buffer = buffer, silent = true, desc = "Next Hunk" })
       vim.keymap.set("n", "gsl", function() gs.nav_hunk("last") end, { buffer = buffer, silent = true, desc = "Last Hunk" })
