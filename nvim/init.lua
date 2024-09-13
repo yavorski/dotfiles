@@ -390,21 +390,6 @@ function Dark.editor(colors)
     GitSignsAdd = { fg = colors.green, bg = colors.mantle },
     GitSignsChange = { fg = colors.yellow, bg = colors.mantle },
     GitSignsDelete = { fg = colors.red, bg = colors.mantle },
-
-    -- nvim telescope
-    TelescopeSelection = { bg = colors.surface0 },
-    TelescopeSelectionCaret = { fg = colors.flamingo },
-    TelescopePromptCounter = { fg = colors.flamingo },
-    TelescopePromptPrefix = { bg = colors.surface0 },
-    TelescopePromptNormal = { bg = colors.surface0 },
-    TelescopeResultsNormal = { bg = colors.mantlex },
-    TelescopePreviewNormal = { bg = colors.crust },
-    TelescopePromptBorder = { bg = colors.surface0, fg = colors.surface0 },
-    TelescopeResultsBorder = { bg = colors.mantlex, fg = colors.mantlex },
-    TelescopePreviewBorder = { bg = colors.crust, fg = colors.crust },
-    TelescopePromptTitle = { fg = colors.blue, bg = colors.dark },
-    TelescopeResultsTitle = { fg = colors.blue, bg = colors.black },
-    TelescopePreviewTitle = { fg = colors.blue, bg = colors.black },
   }
 end
 
@@ -652,7 +637,6 @@ Lazy.use {
       { "gb", group = "Go to Buffer" },
       { "sj", mode = { "n", "x" }, desc = "Split/Join" },
       { "<leader>\\", group = "NvimTree" },
-      { "<leader>t", group = "Telescope" },
       { "<leader>g", group = "LSP Trouble" },
       { "<leader>W", group = "LSP Workspace" },
       { "<leader>?", "<cmd>WhichKey<cr>", desc = "Which Key" },
@@ -961,67 +945,6 @@ Lazy.use {
   end
 }
 
--- Telescope - find, filter, preview, pick
--- local fzf_windows_native = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
-Lazy.use {
-  "nvim-telescope/telescope.nvim",
-  cmd = "Telescope",
-  event = is_windows and "VeryLazy" or nil,
-  dependencies = {
-    { "nvim-lua/plenary.nvim" },
-    { "nvim-tree/nvim-web-devicons" },
-    { "echasnovski/mini.fuzzy", enabled = is_windows },
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "make", config = function() require("telescope").load_extension("fzf") end, enabled = is_linux }
-  },
-  opts = {
-    defaults = {
-      sorting_strategy = "ascending",
-      file_ignore_patterns = { "^.git/", "^.git\\", "node_modules", "wwwroot/lib", "bin", "obj", "debug" },
-      vimgrep_arguments = { "rg", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--hidden", "--trim", "--glob", "!package-lock.json" },
-      layout_config = {
-        vertical = { preview_height = 0.55 },
-        horizontal = { preview_width = 0.50 },
-      },
-    },
-    pickers = {
-      find_files = {
-        hidden = true
-      },
-      lsp_references = {
-        trim_text = false,
-        include_declaration = true,
-        include_current_line = true,
-        initial_mode = "normal",
-        mappings = {
-          n = {
-            ["<C-n>"] = "move_selection_next",
-            ["<C-p>"] = "move_selection_previous"
-          }
-        }
-      }
-    }
-  },
-  keys = {
-    { "<leader>T", "<cmd>Telescope<cr>", silent = true, desc = "Telescope" },
-    { "<leader>tt", "<cmd>Telescope<cr>", silent = true, desc = "Telescope" },
-    { "<leader>b", "<cmd>Telescope buffers<cr>", silent = true, desc = "Telescope Buffers" },
-    { "<leader>/", "<cmd>Telescope live_grep<cr>", silent = true, desc = "Telescope Search" },
-    { "<leader>f", "<cmd>Telescope find_files<cr>", silent = true, desc = "Telescope Files" },
-    { "<leader>tc", "<cmd>Telescope commands<cr>", silent = true, desc = "Telescope Commands" },
-    { "<leader>tj", "<cmd>Telescope jumplist<cr>", silent = true, desc = "Telescope Jump List" },
-    { "<leader>tm", "<cmd>Telescope man_pages<cr>", silent = true, desc = "Telescope Man Pages" },
-    { "<leader>th", "<cmd>Telescope help_tags<cr>", silent = true, desc = "Telescope Help Tags" },
-    { "<leader>tg", "<cmd>Telescope git_status<cr>", silent = true, desc = "Telescope Git Status" },
-  },
-  config = function(plugin, options)
-    if is_windows then
-      local fuzzy = require("mini.fuzzy")
-      options.defaults.generic_sorter = fuzzy.get_telescope_sorter
-    end
-    require("telescope").setup(options)
-  end
-}
-
 -- select ui - lsp code actions
 Lazy.use {
   "stevearc/dressing.nvim",
@@ -1042,8 +965,7 @@ Lazy.use {
   }
 }
 
--- NOTE TODO telescope integration
--- diagnostics, references, telescope results, quickfix and location list
+-- diagnostics, references, fzf-lua/telescope results, quickfix and location list
 Lazy.use {
   "folke/trouble.nvim",
   cmd = { "Trouble", "TroubleQuickFixList" },
@@ -1365,12 +1287,6 @@ LSP.buffer_keymaps = function(buffer)
 
   keymap("n", "<leader>d", "<cmd>Trouble diagnostics toggle<cr>", "LSP Workspace Diagnostics")
   keymap("n", "<leader>D", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", "LSP Document Diagnostics")
-
-  keymap("n", "<leader>tq", "<cmd>Telescope diagnostics layout_strategy=vertical<cr>", "Telescope LSP Diagnostics")
-  keymap("n", "<leader>tr", "<cmd>Telescope lsp_references layout_strategy=vertical<cr>", "Telescope LSP References")
-  keymap("n", "<leader>td", "<cmd>Telescope lsp_definitions layout_strategy=vertical<cr>", "Telescope LSP Definitions")
-  keymap("n", "<leader>ti", "<cmd>Telescope lsp_implementations layout_strategy=vertical<cr>", "Telescope LSP Implementations")
-  keymap("n", "<leader>ts", "<cmd>Telescope lsp_document_symbols layout_strategy=vertical<cr>", "Telescope LSP Document Symbols")
 
   keymap("n", "<leader>Wa", vim.lsp.buf.add_workspace_folder, "LSP Add Workspace Folder")
   keymap("n", "<leader>Wr", vim.lsp.buf.remove_workspace_folder, "LSP Remove Workspace Folder")
