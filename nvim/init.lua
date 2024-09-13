@@ -971,92 +971,6 @@ Lazy.use {
   end
 }
 
--- NOTE enable when these are resolved
--- ui for messages, cmdline, search and popupmenu
--- https://www.github.com/neovim/neovim/pull/27950
--- https://www.github.com/folke/noice.nvim/issues/679
-Lazy.use {
-  "folke/noice.nvim",
-  event = "VeryLazy",
-  enabled = false,
-  dependencies = {{ "muniftanjim/nui.nvim" }},
-  opts = {
-    notify = { view = "mini" },
-    messages = { enabled = true },
-    popupmenu = { kind_icons = false },
-    cmdline_output = { enabled = true },
-    presets = {
-      command_palette = true,
-      long_message_to_split = true,
-      cmdline_output_to_split = false,
-    },
-    cmdline = {
-      view = "cmdline_popup",
-      format = {
-        lua = { icon = "" },
-        help = { icon = "" },
-        filter = { icon = "$" },
-        cmdline = { icon = "" },
-        search_up = { icon = "🔍⇡" },
-        search_down = { icon = "🔍⇣" }
-      }
-    },
-    lsp = {
-      hover = { enabled = false },
-      message = { enabled = true },
-      progress = { enabled = true },
-      signature = { enabled = false },
-      documentation = { enabled = false }
-    },
-    commands = {
-      history = { view = "popup" }
-    },
-    routes = {
-      { view = "notify", filter = { event = "msg_showmode" } },
-      { view = "split", filter = { event = "msg_show", min_height = 10 } },
-    },
-    format = {
-      level = { icons = { error = "✖ ", warn = "◀ ", info = "▣ " } }
-    },
-    views = {
-      notify = { merge = true, replace = true },
-      messages = { view = "popup", enter = true },
-      confirm = {
-        border = { style = "none", padding = { 1, 2 } },
-        win_options = { winhighlight = { Normal = "NormalFloat" } }
-      },
-      popup = {
-        border = { style = "none", padding = { 1, 2 } }
-      },
-      popupmenu = {
-        size = { max_height = 32 },
-        border = { style = "single", padding = { 0, 1 } },
-        win_options = { winhighlight = { Normal = "NormalFloat" } },
-      },
-      cmdline_popup = {
-        align = "center",
-        position = { row = 8, col = "50%" },
-        size = { width = 80, height = "auto" },
-        border = { style = "none", padding = { 1, 2 } },
-        win_options = { winhighlight = { Normal = "NormalFloat" } }
-      },
-      cmdline_popupmenu = {
-        position = { row = 12, col = "50%" },
-        size = { width = 80, height = "auto" },
-        border = { style = "none", padding = { 1, 2 } },
-        win_options = { winhighlight = { Normal = "NormalFloat" } }
-      },
-      mini = {
-        timeout = 2800,
-        focusable = false,
-        border = { style = "none", padding = { 1, 2 } },
-        position = { row = 3, col = "98%" },
-        win_options = { winhighlight = { Normal = "NormalFloat" } }
-      }
-    }
-  }
-}
-
 -- tree-sitter
 -- nvim --headless +"Lazy load nvim-treesitter" +TSUpdateSync +qa!
 -- nvim --headless +"Lazy load nvim-treesitter" +"TSInstallSync! all" +qa!
@@ -1711,14 +1625,6 @@ local function close_trouble()
   end
 end
 
--- dismiss noice
-local function close_noice()
-  local is_noice_loaded = pcall(require, "noice")
-  if is_noice_loaded then
-    vim.cmd("Noice dismiss")
-  end
-end
-
 -- reopen mini map
 local function reopen_minimap()
   local is_minimap_loaded, minimap = pcall(require, "mini.map")
@@ -1739,7 +1645,6 @@ end
 
 -- escape fn
 local function escape()
-  close_noice()
   close_trouble()
   close_qf_loc_list()
   vim.cmd("fclose!")
