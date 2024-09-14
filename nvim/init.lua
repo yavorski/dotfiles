@@ -392,6 +392,29 @@ function Dark.editor(colors)
     GitSignsAdd = { fg = colors.green, bg = colors.mantle },
     GitSignsChange = { fg = colors.yellow, bg = colors.mantle },
     GitSignsDelete = { fg = colors.red, bg = colors.mantle },
+
+    -- nvim fzf-lua
+    FzfLuaNormal = { fg = colors.text, bg = colors.mantle },
+    FzfLuaBorder = { fg = colors.mantle, bg = colors.mantle },
+    FzfLuaCursorLine = { bg = colors.black },
+
+    FzfLuaPreviewNormal = { bg = colors.crust },
+    FzfLuaPreviewBorder = { fg = colors.crust, bg = colors.crust },
+    FzfLuaPreviewTitle = { fg = colors.blue, bg = colors.black },
+
+    FzfLuaScrollFloatFull  = { bg = colors.peach },
+    FzfLuaScrollFloatEmpty = { link = "NormalFloat" },
+    FzfLuaScrollBorderFull = { fg = colors.peach, bg = colors.peach },
+    FzfLuaScrollBorderEmpty = { fg = colors.mantle, bg = colors.mantle },
+
+    FzfLuaFzfNormal = { bg = colors.mantle },
+    FzfLuaFzfMatch = { fg = colors.blue },
+    FzfLuaFzfSeparator = { fg = colors.black },
+    FzfLuaFzfInfo = { fg = colors.flamingo },
+    FzfLuaFzfPointer = { fg = colors.green },
+    FzfLuaFzfBorder = { fg = colors.black },
+    FzfLuaFzfScrollbar = { fg = colors.peach },
+    FzfLuaFzfGutter = { link = "FzfLuaNormal" },
   }
 end
 
@@ -640,7 +663,6 @@ Lazy.use {
       { "gb", group = "Go to Buffer" },
       { "sj", mode = { "n", "x" }, desc = "Split/Join" },
       { "<leader>\\", group = "NvimTree" },
-      { "<leader>g", group = "LSP Trouble" },
       { "<leader>W", group = "LSP Workspace" },
       { "<leader>?", "<cmd>WhichKey<cr>", desc = "Which Key" },
     },
@@ -767,7 +789,7 @@ Lazy.use {
 Lazy.use {
   "echasnovski/mini.map",
   event = "VeryLazy",
-  keys = {{ "<leader>M", function() require("mini.map").toggle() end, silent = true, desc = "MiniMapToggle" }},
+  -- keys = {{ "<leader>M", function() require("mini.map").toggle() end, silent = true, desc = "MiniMapToggle" }},
   opts = { window = { width = 1, show_integration_count = false } },
   config = function(_, options)
     require("mini.map").setup(options)
@@ -920,16 +942,48 @@ Lazy.use {
 }
 
 -- fzf
+local vertical = {
+  preview = {
+    layout = "vertical",
+    vertical = "down:75%",
+    border = "border-top",
+  }
+}
+
+-- fzf
 Lazy.use {
   "ibhagwan/fzf-lua",
+  -- dir = "~/dev/open-sos/fzf-lua",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
   cmd = "FzfLua",
-  enabled = false,
+  event = is_windows and "VeryLazy" or nil,
   opts = {
+    defaults = {
+      multiprocess = true,
+      preview_pager = false,
+      jump_to_single_result = true,
+    },
+    fzf_colors = true,
+    fzf_opts = {
+      ["--cycle"] = "",
+      ["--scrollbar"] = "█",
+      ["--preview-window"] = "bottom:75%,border-top", -- ["--preview-window"] = "right:50%,border-left",
+      ["--color"] = string.format("preview-bg:%s,preview-scrollbar:%s", Dark.colors.mantle, Dark.colors.peach), -- FzfLuaBorder border is applied to native fzf window...
+    },
     winopts = {
+      row = 0.45,
+      col = 0.495,
+      width = 0.80,
+      height = 0.87,
+      border = "thicc",
+      backdrop = 100,
       preview = {
-        default = "bat",
-        tags = { previewer = "bat" },
-        btags = { previewer = "bat" },
+        default = "builtin",
+        border = "border",
+        vertical = "down:50%",
+        horizontal = "right:51%",
+        scrollbar = "float",
+        winopts = { number = false }
       }
     },
     keymap = {
@@ -938,41 +992,60 @@ Lazy.use {
         ["<C-d>"] = "preview-page-down"
       },
       fzf = {
-        ["ctrl-b"] = "half-page-up",
-        ["ctrl-f"] = "half-page-down",
-        ["shift-up"] = "preview-page-up",
-        ["shift-down"]  = "preview-page-down"
+        ["ctrl-u"] = "preview-page-up",
+        ["ctrl-d"] = "preview-page-down"
       }
     },
-    git = {
-      status = { winopts = { preview = { layout = "vertical", vertical = "down:75%" } } },
-      commits = { winopts = { preview = { layout = "vertical", vertical = "down:75%" } } },
-      bcommits = { winopts = { preview = { layout = "vertical", vertical = "down:75%" } } }
-    },
     lsp = {
-      winopts = {
-        preview = { layout = "vertical", vertical = "down:70%" }
-      },
-      code_actions = {
-        previewer = "codeaction_native",
-        preview_pager = [[ delta --hunk-header-style="omit" --file-style="omit" --width=$FZF_PREVIEW_COLUMNS ]],
-        winopts = { preview = { scrollbar = false, layout = "vertical", vertical = "down:75%" } }
-      },
+      winopts = vertical,
+      code_actions = { winopts = vertical },
     },
-    diagnostics = {
-      winopts = { preview = { layout = "vertical", vertical = "down:70%" } }
-    }
+    grep = { winopts = vertical },
+    git = { status = { winopts = vertical } },
+    files = { fd_opts = nil, find_opts = nil },
+    diagnostics = { winopts = vertical, multiline = false },
+    -- manpages = { cmd = "man -s 1 -k ." },
+    helptags = {
+      fzf_opts = {
+        ["--tac"] = "",
+        ["--tiebreak"] = "begin,length,index",
+      }
+    },
   },
-  config = function(plugin, opts)
-    require("fzf-lua").setup(opts)
-    -- require("fzf-lua").register_ui_select()
+  keys = {
+    { "<leader>tt", "<cmd>FzfLua<cr>", silent = true, desc = "FZF Lua" },
+    { "<leader>b", "<cmd>FzfLua buffers<cr>", silent = true, desc = "FZF Buffers" },
+    { "<leader>/", "<cmd>FzfLua live_grep_native<cr>", silent = true, desc = "FZF Search" },
+    { "<leader>f", "<cmd>FzfLua files header=false<cr>", silent = true, desc = "FZF Files" },
+    { "<leader>j", "<cmd>FzfLua jumps<cr>", silent = true, desc = "FZF Jumps List" },
+    { "<leader>h", "<cmd>FzfLua helptags<cr>", silent = true, desc = "FZF Help Tags" },
+    { "<leader>M", "<cmd>FzfLua manpages<cr>", silent = true, desc = "FZF Man Pages" },
+    { "<leader>g", "<cmd>FzfLua git_status<cr>", silent = true, desc = "FZF Git Status" },
+    { "<leader>'", "<cmd>FzfLua resume<cr>", silent = true, desc = "FZF Resume" },
+  },
+  config = function(_, options)
+    local A = require("fzf-lua.actions")
+
+    --- @diagnostic disable-next-line
+    A.file_tabedit = function(selected, opts)
+      local vimcmd = "tabnew | <auto>"
+      A.vimcmd_entry(vimcmd, selected, opts)
+    end
+
+    require("fzf-lua").setup(options)
+
+    require("fzf-lua").register_ui_select(function(opts)
+      local ui_select = { row = 0.25, width = 0.7, height = 0.42 }
+      return { winopts = opts.kind == "codeaction" and vertical or ui_select }
+    end)
   end
 }
 
 -- diagnostics, references, fzf-lua/telescope results, quickfix and location list
 Lazy.use {
   "folke/trouble.nvim",
-  cmd = { "Trouble", "TroubleQuickFixList" },
+  cmd = { "Trouble" },
+  keys = {{ "<A-t>", "<cmd>Trouble<cr>", silent = true, desc = "Trouble" }},
   opts = {
     auto_close = true, -- auto close when there are no items
     auto_open = false, -- auto open when there are items
@@ -987,11 +1060,9 @@ Lazy.use {
     multiline = true, -- render multi-line messages
     pinned = false, -- When pinned, the opened trouble window will be bound to the current buffer
   },
-  config = function(plugin, options)
+  config = function(_, options)
     require("trouble").setup(options)
-    vim.api.nvim_create_user_command("TroubleFocus", require("trouble").focus, { });
-    vim.api.nvim_create_user_command("TroubleClose", require("trouble").close, { });
-    vim.api.nvim_create_user_command("TroubleQuickFixList", "Trouble quickfix", { });
+    require("fzf-lua.config").defaults.actions.files["alt-t"] = require("trouble.sources.fzf").actions.open
   end
 }
 
@@ -1171,31 +1242,30 @@ LSP.buffer_keymaps = function(buffer)
     vim.keymap.set(mode, lhs, rhs, { silent = true, buffer = buffer, desc = desc })
   end
 
-  keymap("n", "gr", vim.lsp.buf.references, "LSP References")
-  keymap("n", "<leader>gr", "<cmd>Trouble lsp_references toggle<cr>", "LSP References")
+  -- keymap("n", "gr", vim.lsp.buf.references, "LSP References")
+  keymap("n", "gr", "<cmd>FzfLua lsp_references<cr>", "LSP References")
 
-  keymap("n", "gd", vim.lsp.buf.definition, "LSP Definition")
-  keymap("n", "<leader>gd", "<cmd>Trouble lsp_definitions toggle<cr>", "LSP Definition")
+  -- keymap("n", "gd", vim.lsp.buf.definition, "LSP Definition")
+  keymap("n", "gd", "<cmd>FzfLua lsp_definitions<cr>", "LSP Definition")
 
-  keymap("n", "gD", vim.lsp.buf.declaration, "LSP Declaration")
-  keymap("n", "<leader>gD", "<cmd>Trouble lsp_declarations toggle<cr>", "LSP Declaration")
+  -- keymap("n", "gD", vim.lsp.buf.declaration, "LSP Declaration")
+  keymap("n", "gD", "<cmd>FzfLua lsp_declarations<cr>", "LSP Declaration")
 
-  keymap("n", "gi", vim.lsp.buf.implementation, "LSP Implementation")
-  keymap("n", "<leader>gi", "<cmd>Trouble lsp_implementations toggle<cr>", "LSP Implementation")
+  -- keymap("n", "gi", vim.lsp.buf.implementation, "LSP Implementation")
+  keymap("n", "gi", "<cmd>FzfLua lsp_implementations<cr>", "LSP Implementation")
 
-  keymap("n", "g<space>", vim.lsp.buf.type_definition, "LSP Type Definition")
-  keymap("n", "<leader>g<space>", "<cmd>Trouble lsp_type_definitions toggle<cr>", "LSP Type Definition")
+  -- keymap("n", "g<space>", vim.lsp.buf.type_definition, "LSP Type Definition")
+  keymap("n", "g<space>", "<cmd>FzfLua lsp_typedefs<cr>", "LSP Type Definition")
 
   -- default is K
-  keymap("n", "<leader>k", vim.lsp.buf.hover, "LSP Hover")
-  keymap("n", "<C-k>", vim.lsp.buf.signature_help, "LSP Signature Help")
+  keymap({ "n", "v" }, "<leader>k", vim.lsp.buf.hover, "LSP Hover")
+  keymap({ "n", "v" }, "<C-k>", vim.lsp.buf.signature_help, "LSP Signature Help")
 
-  keymap("n", "<leader>r", vim.lsp.buf.rename, "LSP Rename")
-  keymap("n", "<leader>R", vim.lsp.buf.rename, "LSP Rename")
+  keymap({ "n", "v" }, "<leader>r", vim.lsp.buf.rename, "LSP Rename")
+  keymap({ "n", "v" }, "<leader>R", vim.lsp.buf.rename, "LSP Rename")
 
-  keymap("n", "<leader>a", vim.lsp.buf.code_action, "LSP Code Action")
-  keymap("n", "<leader>ca", vim.lsp.buf.code_action, "LSP Code Action")
-  keymap("v", "<leader>ca", vim.lsp.buf.code_action, "LSP Code Action")
+  keymap({ "n", "v" }, "<leader>A", vim.lsp.buf.code_action, "LSP Code Action") -- with preview
+  keymap({ "n", "v" }, "<leader>a", "<cmd>FzfLua lsp_code_actions previewer=false winopts.row=0.25 winopts.width=0.7 winopts.height=0.42<cr>", "LSP Code Action") -- no preview
 
   -- <CTRL-W-d> is default
   keymap("n", "<leader>er", vim.diagnostic.open_float, "LSP Diagnostic Open Float")
@@ -1203,12 +1273,11 @@ LSP.buffer_keymaps = function(buffer)
   keymap("n", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format")
   keymap("v", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format Visual")
 
-  keymap("n", "<leader>d", "<cmd>Trouble diagnostics toggle<cr>", "LSP Workspace Diagnostics")
-  keymap("n", "<leader>D", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", "LSP Document Diagnostics")
+  keymap("n", "<leader>d", "<cmd>FzfLua diagnostics_document<cr>", "LSP Document Diagnostics")
+  keymap("n", "<leader>D", "<cmd>FzfLua diagnostics_workspace<cr>", "LSP Workspace Diagnostics")
 
   keymap("n", "<leader>Wa", vim.lsp.buf.add_workspace_folder, "LSP Add Workspace Folder")
   keymap("n", "<leader>Wr", vim.lsp.buf.remove_workspace_folder, "LSP Remove Workspace Folder")
-  keymap("n", "<leader>Wq", "<cmd>Trouble diagnostics toggle<cr>", "LSP Workspace Diagnostics")
   keymap("n", "<leader>Wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "LSP Workspace List Folders")
 end
 
