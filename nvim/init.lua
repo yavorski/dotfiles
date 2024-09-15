@@ -111,12 +111,12 @@ vim.opt.smartindent = true    -- autoindent new lines
 ------------------------------------------------------------
 
 -- rust enable tabs and user settings
-vim.g.rust_recommended_style = 0
+-- vim.g.rust_recommended_style = 0
 
 -- enable tabs for the following filetypes
-vim.cmd[[autocmd FileType ps1 setlocal noexpandtab]]
 vim.cmd[[autocmd FileType make setlocal noexpandtab]]
-vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
+-- vim.cmd[[autocmd FileType ps1 setlocal noexpandtab]]
+-- vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
 
 ------------------------------------------------------------
 -- list
@@ -153,6 +153,16 @@ vim.g.maplocalleader = [[ ]]
 local sysname = vim.loop.os_uname().sysname
 local is_linux = sysname == "Linux"
 local is_windows = sysname == "Windows_NT"
+
+------------------------------------------------------------
+-- Filetypes Auto Detection
+------------------------------------------------------------
+
+vim.filetype.add({
+  pattern = {
+    [ ".*/hypr/.*%.conf" ] = "hyprlang"
+  }
+})
 
 ------------------------------------------------------------
 -- edit cmd
@@ -631,9 +641,6 @@ Lazy.use { "wavded/vim-stylus", ft = "stylus" }
 -- razor syntax -> adamclerk/vim-razor
 Lazy.use { "jlcrochet/vim-razor", ft = { "razor", "cshtml" } }
 
--- emmet html/css/js/lorem - [i] <C-m> <C-y>,
--- Lazy.use { "mattn/emmet-vim", ft = { "html", "cshtml", "razor", "markdown" } }
-
 -- roslyn.nvim -> c-sharp dotnet lsp -> Microsoft.CodeAnalysis.LanguageServer
 Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = { config = { filetypes = { "cs" } } } }
 
@@ -643,29 +650,8 @@ Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = { config = { filetypes = { "cs
 -- auto close/rename html tag
 Lazy.use { "windwp/nvim-ts-autotag", ft = { "html", "cshtml", "razor", "markdown" }, opts = { opts = { enable_close_on_slash = true } } }
 
--- shows key bindings in popup
-Lazy.use {
-  "folke/which-key.nvim",
-  event = "VeryLazy",
-  opts = {
-    win = { no_overlap = false },
-    delay = function(ctx) return ctx.plugin and 0 or 500 end,
-    icons = { rules = false, mappings = false, keys = { BS = "⇠ " } },
-    spec = {
-      { "gs", group = "Git Signs" },
-      { "gm", group = "Go to Mark" },
-      { "gb", group = "Go to Buffer" },
-      { "sj", mode = { "n", "x" }, desc = "Split/Join" },
-      { "<leader>\\", group = "NvimTree" },
-      { "<leader>W", group = "LSP Workspace" },
-      { "<leader>?", "<cmd>WhichKey<cr>", desc = "Which Key" },
-    },
-    triggers = {
-      { "<auto>", mode = "nxsot" },
-      { "s", mode = { "n", "v", "x" } },
-    },
-  }
-}
+-- put, put_text, setup_auto_root, setup_restore_cursor, zoom
+Lazy.use { "echasnovski/mini.misc", event = "VeryLazy", config = true }
 
 -- jump/repeat with f, F, t, T on multiple lines
 Lazy.use { "echasnovski/mini.jump", event = "VeryLazy", config = true }
@@ -681,9 +667,6 @@ Lazy.use { "echasnovski/mini.comment", event = "VeryLazy", config = true }
 
 -- surround - add, delete, replace, find, highlight - [n,v] <sa> <sd> <sr>
 Lazy.use { "echasnovski/mini.surround", event = "VeryLazy", config = true }
-
--- misc fns - put, put_text, setup_auto_root, setup_restore_cursor, zoom
-Lazy.use { "echasnovski/mini.misc", event = "VeryLazy", config = true, priority = 1 }
 
 -- split/join code blocks, fn args, arrays, tables - [n,v] <sj>
 Lazy.use {
@@ -1064,6 +1047,30 @@ Lazy.use {
   end
 }
 
+-- shows key bindings in popup
+Lazy.use {
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  opts = {
+    win = { no_overlap = false },
+    delay = function(ctx) return ctx.plugin and 0 or 500 end,
+    icons = { rules = false, mappings = false, keys = { BS = "⇠ " } },
+    spec = {
+      { "gs", group = "Git Signs" },
+      { "gm", group = "Go to Mark" },
+      { "gb", group = "Go to Buffer" },
+      { "sj", mode = { "n", "x" }, desc = "Split/Join" },
+      { "<leader>\\", group = "NvimTree" },
+      { "<leader>W", group = "LSP Workspace" },
+      { "<leader>?", "<cmd>WhichKey<cr>", desc = "Which Key" },
+    },
+    triggers = {
+      { "<auto>", mode = "nxsot" },
+      { "s", mode = { "n", "v", "x" } },
+    },
+  }
+}
+
 -- tree-sitter
 -- nvim --headless +"Lazy load nvim-treesitter" +TSUpdateSync +qa!
 -- nvim --headless +"Lazy load nvim-treesitter" +"TSInstallSync! all" +qa!
@@ -1415,7 +1422,7 @@ LSP.setup_emmet = function()
     filetypes = {
       "css", "less", "sass", "scss", "stylus",
       "html", "pug", "eruby", "cshtml", "razor",
-      "javascript", "javascriptreact", "typescriptreact",
+      -- "javascript", "javascriptreact", "typescriptreact",
     }
   })
 end
@@ -1738,7 +1745,7 @@ end
 local function escape()
   close_trouble()
   close_qf_loc_list()
-  vim.cmd("fclose!")
+  vim.cmd("silent! fclose!")
   stop_jumping()
   reopen_minimap()
 end
