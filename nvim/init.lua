@@ -375,6 +375,8 @@ function Dark.editor(colors)
     MiniTrailspace = { bg = colors.red },
     MiniMapSymbolView = { fg = colors.red },
     MiniIndentscopeSymbol = { fg = colors.red },
+    MiniNotifyNormal = { bg = colors.dark },
+    MiniNotifyBorder = { fg = colors.dark, bg = colors.dark },
 
     -- nvim marks
     MarkSignHL = { bg = colors.mantle },
@@ -579,6 +581,7 @@ Lazy.use {
     transparent_background = false,
     integrations = {
       fzf = true,
+      mini = true,
       nvimtree = true,
       which_key = true,
     },
@@ -663,6 +666,9 @@ Lazy.use { "echasnovski/mini.comment", event = "VeryLazy", config = true }
 -- surround - add, delete, replace, find, highlight - [n,v] <sa> <sd> <sr>
 Lazy.use { "echasnovski/mini.surround", event = "VeryLazy", config = true }
 
+-- misc fns - put, put_text, setup_auto_root, setup_restore_cursor, zoom
+Lazy.use { "echasnovski/mini.misc", event = "VeryLazy", config = true, priority = 1 }
+
 -- split/join code blocks, fn args, arrays, tables - [n,v] <sj>
 Lazy.use {
   "echasnovski/mini.splitjoin",
@@ -681,12 +687,6 @@ Lazy.use {
     })
   end
 }
-
--- show notifications - same issue like noice while search
--- Lazy.use { "echasnovski/mini.notify", event = "VeryLazy", config = true }
-
--- misc fns - put, put_text, setup_auto_root, setup_restore_cursor, zoom
-Lazy.use { "echasnovski/mini.misc", event = "VeryLazy", config = true, priority = 1 }
 
 -- trim/highlight trailing whitespace
 Lazy.use {
@@ -772,6 +772,30 @@ Lazy.use {
   config = function(_, options)
     require("mini.map").setup(options)
     require("mini.map").open()
+  end
+}
+
+-- show notifications
+Lazy.use {
+  "echasnovski/mini.notify",
+  event = "VeryLazy",
+  opts = {
+    content = {
+      format = function(notification)
+        return notification.msg
+      end,
+    },
+    window = {
+      config = {
+        border = "solid",
+        row = 2,
+        col = vim.o.columns - 2
+      }
+    }
+  },
+  config = function(_, options)
+    require("mini.notify").setup(options)
+    vim.notify = require("mini.notify").make_notify()
   end
 }
 
