@@ -111,12 +111,12 @@ vim.opt.smartindent = true    -- autoindent new lines
 ------------------------------------------------------------
 
 -- rust enable tabs and user settings
-vim.g.rust_recommended_style = 0
+-- vim.g.rust_recommended_style = 0
 
 -- enable tabs for the following filetypes
-vim.cmd[[autocmd FileType ps1 setlocal noexpandtab]]
 vim.cmd[[autocmd FileType make setlocal noexpandtab]]
-vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
+-- vim.cmd[[autocmd FileType ps1 setlocal noexpandtab]]
+-- vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
 
 ------------------------------------------------------------
 -- list
@@ -153,6 +153,18 @@ vim.g.maplocalleader = [[ ]]
 local sysname = vim.loop.os_uname().sysname
 local is_linux = sysname == "Linux"
 local is_windows = sysname == "Windows_NT"
+
+------------------------------------------------------------
+-- Filetypes Auto Detection
+------------------------------------------------------------
+
+vim.filetype.add({
+  pattern = {
+    [ ".*/waybar/config" ] = "jsonc",
+    [ ".*/ghostty/config" ] = "conf",
+    [ ".*/hypr/.*%.conf" ] = "hyprlang",
+  }
+})
 
 ------------------------------------------------------------
 -- edit cmd
@@ -282,6 +294,7 @@ vim.api.nvim_set_keymap("v", "<C-c>", "gc", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-c>", "gcc", { silent = true })
 
 -- copy/paste system clipboard
+vim.keymap.set("n" , "<leader>%y", "<cmd>silent! %y+<cr>", { silent = true, desc = "[sc] Yank Buffer" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", [["+y]], { silent = true, desc = "[sc] Yank" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>Y", [["+yy]], { silent = true, desc = "[sc] Yank Line" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>p", [["+p]], { silent = true, desc = "[sc] Paste After" })
@@ -312,55 +325,61 @@ vim.keymap.set("n", "gb0", "<cmd>LualineBuffersJump! 10<cr>", { silent = true })
 
 local Dark = {
   colors = {
-    rosewater = "#f5e0dc", -- -- "#f5e0dc" -- -- Winbar
-    flamingo  = "#f2cdcd", -- -- "#f2cdcd" -- -- Target word
-    pink      = "#ff1493", -- -- "#f5c2e7" -- -- [!] Just pink
-    mauve     = "#c678dd", -- -- "#cba6f7" -- -- [!] Tag
-    red       = "#e95678", -- -- "#f38ba8" -- -- [!] Error
-    maroon    = "#d16d9e", -- -- "#eba0ac" -- -- [!] Lighter red
-    peach     = "#f5a97f", -- -- "#fab387" -- -- [!] Number
-    yellow    = "#faf76e", -- -- "#f9e2af" -- -- [!] Warning
-    green     = "#4bf99e", -- -- "#a6e3a1" -- -- [!] Diff add
-    teal      = "#94e2d5", -- -- "#94e2d5" -- -- Hint
-    sky       = "#89dceb", -- -- "#89dceb" -- -- Operator
-    sapphire  = "#36d0e0", -- -- "#74c7ec" -- -- Constructor
-    blue      = "#4ba6f9", -- -- "#89b4fa" -- -- [!] Diff changed
-    lavender  = "#89b4fa", -- -- "#b4befe" -- -- [!] CursorLine Nr
-    text      = "#cdd6f4", -- -- "#cdd6f4" -- -- Default fg
-    subtext1  = "#bac2de", -- -- "#bac2de" -- -- Indicator
-    subtext0  = "#a6adc8", -- -- "#a6adc8" -- -- Float title
-    overlay2  = "#9399b2", -- -- "#9399b2" -- -- Popup fg
-    overlay1  = "#7f849c", -- -- "#7f849c" -- -- Conceal color
-    overlay0  = "#6c7086", -- -- "#6c7086" -- -- Fold color
-    surface2  = "#585b70", -- -- "#585b70" -- -- Default comment
-    surface1  = "#45475a", -- -- "#45475a" -- -- Darker comment
-    surface0  = "#313244", -- -- "#313244" -- -- Darkest comment
-    base      = "#1e1e2e", -- -- "#1e1e2e" -- -- Default bg
-    mantle    = "#181825", -- -- "#181825" -- -- Darker bg
-    crust     = "#11111b", -- -- "#11111b" -- -- Darkest bg
-    trick     = "#1abc9c", -- -- "#1abc9c" -- -- [*] Trick
-    stealth   = "#14ff80", -- -- "#14ff80" -- -- [*] Type
-    skyblue   = "#54b9f7", -- -- "#41b2f7" -- -- [*] Sky blue
-    mantlex   = "#161622", -- -- "#14141f" -- -- [*] Darker bg
-    dark      = "#13131d", -- -- "#151521" -- -- [*] Darker bg
-    darker    = "#111111", -- -- "#111111" -- -- [*] Darker bg
-    black     = "#000000", -- -- "#000000" -- -- [*] Just black
+    none      = "NONE",
+    rosewater = "#f5e0dc", -- Winbar
+    flamingo  = "#f2cdcd", -- Target word
+    pink      = "#ff1493", -- [!] Just pink
+    mauve     = "#c678dd", -- [!] Tag
+    red       = "#e95678", -- [!] Error
+    maroon    = "#d16d9e", -- [!] Lighter red
+    peach     = "#f5a97f", -- [!] Number
+    yellow    = "#faf76e", -- [!] Warning
+    green     = "#4bf99e", -- [!] Diff add
+    teal      = "#94e2d5", -- Hint
+    sky       = "#89dceb", -- Operator
+    sapphire  = "#36d0e0", -- Constructor
+    blue      = "#4ba6f9", -- [!] Diff changed
+    lavender  = "#89b4fa", -- [!] CursorLine Nr
+    text      = "#cdd6f4", -- Default fg
+    subtext1  = "#bac2de", -- Indicator
+    subtext0  = "#a6adc8", -- Float title
+    overlay2  = "#9399b2", -- Popup fg
+    overlay1  = "#7f849c", -- Conceal color
+    overlay0  = "#6c7086", -- Fold color
+    surface2  = "#585b70", -- Default comment
+    surface1  = "#45475a", -- Darker comment
+    surface0  = "#313244", -- Darkest comment
+    trick     = "#1abc9c", -- [*] Trick
+    stealth   = "#14ff80", -- [*] Type
+    skyblue   = "#54b9f7", -- [*] Sky blue
+    mantle    = "#181825", -- [!] Dark 6
+    coal      = "#161622", -- [*] Dark 5
+    base      = "#14141f", -- [!] Dark 4 - Default BG
+    crust     = "#11111b", -- [!] Dark 3
+    dusk      = "#0f0f17", -- [*] Dark 2
+    dark      = "#0a0a0f", -- [*] Dark 1
+    black     = "#000000", -- [*] Dark 0 -- Just Black
   }
 }
 
 function Dark.editor(colors)
+  local O = require("catppuccin").options
   local mocha = require("catppuccin.palettes.mocha")
+
   return {
     -- nvim
     LineNr = { bg = colors.mantle },
     VertSplit = { fg = colors.crust, bg = colors.crust },
+    CursorLine = { bg = O.transparent_background and colors.black or colors.crust },
 
     FoldColumn = { bg = colors.mantle },
     SignColumn = { bg = colors.mantle },
     SignColumnSB = { bg = colors.mantle },
 
-    MsgArea = { bg = colors.dark },
-    FloatBorder = { fg = colors.blue, bg = colors.mantle },
+    MsgArea = { bg = colors.dusk },
+    FloatBorder = { fg = colors.blue, bg = colors.base }, -- Border for floating windows
+    NormalFloat = { bg = (O.transparent_background and vim.o.winblend == 0) and colors.none or colors.base }, -- Floating windows
+    WinSeparator = { fg = colors.dusk, bg = colors.dusk }, -- Splits separator
 
     Pmenu = { bg = colors.crust },
     PmenuSbar = { bg = colors.mantle },
@@ -383,6 +402,8 @@ function Dark.editor(colors)
     MarkSignNumHL = { bg = colors.mantle },
 
     -- nvim tree
+    NvimTreeNormal = { bg = O.transparent_background and colors.none or colors.base },
+    NvimTreeCursorLine = { bg = colors.dark },
     NvimTreeRootFolder = { fg = colors.peach },
     NvimTreeWinSeparator = { fg = colors.crust, bg = colors.crust },
     NvimTreeFolderName = { fg = colors.skyblue },
@@ -392,6 +413,16 @@ function Dark.editor(colors)
     GitSignsAdd = { fg = colors.green, bg = colors.mantle },
     GitSignsChange = { fg = colors.yellow, bg = colors.mantle },
     GitSignsDelete = { fg = colors.red, bg = colors.mantle },
+
+    -- which key
+    WhichKey = { bg = colors.crust },
+    WhichKeyNormal = { bg = colors.crust },
+
+    -- trouble
+    TroubleNormal = { bg = colors.mantle },
+    TroubleNormalNC = { bg = colors.mantle },
+    TroublePos = { fg = colors.subtext1, bg = colors.none },
+    TroubleCount = { fg = colors.green, bg = colors.none },
 
     -- nvim fzf-lua
     FzfLuaNormal = { fg = colors.text, bg = colors.mantle },
@@ -595,6 +626,7 @@ Lazy.use {
   lazy = false,
   priority = 1024,
   opts = {
+    kitty = false,
     flavour = "mocha",
     background = {
       dark = "mocha",
@@ -607,6 +639,7 @@ Lazy.use {
       mini = true,
       nvimtree = true,
       which_key = true,
+      lsp_trouble = true,
     },
     color_overrides = { mocha = Dark.colors },
     highlight_overrides = {
@@ -637,9 +670,6 @@ Lazy.use { "wavded/vim-stylus", ft = "stylus" }
 -- razor syntax -> adamclerk/vim-razor
 Lazy.use { "jlcrochet/vim-razor", ft = { "razor", "cshtml" } }
 
--- emmet html/css/js/lorem - [i] <C-m> <C-y>,
--- Lazy.use { "mattn/emmet-vim", ft = { "html", "cshtml", "razor", "markdown" } }
-
 -- roslyn.nvim -> c-sharp dotnet lsp -> Microsoft.CodeAnalysis.LanguageServer
 Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = { config = { filetypes = { "cs" } } } }
 
@@ -649,29 +679,8 @@ Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = { config = { filetypes = { "cs
 -- auto close/rename html tag
 Lazy.use { "windwp/nvim-ts-autotag", ft = { "html", "cshtml", "razor", "markdown" }, opts = { opts = { enable_close_on_slash = true } } }
 
--- shows key bindings in popup
-Lazy.use {
-  "folke/which-key.nvim",
-  event = "VeryLazy",
-  opts = {
-    win = { no_overlap = false },
-    delay = function(ctx) return ctx.plugin and 0 or 500 end,
-    icons = { rules = false, mappings = false, keys = { BS = "⇠ " } },
-    spec = {
-      { "gs", group = "Git Signs" },
-      { "gm", group = "Go to Mark" },
-      { "gb", group = "Go to Buffer" },
-      { "sj", mode = { "n", "x" }, desc = "Split/Join" },
-      { "<leader>\\", group = "NvimTree" },
-      { "<leader>W", group = "LSP Workspace" },
-      { "<leader>?", "<cmd>WhichKey<cr>", desc = "Which Key" },
-    },
-    triggers = {
-      { "<auto>", mode = "nxsot" },
-      { "s", mode = { "n", "v", "x" } },
-    },
-  }
-}
+-- put, put_text, setup_auto_root, setup_restore_cursor, zoom
+Lazy.use { "echasnovski/mini.misc", event = "VeryLazy", config = true }
 
 -- jump/repeat with f, F, t, T on multiple lines
 Lazy.use { "echasnovski/mini.jump", event = "VeryLazy", config = true }
@@ -687,9 +696,6 @@ Lazy.use { "echasnovski/mini.comment", event = "VeryLazy", config = true }
 
 -- surround - add, delete, replace, find, highlight - [n,v] <sa> <sd> <sr>
 Lazy.use { "echasnovski/mini.surround", event = "VeryLazy", config = true }
-
--- misc fns - put, put_text, setup_auto_root, setup_restore_cursor, zoom
-Lazy.use { "echasnovski/mini.misc", event = "VeryLazy", config = true, priority = 1 }
 
 -- split/join code blocks, fn args, arrays, tables - [n,v] <sj>
 Lazy.use {
@@ -962,6 +968,7 @@ Lazy.use {
       multiprocess = true,
       preview_pager = false,
       jump_to_single_result = true,
+      file_ignore_patterns = { "package%-lock%.json" }
     },
     fzf_colors = true,
     fzf_opts = {
@@ -1066,6 +1073,30 @@ Lazy.use {
   end
 }
 
+-- shows key bindings in popup
+Lazy.use {
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  opts = {
+    win = { no_overlap = false },
+    delay = function(ctx) return ctx.plugin and 0 or 500 end,
+    icons = { rules = false, mappings = false, keys = { BS = "⇠ " } },
+    spec = {
+      { "gs", group = "Git Signs" },
+      { "gm", group = "Go to Mark" },
+      { "gb", group = "Go to Buffer" },
+      { "sj", mode = { "n", "x" }, desc = "Split/Join" },
+      { "<leader>\\", group = "NvimTree" },
+      { "<leader>W", group = "LSP Workspace" },
+      { "<leader>?", "<cmd>WhichKey<cr>", desc = "Which Key" },
+    },
+    triggers = {
+      { "<auto>", mode = "nxsot" },
+      { "s", mode = { "n", "v", "x" } },
+    },
+  }
+}
+
 -- tree-sitter
 -- nvim --headless +"Lazy load nvim-treesitter" +TSUpdateSync +qa!
 -- nvim --headless +"Lazy load nvim-treesitter" +"TSInstallSync! all" +qa!
@@ -1076,6 +1107,7 @@ Lazy.use {
   event = { "BufReadPost", "BufNewFile" },
   opts = {
     ensure_installed = "all",
+    ignore_install = { "hoon" },
     indent = { enable = true }, -- indentation for = operator
     playground = { enable = false }, -- Inspect/TSHighlightCapturesUnderCursor
     highlight = {
@@ -1185,6 +1217,7 @@ local LSP = {
       "bashls",
       "jsonls",
       "yamlls",
+      "nushell",
       "dockerls",
       "rust_analyzer",
       -- "tsserver",
@@ -1415,9 +1448,9 @@ end
 LSP.setup_emmet = function()
   require("lspconfig").emmet_language_server.setup({
     filetypes = {
-      "css", "less", "sass", "scss", "stylus",
       "html", "pug", "eruby", "cshtml", "razor",
-      "javascript", "javascriptreact", "typescriptreact",
+      -- "css", "less", "sass", "scss", "stylus",
+      -- "javascript", "javascriptreact", "typescriptreact",
     }
   })
 end
@@ -1740,7 +1773,7 @@ end
 local function escape()
   close_trouble()
   close_qf_loc_list()
-  vim.cmd("fclose!")
+  vim.cmd("silent! fclose!")
   stop_jumping()
   reopen_minimap()
 end
@@ -1755,6 +1788,8 @@ vim.keymap.set("n", "<esc>", escape, { silent = true, noremap = true, desc = "Es
 if vim.g.neovide then
   vim.opt.linespace = is_linux and 0 or 2
   vim.g.neovide_remember_window_size = true
+  -- fzf-lua paste fix
+  vim.keymap.set({ "n", "v", "s", "x", "o", "i", "l", "c", "t" }, "<C-S-v>", function() vim.api.nvim_paste(vim.fn.getreg("+"), true, -1) end, { noremap = true, silent = true })
 end
 
 --------------------------------------------------------------------------------
