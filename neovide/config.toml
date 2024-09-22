@@ -1,9 +1,11 @@
 # ------------------------------------------
-# Intel One Mono for linux
+# Intel One Mono for Linux
 # ------------------------------------------
 
 [font]
 size = 11.25
+hinting = "full"
+edging = "antialias"
 allow_float_size = true
 
 [[font.normal]]
@@ -12,14 +14,15 @@ family = "Intel One Mono"
 
 [[font.bold]]
 style = "Bold"
+family = "Intel One Mono"
 
 [[font.italic]]
-slant = "Italic"
 style = "Bold Italic"
+family = "Intel One Mono"
 
 [[font.bold_italic]]
-slant = "Italic"
 style = "Bold Italic"
+family = "Intel One Mono"
 
 # ------------------------------------------
 # JetBrains Mono NL
@@ -33,11 +36,12 @@ family = "JetBrains Mono NL"
 
 [[font.bold]]
 style = "ExtraBold"
+family = "JetBrains Mono NL"
 
 [[font.italic]]
-slant = "Italic"
 style = "ExtraBold Italic"
+family = "JetBrains Mono NL"
 
 [[font.bold_italic]]
-slant = "Italic"
 style = "ExtraBold Italic"
+family = "JetBrains Mono NL"
