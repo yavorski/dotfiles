@@ -945,26 +945,6 @@ Lazy.use {
   end
 }
 
--- select ui - lsp code actions
-Lazy.use {
-  "stevearc/dressing.nvim",
-  event = "VeryLazy",
-  opts = {
-    input = { enabled = false },
-    select = {
-      enabled = true,
-      trim_prompt = false,
-      backend = { "builtin", "fzf_lua" },
-      builtin = {
-        border = "solid",
-        min_width = { 80, 0.2 },
-        min_height = { 4, 0.1 },
-        win_options = { winhighlight = "FloatTitle:FloatBorder" }
-      }
-    }
-  }
-}
-
 -- diagnostics, references, fzf-lua/telescope results, quickfix and location list
 Lazy.use {
   "folke/trouble.nvim",
