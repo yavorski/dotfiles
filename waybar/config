@@ -1,8 +1,7 @@
 {
-  "layer": "top", // Waybar at top layer
-  "position": "top", // Waybar position top|bottom|left|right
-  "height": 30, // Waybar height - remove for auto height
-  // "spacing": 4, // Gaps between modules (4px)
+  "height": 30,
+  "layer": "top",
+  "position": "top",
 
   // order modules
   "modules-left": [
@@ -37,7 +36,8 @@
     "disable-scroll": true,
     "format": "{icon}",
     "format-icons": {
-      "focused": "𝝺"
+      "focused": ""
+      // "focused": "𝝺"
     }
   },
 
@@ -91,12 +91,12 @@
 
   "memory": {
     "tooltip": true,
-    "format": "{percentage}%  {swapPercentage}% ",
+    "format": "{percentage}%  {swapPercentage}% ",
     "tooltip-format": "{percentage}%  memory {used}GB / {total}GB \n{swapPercentage}%  swap {swapUsed}GB / {swapAvail}GB",
     "states": {
-      "good": 16,
-      "warning": 32,
-      "critical": 64
+      "good": 32,
+      "warning": 64,
+      "critical": 80
     }
   },
 

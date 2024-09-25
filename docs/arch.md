@@ -1,3 +1,26 @@
+# Arch Linux
+
+SSH Remote Installation
+
+---
+
+Enable ssh service from the live iso installation media
+
+```bash
+passwd
+ip addr
+systemctl status sshd
+systemctl start sshd
+```
+
+---
+
+SSH to remote host
+
+```bash
+ssh root@192.168.0.42
+```
+
 # Arch Linux Install
 
 ```
@@ -64,6 +87,7 @@ diff -y mirrorlist mirrorlist.BAK
 
 ```bash
 pacman -Sy terminus-font
+setfont ter-v16b
 setfont ter-v18b
 setfont ter-v20b
 setfont ter-v22b
@@ -107,8 +131,8 @@ If you want to create any stacked block devices for LVM, system encryption or RA
 
 | Mount point | Partition        | Partition type   | Encryption | Size   |
 | ----------- | ---------------- | ---------------- | ---------- | ------ |
-| `/mnt/efi`  | `/dev/nvme0n1p1` | EFI System       |            | 1GB    |
-| `/mnt/boot` | `/dev/nvme0n1p2` | Linux filesystem | luks1      | 1GB    |
+| `/mnt/efi`  | `/dev/nvme0n1p1` | EFI System       |            | 2GB    |
+| `/mnt/boot` | `/dev/nvme0n1p2` | Linux filesystem | luks1      | 2GB    |
 | `/mnt`      | `/dev/nvme0n1p3` | Linux LVM        | luks2      | 256GB  |
 
 
@@ -137,7 +161,9 @@ fdisk /dev/nvme0n1
   * <kbd>2</kbd> - Partition number
   * <kbd>Enter</kbd> - For first sector
   * <kbd>+2G</kbd> - For last sector
-  * Partition type `(20) Linux filesystem`
+  * <kbd>t</kbd> - Change partition type
+  * <kbd>3</kbd> - Number of partition
+  * <kbd>20</kbd> - Partition type - `(20) Linux filesystem`
 
 3. Create `LVM` partition
 
@@ -147,7 +173,7 @@ fdisk /dev/nvme0n1
   * <kbd>+256G</kbd> | <kbd>Enter</kbd> - For last sector
   * <kbd>t</kbd> - Change partition type
   * <kbd>3</kbd> - Number of partition
-  * <kbd>43</kbd> - Partition type - `(43) Linux LVM`
+  * <kbd>43</kbd> - Partition type - `(44) Linux LVM`
 
 4. Save changes
   * <kbd>p</kbd> - print partition table
@@ -170,6 +196,7 @@ lvcreate -L 32GB vg -n lv-swap
 lvcreate -L 100GB vg -n lv-root
 lvcreate -l 100%FREE -n lv-home vg
 
+# load device mapper kernel module
 lsmod | grep dm_mod
 modprobe dm_mod
 
@@ -269,6 +296,7 @@ vim /etc/default/grub
 
 # # -> uncomment "GRUB_ENABLE_CRYPTODISK=y"
 # # -> add to cmd line linux default -> "cryptdevice=/dev/nvme0n1p3:vg"
+# # -> add `GRUB_EARLY_INITRD_LINUX_STOCK=""` in order to not load microcode with GRUB, it will be handled later with by initramfs
 
 > GRUB_ENABLE_CRYPTODISK=y
 > GRUB_EARLY_INITRD_LINUX_STOCK=""
@@ -467,7 +495,11 @@ pacman -S powertop
 powertop --auto-tune
 
 pacman -S cronie
-crontab -e -> add "@reboot powertop --auto-tune"
+
+# as current <user> no root needed
+# add "@reboot sleep 30 && powertop --auto-tune"
+crontab -e
+crontab -l
 ```
 
 ---
@@ -548,7 +580,7 @@ pacman -S git git-delta
 pacman -S curl wget rsync
 pacman -S procs htop bottom
 pacman -S bat man tldr
-pacman -S tree exa lsd zoxide
+pacman -S tree eza lsd zoxide
 pacman -S duf dust
 pacman -S fx tokei
 pacman -S fd fzf skim ripgrep the_silver_searcher
@@ -575,14 +607,16 @@ pacman -S
 
 pacman -S
   ttf-ibm-plex
-  ttf-ibmplex-mono-nerd
   ttf-jetbrains-mono
-  ttf-jetbrains-mono-nerd
-  ttf-ubuntu-mono-nerd
   ttf-ubuntu-font-family
-  ttf-nerd-fonts-symbols-mono
-  ttf-nerd-fonts-symbols-common
   AUR ttf-intel-one-mono
+
+pacman -S
+  ttf-ubuntu-mono-nerd
+  ttf-ibmplex-mono-nerd
+  ttf-jetbrains-mono-nerd #alacritty fallback
+  ttf-nerd-fonts-symbols-mono # alacritty fallback
+  ttf-nerd-fonts-symbols-common # alacritty fallback
 ```
 
 ---
@@ -608,6 +642,19 @@ pacman -S sway swaybg swayimg swayidle swaylock waybar
 ```bash
 pacman -S gdm gnome gnome-extra gnome-shell
 systemctl enable gdm # Gnome Display Manager - Login Screen
+```
+
+## PipeWire
+
+* [PipeWire - Arch Wiki](https://wiki.archlinux.org/title/PipeWire)
+
+```bash
+pacman -S pipewire
+pacman -S pipewire-alsa
+pacman -S pipewire-audio
+pacman -S pipewire-jack
+pacman -S pipewire-pulse
+pacman -S wireplumber
 ```
 
 ---
