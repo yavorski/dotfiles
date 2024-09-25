@@ -56,3 +56,8 @@ If `~/.path` exists, it will be sourced along with the other files.
 ### nvim/neovide
 
 ![arch-neofetch-neovide](https://i.postimg.cc/TdpzwgnR/neovide.png)
+
+
+### Arch Linux
+
+[Arch Linux - Full Disk Encryption Install](./docs/arch.md)
