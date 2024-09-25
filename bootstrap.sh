@@ -10,7 +10,7 @@ function bootstrap() {
   rsync -avh --no-perms --delete bash nvim helix kitty alacritty starship/starship.toml "$HOME/.config"
 
   echo ""
-  rsync -avh --no-perms --delete sway waybar "$HOME/.config"
+  rsync -avh --no-perms --delete sway swaync waybar nwg-bar "$HOME/.config"
 
   echo ""
   rsync -avh --no-perms --delete chrome/chrome-flags.conf chrome/chromium-flags.conf "$HOME/.config"

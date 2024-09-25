@@ -13,7 +13,7 @@ format = "[$user]($style) on "
 
 [hostname]
 ssh_only = false
-style = "bold dimmed green"
+style = "bold green"
 format = "[$hostname]($style) in "
 
 [[battery.display]]

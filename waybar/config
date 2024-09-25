@@ -1,8 +1,7 @@
 {
-  "layer": "top", // Waybar at top layer
-  "position": "top", // Waybar position top|bottom|left|right
-  "height": 30, // Waybar height - remove for auto height
-  // "spacing": 4, // Gaps between modules (4px)
+  "height": 34,
+  "layer": "top",
+  "position": "top",
 
   // order modules
   "modules-left": [
@@ -28,6 +27,7 @@
     "network",
     "clock",
     "sway/language",
+    "custom/notify",
     "tray"
   ],
 
@@ -37,7 +37,8 @@
     "disable-scroll": true,
     "format": "{icon}",
     "format-icons": {
-      "focused": "𝝺"
+      "focused": ""
+      // "focused": "𝝺"
     }
   },
 
@@ -91,12 +92,12 @@
 
   "memory": {
     "tooltip": true,
-    "format": "{percentage}%  {swapPercentage}% ",
+    "format": "{percentage}%  {swapPercentage}% ",
     "tooltip-format": "{percentage}%  memory {used}GB / {total}GB \n{swapPercentage}%  swap {swapUsed}GB / {swapAvail}GB",
     "states": {
-      "good": 16,
-      "warning": 32,
-      "critical": 64
+      "good": 32,
+      "warning": 64,
+      "critical": 80
     }
   },
 
@@ -221,5 +222,26 @@
 
   "custom/right-arrow": {
     "format": "  "
+  },
+
+  "custom/notify": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "<span color='#fa005f'><sup></sup></span>",
+      "none": "<span color='#000000'><sup></sup></span>",
+      "dnd-notification": "<span color='#fafafa'><sup></sup></span>",
+      "dnd-none": "<span color='#000000'><sup></sup></span>",
+      "inhibited-notification": "<span color='#fafafa'><sup></sup></span>",
+      "inhibited-none": "<span color='#000000'><sup></sup></span>",
+      "dnd-inhibited-notification": "<span color='#fafafa'><sup></sup></span>",
+      "dnd-inhibited-none": "<span color='#000000'><sup></sup></span>"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client --subscribe-waybar",
+    "on-click": "swaync-client --toggle-panel --skip-wait",
+    "on-click-right": "swaync-client --toggle-dnd --skip-wait",
+    "escape": true
   }
 }

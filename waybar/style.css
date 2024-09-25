@@ -11,7 +11,7 @@
   border: none;
   font-size: 13px;
   font-weight: bold; /* 700, 800, 900 */
-  font-family: "Intel One Mono", "IBM Plex Mono", "JetBrains Mono", "Ubuntu Mono", "Font Awesome 6 Free", monospace;
+  font-family: "Intel One Mono", "IBM Plex Mono", "JetBrains Mono", "Ubuntu Mono", "Symbols Nerd Font Mono", "Font Awesome 6 Free", monospace;
 }
 
 /* Waybar */
@@ -26,7 +26,7 @@ window#waybar {
 #window, #workspaces { margin: 0; }
 
 /* If workspaces is the leftmost module, omit left margin */
-.modules-left > widget:first-child > #workspaces { margin-left: 0; }
+.modules-left > widget:first-child > #workspaces { margin-left: 1px; }
 
 /* If workspaces is the rightmost module, omit right margin */
 .modules-right > widget:last-child > #workspaces { margin-right: 0; }
@@ -39,17 +39,18 @@ tooltip { border-radius: 4px; border: 2px solid #000000; }
 
 /* Buttons */
 #workspaces button {
+  margin: 0;
   padding: 0 8px;
-  margin-right: 2px;
-  border-radius: 2px;
   color: #f7f7f7;
+  background: none;
   box-shadow: none;
   text-shadow: none;
-  background-image: none;
+  border-radius: 0;
+  border: 3px solid transparent;
 }
 
-#workspaces button:hover { color: #ffffff; background-color: #005ffa; }
-#workspaces button.focused { color: #ffffff; background-color: #fa005f; }
+#workspaces button:hover { color: #ffffff; border-bottom-color: #005ffa; }
+#workspaces button.focused { color: #ffffff; border-bottom-color: #fa005f; }
 
 /* Modules */
 #cpu,
@@ -68,6 +69,7 @@ tooltip { border-radius: 4px; border: 2px solid #000000; }
 #scratchpad,
 #temperature,
 #custom-pacman,
+#custom-notify,
 #idle_inhibitor {
   margin: 0;
   padding: 0 8px;
@@ -86,8 +88,8 @@ tooltip { border-radius: 4px; border: 2px solid #000000; }
 #mode { background-color: #06bd5f; }
 #tray { background-color: #020202; }
 
-#scratchpad.count { padding-right: 0 }
 #custom-pacman { background-color: #0a0a10; }
+#scratchpad.count { color: #fafafa; padding-right: 0; }
 
 #cpu.good { margin: 0 2px; color: #020202; background-color: #32f891; }
 #cpu.warning { margin: 0 2px; color: #020202; background-color: #faf76e; }
@@ -106,3 +108,21 @@ tooltip { border-radius: 4px; border: 2px solid #000000; }
 
 #battery.charging { background-color: #00ae6c; }
 #battery.critical:not(.charging) { color: #fafafa; background-color: #f94a4f; }
+
+#tray { padding: 0 5px; }
+
+#language {
+  margin-top: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#custom-notify { padding-right: 0; }
+#custom-notify.dnd-none,
+#custom-notify.dnd-notification,
+#custom-notify.inhibited-none,
+#custom-notify.inhibited-notification,
+#custom-notify.dnd-inhibited-none,
+#custom-notify.dnd-inhibited-notification {
+  color: #fa005f;
+}
