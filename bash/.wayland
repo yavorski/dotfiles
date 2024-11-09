@@ -43,7 +43,7 @@ export QT_WAYLAND_FORCE_DPI=physical
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 
 # Enable QT apps to have gtk theme
-export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_QPA_PLATFORMTHEME=qt6ct
 
 # Elementary/EFL
 export ELM_ENGINE=wayland_egl
