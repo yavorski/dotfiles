@@ -1,14 +1,23 @@
 # ~/.config/alacritty/alacritty.toml
 # https://alacritty.org/config-alacritty.html
 
-# Intel One Mono [ 11.50 | Bold | Bold Italic ]
-# JetBrains Mono NL [ 11.00 | ExtraBold | ExtraBold Italic ]
-
 [window]
+blur = false
+opacity = 0.85
 title = "Alacritty"
-decorations = "none"
+decorations = "None"
 dynamic_title = true
 dynamic_padding = true
+
+[terminal]
+shell = { program = "/usr/bin/fish", args = [ "--login", "--interactive" ] }
+
+[general]
+working_directory = "None"
+live_config_reload = true
+
+[selection]
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t/"
 
 [font]
 size = 11.50
@@ -29,7 +38,17 @@ style = "Bold Italic"
 [font.bold_italic]
 style = "Bold Italic"
 
+[cursor]
+thickness = 0.20
+blink_timeout = 10
+blink_interval = 1000
+style = { shape = "Block", blinking = "On" }
+
+[mouse]
+hide_when_typing = true
+
 [colors]
+# cursor = { cursor = "#ff1493" }
 draw_bold_text_with_bright_colors = true
 
 [colors.primary]
@@ -56,21 +75,22 @@ red = "#f7191f"
 white = "#ffffff"
 yellow = "#f9f655"
 
-# [shell]
-# args = ["--login"]
-# program = "/bin/bash"
+# [terminal]
+# shell = { program = "nu" }
+# shell = { program = "pwsh" }
+# shell = { program = "/bin/bash", args = [ "--login" ] }
+# shell = { program = "/usr/bin/fish", args = [ "--login", "--interactive" ] }
+# shell = { program = "C:\\Windows\\System32\\wsl.exe", args = [ "-d Arch", "-u wrx" ] }
 
-# [shell]
-# program = "pwsh"
-
-# [shell]
-# args = ["-d Arch", "-u wrx"]
-# program = 'C:\Windows\System32\wsl.exe'
-
-# working_directory = "<string>" | "None"
-
-# fix pwsh numpad enter
-# [[keyboard.bindings]]
-# key = "NumpadEnter"
-# mods = "None"
-# action = "ReceiveChar"
+# windows fixes
+# [keyboard]
+# bindings = [
+#   # Fix <CTRL+Space>
+#   { key = "Space", mods = "Control", chars = "\u0000" },
+#   # Fix for <ALT+Enter>
+#   { key = "Return", mods = "Alt", action = "ReceiveChar" },
+#   # Fix for <ALT+Escape>
+#   { key = "Escape", mods = "Alt", action = "ReceiveChar" },
+#   # Fix <NumpadEnter>
+#   { key = "NumpadEnter", mods = "None", action = "ReceiveChar" }
+# ]
