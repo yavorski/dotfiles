@@ -1,26 +1,5 @@
 #!/usr/bin/env bash
 
-export BAK_DIR=~/.dot-bak
-
-function rmbackup() {
-  rm -rf $BAK_DIR
-}
-
-function backup() {
-  local now
-  now=$(date +'%Y%m%d%H%M%S')
-  local bak_dir=$BAK_DIR/$now
-
-  mkdir -p "$bak_dir"
-
-  [ -f ~/.bashrc ] && cp ~/.bashrc "$bak_dir"
-  [ -f ~/.bash_profile ] && cp ~/.bash_profile "$bak_dir"
-  [ -f ~/.inputrc ] && cp ~/.inputrc "$bak_dir"
-  [ -f ~/.gitconfig ] && cp ~/.gitconfig "$bak_dir"
-  [ -f ~/.vimrc ] && cp ~/.vimrc "$bak_dir"
-  [ -f ~/.config/nvim/init.lua ] && cp ~/.config/nvim/init.lua "$bak_dir"
-}
-
 function mkd() {
   mkdir -p "$@" && cd "$_" || return
 }
@@ -34,7 +13,7 @@ function batdiff() {
   # git diff --name-only --diff-filter=d | xargs bat --diff
 }
 
-# use windows' git when working with wsl under C:\ drive
+# use native windows' git when working with wsl in /mnt/c/ drive
 # function git() {
 #   if pwd -P | rg --quiet "^\/mnt\/c\/*"; then
 #     git.exe "$@"
@@ -82,48 +61,6 @@ function show_colors() {
     done
     echo # New line
   done
-}
-
-# Set windows terminal settings
-function _setup_windows_terminal() {
-  local device=$1
-  local settings_dir=$2
-
-  local tmp_json="$settings_dir/tmp.json"
-  local settings_json="$settings_dir/settings.json"
-
-  echo "Device: $device"
-
-  read -r current_value < <(jq --raw-output '.profiles.defaults.font.cellHeight' "$settings_json")
-  echo "Current value = $current_value"
-
-  if [ "$device" == "laptop" ]; then
-    jq '.profiles.defaults.font.cellHeight |= "1.4624"' "$settings_json" > "$tmp_json"
-  fi
-
-   if [ "$device" == "desktop" ]; then
-    jq '.profiles.defaults.font.cellHeight |= "1.5000"' "$settings_json" > "$tmp_json"
-  fi
-
-  mv "$tmp_json" "$settings_json"
-
-  read -r new_value < <(jq --raw-output '.profiles.defaults.font.cellHeight' "$settings_json")
-  echo "Updated value = $new_value"
-}
-
-function setup_windows_terminal() {
-  local device=$1
-  local windows_username
-
-  pushd /mnt/c > /dev/null || exit 1
-    windows_username=$(/mnt/c/Windows/System32/cmd.exe /c "echo %USERNAME%" | sed -e "s/\r//g")
-  popd > /dev/null || exit 1
-
-  # portable
-  _setup_windows_terminal "$device" "/mnt/c/Users/$windows_username/AppData/Local/Microsoft/Windows Terminal"
-
-  # stable msi
-  _setup_windows_terminal "$device" "/mnt/c/Users/$windows_username/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState"
 }
 
 # Show all the names (CNs and SANs) listed in the SSL certificate for a given domain
