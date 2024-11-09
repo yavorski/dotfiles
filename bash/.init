@@ -17,7 +17,7 @@ declare -a files=(
   "$DOTFILES/.functions"
   "$DOTFILES/.prompt"
   "$DOTFILES/.tools"
-  "$DOTFILES/.wm"
+  # "$DOTFILES/.wm"
   "$HOME/.path"
   "$HOME/.extra"
 );

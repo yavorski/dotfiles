@@ -43,16 +43,26 @@ alias bathelp="bat --plain --language=help"
 alias batman="bat --plain --language=Manpage"
 
 # neofetch
-alias neofetch="fastfetch --load-config neofetch"
+alias neofetch="fastfetch --config neofetch"
 
 # IP address
 alias rip="curl ifconfig.me"
 
+# sudo edit diff mode
+alias sudodiff="SUDO_EDITOR='nvim -d' sudoedit"
+
 # Turn OFF keyboard mic led - ThinkPad T14
 alias turn-off-mic-led="light -s sysfs/leds/platform::micmute -S 0"
+alias turn-off-mic-led="brightnessctl --device 'platform::micmute' set 0"
 
-# Sway WM Screenshot
-alias screenshot='grim -t png -g "$(slurp)" ~/Screenshots/screenshot-$(date +%d-%m-%Y-%H-%M-%S).png'
+# Power profile
+alias power-profile="cat /sys/firmware/acpi/platform_profile"
+
+# Battery power draw
+alias bat-watt='awk "{print \$1 / 1000000 \" W\"}" /sys/class/power_supply/BAT0/power_now'
 
 # Battery status
 alias battery="cat /sys/class/power_supply/BAT0/status /sys/class/power_supply/BAT0/capacity | paste -sd ' '"
+
+# Sway WM Screenshot
+alias screenshot='grim -t png -g "$(slurp)" ~/Screenshots/screenshot-$(date +%d-%m-%Y-%H-%M-%S).png'
