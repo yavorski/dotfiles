@@ -1,9 +1,16 @@
 # ~/.config/starship.toml
 # -----------------------
 
+[os]
+disabled = false
+
+[os.symbols]
+Arch = " "
+Windows = " "
+
 [character]
-error_symbol = "[✖](bold red)"
-success_symbol = "[𝝺](bold cyan)"
+error_symbol = "[✗](bold red)"
+success_symbol = "[➜](bold cyan)"
 
 [username]
 show_always = true
@@ -13,7 +20,7 @@ format = "[$user]($style) on "
 
 [hostname]
 ssh_only = false
-style = "bold dimmed green"
+style = "bold green"
 format = "[$hostname]($style) in "
 
 [[battery.display]]
