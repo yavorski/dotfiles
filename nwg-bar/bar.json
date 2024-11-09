@@ -1,7 +1,7 @@
 [
   {
     "label": "Lock",
-    "exec": "swaylock -f -F -e -k -l -c 333333 -i ~/dev/wallpapers/arch-1.png",
+    "exec": "swaylock -f -F -e -k -l -c 333333 -i ~/dev/wallpapers/arch-lock.png",
     "icon": "/usr/share/nwg-bar/images/system-lock-screen.svg"
   },
   {
