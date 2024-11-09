@@ -1,18 +1,25 @@
 {
-  "layer": "top", // Waybar at top layer
-  "position": "top", // Waybar position top|bottom|left|right
-  "height": 30, // Waybar height - remove for auto height
-  // "spacing": 4, // Gaps between modules (4px)
+  "height": 34,
+  "layer": "top",
+  "position": "top",
+  "fixed-center": false,
+  "reload_style_on_change": false,
 
-  // order modules
   "modules-left": [
-    "sway/workspaces",
-    "sway/mode",
-    "sway/window#app-id",
-    "sway/window#app-title"
+    // "sway/workspaces",
+    // "sway/mode",
+    // "sway/window#app-id",
+    // "sway/window#app-title",
+    "hyprland/workspaces",
+    "hyprland/submap",
+    "hyprland/window#app-id",
+    "hyprland/window#app-title"
   ],
   "modules-center": [],
   "modules-right": [
+    "hyprland/workspaces#scratchpad",
+    "systemd-failed-units",
+    "privacy",
     "custom/pacman",
     "idle_inhibitor",
     "cpu",
@@ -22,14 +29,36 @@
     "temperature",
     "backlight",
     "pulseaudio",
-    "sway/scratchpad#count",
-    "sway/scratchpad#icon",
+    // "sway/scratchpad#count",
+    // "sway/scratchpad#icon",
+    "power-profiles-daemon",
     "battery",
     "network",
     "clock",
-    "sway/language",
+    // "sway/language",
+    "hyprland/language",
+    "custom/notify",
     "tray"
   ],
+
+  // workspace buttons
+  "hyprland/workspaces": {
+    "all-outputs": true,
+    "disable-scroll": true,
+    "format": "{icon}",
+    "format-icons": {
+      "active": ""
+    }
+  },
+
+  "hyprland/workspaces#scratchpad": {
+    "all-outputs": true,
+    "active-only": true,
+    "show-special": true,
+    "disable-scroll": true,
+    "special-visible-only": true,
+    "ignore-workspaces": ["\\d+$"]
+  },
 
   // workspace buttons
   "sway/workspaces": {
@@ -37,7 +66,7 @@
     "disable-scroll": true,
     "format": "{icon}",
     "format-icons": {
-      "focused": "𝝺"
+      "focused": ""
     }
   },
 
@@ -56,15 +85,36 @@
     }
   },
 
+  "hyprland/window#app-id": {
+    "icon": false,
+    "format": "[ {class} ]"
+  },
+
+  "hyprland/window#app-title": {
+    "icon": false,
+    "format": "{title}",
+    "rewrite": {
+      "(.*) - Chromium": "$1",
+      "(.*) — Mozilla Firefox": "$1",
+      "(.*) - VLC media player": "$1"
+    }
+  },
+
   // sway mode - resize, default, etc
   "sway/mode": {
     "format": "{}"
   },
 
+  "hyprland/submap": {
+    "format": "[ {} ]",
+    "tooltip": true,
+    "always-on": false
+  },
+
   // system updates
   "custom/pacman": {
     "signal": 8,
-    "format": " [ {} ▲ ] ",
+    "format": "[ {} ▲ ]",
     "interval": 3600, // seconds
     "exec": "checkupdates | wc --lines",
     "exec-if": "checkupdates"
@@ -91,18 +141,18 @@
 
   "memory": {
     "tooltip": true,
-    "format": "{percentage}%  {swapPercentage}% ",
+    "format": "{percentage}%  {swapPercentage}% ",
     "tooltip-format": "{percentage}%  memory {used}GB / {total}GB \n{swapPercentage}%  swap {swapUsed}GB / {swapAvail}GB",
     "states": {
-      "good": 16,
-      "warning": 32,
-      "critical": 64
+      "good": 32,
+      "warning": 64,
+      "critical": 80
     }
   },
 
   "disk": {
     "path": "/",
-    "interval": 420,
+    "interval": 1024,
     "format": "{percentage_used}% ",
     "states": {
       "critical": 75
@@ -112,7 +162,7 @@
   "disk#disk-home": {
     "path": "/home",
     "disk": "disk-home",
-    "interval": 420,
+    "interval": 1024,
     "format": "{percentage_used}% ",
     "states": {
       "critical": 75
@@ -122,12 +172,12 @@
   "temperature": {
     "tooltip": true,
     "critical-threshold": 55,
-    "format": "{temperatureC}°C"
+    "format": "{temperatureC}°"
   },
 
   // display brightness
   "backlight": {
-    "format": "{percent}^"
+    "format": "{percent}<sup> </sup>"
   },
 
   "pulseaudio": {
@@ -135,9 +185,9 @@
     "scroll-step": 5.0,
     "on-click": "pavucontrol",
     "format": "{volume}% {icon} {format_source}",
-    "format-muted": " {format_source}",
+    "format-muted": "[  ] {format_source}",
     "format-source": "{volume}% ",
-    "format-source-muted": "",
+    "format-source-muted": "[  ]",
     "format-bluetooth": "{volume}% {icon} {format_source}",
     "format-bluetooth-muted": " {icon} {format_source}",
     "format-icons": {
@@ -170,10 +220,10 @@
     "states": {
       "good": 80,
       "warning": 30,
-      "critical": 15
+      "critical": 20
     },
     "format": "{capacity}% {icon}",
-    "format-alt": "{time} {icon}",
+    "format-alt": "[ {time} {icon} ]",
     "format-plugged": "{capacity}% ",
     "format-charging": "{capacity}% ",
     "format-icons": ["", "", "", "", ""]
@@ -181,7 +231,7 @@
 
   "network": {
     // "interface": "wlp2*", // (Optional) To force the use of this interface
-    "format-wifi": "{essid} ",
+    "format-wifi": "{essid}  ",
     "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
     "format-linked": "{ifname} (No IP) ",
     "format-disconnected": "Disconnected ⚠",
@@ -200,6 +250,12 @@
         "weekdays": "<span color='#99ffdd'><b>{}</b></span>"
       }
     }
+  },
+
+  "hyprland/language": {
+    "format": "{}",
+    "format-en": "🇺🇸",
+    "format-bg": "🇧🇬"
   },
 
   "sway/language": {
@@ -221,5 +277,46 @@
 
   "custom/right-arrow": {
     "format": "  "
+  },
+
+  "systemd-failed-units": {
+    "user": true,
+    "system": true,
+    "hide-on-ok": true,
+    "format-ok": "[ ✓ ]",
+    "format": "[ {nr_failed}<sup>✗</sup> ]",
+  },
+
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    }
+  },
+
+  "custom/notify": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "<span color='#fa005f'><sup></sup></span>",
+      "none": "<span color='#000000'><sup></sup></span>",
+      "dnd-notification": "<span color='#fafafa'><sup></sup></span>",
+      "dnd-none": "<span color='#000000'><sup></sup></span>",
+      "inhibited-notification": "<span color='#fafafa'><sup></sup></span>",
+      "inhibited-none": "<span color='#000000'><sup></sup></span>",
+      "dnd-inhibited-notification": "<span color='#fafafa'><sup></sup></span>",
+      "dnd-inhibited-none": "<span color='#000000'><sup></sup></span>"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client --subscribe-waybar",
+    "on-click": "swaync-client --toggle-panel --skip-wait",
+    "on-click-right": "swaync-client --toggle-dnd --skip-wait",
+    "escape": true
   }
 }
