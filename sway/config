@@ -7,7 +7,6 @@
 # Set font
 # ------------------------------------------------------------------------------
 font Intel One Mono Bold 9
-# font Source Code Pro Bold 9
 
 # ------------------------------------------------------------------------------
 # Variables
@@ -52,16 +51,18 @@ for_window [app_id="AppMenu"] floating enable, border pixel 5, resize set width 
 # Output/Display configuration
 # ------------------------------------------------------------------------------
 
-# -> ThinkPad T480
-# output eDP-1 scale 2
-# output eDP-1 resolution 2560x1440 position 0,0
-
-# ->  ThinkPad T14
+# -> ThinkPad L390
 output eDP-1 scale 1
-output eDP-1 resolution 1920x1080 position 0,0
+# output eDP-1 resolution 1920x1080 position 0,0
+output eDP-1 resolution 1920x1200 position 0,0
+
+# -> ThinkPad L14
+# output eDP-1 scale 1
+# output eDP-1 resolution 1920x1200 position 0,0
 
 # -> Wallpaper/Background
-output * bg ~/dev/wallpapers/arch-10.png fill
+# output * bg ~/dev/wallpapers/arch-1.png fill
+output * bg ~/dev/wallpapers/arch-11.png fill
 
 # ------------------------------------------------------------------------------
 # Idle configuration
@@ -72,7 +73,7 @@ output * bg ~/dev/wallpapers/arch-10.png fill
 # and turn screen back on when resumed.
 # It will also lock your screen before your computer goes to sleep.
 
-set $lock "swaylock -f -F -e -k -l -c 333333 -i ~/dev/wallpapers/arch-1.png"
+set $lock "swaylock -f -F -e -k -l -c 333333 -i ~/dev/wallpapers/arch-lock.png"
 
 exec swayidle -w \
   timeout 500 $lock \
@@ -114,6 +115,26 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
 
 input "2:7:SynPS/2_Synaptics_TouchPad" tap "enabled"
 input "2:7:SynPS/2_Synaptics_TouchPad" natural_scroll "enabled"
+
+# ThinkPad L14
+# ------------------------------------------------------------------------------
+input "1267:12693:ELAN06D8:00_04F3:3195_Touchpad" {
+  tap "enabled",
+  natural_scroll "enabled"
+}
+
+input "1267:12693:ELAN06D8:00_04F3:3195_Touchpad" tap "enabled"
+input "1267:12693:ELAN06D8:00_04F3:3195_Touchpad" natural_scroll "enabled"
+
+# ThinkPad x13
+# ------------------------------------------------------------------------------
+input "1739:52839:SYNA88022:00_06CB:CE67_Touchpad" {
+  tap "enabled",
+  natural_scroll "enabled"
+}
+
+input "1739:52839:SYNA88022:00_06CB:CE67_Touchpad" tap "enabled"
+input "1739:52839:SYNA88022:00_06CB:CE67_Touchpad" natural_scroll "enabled"
 
 # ------------------------------------------------------------------------------
 # Hide mouse cursor after 5 seconds
@@ -162,7 +183,6 @@ bindsym $mod+Shift+End exec swaynag \
 # Kill swaynag
 bindsym $mod+Shift+Insert exec killall swaynag
 
-# [AUR] pacman -S nwg-bar-bin
 # Works on T14 with Left Shift
 # Works on L390 with Right Shift
 bindsym $mod+Shift+F12 exec nwg-bar -i 96
@@ -260,14 +280,6 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+b border pixel 4
 bindsym $mod+Shift+b border none
 
-# Printscreen / Screenshot
-bindsym Print exec 'grim - | wl-copy'
-bindsym $mod+Print exec 'grim -g "$(slurp)" - | wl-copy'
-bindsym $mod+Shift+Print exec 'grim ~/Screenshots/screenshot-$(date +%d.%m.%Y-%H:%M:%S).png'
-
-# Dismiss notifications
-# bindsym $mod+delete exec makoctl dismiss
-
 # ------------------------------------------------------------------------------
 # Scratchpad
 # ------------------------------------------------------------------------------
@@ -281,6 +293,21 @@ bindsym $mod+Shift+minus move scratchpad
 # Show next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym $mod+minus scratchpad show, resize set width 85ppt, resize set height 85ppt
+
+# ------------------------------------------------------------------------------
+# Notifications
+# ------------------------------------------------------------------------------
+exec --no-startup-id GTK_THEME=Adwaita:dark swaync --config ~/.config/swaync/config.json --style ~/.config/swaync/style.css
+
+# Dismiss notifications
+bindsym $mod+delete exec swaync-client --hide-latest
+
+# ------------------------------------------------------------------------------
+# Printscreen / Screenshot
+# ------------------------------------------------------------------------------
+bindsym Print exec 'grim - | wl-copy'
+bindsym $mod+Print exec 'grim -g "$(slurp)" - | wl-copy'
+bindsym $mod+Shift+Print exec 'grim ~/Screenshots/screenshot-$(date +%d.%m.%Y-%H:%M:%S).png'
 
 # ------------------------------------------------------------------------------
 # Resizing containers
@@ -359,7 +386,7 @@ for_window [app_id="org.gnome.Calendar"] floating enable
 for_window [app_id="org.gnome.Calculator"] floating enable
 for_window [app_id="org.gnome.font-viewer"] floating enable, resize set width 1280, resize set height 768
 
-for_window [app_id="evince"] floating enable, resize set width 85ppt, resize set height 95ppt
+for_window [app_id="evince"] floating enable, resize set width 90ppt, resize set height 95ppt
 for_window [app_id="gnome-disks"] floating enable, resize set width 1280, resize set height 768
 for_window [app_id="org.gnome.tweaks"] floating enable, resize set width 1280, resize set height 768
 for_window [app_id="org.gnome.FileRoller"] floating enable, resize set width 1280, resize set height 768
