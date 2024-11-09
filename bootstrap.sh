@@ -7,10 +7,13 @@ function bootstrap() {
   rsync -avh --no-perms .vimrc .inputrc .gitconfig .shellcheckrc "$HOME"
 
   echo ""
-  rsync -avh --no-perms --delete bash nvim helix kitty alacritty starship/starship.toml "$HOME/.config"
+  rsync -avh --no-perms --delete bash fish "$HOME/.config"
 
   echo ""
-  rsync -avh --no-perms --delete sway waybar "$HOME/.config"
+  rsync -avh --no-perms --delete nvim helix kitty alacritty starship/starship.toml "$HOME/.config"
+
+  echo ""
+  rsync -avh --no-perms --delete hypr sway sway swaync nwg-bar fuzzel waybar "$HOME/.config"
 
   echo ""
   rsync -avh --no-perms --delete chrome/chrome-flags.conf chrome/chromium-flags.conf "$HOME/.config"

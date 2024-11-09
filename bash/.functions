@@ -29,6 +29,10 @@ function pretty_path() {
   echo "$PATH" | sed "s/:/\n/g"
 }
 
+caps_ctrl_tty() {
+  echo -e "keymaps 0-127\nkeycode 58 = Control" | loadkeys
+}
+
 function batdiff() {
   git diff | bat -ldiff
   # git diff --name-only --diff-filter=d | xargs bat --diff
