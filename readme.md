@@ -51,8 +51,8 @@ If `~/.path` exists, it will be sourced along with the other files.
 
 ### Desktop
 
-![arch-neofetch-neovim](https://i.postimg.cc/38VPDNZ2/desktop.png)
+![hypr-waybar-nwg-bar](https://github.com/user-attachments/assets/37c52b89-1757-40b2-8a18-b14481704976)
+ 
+### Arch Linux
 
-### nvim/neovide
-
-![arch-neofetch-neovide](https://i.postimg.cc/TdpzwgnR/neovide.png)
+[Arch Linux - Full Disk Encryption Install](./arch-linux.md)
