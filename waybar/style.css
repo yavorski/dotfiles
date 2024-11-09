@@ -11,45 +11,58 @@
   border: none;
   font-size: 13px;
   font-weight: bold; /* 700, 800, 900 */
-  font-family: "Intel One Mono", "IBM Plex Mono", "JetBrains Mono", "Ubuntu Mono", "Font Awesome 6 Free", monospace;
+  font-family: "Intel One Mono", "IBM Plex Mono", "JetBrains Mono", "Ubuntu Mono", "Symbols Nerd Font Mono", "Font Awesome 7 Free", monospace;
 }
 
 /* Waybar */
-window#waybar {
+#waybar {
   color: #f4f4f4;
-  background-color: #000000;
-  transition-duration: .5s;
-  transition-property: background-color;
+  background: rgba(0, 0, 0, 0.81);
+  transition: all 512ms 0ms linear;
 }
 
 /* Layout */
-#window, #workspaces { margin: 0; }
+#window, #workspaces { margin: 0 }
 
 /* If workspaces is the leftmost module, omit left margin */
-.modules-left > widget:first-child > #workspaces { margin-left: 0; }
+#waybar .modules-left > widget:first-child > #workspaces { margin-left: 1px }
 
 /* If workspaces is the rightmost module, omit right margin */
-.modules-right > widget:last-child > #workspaces { margin-right: 0; }
+#waybar .modules-right > widget:last-child > #workspaces { margin-right: 1px }
+
+/* all modules */
+/* #waybar .modules-right .module:hover { color: #32f8f4 } */
 
 /* Label */
-label:focus { background-color: #000000; }
+label:focus { background: #000000 }
 
 /* Tooltip */
-tooltip { border-radius: 4px; border: 2px solid #000000; }
-
-/* Buttons */
-#workspaces button {
-  padding: 0 8px;
-  margin-right: 2px;
-  border-radius: 2px;
-  color: #f7f7f7;
-  box-shadow: none;
-  text-shadow: none;
-  background-image: none;
+tooltip {
+  border-radius: 4px;
+  border: 2px solid #000000;
 }
 
-#workspaces button:hover { color: #ffffff; background-color: #005ffa; }
-#workspaces button.focused { color: #ffffff; background-color: #fa005f; }
+/* Workspaces */
+#workspaces { margin-right: 8px }
+#workspaces.scratchpad { margin: 0 }
+#workspaces.scratchpad button { padding: 0 4px }
+
+/* Workspace Buttons */
+#workspaces button {
+  margin: 0;
+  padding: 0 8px;
+  color: #f7f7f7;
+  background: none;
+  box-shadow: none;
+  text-shadow: none;
+  border-radius: 0;
+  border: 3px solid transparent;
+  transition: all 256ms 0s linear;
+}
+
+#workspaces button:hover { color: #ffffff; border-bottom-color: #32f891 }
+#workspaces button.active { color: #ffffff; border-bottom-color: #fa005f }
+#workspaces button.focused { color: #ffffff; border-bottom-color: #fa005f }
 
 /* Modules */
 #cpu,
@@ -58,51 +71,107 @@ tooltip { border-radius: 4px; border: 2px solid #000000; }
 #mode,
 #disk,
 #clock,
+#submap,
 #window,
 #memory,
 #network,
 #battery,
+#privacy,
 #language,
 #backlight,
 #pulseaudio,
 #scratchpad,
 #temperature,
 #custom-pacman,
-#idle_inhibitor {
+#custom-notify,
+#idle_inhibitor,
+#systemd-failed-units,
+#power-profiles-daemon {
   margin: 0;
-  padding: 0 8px;
+  padding: 0 6px;
   color: #f2f2f2;
-  border-radius: 2px;
+  border-radius: 0;
+  transition: color 256ms linear, text-shadow 128ms linear;
+}
+
+#waybar .modules-right > widget > *:hover {
+  text-shadow: 0 0 1px #ffffff;
 }
 
 /* window app id + title */
-#window { background-color: #0a0a10; }
-#window.app-id { color: #32f8f4; padding-left: 16px; }
-#window.app-title { padding-left: 0; padding-right: 16px; }
-#waybar.empty #window.app-id { padding-right: 16px; }
-#waybar.empty #window.app-title { background-color: transparent; }
+#window.app-id { color: #32f8f4 }
+#window.app-title { padding-left: 0; margin-right: 4px }
+
+#waybar.empty #window.app-id { color: transparent; background: transparent }
+#waybar.empty #window.app-title { color: transparent; background: transparent }
+
+#window.app-id, #window.app-title { transition: color 256ms linear, background 256ms linear }
+
+/* when one tiled window is visible in the workspace - floating windows may be present */
+#waybar.solo #window.app-id { color: #32f8f4 }
+
+/* when there are only floating windows in the workspace */
+#waybar.floating #window.app-id { color: #32f891 }
+
+/* when there is a fullscreen window in the workspace - useful with Hyprland's "fullscreen, 1" mode */
+#waybar.fullscreen #window.app-id { color: #fa005f }
+
+/* when there are hidden windows in the workspace; usually occurs due to window swallowing */
+#waybar.swallowing #window.app-id { color: #faf76e }
 
 /* Modules Styles */
-#mode { background-color: #06bd5f; }
-#tray { background-color: #020202; }
+#mode { background: #06bd5f }
+#submap { color: #faf76e }
+#tray { background: #020202 }
+#language { margin-top: 2px }
+#systemd-failed-units { color: #fa005f }
 
-#scratchpad.count { padding-right: 0 }
-#custom-pacman { background-color: #0a0a10; }
+#custom-pacman { color: #32f8f4 }
+#scratchpad.count { color: #fafafa }
 
-#cpu.good { margin: 0 2px; color: #020202; background-color: #32f891; }
-#cpu.warning { margin: 0 2px; color: #020202; background-color: #faf76e; }
-#cpu.critical { margin: 0 2px; color: #fafafa; background-color: #f94a4f; }
+#cpu { padding: 0 5px }
+#cpu.good { color: #32f891 }
+#cpu.warning { color: #faf76e }
+#cpu.critical { color: #fa005f }
 
-#memory.good { margin: 0 2px; color: #020202; background-color: #32f891; }
-#memory.warning { margin: 0 2px; color: #020202; background-color: #faf76e; }
-#memory.critical { margin: 0 2px; color: #fafafa; background-color: #f94a4f; }
+#memory.good { color: #32f891 }
+#memory.warning { color: #faf76e }
+#memory.critical { color: #fa005f }
 
-#disk.critical { margin: 0 2px; color: #fafafa; background-color: #f94a4f; }
-#temperature.critical { margin: 0 2px; color: #fafafa; background-color: #f94a4f; }
-#network.disconnected { margin: 0 2px; color: #fafafa; background-color: #f94a4f; }
+#disk.warning { color: #faf76e }
+#disk.critical { color: #fa005f }
+#disk.disk-home { padding-left: 3px }
 
-#pulseaudio { background-color: #0a0a10; }
-#pulseaudio.muted { color: #fafafa; background-color:	#12a5b5; }
+#backlight { padding: 0 4px }
+#temperature { padding: 0 4px }
+#temperature.critical { color: #fa005f }
 
-#battery.charging { background-color: #00ae6c; }
-#battery.critical:not(.charging) { color: #fafafa; background-color: #f94a4f; }
+#idle_inhibitor { padding: 0 4px }
+#idle_inhibitor.activated { color: #fa005f }
+
+#power-profiles-daemon { padding: 0 4px }
+#power-profiles-daemon.performance { color: #32f891 }
+#power-profiles-daemon.power-saver { color: #fa005f }
+
+#pulseaudio { padding: 0 4px }
+#pulseaudio.muted { color: #fa005f }
+
+#network.linked { color: #fa005f }
+#network.disconnected { color: #fa005f }
+#network { padding-left: 5px; padding-right: 2px; }
+
+/* battery between 20% and 25% */
+#battery.warning { color: #faf76e }
+
+/* between 20% and 80% charging */
+#battery.charging { color: #32f891 }
+
+/* above 80% and charging */
+#battery.charging.full { color: #fa005f }
+
+/* below 20% and not charging */
+#battery.critical:not(.charging) { color: #fa005f }
+
+#custom-notify { font-family: "Symbols Nerd Font Mono" }
+#custom-notify.dnd-none, #custom-notify.inhibited-none, #custom-notify.dnd-inhibited-none { color: #fa005f }
+#custom-notify.notification, #custom-notify.dnd-notification, #custom-notify.inhibited-notification, #custom-notify.dnd-inhibited-notification { color: #32f8f4 }
