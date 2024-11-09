@@ -19,6 +19,12 @@ To install dotfiles, clone the repository `dotfiles` and source `bootstrap` scri
 git clone dotfiles && cd dotfiles && source bootstrap.sh
 ```
 
+To install `bin` scripts in `/usr/local/bin` run:
+
+```bash
+./bin.sh
+```
+
 ## Update
 
 To update, `cd` into your local `dotfiles` repository and then:
@@ -44,15 +50,15 @@ If `~/.path` exists, it will be sourced along with the other files.
 
 ## Lambda
 
-* `λ` - greek small letter lamda
-* `𝝺` - mathematical sans-serif bold small lamda
+* `λ` - greek small letter lambda
+* `𝝺` - mathematical sans-serif bold small lambda
 
 ## Preview
 
 ### Desktop
 
-![arch-neofetch-neovim](https://i.postimg.cc/38VPDNZ2/desktop.png)
+![hypr-waybar-nwg-bar](https://github.com/user-attachments/assets/37c52b89-1757-40b2-8a18-b14481704976)
 
-### nvim/neovide
+### Arch Linux
 
-![arch-neofetch-neovide](https://i.postimg.cc/TdpzwgnR/neovide.png)
+[Arch Linux - Full disk encryption with LUKS2 / LVM2 / Secure Boot / TPM2 Setup](./arch-linux.md)
