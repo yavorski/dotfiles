@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 
+return
+
 # start sway window manager
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty5 ]]; then
   exec sway
   # exec sway --debug 2> ~/dev/sway.log
+fi
+
+# start hyprland window manager
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty5 ]]; then
+  exec start-hyprland
+  # exec start-hyprland --debug > ~/dev/.hyprland.log 2>&1
 fi

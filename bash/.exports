@@ -42,4 +42,4 @@ export MANROFFOPT="-c"
 export FORCE_COLOR=true
 
 # True color
-# export COLORTERM=truecolor
+export COLORTERM=truecolor
