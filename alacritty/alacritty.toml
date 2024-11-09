@@ -1,14 +1,22 @@
 # ~/.config/alacritty/alacritty.toml
 # https://alacritty.org/config-alacritty.html
 
-# Intel One Mono [ 11.50 | Bold | Bold Italic ]
-# JetBrains Mono NL [ 11.00 | ExtraBold | ExtraBold Italic ]
-
 [window]
+blur = false
+opacity = 0.85
 title = "Alacritty"
 decorations = "none"
 dynamic_title = true
 dynamic_padding = true
+
+[terminal]
+[terminal.shell]
+args = ["--login"]
+program = "/usr/bin/fish"
+
+[general]
+working_directory = "None"
+live_config_reload = true
 
 [font]
 size = 11.50
@@ -56,20 +64,21 @@ red = "#f7191f"
 white = "#ffffff"
 yellow = "#f9f655"
 
-# [shell]
+# [terminal]
+
+# [terminal.shell]
 # args = ["--login"]
 # program = "/bin/bash"
 
-# [shell]
+# [terminal.shell]
 # program = "pwsh"
 
-# [shell]
+# [terminal.shell]
 # args = ["-d Arch", "-u wrx"]
-# program = 'C:\Windows\System32\wsl.exe'
+# program = "C:\Windows\System32\wsl.exe"
 
-# working_directory = "<string>" | "None"
-
-# fix pwsh numpad enter
+# # fix pwsh numpad enter
+# [keyboard]
 # [[keyboard.bindings]]
 # key = "NumpadEnter"
 # mods = "None"
