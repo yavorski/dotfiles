@@ -1,17 +1,47 @@
-# Arch Linux Install
+# Arch Linux
 
-```
-Arch Linux - full disk encryption install
-```
+SSH Remote Installation
 
----
-
-Set resolution on usb boot
+Enable ssh service from the live iso installation media
 
 ```bash
-video=1024x768
+passwd
+ip addr
+systemctl status sshd
+systemctl start sshd
 ```
 
+Create screen session
+
+```bash
+screen -S share-screen
+```
+
+SSH to remote host and screen session
+
+```bash
+ssh root@192.168.0.42
+screen -x share-screen
+```
+
+# Arch Linux Install
+
+Arch Linux - full disk encryption install
+
+## Remap CAPS-LOCK to CTRL
+
+```bash
+loadkeys <<EOF
+keymaps 0-127
+keycode 58 = Control
+EOF
+```
+
+## Disable beep
+
+```bash
+sudo rmmod pcspkr
+```
 
 ## Network
 
@@ -34,7 +64,7 @@ iwctl station <wlan0> connect <SSID>
 Connect to ethernet
 
 ```bash
-# dhcpcd
+dhcpcd
 ```
 
 Check network
@@ -46,18 +76,16 @@ ping 1.1.1.1 -c 4
 Configure mirrorlist
 
 ```bash
-cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.BAK
-
-
 curl -L 'https://archlinux.org/mirrorlist/?country=all&protocol=https&ip_version=4' >> /etc/pacman.d/mirrorlist
 vim /etc/pacman.d/mirrorlist
+```
 
+Refresh pacman db and install reflector
+
+```bash
 pacman -Syyy
 pacman -S reflector
 reflector --protocol https --latest 32 --age 24 --sort rate --sort score --sort country --save /etc/pacman.d/mirrorlist
-
-cd /etc/pacman.d/
-diff -y mirrorlist mirrorlist.BAK
 ```
 
 ## Install `terminus-font`
@@ -65,20 +93,16 @@ diff -y mirrorlist mirrorlist.BAK
 ```bash
 pacman -Sy terminus-font
 setfont ter-v18b
-setfont ter-v20b
-setfont ter-v22b
 ```
 
+## Verify the uefi/boot mode
 
-## Verify the boot mode
-
-If UEFI mode is enabled on an UEFI motherboard, Archiso will boot Arch Linux accordingly via systemd-boot.
-To verify this, list the efivars directory:
+List the efivars directory:
 
 ```bash
+efivar --list
 ls /sys/firmware/efi/efivars
 ```
-
 
 ## Clock
 
@@ -89,28 +113,22 @@ timedatectl set-ntp true
 timedatectl status
 ```
 
-
 ## Partition the disks
+
+* LVM on LUKS.
+* https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#Encrypted_boot_partition_(GRUB)
 
 ```bash
 fdisk -l
 ```
 
-The following partitions are required for a chosen device:
-
-* One partition for the root directory `/`
-* If `UEFI` is enabled, an `EFI` system partition
-
-If you want to create any stacked block devices for LVM, system encryption or RAID, do it now.
-
-**`UEFI` with `GPT`** table
+The following partitions are required full disk encryption with encrypted boot partition.
 
 | Mount point | Partition        | Partition type   | Encryption | Size   |
 | ----------- | ---------------- | ---------------- | ---------- | ------ |
-| `/mnt/efi`  | `/dev/nvme0n1p1` | EFI System       |            | 1GB    |
-| `/mnt/boot` | `/dev/nvme0n1p2` | Linux filesystem | luks1      | 1GB    |
+| `/mnt/efi`  | `/dev/nvme0n1p1` | EFI System       |            | 2GB    |
+| `/mnt/boot` | `/dev/nvme0n1p2` | Linux filesystem | luks1      | 2GB    |
 | `/mnt`      | `/dev/nvme0n1p3` | Linux LVM        | luks2      | 256GB  |
-
 
 ## Start `fdisk`
 
@@ -120,7 +138,7 @@ fdisk /dev/nvme0n1
 
 0. Create new partition table
 
-  * <kbd>g</kbd> - create new partition table
+  * <kbd>g</kbd> - create new GPT partition table
 
 1. Create `EFI` partition
 
@@ -137,7 +155,9 @@ fdisk /dev/nvme0n1
   * <kbd>2</kbd> - Partition number
   * <kbd>Enter</kbd> - For first sector
   * <kbd>+2G</kbd> - For last sector
-  * Partition type `(20) Linux filesystem`
+  * <kbd>t</kbd> - Change partition type
+  * <kbd>2</kbd> - Number of partition
+  * <kbd>20</kbd> - Partition type - `(20) Linux filesystem`
 
 3. Create `LVM` partition
 
@@ -147,9 +167,10 @@ fdisk /dev/nvme0n1
   * <kbd>+256G</kbd> | <kbd>Enter</kbd> - For last sector
   * <kbd>t</kbd> - Change partition type
   * <kbd>3</kbd> - Number of partition
-  * <kbd>43</kbd> - Partition type - `(43) Linux LVM`
+  * <kbd>44</kbd> - Partition type - `(44) Linux LVM`
 
 4. Save changes
+
   * <kbd>p</kbd> - print partition table
   * <kbd>w</kbd> - write table to disk and exit
 
@@ -166,17 +187,17 @@ cryptsetup open --type luks /dev/nvme0n1p3 lvm
 pvcreate --dataalignment 1m /dev/mapper/lvm
 vgcreate vg /dev/mapper/lvm
 
-lvcreate -L 32GB vg -n lv-swap
-lvcreate -L 100GB vg -n lv-root
+lvcreate -L 16GB vg -n lv-swap
+lvcreate -L 128GB vg -n lv-root
 lvcreate -l 100%FREE -n lv-home vg
 
+# load device mapper kernel module
 lsmod | grep dm_mod
 modprobe dm_mod
 
 vgscan
 vgchange -ay
 ```
-
 
 ## Make fs
 
@@ -199,7 +220,6 @@ mount /dev/vg/lv-home /mnt/home
 mkfs.vfat -F32 /dev/nvme0n1p1
 ```
 
-
 ## Install Arch Linux
 
 ```bash
@@ -207,25 +227,19 @@ pacstrap -i /mnt base base-devel vi vim
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-## Add `kboot` real `UUID` to `/etc/crypttab`
+## Add `kboot` real `UUID` which is `/dev/nvme0n1p2` to `/etc/crypttab`
 
 ```bash
-lsblk
-blkid
-echo '#' >> /mnt/etc/crypttab
-echo '#' >> /mnt/etc/crypttab
-blkid >> /mnt/etc/crypttab
-vim /mnt/etc/crypttab
-# # -> kboot UUID=`/dev/nvme0n1p2 -> UUID` none luks1
+echo "kboot UUID=$(blkid --match-tag UUID --output value /dev/nvme0n1p2) none luks1" | tee -a /etc/crypttab
 ```
 
-> # /mnt/etc/crypttab
-> kboot UUID=XX-YY-ZZ none luks1
+---
 
+# Enter `arch-chroot`
 
-## Enter `arch-chroot`
+---
 
-### Install base system
+## Install base system
 
 ```bash
 arch-chroot /mnt
@@ -239,14 +253,15 @@ echo KEYMAP=us > /etc/vconsole.conf
 echo FONT=ter-v18b >> /etc/vconsole.conf
 ```
 
-### Configure `mkinitcpio`
+## Configure `mkinitcpio`
 
 ```bash
 vim /etc/mkinitcpio.conf
-# # -> add to BINARIES -> `setfont`
-# # -> add to HOOKS -> `consolefont` before `block`
-# # -> add to HOOKS -> `encrypt lvm2` between `block` and `filesystems`
 ```
+
+* Add to BINARIES -> `setfont`
+* Add to HOOKS -> `consolefont` before `block`
+* Add to HOOKS -> `encrypt lvm2` between `block` and `filesystems`
 
 File `/etc/mkinitcpio.conf` should look like this:
 
@@ -266,21 +281,28 @@ mkinitcpio -p linux
 
 ```bash
 vim /etc/default/grub
-
-# # -> uncomment "GRUB_ENABLE_CRYPTODISK=y"
-# # -> add to cmd line linux default -> "cryptdevice=/dev/nvme0n1p3:vg"
-
-> GRUB_ENABLE_CRYPTODISK=y
-> GRUB_EARLY_INITRD_LINUX_STOCK=""
-> GRUB_CMDLINE_LINUX="cryptdevice=/dev/nvme0n1p3:vg"
 ```
 
-### Mount `EFI`
+* Uncomment `GRUB_ENABLE_CRYPTODISK=y`
+* Add to cmd line linux default -> `cryptdevice=/dev/nvme0n1p3:vg`
+* Add `GRUB_EARLY_INITRD_LINUX_STOCK=""` in order to not load microcode with GRUB, it will be handled later with by initramfs
+
+```ini
+GRUB_ENABLE_CRYPTODISK=y
+GRUB_EARLY_INITRD_LINUX_STOCK=""
+GRUB_CMDLINE_LINUX="cryptdevice=/dev/nvme0n1p3:vg"
+```
+
+## Mount `EFI`
 
 ```bash
 mkdir /boot/EFI
 mount /dev/nvme0n1p1 /boot/EFI
+```
 
+### Install `GRUB`
+
+```bash
 grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
 
 mkdir /boot/grub/locale
@@ -289,11 +311,11 @@ cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-### GRUB Font (optional)
+### Setup GRUB Font
 
 ```bash
-pacman -S freetype2 (?)
-grub-mkfont --output /boot/grub/fonts/ter.pf2 --size 22 /usr/share/fonts/misc/ter-x22b.pcf.gz
+pacman -S freetype2
+grub-mkfont --output /boot/grub/fonts/ter.pf2 --size 20 /usr/share/fonts/misc/ter-x20b.pcf.gz
 echo "GRUB_FONT=/boot/grub/fonts/ter.pf2" >> /etc/default/grub
 grub-mkconfig --output /boot/grub/grub.cfg
 ```
@@ -325,22 +347,34 @@ echo LC_TIME=en_GB.UTF-8 >> /etc/locale.conf
 
 ### Configure network
 
+Configure network with `iwd` or `networkmanager`
+
 ```bash
 pacman -S iwd
-# pacman -Ss networkmanager # not needed if you prefer iwd
-
 echo arch > /etc/hostname
+```
 
+```bash
 vim /etc/hosts
-# >> -> ::1 localhost
-# >> -> 127.0.0.1 localhost
-# >> -> 127.0.1.1 arch.local  arch
+```
 
+```ini
+#/etc/hosts
+::1 localhost
+127.0.0.1 localhost
+127.0.1.1 arch.local arch
+```
+
+```bash
 vim /etc/resolv.conf
-# >> -> nameserver 1.1.1.1
-# >> -> nameserver 1.0.0.1
-# >> -> nameserver 8.8.8.8
-# >> -> nameserver 8.8.8.4
+```
+
+```ini
+#/etc/resolv.conf
+nameserver 1.1.1.1
+nameserver 1.0.0.1
+nameserver 8.8.8.8
+nameserver 8.8.8.4
 ```
 
 ```bash
@@ -354,9 +388,6 @@ EnableNetworkConfiguration=true
 
 [Network]
 NameResolvingService=systemd
-
-# [Network]
-# NameResolvingService=resolvconf
 ```
 
 Enable Network Services
@@ -365,9 +396,6 @@ Enable Network Services
 systemctl enable iwd
 systemctl enable systemd-networkd
 systemctl enable systemd-resolved
-
-# do not use with iwd & networkd
-# systemctl enable NetworkManager
 ```
 
 ### Exit `arch-chroot`
@@ -380,7 +408,6 @@ exit
 
 ```bash
 umount -R /mnt
-umount -a
 reboot
 ```
 
@@ -393,22 +420,6 @@ reboot
 ```bash
 pacman -Syu
 ```
-
-## Security
-
-1. File access permissions
-2. Enforce a delay after a failed login attempt (5 times, 10 mins delay)
-3. DNS over LTS
-
-```bash
-chmod 700 /boot /etc/{iptables,arptables}
-vim /etc/pam.d/system-login
-# >> -> `auth required pam_tally2.so deny=5 unlock_time=600 onerr=succeed file=/var/log/tallylog`
-pacman -S unbound expat
-```
-
-More on security -> [https://wiki.archlinux.org/index.php/Security](https://wiki.archlinux.org/index.php/Security)
-
 
 ## Microcode
 
@@ -423,8 +434,36 @@ pacman -S amd-ucode | intel-ucode !
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
+## Install GPU drivers
 
-## Basic Firewall
+* [https://wiki.archlinux.org/title/AMDGPU](https://wiki.archlinux.org/title/AMDGPU)
+* [https://wiki.archlinux.org/title/intel_graphics](https://wiki.archlinux.org/title/intel_graphics)
+
+
+## PipeWire
+
+* [PipeWire - Arch Wiki](https://wiki.archlinux.org/title/PipeWire)
+
+```bash
+pacman -S pipewire
+pacman -S pipewire-alsa
+pacman -S pipewire-audio
+pacman -S pipewire-jack
+pacman -S pipewire-pulse
+pacman -S wireplumber
+```
+
+## Improve SSD perf and lifespan
+
+```bash
+sudo systemctl enable --now fstrim.timer
+```
+
+---
+
+## [Security](https://wiki.archlinux.org/index.php/Security)
+
+Basic Firewall
 
 ```bash
 pacman -S ufw
@@ -433,13 +472,19 @@ ufw status verbose
 systemctl enable ufw
 ```
 
+DNS with DNSSEC validation
+
+```bash
+pacman -S unbound expat
+```
+
+
 ## Check for errors
 
 ```bash
 systemctl --failed
 journalctl -p 3 -xb
 ```
-
 
 ## Add user
 
@@ -453,102 +498,44 @@ pacman -S sudo
 
 ---
 
-## Install GPU drivers
-
-* [https://wiki.archlinux.org/title/AMDGPU](https://wiki.archlinux.org/title/AMDGPU)
-* [https://wiki.archlinux.org/title/intel_graphics](https://wiki.archlinux.org/title/intel_graphics)
+## Additions
 
 ---
 
 ## Install `crontab` & `powertop`
 
+Powertop
+
 ```bash
 pacman -S powertop
 powertop --auto-tune
+```
 
+Cronie
+
+```bash
 pacman -S cronie
-crontab -e -> add "@reboot powertop --auto-tune"
+crontab -e
+crontab -l
+```
+
+Cron list
+
+```ini
+@reboot sleep 60 && powertop --auto-tune
+@reboot sleep 10 && brightnessctl --device platform::micmute set 0
 ```
 
 ---
 
-## auto update mirror list
-
-```bash
-pacman -S reflector
-pacman -S pacman-contrib
-```
-
-Edit the reflector configuration file at `/etc/xdg/reflector/reflector.conf`
-
-```bash
-# setup reflector options
-REFLECTOR_CONF="/etc/xdg/reflector/reflector.conf"
-mv $REFLECTOR_CONF "$REFLECTOR_CONF.BAK"
-touch $REFLECTOR_CONF
-cat >> $REFLECTOR_CONF << EOL
-# $REFLECTOR_CONF
-# ------------------------------------------
---age 24
---latest 32
---protocol https
---sort rate
---sort score
---sort country
---country 'BG,RO,PL,SI,HU,CZ,FR,NL,DE,UA,CH,IT,DK,LT,LV,GB'
---save /etc/pacman.d/mirrorlist
-EOL
-```
-
-
-Start and Enable `reflector.service` and `reflector.timer`
-
-
-```bash
-systemctl start reflector.service
-systemctl enable reflector.service
-
-systemctl start reflector.timer
-systemctl enable reflector.timer
-```
-
-Create a `pacman hook` that will start `reflector.service` and remove the `.pacnew` file created every time `pacman-mirrorlist` gets an upgrade
-
-```bash
-# create hooks dir
-mkdir /etc/pacman.d/hooks
-
-# create mirror-update.hook file
-touch /etc/pacman.d/hooks/mirror-update.hook
-```
-
-Enter the following content to `mirror-update.hook`
-
-```vim
-# /etc/pacman.d/hooks/mirror-update.hook
-# --------------------------------------
-[Trigger]
-Operation = Upgrade
-Type = Package
-Target = pacman-mirrorlist
-
-[Action]
-Description = Updating pacman-mirrorlist with reflector and removing pacnew...
-When = PostTransaction
-Depends = reflector
-Exec = /bin/sh -c 'systemctl start reflector.service; if [ -f /etc/pacman.d/mirrorlist.pacnew ]; then rm /etc/pacman.d/mirrorlist.pacnew; fi'
-```
-
----
-
-## dev tools (optional)
+## Dev Tools
 
 ```bash
 pacman -S git git-delta
 pacman -S curl wget rsync
 pacman -S procs htop bottom
 pacman -S bat man tldr
-pacman -S tree exa lsd zoxide
+pacman -S tree eza lsd zoxide
 pacman -S duf dust
 pacman -S fx tokei
 pacman -S fd fzf skim ripgrep the_silver_searcher
@@ -561,7 +548,7 @@ pacman -S xorg-xdpyinfo xorg-xprop xorg-xrandr xorg-xwininfo
 pacman -S fastfetch neofetch catimg chafa feh imagemagick jp2a libcaca nitrogen
 ```
 
-## fonts (optional)
+## Fonts
 
 ```bash
 pacman -S
@@ -575,59 +562,67 @@ pacman -S
 
 pacman -S
   ttf-ibm-plex
-  ttf-ibmplex-mono-nerd
   ttf-jetbrains-mono
-  ttf-jetbrains-mono-nerd
-  ttf-ubuntu-mono-nerd
   ttf-ubuntu-font-family
-  ttf-nerd-fonts-symbols-mono
-  ttf-nerd-fonts-symbols-common
   AUR ttf-intel-one-mono
+
+pacman -S
+  ttf-font-nerd
+  ttf-ubuntu-mono-nerd
+  ttf-ibmplex-mono-nerd
+  ttf-jetbrains-mono-nerd #alacritty fallback
+  ttf-nerd-fonts-symbols-mono # alacritty fallback
+  ttf-nerd-fonts-symbols-common # alacritty fallback
 ```
 
----
-
-## Window Manager (optional)
+## Sway Window Manager
 
 * [Sway - Arch wiki](https://wiki.archlinux.org/title/Sway)
 * [Sway - Github wiki](https://github.com/swaywm/sway/wiki)
 
 ```bash
-pacman -S sway swaybg swayimg swayidle swaylock waybar
-# pacman -S polkit / seatd # [needs configuration]
+pacman -S sway swaybg swayimg swayidle swaylock swaync waybar nwg-bar
 ```
 
----
+## Hyprland Window Manager
 
-## Desktop environment (optional)
-
-* OPTIONAL -`Gnome` on `Wayland`
-* OPTIONAL - `powertop`
-* OPTIONAL - `crontab`
+* [Hyprland - wiki](https://wiki.hyprland.org/)
+* [Hyprland - Arch wiki](https://wiki.archlinux.org/title/Hyprland)
 
 ```bash
-pacman -S gdm gnome gnome-extra gnome-shell
-systemctl enable gdm # Gnome Display Manager - Login Screen
+pacman -S hyprland hypridle hyprlock hyprcursor hyprutils hyprpaper hyprwayland-scanner
+pacman -S wofi fuzzel cosmic-files
+pacman -S waybar nwg-bar nwg-look swaync
+pacman -S xdg-desktop-portal-gtk xdg-desktop-portal-hyprland
+pacman -S brightnessctl power-profiles-daemon
+pacman AUR -S hyprsysteminfo hyprlauncher
 ```
 
----
+## Login / Display Manager
 
-## Info `mkinitcpio`
+### Ly
 
-`mkinitcpio` is a Bash script used to create an [initial ramdisk](https://en.wikipedia.org/wiki/Initial_ramdisk) environment.
-From the [mkinitcpio(8)](https://jlk.fjfi.cvut.cz/arch/manpages/man/mkinitcpio.8) man page:
+```
+pacman -S ly
+systemctl enable ly.service
+systemctl disable getty@tty2.service
+```
 
-The `initial ramdisk` is in essence a very small environment (early userspace) which loads various kernel modules and sets up necessary things before handing over control to `init`.
-This makes it possible to have, for example, encrypted root file systems and root file systems on a software RAID array.
-`mkinitcpio` allows for easy extension with custom hooks, has autodetection at runtime, and many other features.
+### Lemurs
 
----
+```bash
+pacman -S lemurs
+systemctl disable display-manager.service
+systemctl enable lemurs.service
+```
 
 ## Info `pacman`
 
 * `pacman -Ss <keyword>` - search pacakge
 * `pacman -R <package-name>` - remove pkg
 * `pacman -Rs <package-name>` - remove pkg with dependencies
+* `pacman -Q` - list all install packages
+* `pacman -Qi <package-name>` - info and reason for installation
 * `pacman -Qm <package-name>` - look for foreign dependencies
 * `pacman -Qdt` - list all packages no longer required as dependencies
 * `pacman -Qet` - list all packages explicitly installed and not required as dependencies
@@ -639,7 +634,6 @@ Options:
 * `pacman` has a `color` option. `->` Uncomment the `Color` line in `/etc/pacman.conf`
 * `pacman` has a `ParallelDownloads` option. `->` Set the `ParallelDownloads` line in `/etc/pacman.conf`
 
----
 
 ## Info `paccache`
 
@@ -649,21 +643,27 @@ A `pacman` cache cleaning utility
 * `paccache -r` - Remove all but the 3 most recent package versions from the `pacman` cache
 * `paccache -rk 3` - Set the number of package versions to keep
 
----
 
-### References
+## Misc
 
-* [Install Guide](https://wiki.archlinux.org/title/Installation_guide)
-* [KMS](https://wiki.archlinux.org/title/kernel_mode_setting)
-* [Kernel Module](https://wiki.archlinux.org/index.php/Kernel_module)
-* [Kernel Module Blacklisting](https://wiki.archlinux.org/index.php/Kernel_module#Blacklisting)
-* [Mkinitcpio](https://wiki.archlinux.org/index.php/Mkinitcpio)
-* [Encrypt entire system](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system)
-* [Linux console ](https://wiki.archlinux.org/index.php/Linux_console#Fonts)
-* [Bash tips and trics](https://wiki.archlinux.org/index.php/Bash#Tips_and_tricks)
-* [Color ouput in console](https://wiki.archlinux.org/index.php/Color_output_in_console)
-* [Users and groups](https://wiki.archlinux.org/index.php/users_and_groups)
-* [General recommendations](https://wiki.archlinux.org/index.php/General_recommendations)
-* [Pacman](https://wiki.archlinux.org/index.php/Pacman)
-* [Pacman - tips and tricks](https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks)
-* [List of command-line utilities written in Rust](https://gist.github.com/yavorski/8729c8c5a9a79d4b6817ef152d592bf8)
+### Auto update mirror list
+
+* [Auto update arch pacman mirrors list with reflector](https://gist.github.com/yavorski/ea720e2c728e7faa67f0cb34cf96b70a)
+
+### Make bootable usb with `dd`
+
+```bash
+λ dd if=<file> of=<device> bs=4M; sync
+λ dd if=arch-linux.iso of=/dev/sda1 bs=4M status=progress; sync
+```
+
+### Update `uefi-bios`
+
+* [Bootable optical disk emulation](https://wiki.archlinux.org/title/Flashing_BIOS_from_Linux#Bootable_optical_disk_emulation)
+* [geteltorito AUR](https://aur.archlinux.org/packages/geteltorito)
+
+```bash
+λ geteltorito.pl -o <image>.img <image>.iso
+λ geteltorito.pl -o uefi_bios.img r10ur26w.iso
+λ sudo dd if=uefi_bios.img of=/dev/sda bs=512K
+```
