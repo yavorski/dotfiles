@@ -1,12 +1,14 @@
 [
   {
     "label": "Lock",
-    "exec": "swaylock -f -F -e -k -l -c 333333 -i ~/dev/wallpapers/arch-lock.png",
+    "exec": "hyprlock",
+    "exec-sway": "swaylock -f -F -e -k -l -c 333333 -i ~/dev/wallpapers/arch-lock.png",
     "icon": "/usr/share/nwg-bar/images/system-lock-screen.svg"
   },
   {
     "label": "Logout",
-    "exec": "swaymsg exit",
+    "exec": "hyprctl dispatch exit",
+    "exec-sway": "swaymsg exit",
     "icon": "/usr/share/nwg-bar/images/system-log-out.svg"
   },
   {
@@ -16,7 +18,7 @@
   },
   {
     "label": "Shutdown",
-    "exec": "systemctl -i poweroff",
+    "exec": "systemctl --ignore-inhibitors poweroff",
     "icon": "/usr/share/nwg-bar/images/system-shutdown.svg"
   }
 ]
