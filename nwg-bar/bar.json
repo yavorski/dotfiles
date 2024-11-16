@@ -1,12 +1,12 @@
 [
   {
     "label": "Lock",
-    "exec": "swaylock -f -F -e -k -l -c 333333 -i ~/dev/wallpapers/arch-lock.png",
+    "exec": "hyprlock",
     "icon": "/usr/share/nwg-bar/images/system-lock-screen.svg"
   },
   {
     "label": "Logout",
-    "exec": "swaymsg exit",
+    "exec": "hyprctl dispatch exit",
     "icon": "/usr/share/nwg-bar/images/system-log-out.svg"
   },
   {
@@ -15,8 +15,13 @@
     "icon": "/usr/share/nwg-bar/images/system-reboot.svg"
   },
   {
+    "label": "Suspend",
+    "exec": "/usr/local/bin/lock-suspend-hibernate.sh",
+    "icon": "/usr/share/nwg-bar/images/system-suspend.svg"
+  },
+  {
     "label": "Shutdown",
-    "exec": "systemctl -i poweroff",
+    "exec": "systemctl --ignore-inhibitors poweroff",
     "icon": "/usr/share/nwg-bar/images/system-shutdown.svg"
   }
 ]

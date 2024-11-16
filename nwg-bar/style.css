@@ -1,22 +1,20 @@
 window {
-  border-radius: 10px;
-  background-color: rgba (0, 0, 0, 1.0)
+  border-radius: 8px;
+  background: rgba (0, 0, 0, 0.5);
 }
 
 /* Outer bar container, takes all the window width/height */
 #outer-box {
-  margin: 0px
+  margin: 0;
 }
 
 /* Inner bar container, surrounds buttons */
 #inner-box {
-  margin: 5px;
-  padding: 5px;
-  border-radius: 10px;
-  border-style: none;
-  border-width: 1px;
-  border-color: rgba (156, 142, 122, 0.7);
-  background-color: rgba (0, 0, 0, 0.85);
+  margin: 0;
+  padding: 12px;
+  border: none;
+  border-radius: 7px;
+  background: rgba (0, 0, 0, 0.5);
 }
 
 button, image {
@@ -25,13 +23,21 @@ button, image {
   background: none;
 }
 
+image {
+  margin-bottom: 20px;
+}
+
 button {
-  margin: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
+  margin: 12px;
+  padding: 72px 42px;
+  font-size: 18px;
+  font-weight: 600;
+  outline: none;
+  border-radius: 5px;
+  background: rgba (0, 0, 0, 0.50);
 }
 
 button:focus, button:hover {
-  color: #ffffff;
-  background-color: rgba (255, 255, 255, 0.1);
+  color: #32f8f4;
+  background: rgba (255, 255, 255, 0.15);
 }
