@@ -19,6 +19,12 @@ To install dotfiles, clone the repository `dotfiles` and source `bootstrap` scri
 git clone dotfiles && cd dotfiles && source bootstrap.sh
 ```
 
+To install `bin` scripts in `/usr/local/bin` run:
+
+```bash
+./bin.sh
+```
+
 ## Update
 
 To update, `cd` into your local `dotfiles` repository and then:
@@ -52,7 +58,7 @@ If `~/.path` exists, it will be sourced along with the other files.
 ### Desktop
 
 ![hypr-waybar-nwg-bar](https://github.com/user-attachments/assets/37c52b89-1757-40b2-8a18-b14481704976)
- 
+
 ### Arch Linux
 
-[Arch Linux - Full Disk Encryption Install](./arch-linux.md)
+[Arch Linux - Full disk encryption with LUKS2 / LVM2 / Secure Boot / TPM2 Setup](./arch-linux.md)
