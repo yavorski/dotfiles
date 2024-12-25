@@ -638,6 +638,7 @@ Lazy.use {
       fzf = true,
       mini = true,
       nvimtree = true,
+      blink_cmp = true,
       which_key = true,
       lsp_trouble = true,
     },
@@ -1198,7 +1199,7 @@ Lazy.use {
 ------------------------------------------------------------
 local LSP = {
   opts = {
-    border = "solid",
+    border = "single",
 
     diagnostics = {
       signs = true,
@@ -1206,7 +1207,7 @@ local LSP = {
       virtual_text = true,
       severity_sort = true,
       update_in_insert = false,
-      float = { border = "solid" },
+      float = { border = "single" },
       icons = { Info = "▪", Hint = "★", Warn = "◮", Error = "✖" }
     },
 
@@ -1330,11 +1331,11 @@ end
 -- LSP - client capabilities
 ------------------------------------------------------------
 LSP.capabilities = function()
-  -- client capabilities object describing the LSP client capabilities
+  -- client capabilities
   local client_capabilities = vim.lsp.protocol.make_client_capabilities()
 
-  -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-  local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+  -- additional capabilities
+  local lsp_capabilities = require("blink.cmp").get_lsp_capabilities()
 
   -- @perf: didChangeWatchedFiles is too slow
   -- @todo: Remove this when https://www.github.com/neovim/neovim/issues/23291#issuecomment-1686709265 is fixed
@@ -1346,9 +1347,6 @@ LSP.capabilities = function()
 
   local capabilities = vim.tbl_deep_extend("force", {}, client_capabilities, lsp_capabilities, workarround_perf_fix)
 
-  -- snippet support
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-
   return capabilities
 end
 
@@ -1356,6 +1354,11 @@ end
 -- LSP - navigation through method overloads
 ------------------------------------------------------------
 LSP.overloads = function()
+  local function show_lsp_signature_overloads()
+    require("blink.cmp.signature.trigger").hide()
+    vim.cmd("LspOverloadsSignature");
+  end
+
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfigOverload", {}),
     callback = function(event)
@@ -1363,29 +1366,21 @@ LSP.overloads = function()
 
       if client ~= nil and client.server_capabilities.signatureHelpProvider then
         require("lsp-overloads").setup(client, {
-          silent = false,
+          silent = true,
           display_automatically = false,
-          --- @diagnostic disable-next-line: missing-fields
           ui = {
-            border = "solid",
-            close_events = {
-              "BufHidden",
-              "CursorMoved", "CursorMovedI",
-              "InsertLeave", "InsertEnter", "InsertChange",
-              "TextChanged", "TextChangedI"
-            },
+            silent = true,
+            border = "single"
           },
           keymaps = {
-            next_signature = "<C-n>",
-            previous_signature = "<C-p>",
-            next_parameter = "<C-l>",
-            previous_parameter = "<C-h>",
+            next_signature = "<A-n>",
+            previous_signature = "<A-p>",
             close_signature = "<esc>"
-          },
+          }
         })
 
-        vim.keymap.set({ "n", "i" }, "<A-s>", "<cmd>LspOverloadsSignature<CR>", { silent = false });
-        vim.keymap.set({ "n", "i" }, "<C-S-Space>", "<cmd>LspOverloadsSignature<CR>", { silent = false });
+        vim.keymap.set({ "n", "i" }, "<A-o>", show_lsp_signature_overloads, { silent = false });
+        -- vim.keymap.set({ "n", "i" }, "<C-S-Space>", show_lsp_signature_overloads, { silent = false });
       end
     end
   })
@@ -1434,9 +1429,12 @@ LSP.setup_lua = function()
       Lua = {
         format = { enable = true },
         runtime = { version = "LuaJIT" },
-        diagnostics = { globals = { "vim" } },
         completion = { callSnippet = "Replace" },
-        workspace = { checkThirdParty = "Disable" }
+        workspace = { checkThirdParty = "Disable" },
+        diagnostics = {
+          globals = { "vim" },
+          -- disable = { "missing-fields" },
+        }
       }
     }
   })
@@ -1499,21 +1497,27 @@ Lazy.use {
   "neovim/nvim-lspconfig",
   event = { "BufReadPost", "BufWritePost", "BufNewFile" },
   dependencies = {
-    { "hrsh7th/cmp-nvim-lsp" }, -- nvim-cmp source for neovim builtin LSP client
-    { "issafalcon/lsp-overloads.nvim" }, -- extends the native nvim-lsp handlers to allow easier navigation through method overloads
+    { "saghen/blink.cmp" }, -- LSP AutoComplete
+    { "issafalcon/lsp-overloads.nvim" }, -- Extends native nvim-lsp handlers to allow easier navigation through method overloads
   },
   config = function()
     LSP.init()
   end
 }
 
--- init.lua, plugin development, signature help, docs and completion for the nvim lua api
+-- LuaLS setup for Neovim init.lua
 Lazy.use {
   "folke/lazydev.nvim",
-  dependencies = {{ "bilal2453/luvit-meta" }},
   ft = "lua",
   opts = {
-    library = { "luvit-meta/library" }
+    library = {
+      { path = "lazy.nvim", words = { "Lazy" } },
+      { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+    },
+    integrations = {
+      cmp = false,
+      lspconfig = true,
+    }
   }
 }
 
@@ -1556,157 +1560,105 @@ Lazy.use {
 }
 
 ------------------------------------------------------------
--- AutoComplete
--- hrsh7th/nvim-cmp
-------------------------------------------------------------
-
-local AutoComplete = {
-  cmp = nil,
-  snip = nil,
-
-  opts = {
-    border = "solid",
-    winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
-  }
-}
-
-AutoComplete.init = function()
-  AutoComplete.cmp = require("cmp")
-  AutoComplete.snip = require("luasnip")
-end
-
-AutoComplete.has_words_before = function()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
-AutoComplete.select_next_suggestion = function(fallback)
-  local cmp = AutoComplete.cmp
-  local snip = AutoComplete.snip
-
-  if cmp == nil or snip == nil then
-    error("AutoComplete: Missing CMP or LuaSnip.")
-  end
-
-  if cmp.visible() then
-    cmp.select_next_item()
-  elseif snip.expand_or_locally_jumpable() then
-    snip.expand_or_jump()
-  elseif AutoComplete.has_words_before() then
-    cmp.complete()
-  else
-    fallback()
-  end
-end
-
-AutoComplete.select_prev_suggestion = function(fallback)
-  local cmp = AutoComplete.cmp
-  local snip = AutoComplete.snip
-
-  if cmp == nil or snip == nil then
-    error("AutoComplete: Missing CMP or LuaSnip.")
-  end
-
-  if cmp.visible() then
-    cmp.select_prev_item()
-  elseif snip.jumpable(-1) then
-    snip.jump(-1)
-  else
-    fallback()
-  end
-end
-
-AutoComplete.setup = function()
-  local cmp = AutoComplete.cmp
-  local snip = AutoComplete.snip
-  local border = AutoComplete.opts.border
-  local winhighlight = AutoComplete.opts.winhighlight
-
-  if cmp == nil or snip == nil then
-    error("AutoComplete: Missing CMP or LuaSnip.")
-  end
-
-  cmp.setup({
-    window = {
-      completion = cmp.config.window.bordered({ border = border, winhighlight = winhighlight }),
-      documentation = cmp.config.window.bordered({ border = border, winhighlight = winhighlight }),
-    },
-    completion = { completeopt = "menu,menuone,noselect" },
-    experimental = { ghost_text = { hl_group = "LspCodeLens" } },
-    snippet = {
-      expand = function(args)
-        snip.lsp_expand(args.body)
-      end,
-    },
-    mapping = cmp.mapping.preset.insert({
-      ["<C-a>"] = cmp.mapping.abort(),
-      ["<C-e>"] = cmp.mapping.abort(),
-      ["<C-c>"] = cmp.mapping.close(),
-      ["<C-d>"] = cmp.mapping.scroll_docs(4),
-      ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-      ["<C-Space>"] = cmp.mapping.complete(),
-      ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-      ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-      ["<A-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-      ["<A-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-      ["<CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
-      ["<S-CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace }),
-      ["<Tab>"] = cmp.mapping(AutoComplete.select_next_suggestion, { "i", "s" }),
-      ["<S-Tab>"] = cmp.mapping(AutoComplete.select_prev_suggestion, { "i", "s" }),
-      ["<Up>"] = cmp.mapping(AutoComplete.select_prev_suggestion, { "i", "s" }),
-      ["<Down>"] = cmp.mapping(AutoComplete.select_next_suggestion, { "i", "s" }),
-    }),
-    sources = cmp.config.sources({
-      { name = "nvim_lsp_signature_help", priority = 64, group_index = 1 },
-      { name = "nvim_lsp", priority = 32, group_index = 2 },
-      { name = "nvim_lua", priority = 16, group_index = 3 },
-      { name = "lazydev", priority = 12, group_index = 4 },
-      { name = "luasnip", priority = 8, group_index = 4 },
-      { name = "buffer", priority = 4, group_index = 5 },
-      { name = "path", priority = 2, group_index = 6 },
-    })
-  })
-
-  -- "/@" suggestions
-  cmp.setup.cmdline({ "/", "?" }, {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources(
-      {{ name = "buffer" }},
-      {{ name = "nvim_lsp_document_symbol" }}
-    )
-  })
-
-  -- cmdline & path suggestions
-  cmp.setup.cmdline(":", {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources(
-      {{ name = "path" }},
-      {{ name = "cmdline" }}
-    )
-  })
-end
-
-------------------------------------------------------------
--- Lazy AutoComplete setup
+-- AutoComplete -- https://cmp.saghen.dev/
 ------------------------------------------------------------
 Lazy.use {
-  "hrsh7th/nvim-cmp",
+  "saghen/blink.cmp",
+  version = "*",
   event = "InsertEnter",
-  dependencies = {
-    { "hrsh7th/cmp-path" }, -- nvim-cmp source for path
-    { "hrsh7th/cmp-buffer" }, -- nvim-cmp source for buffer words
-    { "hrsh7th/cmp-cmdline" }, -- nvim-cmp source for vim's cmdline
-    { "hrsh7th/cmp-nvim-lua" }, -- nvim-cmp source for neovim Lua API
-    { "hrsh7th/cmp-nvim-lsp" }, -- nvim-cmp source for neovim builtin lsp client
-    { "hrsh7th/cmp-nvim-lsp-signature-help" }, -- nvim-cmp source for displaying function signatures with the current parameter emphasized
-    { "hrsh7th/cmp-nvim-lsp-document-symbol" }, -- nvim-cmp source for textDocument/documentSymbol via nvim-lsp.
-    { "saadparwaiz1/cmp_luasnip" }, -- luasnip completion source for nvim-cmp
-    { "l3mon4d3/luasnip", build = is_linux and "make install_jsregexp" or false }, -- snippet engine -- TODO remove, use builtin snippet engine
+  dependencies = { "rafamadriz/friendly-snippets" },
+
+  --- @module "blink.cmp"
+  --- @type blink.cmp.Config
+  opts = {
+    appearance = {
+      nerd_font_variant = "mono",
+      use_nvim_cmp_as_default = false
+    },
+
+    signature = {
+      enabled = true,
+      window = { border = "single" }
+    },
+
+    sources = {
+      cmdline = {}, -- disable cmdline completions
+      default = { "lsp", "path", "buffer", "snippets" },
+      providers = {
+        lsp = {
+          fallbacks = {}, -- enable buffer completions
+          score_offset = 100,
+          should_show_items = function(ctx, items)
+            -- remove always suggested closing tag by html server
+            if #items == 1 and vim.tbl_contains({ "html", "razor", "cshtml" }, vim.bo.filetype) and vim.startswith(items[1].label, "</") then
+              return false
+            end
+            return true
+          end
+        },
+        path = { max_items = 10, score_offset = 75 },
+        buffer = { max_items = 10, score_offset = 50 },
+        snippets = { max_items = 10, score_offset = 25 }
+      }
+    },
+
+    completion = {
+      menu = {
+        auto_show = true,
+        max_height = 15,
+        border = "single"
+      },
+      list = {
+        selection = {
+          preselect = true,
+          auto_insert = true
+        }
+      },
+      accept = {
+        auto_brackets = {
+          enabled = true
+        }
+      },
+      documentation = {
+        auto_show = true,
+        auto_show_delay_ms = 256,
+        update_delay_ms = 128,
+        window = {
+          min_width = 64,
+          max_width = 128,
+          max_height = 32,
+          desired_min_width = 64,
+          border = "single"
+        }
+      },
+      keyword = { range = "full" },
+      ghost_text = { enabled = true },
+    },
+
+    keymap = {
+      preset = "none",
+      ["<C-a>"] = { "hide" },
+      ["<C-c>"] = { "cancel" },
+      ["<CR>"] = { "accept", "fallback" },
+      ["<C-e>"] = { "select_and_accept", "fallback" },
+      ["<C-y>"] = { "select_and_accept", "fallback" },
+      ["<Up>"] = { "select_prev", "fallback" },
+      ["<Down>"] = { "select_next", "fallback" },
+      ["<C-n>"] = { "select_next", "fallback" },
+      ["<C-p>"] = { "select_prev", "fallback" },
+      ["<A-n>"] = { "select_next", "fallback" },
+      ["<A-p>"] = { "select_prev", "fallback" },
+      ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+      ["<C-d>"] = { "scroll_documentation_down", "fallback" },
+      ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+      ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+      ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+      ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+      ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+    },
   },
-  config = function()
-    AutoComplete.init()
-    AutoComplete.setup()
-  end
+
+  opts_extend = { "sources.default" }
 }
 
 ------------------------------------------------------------
@@ -1854,8 +1806,5 @@ end
 --------------------------------------------------------------------------------
 -- LSP server configurations
 --------------------------------------------------------------------------------
--- https://github.com/hrsh7th/nvim-cmp
 -- https://github.com/neovim/nvim-lspconfig
--- https://github.com/echasnovski/mini.nvim
--- https://vonheikemen.github.io/devlog/tools/neovim-lsp-client-guide/
 --------------------------------------------------------------------------------
