@@ -1,0 +1,124 @@
+# -----------------------------------------
+# [[ ghostty ]]
+# -----------------------------------------
+
+class = "ghostty.terminal"
+
+gtk-wide-tabs = true
+gtk-tabs-location = "bottom"
+gtk-custom-css = "~/.config/ghostty/style.css"
+
+resize-overlay = "never"
+confirm-close-surface = false
+quit-after-last-window-closed = true
+
+window-padding-x = 0
+window-padding-y = 0
+window-theme = "ghostty"
+window-decoration = "none"
+window-padding-balance = true
+window-inherit-working-directory = true
+
+# -----------------------------------------
+# fonts
+# -----------------------------------------
+
+font-size = 11.50
+font-family = "Intel One Mono"
+
+font-style = "Bold"
+font-style-bold = "Bold"
+font-style-italic = "Bold Italic"
+font-style-bold-italic = "Bold Italic"
+
+adjust-cell-width = +0
+adjust-cell-height = +1
+adjust-font-baseline = +1
+adjust-box-thickness = +50%
+adjust-icon-height = +100%
+
+# font features
+# freetype-load-flags = hinting,force-autohint,monochrome,autohint
+
+# -----------------------------------------
+# shell
+# -----------------------------------------
+cursor-style = "block"
+
+adjust-cursor-height = +2
+adjust-cursor-thickness = +1
+
+copy-on-select = false
+mouse-hide-while-typing = true
+
+shell-integration = "detect"
+shell-integration-features = "no-cursor"
+
+command = "/usr/bin/fish --login --interactive"
+
+# -----------------------------------------
+# keymaps
+# -----------------------------------------
+
+# del full screen toggle
+keybind = ctrl+enter=unbind
+
+# keybind = ctrl+tab=next_tab
+# keybind = shift+ctrl+tab=previous_tab
+
+keybind = alt+ctrl+]=next_tab
+keybind = alt+ctrl+[=previous_tab
+
+keybind = alt+ctrl+1=goto_tab:1
+keybind = alt+ctrl+2=goto_tab:2
+keybind = alt+ctrl+3=goto_tab:3
+keybind = alt+ctrl+4=goto_tab:4
+keybind = alt+ctrl+5=goto_tab:5
+keybind = alt+ctrl+6=goto_tab:6
+keybind = alt+ctrl+7=goto_tab:7
+keybind = alt+ctrl+8=goto_tab:8
+keybind = alt+ctrl+9=goto_tab:9
+keybind = alt+ctrl+0=goto_tab:10
+
+# keybind = super+`=toggle_tab_overview
+# keybind = super+`=toggle_quick_terminal
+
+# -----------------------------------------
+# color scheme
+# -----------------------------------------
+
+bold-color = "bright"
+background-opacity = 0.85
+
+palette = 0=#000000
+palette = 1=#f94a4f
+palette = 2=#50fa7b
+palette = 3=#faf76e
+palette = 4=#41b2f7
+palette = 5=#f54bf9
+palette = 6=#32f8f4
+palette = 7=#eaeaea
+palette = 8=#444444
+palette = 9=#f7191f
+palette = 10=#32f891
+palette = 11=#f9f655
+palette = 12=#41b2f7
+palette = 13=#f54bf9
+palette = 14=#32f8f4
+palette = 15=#ffffff
+
+background = "#000000"
+foreground = "#eaeaea"
+
+cursor-color = "#ff1493"
+cursor-invert-fg-bg = true
+
+selection-invert-fg-bg = true
+# selection-foreground = #eaeaea
+# selection-background = #555555
+
+# -----------------------------------------
+# ghostty +list-fonts
+# -----------------------------------------
+# ghostty +show-config --default --docs
+# -----------------------------------------
