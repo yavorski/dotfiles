@@ -1,0 +1,42 @@
+/* Ghostty - Tab Styles */
+/* env GTK_DEBUG=interactive ghostty */
+
+.bottom-bar {
+  margin: 0 -5px;
+  opacity: 0.85;
+  font-size: 11.50pt;
+  font-weight: 700;
+  font-family: "Intel One Mono";
+}
+
+.bottom-bar tabboxchild {
+  margin: 0;
+  padding: 0;
+}
+
+.bottom-bar tab {
+  color: #ffffff;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.05);
+}
+
+.bottom-bar tab:selected {
+  color: #32f8f4;
+}
+
+.bottom-bar button {
+  margin: 0;
+  padding: 0;
+  min-height: 22px;
+  border-radius: 2px;
+}
+
+.bottom-bar button:hover {
+  color: #32f8f4;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.bottom-bar separator {
+  min-width: 0;
+  min-height: 0;
+}
