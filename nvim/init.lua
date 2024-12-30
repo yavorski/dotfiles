@@ -231,11 +231,6 @@ local is_wsl_or_windows = is_wsl or is_windows
 -- trim trailing whitespace on save
 -- vim.cmd[[autocmd BufWritePre * :%s/\s\+$//e]]
 
-local tws_autocmd_id = vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  command = [[:%s/\s\+$//e]]
-})
-
 -- disable sign column
 vim.cmd[[autocmd FileType help setlocal signcolumn=no]]
 
@@ -712,9 +707,6 @@ Lazy.use {
 -- utility lib
 Lazy.use { "nvim-lua/plenary.nvim" }
 
--- nvim dev icons
-Lazy.use { "nvim-tree/nvim-web-devicons" }
-
 -- rust.vim
 Lazy.use { "rust-lang/rust.vim", ft = "rust" }
 -- Lazy.use { "mrcjkb/rustaceanvim", ft = "rust", version = "^4" }
@@ -752,6 +744,58 @@ Lazy.use { "echasnovski/mini.comment", event = "VeryLazy", config = true }
 -- surround - add, delete, replace, find, highlight - [n,v] <sa> <sd> <sr>
 Lazy.use { "echasnovski/mini.surround", event = "VeryLazy", config = true }
 
+-- mini icons
+Lazy.use {
+  "echasnovski/mini.icons",
+  event = "VeryLazy",
+  config = function()
+    require("mini.icons").setup()
+    MiniIcons.mock_nvim_web_devicons()
+  end
+}
+
+-- visualize and work with indent scope animated
+Lazy.use {
+  "echasnovski/mini.indentscope",
+  event = "VeryLazy",
+  opts = {
+    draw = {
+      delay = 16,
+      animation = function() return 0 end
+    }
+  }
+}
+
+-- minimap - window with buffer text overview
+Lazy.use {
+  "echasnovski/mini.map",
+  event = "VeryLazy",
+  opts = {
+    window = {
+      width = 1,
+      show_integration_count = false
+    }
+  },
+  config = function(_, options)
+    require("mini.map").setup(options)
+    require("mini.map").open()
+  end
+}
+
+-- highlight patterns / display #rrggbb colors
+Lazy.use {
+  "echasnovski/mini.hipatterns",
+  ft = { "lua", "conf", "css", "scss", "stylus", "html", "toml", "yml", "yaml", "markdown" },
+  config = function()
+    local hipatterns = require("mini.hipatterns")
+    hipatterns.setup({
+      highlighters = {
+        hex_color = hipatterns.gen_highlighter.hex_color()
+      }
+    })
+  end
+}
+
 -- split/join code blocks, fn args, arrays, tables - [n,v] <sj>
 Lazy.use {
   "echasnovski/mini.splitjoin",
@@ -783,43 +827,8 @@ Lazy.use {
       MiniTrailspace.trim_last_lines()
     end
 
-    vim.api.nvim_del_autocmd(tws_autocmd_id)
     vim.api.nvim_create_autocmd("BufWritePre", { pattern = "*", callback = trim })
     vim.api.nvim_create_user_command("TrimTralingWhiteSpace", trim, { desc = "Trim Trailing White Space" })
-
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "lazy",
-      callback = function(data)
-        vim.b[data.buf].minitrailspace_disable = true
-        vim.api.nvim_buf_call(data.buf, MiniTrailspace.unhighlight)
-      end
-    })
-  end
-}
-
--- visualize and work with indent scope animated
-Lazy.use {
-  "echasnovski/mini.indentscope",
-  event = "VeryLazy",
-  opts = {
-    draw = {
-      delay = 16,
-      animation = function() return 0 end
-    }
-  }
-}
-
--- highlight patterns / display #rrggbb colors
-Lazy.use {
-  "echasnovski/mini.hipatterns",
-  ft = { "lua", "conf", "css", "scss", "stylus", "html", "toml", "yml", "yaml", "markdown" },
-  config = function()
-    local hipatterns = require("mini.hipatterns")
-    hipatterns.setup({
-      highlighters = {
-        hex_color = hipatterns.gen_highlighter.hex_color()
-      }
-    })
   end
 }
 
@@ -843,18 +852,6 @@ Lazy.use {
   config = function()
     vim.api.nvim_create_user_command("Bdelete", function(opts) require("mini.bufremove").delete(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
     vim.api.nvim_create_user_command("Bwipeout", function(opts) require("mini.bufremove").wipeout(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
-  end
-}
-
--- minimap - window with buffer text overview
-Lazy.use {
-  "echasnovski/mini.map",
-  event = "VeryLazy",
-  -- keys = {{ "<leader>M", function() require("mini.map").toggle() end, silent = true, desc = "MiniMapToggle" }},
-  opts = { window = { width = 1, show_integration_count = false } },
-  config = function(_, options)
-    require("mini.map").setup(options)
-    require("mini.map").open()
   end
 }
 
@@ -885,7 +882,6 @@ Lazy.use {
 -- file explorer sidebar
 Lazy.use {
   "nvim-tree/nvim-tree.lua",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
   cmd = "NvimTreeToggle",
   opts = {
     git = { timeout = 2048 },
@@ -961,7 +957,6 @@ Lazy.use {
   priority = 512,
   dependencies = {
     { "tiagovla/scope.nvim" }, -- scope buffers to tabs
-    { "nvim-tree/nvim-web-devicons" }, -- use nvim dev icons
     { "yavorski/lualine-lsp-progress.nvim" }, -- display lsp progress
     { "yavorski/lualine-lsp-client-name.nvim" }, -- display lsp client name
     { "yavorski/lualine-macro-recording.nvim" }, -- display macro recording
@@ -1029,11 +1024,12 @@ end
 Lazy.use {
   "ibhagwan/fzf-lua",
   -- dir = "~/dev/open-sos/fzf-lua",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  dependencies = { "echasnovski/mini.icons" },
   cmd = "FzfLua",
   event = is_windows and "VeryLazy" or nil,
   opts = {
     defaults = {
+      file_icons = "mini",
       multiprocess = true,
       preview_pager = false,
       file_ignore_patterns = { "package%-lock%.json" }
@@ -1223,11 +1219,9 @@ Lazy.use {
         o = ai.gen_spec.treesitter({
           a = { "@block.outer", "@conditional.outer", "@loop.outer" },
           i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-        }, {}),
-        c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
-        f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
-        t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
-        d = { "%f[%d]%d+" }, -- digits
+        }),
+        c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
+        f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
       },
     }
   end,
