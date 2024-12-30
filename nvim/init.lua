@@ -657,9 +657,6 @@ Lazy.use {
 -- utility lib
 Lazy.use { "nvim-lua/plenary.nvim" }
 
--- nvim dev icons
-Lazy.use { "nvim-tree/nvim-web-devicons" }
-
 -- rust.vim
 Lazy.use { "rust-lang/rust.vim", ft = "rust" }
 -- Lazy.use { "mrcjkb/rustaceanvim", ft = "rust", version = "^4" }
@@ -696,6 +693,16 @@ Lazy.use { "echasnovski/mini.comment", event = "VeryLazy", config = true }
 
 -- surround - add, delete, replace, find, highlight - [n,v] <sa> <sd> <sr>
 Lazy.use { "echasnovski/mini.surround", event = "VeryLazy", config = true }
+
+-- mini icons
+Lazy.use {
+  "echasnovski/mini.icons",
+  event = "VeryLazy",
+  config = function()
+    require("mini.icons").setup()
+    MiniIcons.mock_nvim_web_devicons()
+  end
+}
 
 -- split/join code blocks, fn args, arrays, tables - [n,v] <sj>
 Lazy.use {
@@ -830,7 +837,6 @@ Lazy.use {
 -- file explorer sidebar
 Lazy.use {
   "nvim-tree/nvim-tree.lua",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
   cmd = "NvimTreeToggle",
   opts = {
     git = { timeout = 2048 },
@@ -894,7 +900,6 @@ Lazy.use {
   priority = 512,
   dependencies = {
     { "tiagovla/scope.nvim" }, -- scope buffers to tabs
-    { "nvim-tree/nvim-web-devicons" }, -- use nvim dev icons
     { "yavorski/lualine-lsp-progress.nvim" }, -- display lsp progress
     { "yavorski/lualine-lsp-client-name.nvim" }, -- display lsp client name
     { "yavorski/lualine-macro-recording.nvim" }, -- display macro recording
@@ -960,11 +965,12 @@ local vertical = {
 Lazy.use {
   "ibhagwan/fzf-lua",
   -- dir = "~/dev/open-sos/fzf-lua",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  dependencies = { "echasnovski/mini.icons" },
   cmd = "FzfLua",
   event = is_windows and "VeryLazy" or nil,
   opts = {
     defaults = {
+      file_icons = "mini",
       multiprocess = true,
       preview_pager = false,
       jump_to_single_result = true,
