@@ -370,9 +370,11 @@ vim.keymap.set("n", "gb0", "<cmd>LualineBuffersJump! 10<cr>", { silent = true })
 local Dark = {
   colors = {
     none      = "NONE",
+    white     = "#ffffff", -- [*] White
     rosewater = "#f5e0dc", -- Winbar
     flamingo  = "#f2cdcd", -- Target word
     pink      = "#ff1493", -- [!] Just pink
+    softpink  = "#f94ba6", -- [*] Soft pink
     mauve     = "#c678dd", -- [!] Tag
     red       = "#e95678", -- [!] Error
     maroon    = "#d16d9e", -- [!] Lighter red
@@ -396,6 +398,7 @@ local Dark = {
     trick     = "#1abc9c", -- [*] Trick
     stealth   = "#14ff80", -- [*] Type
     skyblue   = "#54b9f7", -- [*] Sky blue
+    softcyan  = "#4bf9f5", -- [*] Soft cyan
     mantle    = "#181825", -- [!] Dark 6
     coal      = "#161622", -- [*] Dark 5
     base      = "#14141f", -- [!] Dark 4 - Default BG
@@ -558,45 +561,31 @@ function Dark.syntax(colors)
 end
 
 function Dark.lualine()
-  local line = require("catppuccin.utils.lualine")("mocha")
+  local line = { }
   local colors = Dark.colors;
 
-  line.normal = {
-    a = { bg = colors.green, fg = colors.base, gui = "bold" },
-    b = { bg = colors.surface1, fg = colors.text, gui = "bold" },
-    c = { bg = colors.dark, fg = colors.text },
-    y = { fg = colors.teal }
-  }
+  local function colorize(c, text)
+    return {
+      a = { bg = c, fg = colors.dark, gui = "bold" },
+      b = { bg = colors.surface1, fg = colors.white, gui = "bold" },
+      c = { bg = colors.dark, fg = text or c },
+      x = { bg = colors.dark, fg = colors.text },
+      y = { bg = colors.dark, fg = c }
+    }
+  end
 
-  line.insert = {
-    a = { bg = colors.skyblue, fg = colors.mantle, gui = "bold" },
-    b = { bg = colors.surface1, fg = colors.skyblue },
-  }
-
-  line.terminal = {
-    a = { bg = colors.pink, fg = colors.base, gui = "bold" },
-    b = { bg = colors.surface1, fg = colors.teal },
-  }
-
-  line.command = {
-    a = { bg = colors.yellow, fg = colors.base, gui = "bold" },
-    b = { bg = colors.surface1, fg = colors.yellow },
-  }
-
-  line.visual = {
-    a = { bg = colors.peach, fg = colors.base, gui = "bold" },
-    b = { bg = colors.surface1, fg = colors.peach },
-  }
-
-  line.replace = {
-    a = { bg = colors.red, fg = colors.base, gui = "bold" },
-    b = { bg = colors.surface1, fg = colors.red },
-  }
+  line.normal = colorize(colors.green, colors.text)
+  line.insert = colorize(colors.blue)
+  line.visual = colorize(colors.softcyan)
+  line.select = colorize(colors.yellow)
+  line.replace = colorize(colors.red)
+  line.command = colorize(colors.pink)
+  line.terminal = colorize(colors.pink)
 
   line.inactive = {
-    a = { bg = colors.dark, fg = colors.skyblue },
+    a = { bg = colors.dark, fg = colors.skyblue, gui = "bold" },
     b = { bg = colors.dark, fg = colors.surface1, gui = "bold" },
-    c = { bg = colors.dark, fg = colors.overlay0 },
+    c = { bg = colors.dark, fg = colors.overlay0, gui = "bold" },
   }
 
   return line
@@ -719,6 +708,9 @@ Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = { config = { filetypes = { "cs
 
 -- auto close/rename html tag
 Lazy.use { "windwp/nvim-ts-autotag", ft = { "html", "cshtml", "razor", "markdown" }, opts = { opts = { enable_close_on_slash = true } } }
+
+-- scope buffers to tabs
+Lazy.use { "tiagovla/scope.nvim", event = "VeryLazy", config = true }
 
 -- put, put_text, setup_auto_root, setup_restore_cursor, zoom
 Lazy.use { "echasnovski/mini.misc", event = "VeryLazy", config = true }
@@ -945,22 +937,28 @@ Lazy.use {
 }
 
 -- statusline
+local function show_macro()
+  return vim.fn.reg_recording() == "" and "" or "Recording @" .. vim.fn.reg_recording()
+end
+
+local function show_lsp_clients()
+  return table.concat(vim.tbl_map(function(client) return client.name end, vim.lsp.get_clients({ bufnr = 0 })), " | ") .. " ★"
+end
+
+-- statusline
 Lazy.use {
   "nvim-lualine/lualine.nvim",
   lazy = false,
   priority = 512,
-  dependencies = {
-    { "tiagovla/scope.nvim" }, -- scope buffers to tabs
-    { "yavorski/lualine-lsp-progress.nvim" }, -- display lsp progress
-    { "yavorski/lualine-lsp-client-name.nvim" }, -- display lsp client name
-    { "yavorski/lualine-macro-recording.nvim" }, -- display macro recording
-  },
   opts = function()
-    local catppuccin = Dark.lualine()
+    require("lualine_require").require = require
+    local H = require("lualine.highlight")
+    local get_mode_suffix = require("lualine.highlight").get_mode_suffix
+    H.get_mode_suffix = function() return vim.fn.mode() == "s" and "_select" or get_mode_suffix() end
 
     return {
       options = {
-        theme = catppuccin,
+        theme = Dark.lualine(),
         globalstatus = true,
         icons_enabled = true,
         section_separators = "", -- disable separators
@@ -969,10 +967,10 @@ Lazy.use {
       sections = {
         lualine_a = { "mode" },
         lualine_b = { "branch", "diff", "diagnostics" },
-        lualine_c = { "filename", "filesize", "lsp_progress", "macro_recording", "%S" },
-        lualine_x = { "selectioncount", "searchcount", "lsp_client_name", "encoding", "fileformat", "filetype" },
+        lualine_c = { { "filename", path = 3 }, show_macro, "%S" },
+        lualine_x = { "selectioncount", "searchcount", show_lsp_clients, "encoding", "fileformat", "filesize", "filetype" },
         lualine_y = { "progress" },
-        lualine_z = { "location" }
+        lualine_z = { "%2v:%l/%L" }
       },
       tabline = {
         lualine_a = {{
@@ -984,22 +982,12 @@ Lazy.use {
           hide_filename_extension = false,
           max_length = vim.o.columns, -- maximum width of buffers component
           symbols = { modified = " ^", directory = "", alternate_file = "#" },
-          filetype_names = {
-            fzf = "FZF",
-            lazy = "Lazy",
-            NvimTree = "NvimTree",
-            checkhealth = "CheckHealth",
-            TelescopePrompt = "Telescope",
-          },
+          filetype_names = { fzf = "FZF", lazy = "Lazy", noice = "Noice", trouble = "Trouble", NvimTree = "nvim-tree", checkhealth = "check-health" },
         }},
         lualine_z = { "tabs" }
       },
       extensions = { "nvim-tree" }
     }
-  end,
-  config = function(_, options)
-    require("scope").setup()
-    require("lualine").setup(options)
   end
 }
 
