@@ -649,7 +649,6 @@ Lazy.use { "nvim-lua/plenary.nvim" }
 
 -- rust.vim
 Lazy.use { "rust-lang/rust.vim", ft = "rust" }
--- Lazy.use { "mrcjkb/rustaceanvim", ft = "rust", version = "^4" }
 
 -- stylus syntax
 Lazy.use { "wavded/vim-stylus", ft = "stylus" }
@@ -1220,11 +1219,11 @@ local LSP = {
       "yamlls",
       "nushell",
       "dockerls",
-      "rust_analyzer",
       -- "tsserver",
       -- "angularls",
       -- "powershell",
-      -- "roslyn/dotnet"
+      -- "roslyn/dotnet",
+      -- "rust_analyzer",
       -- "azure_pipelines_ls",
       -- "lua-language-server",
       -- "emmet_language_server",
@@ -1309,6 +1308,9 @@ LSP.buffer_keymaps = function(buffer)
 
   keymap("n", "<leader>d", "<cmd>FzfLua diagnostics_document<cr>", "LSP Document Diagnostics")
   keymap("n", "<leader>D", "<cmd>FzfLua diagnostics_workspace<cr>", "LSP Workspace Diagnostics")
+
+  -- toggle inlay hints
+  keymap("n", "<leader>;", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, "LSP Inlay Hints")
 
   keymap("n", "<leader>Wa", vim.lsp.buf.add_workspace_folder, "LSP Add Workspace Folder")
   keymap("n", "<leader>Wr", vim.lsp.buf.remove_workspace_folder, "LSP Remove Workspace Folder")
@@ -1519,6 +1521,42 @@ Lazy.use {
       lspconfig = true,
     }
   }
+}
+
+-- LSP Rust will setup rust-analyzer
+Lazy.use {
+  "mrcjkb/rustaceanvim",
+  ft = "rust",
+  version = "^5",
+  config = function()
+    vim.g.rustaceanvim = {
+      tools = {
+        float_win_config = {
+          relative = "cursor",
+          border = LSP.opts.border
+        }
+      },
+      server = {
+        default_settings = {
+          ["rust-analyzer"] = {
+            cargo = { allFeatures = true },
+            procMacro = { enable = true },
+            inlayHints = {
+              lifetimeElisionHints = {
+                enable = true,
+                useParameterNames = true,
+              }
+            }
+          }
+        },
+        on_attach = function(_, bufnr)
+          LSP.keymaps()
+          vim.keymap.set("n", "<leader>C", function() vim.cmd.RustLsp('flyCheck') end, { silent = true, buffer = bufnr, desc = "LSP Run Clippy" })
+          vim.keymap.set("n", "<leader>eR", function() vim.cmd.RustLsp("explainError") end, { silent = true, buffer = bufnr, desc = "LSP Explain Error" })
+        end
+      },
+    }
+  end
 }
 
 -- LSP TypeScript TS Server
