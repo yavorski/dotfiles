@@ -1,8 +1,8 @@
 [alias]
-  # View abbreviated SHA, description, and history graph of the latest 20 commits
-  l = log --pretty=oneline -n 20 --graph --abbrev-commit
-  ll = log --pretty=oneline -n 100 --graph --abbrev-commit
-  lll = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen%an%Creset (%cr)' --abbrev-commit --date=relative
+  # View abbreviated SHA, description, and history graph of latest commits
+  l = log -n 24 --graph --pretty=oneline --abbrev-commit
+  ll = log -n 48 --graph --pretty=format:'%C(auto)%h%d %s %C(green)%an%C(reset) (%cr)' --abbrev-commit --date=relative
+  lll = log --all --graph --pretty=format:'%C(auto)%h%d %s %C(green)%an%C(reset) (%cr)' --abbrev-commit --date=relative
 
   # View the current working tree status
   s = status
@@ -37,17 +37,21 @@
   # List aliases
   aliases = config --get-regexp alias
 
+  # Interactive rebase with the given number of latest commits
+  reb = "!r() { git rebase -i HEAD~$1; }; r"
+
   # Amend the currently staged files to the latest commit
   amend = commit --amend --reuse-message=HEAD
 
   # Credit an author on the latest commit
   credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
 
-  # Interactive rebase with the given number of latest commits
-  reb = "!r() { git rebase -i HEAD~$1; }; r"
-
   # Remove the old tag with this name and tag the latest commit with it.
   retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+
+  # Exclude package-lock from show and diff
+  diff-no-lock = "!git diff -- . ':(exclude)package-lock.json' ':(exclude)**/package-lock.json'"
+  show-no-lock = "!f() { git show $1 -- . ':(exclude)package-lock.json' ':(exclude)**/package-lock.json'; }; f"
 
   # Find branches containing commit
   fb = "!f() { git branch -a --contains $1; }; f"
@@ -94,7 +98,8 @@
   whitespace = fix
 
 [core]
-  editor = helix
+  editor = nvim
+  # editor = helix
 
   # Treat spaces before tabs and all kinds of trailing whitespace as an error
   # [default] trailing-space: looks for spaces at the end of a line
@@ -151,19 +156,24 @@
   textconv = hexdump -v -C
 
 [help]
-  # Automatically correct and execute mistyped commands
-  # Set 1 to enable
   autocorrect = 0
 
 [merge]
-  # Include summaries of merged commits in newly created merge commit messages
   log = true
-  conflictstyle = diff3
+  tool = nvimdiff # cq
+  conflictStyle = zdiff3
+
+[mergetool]
+  prompt = false
+  keepBackup = false
+
+[mergetool "nvimdiff"]
+  layout = "LOCAL,REMOTE / MERGED"
+  # layout = "LOCAL,BASE,REMOTE / MERGED"
+  # cmd = nvim -n -c "DiffviewOpen" "$MERGE"
 
 [push]
-  # https://git-scm.com/docs/git-config#git-config-pushdefault
   default = simple
-  # Make `git push` push relevant annotated tags when pushing branches out.
   followTags = true
 
 [pull]
@@ -186,12 +196,13 @@
 
 [delta]
   tabs = 2 # tab len
-  light = false # dark/light
+  dark = true # dark/light
   navigate = true # use n/N keys
   side-by-side = true # split diff
   line-numbers = true # show line number
   syntax-theme = Dracula # syntax theme
   keep-plus-minus-markers = false # toggle -/+ markers
 
+# git diff | delta
 # git diff | nvim -d
 # git diff | bat -ldiff
