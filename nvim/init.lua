@@ -626,6 +626,7 @@ Lazy.use {
     integrations = {
       fzf = true,
       mini = true,
+      noice = true,
       nvimtree = true,
       blink_cmp = true,
       which_key = true,
@@ -806,6 +807,7 @@ Lazy.use {
 Lazy.use {
   "echasnovski/mini.notify",
   event = "VeryLazy",
+  enabled = false,
   opts = {
     content = {
       format = function(notification)
@@ -1095,6 +1097,89 @@ Lazy.use {
       { "s", mode = { "n", "v", "x" } },
     },
   }
+}
+
+-- ui for messages, cmdline, search and popupmenu
+Lazy.use {
+  "folke/noice.nvim",
+  event = "VeryLazy",
+  dependencies = { "muniftanjim/nui.nvim" },
+  opts = {
+    notify = { view = "mini" },
+    messages = { enabled = true },
+    popupmenu = { enabled = false },
+    cmdline_output = { enabled = true },
+    cmdline = { view = "cmdline_popup" },
+    commands = { history = { view = "popup" } },
+    presets = {
+      command_palette = true,
+      long_message_to_split = true,
+      cmdline_output_to_split = false
+    },
+    lsp = {
+      hover = { enabled = false },
+      message = { enabled = true },
+      progress = { enabled = true },
+      signature = { enabled = false },
+      documentation = { enabled = false }
+    },
+    format = {
+      level = {
+        icons = { info = "▪", hint = "★", warn = "◮", error = "✖" }
+      }
+    },
+    routes = {
+      { view = "notify", filter = { event = "msg_showmode" } },
+      { view = "split", filter = { event = "msg_show", min_height = 10 } },
+    },
+    views = {
+      notify = { merge = true, replace = true },
+      messages = { view = "popup", enter = true },
+      popup = {
+        size = { width = "75%", height = "60%" },
+        border = { style = "solid", padding = { 1, 2 } },
+        win_options = { winhighlight = { Normal = "MiniNotifyNormal" } }
+      },
+      popupmenu = {
+        relative = "cursor",
+        border = { style = "single", padding = { 0, 1 } },
+        win_options = { winhighlight = { Normal = "NormalFloat" } }
+      },
+      confirm = {
+        position = { row = 5, col = "50%" },
+        border = { style = "solid", padding = { 1, 1, 0, 1 } },
+        win_options = { winhighlight = { Normal = "MiniNotifyNormal" } }
+      },
+      cmdline_input = {
+        border = { style = "solid", padding = { 0, 1 } },
+        win_options = { winhighlight = { Normal = "MiniNotifyNormal" } }
+      },
+      cmdline_popup = {
+        align = "center",
+        position = { row = 8, col = "50%" },
+        size = { width = 80, height = "auto" },
+        border = { style = "none", padding = { 1, 2 } },
+        win_options = { winhighlight = { Normal = "MiniNotifyNormal" } }
+      },
+      cmdline_popupmenu = {
+        position = { row = 12, col = "50%" },
+        size = { width = 80, height = "auto" },
+        border = { style = "solid", padding = { 0, 1 } },
+        win_options = { winhighlight = { Normal = "MiniNotifyNormal" } }
+      },
+      mini = {
+        timeout = 2800,
+        focusable = false,
+        border = { style = "none", padding = { 1, 2 } },
+        position = { row = 3, col = "98%" },
+        win_options = { winhighlight = { Normal = "MiniNotifyNormal" } }
+      }
+    }
+  },
+  config = function(_, options)
+    require("noice").setup(options)
+    require("noice.config.format").builtin.lsp_progress_done[1] = { " ", hl_group = "NoiceLspProgressSpinner" }
+  end
 }
 
 -- tree-sitter
