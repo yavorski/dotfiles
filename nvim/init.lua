@@ -670,6 +670,7 @@ Lazy.use {
     integrations = {
       fzf = true,
       mini = true,
+      noice = true,
       nvimtree = true,
       blink_cmp = true,
       which_key = true,
@@ -851,6 +852,7 @@ Lazy.use {
 Lazy.use {
   "echasnovski/mini.notify",
   event = "VeryLazy",
+  enabled = false,
   opts = {
     content = {
       format = function(notification)
@@ -1139,6 +1141,74 @@ Lazy.use {
       { "s", mode = { "n", "v", "x" } },
     },
   }
+}
+
+-- ui for messages, cmdline, search and popupmenu
+Lazy.use {
+  "folke/noice.nvim",
+  event = "VeryLazy",
+  dependencies = { "muniftanjim/nui.nvim" },
+  opts = {
+    notify = { view = "mini" },
+    messages = { enabled = true },
+    popupmenu = { enabled = false },
+    cmdline_output = { enabled = true },
+    cmdline = { view = "cmdline_popup" },
+    commands = { history = { view = "popup" } },
+    lsp = {
+      hover = { enabled = false },
+      message = { enabled = true },
+      progress = { enabled = true },
+      signature = { enabled = false },
+      documentation = { enabled = false }
+    },
+    format = {
+      level = {
+        icons = { info = "▪", hint = "★", warn = "◮", error = "" }
+      }
+    },
+    routes = {
+      { view = "mini", filter = { event = "msg_showmode" } },
+      { view = "popup", filter = { min_height = 7 } },
+      { view = "split", filter = { cmdline = "^:", min_height = 7 } },
+      { view = "popup", filter = { event = "msg_show", min_height = 7 } },
+    },
+    views = {
+      split = { size = "24%" },
+      notify = { merge = true, replace = true },
+      messages = { view = "popup", enter = true },
+      confirm = { position = { row = 5, col = "50%" } },
+      popup = {
+        size = { width = "78%", height = "60%" },
+        border = { style = "rounded", padding = { 0, 1 } },
+        win_options = { wrap = true }
+      },
+      cmdline_input = {
+        border = { style = "solid", padding = { 0, 1 } },
+        win_options = { winhighlight = { Normal = "NoiceDark" } }
+      },
+      cmdline_popup = {
+        align = "center",
+        position = { row = 8, col = "50%" },
+        size = { min_width = 82, max_width = 120 },
+        border = { style = "solid", padding = { 0, 1 } },
+        win_options = { winhighlight = { Normal = "NoiceDark" } }
+      },
+      mini = {
+        timeout = 2800,
+        border = { style = "solid", padding = { 1, 2 } },
+        position = { row = 3, col = "98%" },
+        win_options = { winhighlight = { Normal = "MiniNotifyNormal" } }
+      }
+    }
+  },
+  config = function(_, options)
+    require("noice").setup(options)
+    require("noice.config.format").builtin.lsp_progress_done[1] = { " ", hl_group = "NoiceLspProgressSpinner" }
+
+    _G.d = function(...) vim.notify(vim.inspect(...), vim.log.levels.DEBUG) end
+    vim.keymap.set({ "c" }, "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()); vim.api.nvim_input("<esc>") end)
+  end
 }
 
 -- tree-sitter
