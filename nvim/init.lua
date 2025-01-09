@@ -1072,6 +1072,7 @@ Lazy.use {
   config = function(_, options)
     require("trouble").setup(options)
     require("fzf-lua.config").defaults.actions.files["alt-t"] = require("trouble.sources.fzf").actions.open
+    vim.api.nvim_create_user_command("TroubleClose", function() require("trouble").close() end, { desc = "Trouble Close" })
   end
 }
 
@@ -1846,41 +1847,19 @@ local function close_qf_loc_list()
   end
 end
 
--- close trouble
-local function close_trouble()
-  local is_trouble_loaded, trouble = pcall(require, "trouble")
-  if is_trouble_loaded then
-    if trouble.is_open() then
-      trouble.close()
-    end
-  end
-end
-
--- reopen mini map
-local function reopen_minimap()
-  local is_minimap_loaded, minimap = pcall(require, "mini.map")
-  if is_minimap_loaded then
-    minimap.open()
-  end
-end
-
--- clear mini jump
-local function stop_jumping()
-  local is_minijump_loaded, minijump = pcall(require, "mini.jump")
-  if is_minijump_loaded then
-    if minijump.state.jumping then
-      minijump.stop_jumping()
-    end
-  end
-end
-
 -- escape fn
 local function escape()
-  close_trouble()
   close_qf_loc_list()
+
+  vim.cmd("Noice dismiss")
   vim.cmd("silent! fclose!")
-  stop_jumping()
-  reopen_minimap()
+
+  if vim.snippet.active() then
+    vim.snippet.stop()
+  end
+
+  if MiniMap ~= nil then MiniMap.open() end
+  if MiniJump ~= nil and MiniJump.state.jumping then MiniJump.stop_jumping() end
 end
 
 -- map <esc> key
