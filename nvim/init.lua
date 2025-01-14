@@ -181,9 +181,6 @@ local tws_autocmd_id = vim.api.nvim_create_autocmd("BufWritePre", {
   command = [[:%s/\s\+$//e]]
 })
 
--- treat json files as jsonc
--- vim.cmd[[autocmd BufEnter *.json set filetype=jsonc]]
-
 -- disable relative numbers
 vim.cmd[[autocmd FileType qf,lhelp,lquickfix setlocal norelativenumber]]
 
@@ -192,9 +189,6 @@ vim.cmd[[autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-
 
 -- highlight on yank
 vim.cmd[[autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "YankHighlight" })]]
-
--- 2 spaces for selected filetypes
--- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
 
 -- Normalize Line Endings
 -- HACK to detect visual mode
@@ -654,17 +648,11 @@ Lazy.use { "rust-lang/rust.vim", ft = "rust" }
 -- stylus syntax
 Lazy.use { "wavded/vim-stylus", ft = "stylus" }
 
+-- Microsoft.CodeAnalysis.LanguageServer
+Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = {} }
+
 -- razor syntax -> adamclerk/vim-razor
 Lazy.use { "jlcrochet/vim-razor", ft = { "razor", "cshtml" } }
-
--- roslyn.nvim -> c-sharp dotnet lsp -> Microsoft.CodeAnalysis.LanguageServer
-Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = { config = { filetypes = { "cs" } } } }
-
--- auto close/rename html tag
--- Lazy.use { "andrewradev/tagalong.vim", ft = { "html", "cshtml", "razor", "markdown" }, enabled = false }
-
--- auto close/rename html tag
-Lazy.use { "windwp/nvim-ts-autotag", ft = { "html", "cshtml", "razor", "markdown" }, opts = { opts = { enable_close_on_slash = true } } }
 
 -- scope buffers to tabs
 Lazy.use { "tiagovla/scope.nvim", event = "VeryLazy", config = true }
@@ -694,6 +682,48 @@ Lazy.use {
   config = function()
     require("mini.icons").setup()
     MiniIcons.mock_nvim_web_devicons()
+  end
+}
+
+-- visualize and work with indent scope animated
+Lazy.use {
+  "echasnovski/mini.indentscope",
+  event = "VeryLazy",
+  opts = {
+    draw = {
+      delay = 16,
+      animation = function() return 0 end
+    }
+  }
+}
+
+-- minimap - window with buffer text overview
+Lazy.use {
+  "echasnovski/mini.map",
+  event = "VeryLazy",
+  opts = {
+    window = {
+      width = 1,
+      show_integration_count = false
+    }
+  },
+  config = function(_, options)
+    require("mini.map").setup(options)
+    require("mini.map").open()
+  end
+}
+
+-- highlight patterns / display #rrggbb colors
+Lazy.use {
+  "echasnovski/mini.hipatterns",
+  ft = { "lua", "conf", "css", "scss", "stylus", "html", "toml", "yml", "yaml", "markdown" },
+  config = function()
+    local hipatterns = require("mini.hipatterns")
+    hipatterns.setup({
+      highlighters = {
+        hex_color = hipatterns.gen_highlighter.hex_color()
+      }
+    })
   end
 }
 
@@ -742,32 +772,6 @@ Lazy.use {
   end
 }
 
--- visualize and work with indent scope animated
-Lazy.use {
-  "echasnovski/mini.indentscope",
-  event = "VeryLazy",
-  opts = {
-    draw = {
-      delay = 16,
-      animation = function() return 0 end
-    }
-  }
-}
-
--- highlight patterns / display #rrggbb colors
-Lazy.use {
-  "echasnovski/mini.hipatterns",
-  ft = { "lua", "conf", "css", "scss", "stylus", "html", "toml", "yml", "yaml", "markdown" },
-  config = function()
-    local hipatterns = require("mini.hipatterns")
-    hipatterns.setup({
-      highlighters = {
-        hex_color = hipatterns.gen_highlighter.hex_color()
-      }
-    })
-  end
-}
-
 -- delete buffers without losing window layout
 Lazy.use {
   "echasnovski/mini.bufremove",
@@ -788,18 +792,6 @@ Lazy.use {
   config = function()
     vim.api.nvim_create_user_command("Bdelete", function(opts) require("mini.bufremove").delete(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
     vim.api.nvim_create_user_command("Bwipeout", function(opts) require("mini.bufremove").wipeout(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
-  end
-}
-
--- minimap - window with buffer text overview
-Lazy.use {
-  "echasnovski/mini.map",
-  event = "VeryLazy",
-  -- keys = {{ "<leader>M", function() require("mini.map").toggle() end, silent = true, desc = "MiniMapToggle" }},
-  opts = { window = { width = 1, show_integration_count = false } },
-  config = function(_, options)
-    require("mini.map").setup(options)
-    require("mini.map").open()
   end
 }
 
@@ -1307,22 +1299,15 @@ local LSP = {
     },
 
     servers = {
-      "html",
-      "cssls",
-      "taplo",
-      "bashls",
-      "jsonls",
-      "yamlls",
-      "nushell",
-      "dockerls",
-      -- "tsserver",
-      -- "angularls",
-      -- "powershell",
-      -- "roslyn/dotnet",
-      -- "rust_analyzer",
-      -- "azure_pipelines_ls",
-      -- "lua-language-server",
-      -- "emmet_language_server",
+      cssls = {},
+      taplo = {},
+      bashls = {},
+      jsonls = {},
+      yamlls = {},
+      nushell = {},
+      dockerls = {},
+      html = { filetypes = { "html", "cshtml", "razor" } },
+      emmet_language_server = { filetypes = { "html", "cshtml", "razor" } },
     }
   }
 }
@@ -1335,7 +1320,6 @@ LSP.init = function()
   LSP.keymaps()
   LSP.overloads()
   LSP.setup_lua()
-  LSP.setup_emmet()
   LSP.setup_angular()
   LSP.setup_powershell()
   LSP.setup_listed_servers()
@@ -1491,10 +1475,12 @@ LSP.setup_listed_servers = function()
   local lsp = require("lspconfig")
   local servers = LSP.opts.servers
 
-  for _, server in ipairs(servers) do
-    lsp[server].setup({
-      capabilities = LSP.capabilities()
-    })
+  for server, options in pairs(servers) do
+    lsp[server].setup(
+      vim.tbl_extend("force", options or {}, {
+        capabilities = LSP.capabilities()
+      })
+    )
   end
 end
 
@@ -1509,7 +1495,6 @@ LSP.setup_angular = function()
 
   require("lspconfig").angularls.setup({
     cmd = server_cmd,
-    filetypes = { "html" },
     capabilities = LSP.capabilities(),
     on_new_config = function(new_config)
       new_config.cmd = server_cmd
@@ -1527,26 +1512,10 @@ LSP.setup_lua = function()
       Lua = {
         format = { enable = true },
         runtime = { version = "LuaJIT" },
+        diagnostics = { globals = { "vim" } },
         completion = { callSnippet = "Replace" },
         workspace = { checkThirdParty = "Disable" },
-        diagnostics = {
-          globals = { "vim" },
-          -- disable = { "missing-fields" },
-        }
       }
-    }
-  })
-end
-
-------------------------------------------------------------
--- LSP Emmet
-------------------------------------------------------------
-LSP.setup_emmet = function()
-  require("lspconfig").emmet_language_server.setup({
-    filetypes = {
-      "html", "pug", "eruby", "cshtml", "razor",
-      -- "css", "less", "sass", "scss", "stylus",
-      -- "javascript", "javascriptreact", "typescriptreact",
     }
   })
 end
