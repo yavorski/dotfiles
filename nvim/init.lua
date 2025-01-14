@@ -181,9 +181,6 @@ local tws_autocmd_id = vim.api.nvim_create_autocmd("BufWritePre", {
   command = [[:%s/\s\+$//e]]
 })
 
--- treat json files as jsonc
--- vim.cmd[[autocmd BufEnter *.json set filetype=jsonc]]
-
 -- disable relative numbers
 vim.cmd[[autocmd FileType qf,lhelp,lquickfix setlocal norelativenumber]]
 
@@ -192,9 +189,6 @@ vim.cmd[[autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-
 
 -- highlight on yank
 vim.cmd[[autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "YankHighlight" })]]
-
--- 2 spaces for selected filetypes
--- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
 
 -- Normalize Line Endings
 -- HACK to detect visual mode
@@ -655,17 +649,11 @@ Lazy.use { "rust-lang/rust.vim", ft = "rust" }
 -- stylus syntax
 Lazy.use { "wavded/vim-stylus", ft = "stylus" }
 
+-- Microsoft.CodeAnalysis.LanguageServer
+Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = {} }
+
 -- razor syntax -> adamclerk/vim-razor
 Lazy.use { "jlcrochet/vim-razor", ft = { "razor", "cshtml" } }
-
--- roslyn.nvim -> c-sharp dotnet lsp -> Microsoft.CodeAnalysis.LanguageServer
-Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = { config = { filetypes = { "cs" } } } }
-
--- auto close/rename html tag
--- Lazy.use { "andrewradev/tagalong.vim", ft = { "html", "cshtml", "razor", "markdown" }, enabled = false }
-
--- auto close/rename html tag
-Lazy.use { "windwp/nvim-ts-autotag", ft = { "html", "cshtml", "razor", "markdown" }, opts = { opts = { enable_close_on_slash = true } } }
 
 -- scope buffers to tabs
 Lazy.use { "tiagovla/scope.nvim", event = "VeryLazy", config = true }
@@ -715,6 +703,48 @@ Lazy.use {
   end
 }
 
+-- visualize and work with indent scope animated
+Lazy.use {
+  "echasnovski/mini.indentscope",
+  event = "VeryLazy",
+  opts = {
+    draw = {
+      delay = 16,
+      animation = function() return 0 end
+    }
+  }
+}
+
+-- minimap - window with buffer text overview
+Lazy.use {
+  "echasnovski/mini.map",
+  event = "VeryLazy",
+  opts = {
+    window = {
+      width = 1,
+      show_integration_count = false
+    }
+  },
+  config = function(_, options)
+    require("mini.map").setup(options)
+    require("mini.map").open()
+  end
+}
+
+-- highlight patterns / display #rrggbb colors
+Lazy.use {
+  "echasnovski/mini.hipatterns",
+  ft = { "lua", "conf", "css", "scss", "stylus", "html", "toml", "yml", "yaml", "markdown" },
+  config = function()
+    local hipatterns = require("mini.hipatterns")
+    hipatterns.setup({
+      highlighters = {
+        hex_color = hipatterns.gen_highlighter.hex_color()
+      }
+    })
+  end
+}
+
 -- split/join code blocks, fn args, arrays, tables - [n,v] <sj>
 Lazy.use {
   "echasnovski/mini.splitjoin",
@@ -760,32 +790,6 @@ Lazy.use {
   end
 }
 
--- visualize and work with indent scope animated
-Lazy.use {
-  "echasnovski/mini.indentscope",
-  event = "VeryLazy",
-  opts = {
-    draw = {
-      delay = 16,
-      animation = function() return 0 end
-    }
-  }
-}
-
--- highlight patterns / display #rrggbb colors
-Lazy.use {
-  "echasnovski/mini.hipatterns",
-  ft = { "lua", "conf", "css", "scss", "stylus", "html", "toml", "yml", "yaml", "markdown" },
-  config = function()
-    local hipatterns = require("mini.hipatterns")
-    hipatterns.setup({
-      highlighters = {
-        hex_color = hipatterns.gen_highlighter.hex_color()
-      }
-    })
-  end
-}
-
 -- delete buffers without losing window layout
 Lazy.use {
   "echasnovski/mini.bufremove",
@@ -806,18 +810,6 @@ Lazy.use {
   config = function()
     vim.api.nvim_create_user_command("Bdelete", function(opts) require("mini.bufremove").delete(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
     vim.api.nvim_create_user_command("Bwipeout", function(opts) require("mini.bufremove").wipeout(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
-  end
-}
-
--- minimap - window with buffer text overview
-Lazy.use {
-  "echasnovski/mini.map",
-  event = "VeryLazy",
-  -- keys = {{ "<leader>M", function() require("mini.map").toggle() end, silent = true, desc = "MiniMapToggle" }},
-  opts = { window = { width = 1, show_integration_count = false } },
-  config = function(_, options)
-    require("mini.map").setup(options)
-    require("mini.map").open()
   end
 }
 
@@ -876,7 +868,7 @@ Lazy.use {
     vim.keymap.set("n", "gmm", marks.next, { silent = true, desc = "Go to next mark" })
     vim.keymap.set("n", "gmp", marks.prev, { silent = true, desc = "Go to prev mark" })
     vim.keymap.set("n", "gmd", marks.delete_buf, { silent = true, desc = "Delete marks" })
-    vim.keymap.set("n", "<leader>m", marks.toggle, { silent = true, desc = "Mark Toggle" })
+    vim.keymap.set("n", "<leader>M", marks.toggle, { silent = true, desc = "Mark Toggle" })
   end
 }
 
@@ -1043,15 +1035,7 @@ Lazy.use {
     },
     grep = { winopts = vertical },
     git = { status = { winopts = vertical } },
-    files = { fd_opts = nil, find_opts = nil },
     diagnostics = { winopts = vertical, multiline = false },
-    -- manpages = { cmd = "man -s 1 -k ." },
-    helptags = {
-      fzf_opts = {
-        ["--tac"] = "",
-        ["--tiebreak"] = "begin,length,index",
-      }
-    },
   },
   keys = {
     { "<leader>tt", "<cmd>FzfLua<cr>", silent = true, desc = "FZF Lua" },
@@ -1060,7 +1044,7 @@ Lazy.use {
     { "<leader>f", "<cmd>FzfLua files header=false<cr>", silent = true, desc = "FZF Files" },
     { "<leader>j", "<cmd>FzfLua jumps<cr>", silent = true, desc = "FZF Jumps List" },
     { "<leader>h", "<cmd>FzfLua helptags<cr>", silent = true, desc = "FZF Help Tags" },
-    { "<leader>M", "<cmd>FzfLua manpages<cr>", silent = true, desc = "FZF Man Pages" },
+    { "<leader>m", "<cmd>FzfLua manpages<cr>", silent = true, desc = "FZF Man Pages" },
     { "<leader>g", "<cmd>FzfLua git_status<cr>", silent = true, desc = "FZF Git Status" },
     { "<leader>'", "<cmd>FzfLua resume<cr>", silent = true, desc = "FZF Resume" },
   },
@@ -1339,22 +1323,16 @@ local LSP = {
     },
 
     servers = {
-      "html",
-      "cssls",
-      "taplo",
-      "bashls",
-      "jsonls",
-      "yamlls",
-      "nushell",
-      "dockerls",
-      -- "tsserver",
-      -- "angularls",
-      -- "powershell",
-      -- "roslyn/dotnet",
-      -- "rust_analyzer",
-      -- "azure_pipelines_ls",
-      -- "lua-language-server",
-      -- "emmet_language_server",
+      cssls = {},
+      taplo = {},
+      bashls = {},
+      jsonls = {},
+      yamlls = {},
+      nushell = {},
+      dockerls = {},
+      angularls = {},
+      html = { filetypes = { "html", "cshtml", "razor" } },
+      emmet_language_server = { filetypes = { "html", "cshtml", "razor" } },
     }
   }
 }
@@ -1367,8 +1345,6 @@ LSP.init = function()
   LSP.keymaps()
   LSP.overloads()
   LSP.setup_lua()
-  LSP.setup_emmet()
-  LSP.setup_angular()
   LSP.setup_powershell()
   LSP.setup_listed_servers()
   LSP.setup_azure_pipelines()
@@ -1523,30 +1499,13 @@ LSP.setup_listed_servers = function()
   local lsp = require("lspconfig")
   local servers = LSP.opts.servers
 
-  for _, server in ipairs(servers) do
-    lsp[server].setup({
-      capabilities = LSP.capabilities()
-    })
+  for server, options in pairs(servers) do
+    lsp[server].setup(
+      vim.tbl_extend("force", options or {}, {
+        capabilities = LSP.capabilities()
+      })
+    )
   end
-end
-
-------------------------------------------------------------
--- LSP Angular
-------------------------------------------------------------
-LSP.setup_angular = function()
-  local npm = is_windows and "$APPDATA/npm" or "$HOME/.npm/lib"
-  local ts_path = vim.fn.expand(npm .. "/node_modules/typescript/lib")
-  local als_path = vim.fn.expand(npm .. "/node_modules/@angular/language-server/bin")
-  local server_cmd = { "ngserver", "--stdio", "--tsProbeLocations", ts_path, "--ngProbeLocations", als_path }
-
-  require("lspconfig").angularls.setup({
-    cmd = server_cmd,
-    filetypes = { "html" },
-    capabilities = LSP.capabilities(),
-    on_new_config = function(new_config)
-      new_config.cmd = server_cmd
-    end
-  })
 end
 
 ------------------------------------------------------------
@@ -1559,26 +1518,10 @@ LSP.setup_lua = function()
       Lua = {
         format = { enable = true },
         runtime = { version = "LuaJIT" },
+        diagnostics = { globals = { "vim" } },
         completion = { callSnippet = "Replace" },
         workspace = { checkThirdParty = "Disable" },
-        diagnostics = {
-          globals = { "vim" },
-          -- disable = { "missing-fields" },
-        }
       }
-    }
-  })
-end
-
-------------------------------------------------------------
--- LSP Emmet
-------------------------------------------------------------
-LSP.setup_emmet = function()
-  require("lspconfig").emmet_language_server.setup({
-    filetypes = {
-      "html", "pug", "eruby", "cshtml", "razor",
-      -- "css", "less", "sass", "scss", "stylus",
-      -- "javascript", "javascriptreact", "typescriptreact",
     }
   })
 end
@@ -1910,24 +1853,27 @@ end
 --------------------------------------------------------------------------------
 -- Required in path
 --------------------------------------------------------------------------------
--- npm i -g @angular/language-server
--- npm i -g emmet-ls [ issues/outdated ]
--- npm i -g @olrtg/emmet-language-server
--- npm i -g azure-pipelines-language-server
--- npm i -g dockerfile-language-server-nodejs
--- npm i -g bash-language-server
--- pacman -S bash-language-server
-
--- npm i -g typescript typescript-language-server
--- pacman -S typescript typescript-language-server
-
--- [ html, css, json, eslint, markdown ]
+-- html, css, json, eslint!
 -- npm i -g vscode-langservers-extracted
--- pacman -S eslint-language-server
 -- pacman -S vscode-css-languageserver
 -- pacman -S vscode-html-languageserver
 -- pacman -S vscode-json-languageserver
--- pacman -S vscode-markdown-languageserver
+
+-- npm i -g emmet-ls [ issues/outdated ]
+-- npm i -g @olrtg/emmet-language-server
+
+-- npm i -g @angular/language-server
+-- angularls needs "@angular/language-service" locally installed per project
+
+-- npm i -g bash-language-server
+-- pacman -S bash-language-server
+
+-- npm i -g azure-pipelines-language-server
+-- npm i -g dockerfile-language-server-nodejs
+
+-- use with typescript-tools lua plugin!
+-- npm i -g typescript typescript-language-server
+-- pacman -S typescript typescript-language-server
 
 -- pacman -S zig zls
 -- pacman -S gcc clang
@@ -1935,10 +1881,10 @@ end
 -- pacman -S rust rust-analyzer
 -- pacman -S lua-language-server
 -- pacman -S yaml-language-server
+
 -- pacman -S shellcheck
 -- pacman -S [AUR] shellcheck-bin
--- pacman -S gopls
--- pacman -S pyright python-lsp-server
+
 -- pacman -S tree-sitter tree-sitter-cli
 -- pacman -S fd ripgrep curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 --------------------------------------------------------------------------------
