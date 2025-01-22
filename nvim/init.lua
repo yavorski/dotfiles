@@ -628,6 +628,7 @@ Lazy.use {
       mini = true,
       noice = true,
       nvimtree = true,
+      diffview = true,
       blink_cmp = true,
       which_key = true,
       lsp_trouble = true,
@@ -877,6 +878,20 @@ Lazy.use {
     vim.keymap.set("n", "gmd", marks.delete_buf, { silent = true, desc = "Delete marks" })
     vim.keymap.set("n", "<leader>m", marks.toggle, { silent = true, desc = "Mark Toggle" })
   end
+}
+
+-- diff view
+Lazy.use {
+  "sindrets/diffview.nvim",
+  cmd = "DiffviewOpen",
+  opts = {
+    enhanced_diff_hl = true,
+    view = {
+      merge_tool = {
+        layout = "diff3_mixed",
+      }
+    }
+  }
 }
 
 -- git status signs
