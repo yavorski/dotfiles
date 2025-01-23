@@ -713,6 +713,23 @@ Lazy.use { "windwp/nvim-ts-autotag", ft = { "html", "cshtml", "razor", "markdown
 -- scope buffers to tabs
 Lazy.use { "tiagovla/scope.nvim", event = "VeryLazy", config = true }
 
+-- use tree-sitter to auto close/rename html tag
+Lazy.use {
+  "windwp/nvim-ts-autotag",
+  ft = { "html", "cshtml", "razor" },
+  opts = {
+    aliases = {
+      ["razor"] = "html",
+      ["cshtml"] = "html"
+    },
+    opts = {
+      enable_close = true,
+      enable_rename = true,
+      enable_close_on_slash = true
+    }
+  }
+}
+
 -- put, put_text, setup_auto_root, setup_restore_cursor, zoom
 Lazy.use { "echasnovski/mini.misc", event = "VeryLazy", config = true }
 
