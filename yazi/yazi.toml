@@ -1,0 +1,25 @@
+# `yazi.toml` overrides settings from `yazi-default.toml`
+
+[[opener.open-orphan]]
+run = 'xdg-open "$1"'
+orphan = true
+for = "linux"
+desc = "Open Orphan"
+
+[open]
+prepend_rules = [
+	{ mime = "image/*", use = [ "open-orphan", "reveal" ] },
+  { mime = "application/pdf", use = [ "open-orphan", "reveal" ] },
+]
+
+# Add subtitle to the running MPV
+# Install `socat` and add to `$PATH`
+# Enable and configure the ipc socket to `/tmp/mpv.sock`, -> include: `input-ipc-server=/tmp/mpv.sock` in `~/.config/mpv/mpv.conf`
+
+# [[opener.add-sub]]
+# run = ''' echo sub-add "'$0'" | socat - /tmp/mpv.sock '''
+# desc = "Add sub to MPV"
+#
+# [[open.prepend_rules]]
+# use = [ "add-sub", "edit" ]
+# name = "*.{ass,srt,ssa,sty,sup,vtt}"
