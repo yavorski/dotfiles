@@ -1,0 +1,29 @@
+[flavor]
+dark = ""
+light = ""
+
+[mgr]
+border_style = { fg = "green" }
+
+[tabs]
+sep_inner = { open = " ", close = " " }
+sep_outer = { open = "", close = "" }
+
+[status]
+sep_left = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+[mode]
+normal_alt = { fg = "black", bg = "gray" }
+normal_main = { fg = "black", bg = "blue" }
+
+[indicator]
+padding = { open = "█", close= "█" }
+
+# Select mode
+select_alt = { fg = "black", bg = "gray" }
+select_main = { fg = "black", bg = "green" }
+
+# Unset mode
+unset_alt = { fg = "red", bg = "gray" }
+unset_main = { fg = "white", bg = "red" }
