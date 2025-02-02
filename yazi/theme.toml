@@ -1,0 +1,22 @@
+[flavor]
+dark = ""
+light = ""
+
+[manager]
+border_style = { fg = "green" }
+
+[status]
+separator_open = ""
+separator_close = ""
+
+[mode]
+normal_alt = { fg = "black", bg = "gray" }
+normal_main = { fg = "black", bg = "blue" }
+
+# Select mode
+select_alt = { fg = "black", bg = "gray" }
+select_main = { fg = "black", bg = "green" }
+
+# Unset mode
+unset_alt = { fg = "red", bg = "gray" }
+unset_main = { fg = "white", bg = "red" }
