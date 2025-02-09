@@ -1,5 +1,7 @@
 # ------------------------------------------
-# Intel One Mono for Linux
+# Intel One Mono
+# set size = 10.25 for windows
+# set linespace = 1 (linux), 2 (windows)
 # ------------------------------------------
 
 [font]
@@ -27,21 +29,27 @@ family = "Intel One Mono"
 # ------------------------------------------
 # JetBrains Mono NL
 # set size = 10.25 for JBM windows
-# set linespace = 2 for JBM for windows
+# set linespace = 3 (linux), 2 (windows)
 # ------------------------------------------
 
-[[font.normal]]
-style = "ExtraBold"
-family = "JetBrains Mono NL"
-
-[[font.bold]]
-style = "ExtraBold"
-family = "JetBrains Mono NL"
-
-[[font.italic]]
-style = "ExtraBold Italic"
-family = "JetBrains Mono NL"
-
-[[font.bold_italic]]
-style = "ExtraBold Italic"
-family = "JetBrains Mono NL"
+# [font]
+# size = 10.75
+# hinting = "full"
+# edging = "antialias"
+# allow_float_size = true
+#
+# [[font.normal]]
+# style = "ExtraBold"
+# family = "JetBrains Mono NL"
+#
+# [[font.bold]]
+# style = "ExtraBold"
+# family = "JetBrains Mono NL"
+#
+# [[font.italic]]
+# style = "ExtraBold Italic"
+# family = "JetBrains Mono NL"
+#
+# [[font.bold_italic]]
+# style = "ExtraBold Italic"
+# family = "JetBrains Mono NL"
