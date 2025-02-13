@@ -23,9 +23,6 @@ vim.opt.termguicolors = true
 -- set colorscheme
 -- vim.cmd[[colorscheme catppuccin]]
 
--- syntax highlighting
-vim.opt.syntax = "enable"
-
 -- syntax highlighting until match column
 vim.opt.synmaxcol = 512
 
@@ -48,19 +45,28 @@ vim.opt.cursorline = true
 vim.opt.foldmethod = "marker"
 
 -- intro / messages / hit-enter prompts / ins-completion-menu
-vim.opt.shortmess = "actIsoOFW"
+vim.opt.shortmess = "actIsoOFCW"
+
+-- improve comment editing
+vim.opt.formatoptions = "rqnl1j"
 
 -- line lenght marker
 -- vim.opt.colorcolumn = "128"
 
 -- signcolumn
-vim.opt.signcolumn = "auto"
+vim.opt.signcolumn = "yes"
 
 -- enable mouse
 vim.opt.mouse = "a"
 
 -- min number of screen lines above/below the cursor
 vim.opt.scrolloff = 4
+
+-- min number of screen columns left/right the cursor
+vim.opt.sidescrolloff = 4
+
+-- screen line scrolling
+vim.opt.smoothscroll = true
 
 -- horizontal splits will be below
 vim.opt.splitbelow = true
@@ -83,8 +89,16 @@ vim.opt.smartcase = true
 -- show search results while typing
 vim.opt.incsearch = true
 
--- complete menu
+-- popup/complete menu
+vim.o.pumheight = 24
+
+-- built-in complete menu
 vim.opt.completeopt = "menu,menuone,noselect"
+
+-- fuzzy matching for built-in completion
+if vim.fn.has("nvim-0.11") == 1 then
+  vim.o.completeopt = "menu,menuone,noselect,fuzzy"
+end
 
 -- reload file on external change
 vim.opt.autoread = true
@@ -147,18 +161,31 @@ vim.g.maplocalleader = [[ ]]
 -- vim.g.maplocalleader = [[\]]
 
 ------------------------------------------------------------
+-- Providers
+------------------------------------------------------------
+
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_python3_provider = 0
+
+------------------------------------------------------------
 -- sysname
 ------------------------------------------------------------
 
 local sysname = vim.loop.os_uname().sysname
 local is_linux = sysname == "Linux"
 local is_windows = sysname == "Windows_NT"
+local is_wsl = vim.fn.has("wsl") == 1
 
 ------------------------------------------------------------
 -- Filetypes Auto Detection
 ------------------------------------------------------------
 
 vim.filetype.add({
+  extension = {
+    razor = "razor",
+    cshtml = "razor",
+  },
   pattern = {
     [ ".*/waybar/config" ] = "jsonc",
     [ ".*/ghostty/config" ] = "conf",
@@ -173,6 +200,9 @@ vim.filetype.add({
 -- enable all filetype plugins
 -- vim.cmd[[filetype plugin indent on]]
 
+-- enable syntax highlighting
+-- if vim.fn.exists("syntax_on") ~= 1 then vim.cmd("syntax enable") end
+
 -- trim trailing whitespace on save
 -- vim.cmd[[autocmd BufWritePre * :%s/\s\+$//e]]
 
@@ -181,20 +211,14 @@ local tws_autocmd_id = vim.api.nvim_create_autocmd("BufWritePre", {
   command = [[:%s/\s\+$//e]]
 })
 
--- treat json files as jsonc
--- vim.cmd[[autocmd BufEnter *.json set filetype=jsonc]]
-
 -- disable relative numbers
-vim.cmd[[autocmd FileType qf,lhelp,lquickfix setlocal norelativenumber]]
+vim.cmd[[autocmd FileType qf,lhelp,lquickfix,dbout setlocal norelativenumber]]
 
 -- don't auto comment new lines
 vim.cmd[[autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o]]
 
 -- highlight on yank
 vim.cmd[[autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "YankHighlight" })]]
-
--- 2 spaces for selected filetypes
--- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
 
 -- Normalize Line Endings
 -- HACK to detect visual mode
@@ -247,15 +271,15 @@ local function buffer_only(discard_modified_buffers)
 
   local buffers = vim.api.nvim_list_bufs()
   local current_buffer = vim.api.nvim_get_current_buf()
-  local current_buffer_filetype = vim.api.nvim_get_option_value("filetype", { buf = current_buffer })
+  local current_buffer_ft = vim.api.nvim_get_option_value("filetype", { buf = current_buffer })
 
-  if current_buffer_filetype == "NvimTree" then
-    return vim.api.nvim_notify("NvimTree", vim.log.levels.INFO, {})
+  if current_buffer_ft == "NvimTree" or current_buffer_ft == "dbui" or current_buffer_ft == "dbout" then
+    return vim.api.nvim_notify(current_buffer_ft, vim.log.levels.INFO, {})
   end
 
   for _, buffer in ipairs(buffers) do
     local ft = vim.api.nvim_get_option_value("filetype", { buf = buffer })
-    local stopper = buffer == current_buffer or ft == "minimap" or ft == "NvimTree" or not vim.api.nvim_buf_is_valid(buffer)
+    local stopper = buffer == current_buffer or ft == "minimap" or ft == "NvimTree" or ft == "dbui" or ft == "dbout" or not vim.api.nvim_buf_is_valid(buffer)
 
     if not stopper then
       if discard_modified_buffers then
@@ -284,6 +308,9 @@ vim.keymap.set({ "n", "v", "x" }, "m", "<Nop>", { silent = true })
 -- disable built in |s| key - deletes char under cursor
 -- vim.keymap.set({ "n", "v", "x" }, "s", "<Nop>", { silent = true })
 
+-- save file/buffer
+vim.keymap.set("n", "<Leader>w", "<cmd>write<CR>", { desc = "Write File" })
+
 -- match brackets remap
 -- vim.keymap.set({ "n", "v", "x" }, "mm", "%", { silent = true })
 vim.keymap.set("n", "mm", "<Plug>(MatchitNormalForward)", { silent = true })
@@ -294,11 +321,12 @@ vim.api.nvim_set_keymap("v", "<C-c>", "gc", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-c>", "gcc", { silent = true })
 
 -- copy/paste system clipboard
-vim.keymap.set("n" , "<leader>%y", "<cmd>silent! %y+<cr>", { silent = true, desc = "[sc] Yank Buffer" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", [["+y]], { silent = true, desc = "[sc] Yank" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>Y", [["+yy]], { silent = true, desc = "[sc] Yank Line" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>p", [["+p]], { silent = true, desc = "[sc] Paste After" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>P", [["+P]], { silent = true, desc = "[sc] Paste Before" })
+vim.keymap.set({ "v", "x" }, "<leader>d", [["+d]], { silent = true, desc = "[sc] Yank Delete" })
+vim.keymap.set({ "n" }, "<leader>%y", "<cmd>silent! %y+<cr>", { silent = true, desc = "[sc] Yank Buffer" })
 
 -- buffer navigation -standard prev/next
 vim.keymap.set("n", "[b", "<cmd>bprev<cr>", { silent = true })
@@ -482,16 +510,18 @@ function Dark.syntax(colors)
     -- dotnet tree-sitter
     ["@type.c_sharp"] = { fg = colors.trick },
     ["@type.qualifier.c_sharp"] = { link = "@keyword" },
+    ["@keyword.modifier.c_sharp"] = { fg = colors.mauve },
     ["@keyword.operator.c_sharp"] = { fg = colors.yellow },
     ["@keyword.coroutine.c_sharp"] = { fg = colors.yellow },
 
     -- dotnet lsp semantic tokens
+    ["@lsp.type.class.cs"] = { link = "@lsp" }, -- disable styling attributes as classes
     ["@lsp.type.keyword.cs"] = { link = "@lsp" }, -- disable "keyword" since everything is a "keyword" and uses only 1 color
-    ["@lsp.type.class.cs"] = { fg = colors.trick },
     ["@lsp.type.struct.cs"] = { fg = colors.peach },
-    ["@lsp.type.interface.cs"] = { fg = colors.green },
     ["@lsp.type.enum.cs"] = { fg = colors.flamingo },
-    ["@lsp.type.namespace.cs"] = { fg = colors.peach, style = { "italic" } },
+    ["@lsp.type.interface.cs"] = { fg = colors.rosewater },
+    -- ["@lsp.typemod.class.static.cs"] = { fg = colors.softcyan },
+    -- ["@lsp.type.namespace.cs"] = { fg = colors.peach, style = { "italic" } },
 
     -- css
     ["cssPseudo"] = { fg = colors.mauve },
@@ -655,18 +685,6 @@ Lazy.use { "rust-lang/rust.vim", ft = "rust" }
 -- stylus syntax
 Lazy.use { "wavded/vim-stylus", ft = "stylus" }
 
--- razor syntax -> adamclerk/vim-razor
-Lazy.use { "jlcrochet/vim-razor", ft = { "razor", "cshtml" } }
-
--- roslyn.nvim -> c-sharp dotnet lsp -> Microsoft.CodeAnalysis.LanguageServer
-Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = { config = { filetypes = { "cs" } } } }
-
--- auto close/rename html tag
--- Lazy.use { "andrewradev/tagalong.vim", ft = { "html", "cshtml", "razor", "markdown" }, enabled = false }
-
--- auto close/rename html tag
-Lazy.use { "windwp/nvim-ts-autotag", ft = { "html", "cshtml", "razor", "markdown" }, opts = { opts = { enable_close_on_slash = true } } }
-
 -- scope buffers to tabs
 Lazy.use { "tiagovla/scope.nvim", event = "VeryLazy", config = true }
 
@@ -715,6 +733,48 @@ Lazy.use {
   end
 }
 
+-- visualize and work with indent scope animated
+Lazy.use {
+  "echasnovski/mini.indentscope",
+  event = "VeryLazy",
+  opts = {
+    draw = {
+      delay = 16,
+      animation = function() return 0 end
+    }
+  }
+}
+
+-- minimap - window with buffer text overview
+Lazy.use {
+  "echasnovski/mini.map",
+  event = "VeryLazy",
+  opts = {
+    window = {
+      width = 1,
+      show_integration_count = false
+    }
+  },
+  config = function(_, options)
+    require("mini.map").setup(options)
+    require("mini.map").open()
+  end
+}
+
+-- highlight patterns / display #rrggbb colors
+Lazy.use {
+  "echasnovski/mini.hipatterns",
+  ft = { "lua", "conf", "css", "scss", "stylus", "html", "toml", "yml", "yaml", "markdown" },
+  config = function()
+    local hipatterns = require("mini.hipatterns")
+    hipatterns.setup({
+      highlighters = {
+        hex_color = hipatterns.gen_highlighter.hex_color()
+      }
+    })
+  end
+}
+
 -- split/join code blocks, fn args, arrays, tables - [n,v] <sj>
 Lazy.use {
   "echasnovski/mini.splitjoin",
@@ -760,39 +820,13 @@ Lazy.use {
   end
 }
 
--- visualize and work with indent scope animated
-Lazy.use {
-  "echasnovski/mini.indentscope",
-  event = "VeryLazy",
-  opts = {
-    draw = {
-      delay = 16,
-      animation = function() return 0 end
-    }
-  }
-}
-
--- highlight patterns / display #rrggbb colors
-Lazy.use {
-  "echasnovski/mini.hipatterns",
-  ft = { "lua", "conf", "css", "scss", "stylus", "html", "toml", "yml", "yaml", "markdown" },
-  config = function()
-    local hipatterns = require("mini.hipatterns")
-    hipatterns.setup({
-      highlighters = {
-        hex_color = hipatterns.gen_highlighter.hex_color()
-      }
-    })
-  end
-}
-
 -- delete buffers without losing window layout
 Lazy.use {
   "echasnovski/mini.bufremove",
   cmd = { "Bdelete", "Bwipeout" },
   keys = {
     { "<leader>q", "<cmd>Bdelete<cr>", silent = true, desc = "Quit Buffer" },
-    { "<leader>w", "<cmd>Bwipeout<cr>", silent = true, desc = "Wipeout Buffer" }
+    { "<leader>e", "<cmd>Bwipeout<cr>", silent = true, desc = "Wipeout Buffer" }
   },
   init = function()
     -- override native bd
@@ -806,18 +840,6 @@ Lazy.use {
   config = function()
     vim.api.nvim_create_user_command("Bdelete", function(opts) require("mini.bufremove").delete(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
     vim.api.nvim_create_user_command("Bwipeout", function(opts) require("mini.bufremove").wipeout(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
-  end
-}
-
--- minimap - window with buffer text overview
-Lazy.use {
-  "echasnovski/mini.map",
-  event = "VeryLazy",
-  -- keys = {{ "<leader>M", function() require("mini.map").toggle() end, silent = true, desc = "MiniMapToggle" }},
-  opts = { window = { width = 1, show_integration_count = false } },
-  config = function(_, options)
-    require("mini.map").setup(options)
-    require("mini.map").open()
   end
 }
 
@@ -852,32 +874,30 @@ Lazy.use {
   cmd = "NvimTreeToggle",
   opts = {
     git = { timeout = 2048 },
+    sync_root_with_cwd = true,
     update_focused_file = { enable = true },
   },
   keys = {
-    { [[<leader>\\]], "<cmd>NvimTreeToggle<cr>", silent = true, desc = "NvimTreeToggle" },
     { [[<leader>\r]], "<cmd>NvimTreeRefresh<cr>", silent = true, desc = "NvimTreeRefresh" },
     { [[<leader>\f]], "<cmd>NvimTreeFindFile<cr>", silent = true, desc = "NvimTreeFindFile" },
     { [[<leader>\F]], "<cmd>NvimTreeFindFile!<cr>", silent = true, desc = "NvimTreeFindFile!" },
+    { [[<leader>\\]], function() require("nvim-tree.api").tree.toggle({ focus = false }) end, silent = true, desc = "NvimTreeToggle" },
   }
 }
 
 -- show marks in the sign column
 Lazy.use {
   "chentoast/marks.nvim",
-  event = { "BufReadPre", "BufNewFile" },
-  opts = {
-    refresh_interval = 5000,
-    default_mappings = false,
+  keys = {
+    { "gmm", function() require("marks").next() end, silent = true, desc = "Go to next mark" },
+    { "gmp", function() require("marks").prev() end, silent = true, desc = "Go to prev mark" },
+    { "gmd", function() require("marks").delete_buf() end, silent = true, desc = "Delete marks" },
+    { "<leader>M", function() vim.defer_fn(require("marks").toggle, 0) end, silent = true, desc = "Mark Toggle" }
   },
-  config = function(_, options)
-    local marks = require("marks")
-    marks.setup(options)
-    vim.keymap.set("n", "gmm", marks.next, { silent = true, desc = "Go to next mark" })
-    vim.keymap.set("n", "gmp", marks.prev, { silent = true, desc = "Go to prev mark" })
-    vim.keymap.set("n", "gmd", marks.delete_buf, { silent = true, desc = "Delete marks" })
-    vim.keymap.set("n", "<leader>m", marks.toggle, { silent = true, desc = "Mark Toggle" })
-  end
+  opts = {
+    refresh_interval = 2^14,
+    default_mappings = false,
+  }
 }
 
 -- diff view
@@ -1001,7 +1021,6 @@ Lazy.use {
       file_icons = "mini",
       multiprocess = true,
       preview_pager = false,
-      jump_to_single_result = true,
       file_ignore_patterns = { "package%-lock%.json" }
     },
     fzf_colors = true,
@@ -1043,15 +1062,7 @@ Lazy.use {
     },
     grep = { winopts = vertical },
     git = { status = { winopts = vertical } },
-    files = { fd_opts = nil, find_opts = nil },
     diagnostics = { winopts = vertical, multiline = false },
-    -- manpages = { cmd = "man -s 1 -k ." },
-    helptags = {
-      fzf_opts = {
-        ["--tac"] = "",
-        ["--tiebreak"] = "begin,length,index",
-      }
-    },
   },
   keys = {
     { "<leader>tt", "<cmd>FzfLua<cr>", silent = true, desc = "FZF Lua" },
@@ -1060,21 +1071,12 @@ Lazy.use {
     { "<leader>f", "<cmd>FzfLua files header=false<cr>", silent = true, desc = "FZF Files" },
     { "<leader>j", "<cmd>FzfLua jumps<cr>", silent = true, desc = "FZF Jumps List" },
     { "<leader>h", "<cmd>FzfLua helptags<cr>", silent = true, desc = "FZF Help Tags" },
-    { "<leader>M", "<cmd>FzfLua manpages<cr>", silent = true, desc = "FZF Man Pages" },
+    { "<leader>m", "<cmd>FzfLua manpages<cr>", silent = true, desc = "FZF Man Pages" },
     { "<leader>g", "<cmd>FzfLua git_status<cr>", silent = true, desc = "FZF Git Status" },
     { "<leader>'", "<cmd>FzfLua resume<cr>", silent = true, desc = "FZF Resume" },
   },
   config = function(_, options)
-    local A = require("fzf-lua.actions")
-
-    --- @diagnostic disable-next-line
-    A.file_tabedit = function(selected, opts)
-      local vimcmd = "tabnew | <auto>"
-      A.vimcmd_entry(vimcmd, selected, opts)
-    end
-
     require("fzf-lua").setup(options)
-
     require("fzf-lua").register_ui_select(function(opts)
       local ui_select = { row = 0.25, width = 0.7, height = 0.42 }
       return { winopts = opts.kind == "codeaction" and vertical or ui_select }
@@ -1224,8 +1226,11 @@ Lazy.use {
   event = { "BufReadPost", "BufNewFile" },
   opts = {
     ensure_installed = "all",
-    ignore_install = { "hoon" },
-    indent = { enable = true }, -- indentation for = operator
+    ignore_install = { "bp", "just", "norg", "foam", "hoon", "rnoweb", "gdshader" },
+    indent = {
+      enable = true, -- indentation for = operator
+      disable = { "html" } -- disable for html filetype
+    },
     playground = { enable = false }, -- Inspect/TSHighlightCapturesUnderCursor
     highlight = {
       enable = true, -- false will disable the extension
@@ -1243,8 +1248,8 @@ Lazy.use {
       keymaps = {
         init_selection = "<C-space>",
         node_incremental = "<C-space>",
+        node_decremental = "<bs>",
         scope_incremental = false,
-        node_decremental = "<bs>"
       }
     }
   },
@@ -1283,11 +1288,9 @@ Lazy.use {
         o = ai.gen_spec.treesitter({
           a = { "@block.outer", "@conditional.outer", "@loop.outer" },
           i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-        }, {}),
-        c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
-        f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
-        t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- tags
-        d = { "%f[%d]%d+" }, -- digits
+        }),
+        c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
+        f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
       },
     }
   end,
@@ -1328,22 +1331,16 @@ local LSP = {
     },
 
     servers = {
-      "html",
-      "cssls",
-      "taplo",
-      "bashls",
-      "jsonls",
-      "yamlls",
-      "nushell",
-      "dockerls",
-      -- "tsserver",
-      -- "angularls",
-      -- "powershell",
-      -- "roslyn/dotnet",
-      -- "rust_analyzer",
-      -- "azure_pipelines_ls",
-      -- "lua-language-server",
-      -- "emmet_language_server",
+      cssls = {},
+      taplo = {},
+      bashls = {},
+      jsonls = {},
+      yamlls = {},
+      nushell = {},
+      dockerls = {},
+      angularls = {},
+      html = { filetypes = { "html", "cshtml", "razor" } },
+      emmet_language_server = { filetypes = { "html", "cshtml", "razor" } },
     }
   }
 }
@@ -1356,8 +1353,6 @@ LSP.init = function()
   LSP.keymaps()
   LSP.overloads()
   LSP.setup_lua()
-  LSP.setup_emmet()
-  LSP.setup_angular()
   LSP.setup_powershell()
   LSP.setup_listed_servers()
   LSP.setup_azure_pipelines()
@@ -1418,7 +1413,7 @@ LSP.buffer_keymaps = function(buffer)
   keymap({ "n", "v" }, "<leader>a", "<cmd>FzfLua lsp_code_actions previewer=false winopts.row=0.25 winopts.width=0.7 winopts.height=0.42<cr>", "LSP Code Action") -- no preview
 
   -- <CTRL-W-d> is default
-  keymap("n", "<leader>er", vim.diagnostic.open_float, "LSP Diagnostic Open Float")
+  keymap("n", "<leader>E", vim.diagnostic.open_float, "LSP Diagnostic Open Float")
 
   keymap("n", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format")
   keymap("v", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format Visual")
@@ -1512,30 +1507,13 @@ LSP.setup_listed_servers = function()
   local lsp = require("lspconfig")
   local servers = LSP.opts.servers
 
-  for _, server in ipairs(servers) do
-    lsp[server].setup({
-      capabilities = LSP.capabilities()
-    })
+  for server, options in pairs(servers) do
+    lsp[server].setup(
+      vim.tbl_extend("force", options or {}, {
+        capabilities = LSP.capabilities()
+      })
+    )
   end
-end
-
-------------------------------------------------------------
--- LSP Angular
-------------------------------------------------------------
-LSP.setup_angular = function()
-  local npm = is_windows and "$APPDATA/npm" or "$HOME/.npm/lib"
-  local ts_path = vim.fn.expand(npm .. "/node_modules/typescript/lib")
-  local als_path = vim.fn.expand(npm .. "/node_modules/@angular/language-server/bin")
-  local server_cmd = { "ngserver", "--stdio", "--tsProbeLocations", ts_path, "--ngProbeLocations", als_path }
-
-  require("lspconfig").angularls.setup({
-    cmd = server_cmd,
-    filetypes = { "html" },
-    capabilities = LSP.capabilities(),
-    on_new_config = function(new_config)
-      new_config.cmd = server_cmd
-    end
-  })
 end
 
 ------------------------------------------------------------
@@ -1548,26 +1526,10 @@ LSP.setup_lua = function()
       Lua = {
         format = { enable = true },
         runtime = { version = "LuaJIT" },
+        diagnostics = { globals = { "vim" } },
         completion = { callSnippet = "Replace" },
         workspace = { checkThirdParty = "Disable" },
-        diagnostics = {
-          globals = { "vim" },
-          -- disable = { "missing-fields" },
-        }
       }
-    }
-  })
-end
-
-------------------------------------------------------------
--- LSP Emmet
-------------------------------------------------------------
-LSP.setup_emmet = function()
-  require("lspconfig").emmet_language_server.setup({
-    filetypes = {
-      "html", "pug", "eruby", "cshtml", "razor",
-      -- "css", "less", "sass", "scss", "stylus",
-      -- "javascript", "javascriptreact", "typescriptreact",
     }
   })
 end
@@ -1712,6 +1674,14 @@ Lazy.use {
       }
     }
   }
+}
+
+-- Microsoft.CodeAnalysis.LanguageServer
+Lazy.use {
+  "seblyng/roslyn.nvim",
+  dependencies = { "neovim/nvim-lspconfig" },
+  ft = "cs",
+  opts = {}
 }
 
 ------------------------------------------------------------
@@ -1920,7 +1890,7 @@ vim.keymap.set("n", "<esc>", escape, { silent = true, noremap = true, desc = "Es
 ------------------------------------------------------------
 
 if vim.g.neovide then
-  vim.opt.linespace = is_linux and 0 or 2
+  vim.opt.linespace = (is_wsl or is_windows) and 2 or 3
   vim.g.neovide_remember_window_size = true
   -- fzf-lua paste fix
   vim.keymap.set({ "n", "v", "s", "x", "o", "i", "l", "c", "t" }, "<C-S-v>", function() vim.api.nvim_paste(vim.fn.getreg("+"), true, -1) end, { noremap = true, silent = true })
@@ -1942,24 +1912,27 @@ end
 --------------------------------------------------------------------------------
 -- Required in path
 --------------------------------------------------------------------------------
--- npm i -g @angular/language-server
--- npm i -g emmet-ls [ issues/outdated ]
--- npm i -g @olrtg/emmet-language-server
--- npm i -g azure-pipelines-language-server
--- npm i -g dockerfile-language-server-nodejs
--- npm i -g bash-language-server
--- pacman -S bash-language-server
-
--- npm i -g typescript typescript-language-server
--- pacman -S typescript typescript-language-server
-
--- [ html, css, json, eslint, markdown ]
+-- html, css, json, eslint!
 -- npm i -g vscode-langservers-extracted
--- pacman -S eslint-language-server
 -- pacman -S vscode-css-languageserver
 -- pacman -S vscode-html-languageserver
 -- pacman -S vscode-json-languageserver
--- pacman -S vscode-markdown-languageserver
+
+-- npm i -g emmet-ls [ issues/outdated ]
+-- npm i -g @olrtg/emmet-language-server
+
+-- npm i -g @angular/language-server
+-- angularls needs "@angular/language-service" locally installed per project
+
+-- npm i -g bash-language-server
+-- pacman -S bash-language-server
+
+-- npm i -g azure-pipelines-language-server
+-- npm i -g dockerfile-language-server-nodejs
+
+-- use with typescript-tools lua plugin!
+-- npm i -g typescript typescript-language-server
+-- pacman -S typescript typescript-language-server
 
 -- pacman -S zig zls
 -- pacman -S gcc clang
@@ -1967,10 +1940,10 @@ end
 -- pacman -S rust rust-analyzer
 -- pacman -S lua-language-server
 -- pacman -S yaml-language-server
+
 -- pacman -S shellcheck
 -- pacman -S [AUR] shellcheck-bin
--- pacman -S gopls
--- pacman -S pyright python-lsp-server
+
 -- pacman -S tree-sitter tree-sitter-cli
 -- pacman -S fd ripgrep curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 --------------------------------------------------------------------------------
@@ -1979,8 +1952,9 @@ end
 -- Roslyn
 --------------------------------------------------------------------------------
 
+-- bin/roslyn-update.sh
 -- Download `Microsoft.CodeAnalysis.LanguageServer.linux-x64` pkg from https://dev.azure.com/azure-public/vside/_artifacts/feed/vs-impl
--- extract and move the contents of <zip-root>/content/LanguageServer/<yourArch> inside:
+-- Extract and move the contents of <zip-root>/content/LanguageServer/<yourArch> inside:
 -- Linux: ~/.local/share/nvim/roslyn
 -- Windows: %LOCALAPPDATA%\nvim-data\roslyn
 -- Verify by running `dotnet Microsoft.CodeAnalysis.LanguageServer.dll --version` in `roslyn` directory
