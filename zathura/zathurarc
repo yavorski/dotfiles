@@ -1,0 +1,58 @@
+# ~/.config/zathura/zathurarc
+# https://man.archlinux.org/man/extra/zathura/zathurarc.5.en
+
+# status bar
+set guioptions "sv"
+set statusbar-v-padding 7
+set statusbar-home-tilde true
+
+# window
+set window-title-basename true
+set window-title-home-tilde true
+
+# pages
+set page-padding 10
+
+# remember last page
+set open-first-page false
+
+# scroll
+set scroll-full-overlap true
+
+# clipboard
+# middle mouse click to paste
+set selection-clipboard primary
+
+# ctrl-c/ctrl-v to copy/paste
+# set selection-clipboard clipboard
+
+# font
+set font "Intel One Mono Bold 10.50"
+
+# colors
+set default-fg "#dddddd"
+set default-bg "rgba(0, 0, 0, 0.87)"
+
+set statusbar-fg "#ffffff"
+set statusbar-bg "#000000"
+
+set inputbar-fg "#ebdbb2"
+set inputbar-bg "#1d2021"
+
+# set highlight-fg "#000000"
+# set highlight-color "rgba(250, 247, 110, 0.5)"
+# set highlight-active-color "rgba(75, 249, 158, 0.5)"
+
+# mappings
+map <C-i> recolor
+# map <C-r> recolor
+
+map <C-=> zoom in
+map <C--> zoom out
+map <C-0> zoom 100
+
+map u scroll half-up
+map d scroll half-down
+
+# map p scroll full-up
+# map n scroll full-down
