@@ -857,6 +857,20 @@ Lazy.use {
   }
 }
 
+-- diff view
+Lazy.use {
+  "sindrets/diffview.nvim",
+  cmd = "DiffviewOpen",
+  opts = {
+    enhanced_diff_hl = true,
+    view = {
+      merge_tool = {
+        layout = "diff3_mixed",
+      }
+    }
+  }
+}
+
 -- git status signs
 Lazy.use {
   "lewis6991/gitsigns.nvim",
