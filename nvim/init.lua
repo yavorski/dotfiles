@@ -1155,8 +1155,11 @@ Lazy.use {
   event = { "BufReadPost", "BufNewFile" },
   opts = {
     ensure_installed = "all",
-    ignore_install = { "hoon" },
-    indent = { enable = true }, -- indentation for = operator
+    ignore_install = { "bp", "just", "norg", "foam", "hoon", "rnoweb", "gdshader" },
+    indent = {
+      enable = true, -- indentation for = operator
+      disable = { "html" } -- disable for html filetype
+    },
     playground = { enable = false }, -- Inspect/TSHighlightCapturesUnderCursor
     highlight = {
       enable = true, -- false will disable the extension
@@ -1174,8 +1177,8 @@ Lazy.use {
       keymaps = {
         init_selection = "<C-space>",
         node_incremental = "<C-space>",
+        node_decremental = "<bs>",
         scope_incremental = false,
-        node_decremental = "<bs>"
       }
     }
   },
