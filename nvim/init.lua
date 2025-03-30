@@ -371,6 +371,13 @@ vim.keymap.set("n", "gb0", "<cmd>LualineBuffersJump! 10<cr>", { silent = true })
 ------------------------------------------------------------
 
 local Dark = {
+  mocha = {
+    mauve  = "#cba6f7",
+    red    = "#f38ba8",
+    yellow = "#f9e2af",
+    green  = "#a6e3a1",
+  },
+
   colors = {
     none      = "NONE",
     white     = "#ffffff", -- [*] White
@@ -378,7 +385,10 @@ local Dark = {
     flamingo  = "#f2cdcd", -- Target word
     pink      = "#ff1493", -- [!] Just pink
     softpink  = "#f94ba6", -- [*] Soft pink
+    darkpink  = "#f40064", -- [*] Dark pink
     mauve     = "#c678dd", -- [!] Tag
+    purple    = "#bd5eff", -- [*]
+    magenta   = "#ff5ef1", -- [*]
     red       = "#e95678", -- [!] Error
     maroon    = "#d16d9e", -- [!] Lighter red
     peach     = "#f5a97f", -- [!] Number
@@ -389,10 +399,10 @@ local Dark = {
     sapphire  = "#36d0e0", -- Constructor
     blue      = "#4ba6f9", -- [!] Diff changed
     lavender  = "#89b4fa", -- [!] CursorLine Nr
-    text      = "#cdd6f4", -- Default fg
+    text      = "#cdd6f4", -- Default FG
     subtext1  = "#bac2de", -- Indicator
     subtext0  = "#a6adc8", -- Float title
-    overlay2  = "#9399b2", -- Popup fg
+    overlay2  = "#9399b2", -- Popup FG
     overlay1  = "#7f849c", -- Conceal color
     overlay0  = "#6c7086", -- Fold color
     surface2  = "#585b70", -- Default comment
@@ -402,91 +412,113 @@ local Dark = {
     stealth   = "#14ff80", -- [*] Type
     skyblue   = "#54b9f7", -- [*] Sky blue
     softcyan  = "#4bf9f5", -- [*] Soft cyan
-    mantle    = "#181825", -- [!] Dark 6
-    coal      = "#161622", -- [*] Dark 5
-    base      = "#14141f", -- [!] Dark 4 - Default BG
-    crust     = "#11111b", -- [!] Dark 3
-    dusk      = "#0f0f17", -- [*] Dark 2
-    dark      = "#0a0a0f", -- [*] Dark 1
+    mantle    = "#181825", -- [!] Dark 13
+    coal      = "#161622", -- [*] Dark 12
+    slate     = "#14141f", -- [!] Dark 11
+    crust     = "#11111b", -- [!] Dark 10
+    dusk      = "#0f0f17", -- [*] Dark 9
+    night     = "#0d1011", -- [*] Dark 8
+    base      = "#0b0b10", -- [!] Dark 7 -- Default BG
+    dark      = "#0a0a0f", -- [*] Dark 6
+    darky     = "#07070c", -- [*] Dark 5
+    matter    = "#050509", -- [*] Dark 4
+    abyss     = "#030306", -- [*] Dark 3
+    cosmic    = "#020204", -- [*] Dark 2
+    void      = "#010102", -- [*] Dark 1
     black     = "#000000", -- [*] Dark 0 -- Just Black
   }
 }
 
-function Dark.editor(colors)
-  local O = require("catppuccin").options
-  local mocha = require("catppuccin.palettes.mocha")
+function Dark.editor()
+  local mocha, colors = Dark.mocha, Dark.colors
 
   return {
-    -- nvim
-    LineNr = { bg = colors.mantle },
-    VertSplit = { fg = colors.crust, bg = colors.crust },
-    CursorLine = { bg = O.transparent_background and colors.black or colors.crust },
+    LineNr = { bg = colors.dusk },
+    CursorLineNr = { bg = colors.darky },
 
-    FoldColumn = { bg = colors.mantle },
-    SignColumn = { bg = colors.mantle },
-    SignColumnSB = { bg = colors.mantle },
+    SignColumn = { bg = colors.dusk },
+    SignColumnSB = { bg = colors.dusk },
+    CursorLineSign = { bg = colors.darky },
 
-    MsgArea = { bg = colors.dusk },
+    Folded = { bg = colors.surface0 },
+    FoldColumn = { bg = colors.dusk },
+    CursorLineFold = { fg = colors.red, bg = colors.darky },
+
+    MsgArea = { bg = colors.darky},
+    CursorLine = { bg = colors.matter },
+    VertSplit = { fg = colors.darky, bg = colors.darky },
+    WinSeparator = { fg = colors.darky, bg = colors.darky },
+
+    NormalFloat = { bg = colors.base }, -- Floating windows
     FloatBorder = { fg = colors.blue, bg = colors.base }, -- Border for floating windows
-    NormalFloat = { bg = (O.transparent_background and vim.o.winblend == 0) and colors.none or colors.base }, -- Floating windows
-    WinSeparator = { fg = colors.dusk, bg = colors.dusk }, -- Splits separator
 
-    Pmenu = { bg = colors.crust },
+    Visual = { bg = colors.surface0 },
+    VisualNOS = { bg = colors.surface0 },
+
+    Pmenu = { bg = colors.darky },
     PmenuSbar = { bg = colors.mantle },
     PmenuThumb = { bg = colors.teal },
 
     Search = { fg = colors.base, bg = mocha.yellow },
-    IncSearch = { fg = colors.base, bg = mocha.mauve },
-    CurSearch = { fg = colors.base, bg = mocha.red },
+    IncSearch = { fg = colors.mantle, bg = mocha.red },
+    CurSearch = { fg = colors.mantle, bg = mocha.red },
+
     YankHighlight = { fg = colors.base, bg = mocha.green },
+    LspReferenceTarget = { }, -- <K> clear hover highlighting targeted word
 
     -- nvim mini
+    MiniJump = { fg = colors.stealth, bg = colors.darkpink },
     MiniTrailspace = { bg = colors.red },
-    MiniMapSymbolView = { fg = colors.red },
     MiniIndentscopeSymbol = { fg = colors.red },
-    MiniNotifyNormal = { bg = colors.dark },
-    MiniNotifyBorder = { fg = colors.dark, bg = colors.dark },
+    MiniMapNormal = { bg = colors.none },
+    MiniMapSymbolView = { fg = colors.red },
+    MiniNotifyNormal = { bg = colors.black },
+    MiniNotifyBorder = { fg = colors.black, bg = colors.black },
 
-    -- nvim marks
-    MarkSignHL = { bg = colors.mantle },
-    MarkSignNumHL = { bg = colors.mantle },
+    -- nvim marks -- not working
+    -- MarkSignHL = { bg = colors.none },
+    -- MarkSignNumHL = { fg = colors.none, bg = colors.none },
 
     -- nvim tree
-    NvimTreeNormal = { bg = O.transparent_background and colors.none or colors.base },
-    NvimTreeCursorLine = { bg = colors.dark },
+    NvimTreeNormal = { bg = colors.base },
+    NvimTreeCursorLine = { bg = colors.mantle },
     NvimTreeRootFolder = { fg = colors.peach },
-    NvimTreeWinSeparator = { fg = colors.crust, bg = colors.crust },
-    NvimTreeFolderName = { fg = colors.skyblue },
+    NvimTreeFolderName = { fg = colors.blue },
     NvimTreeFolderIcon = { fg = colors.skyblue },
+    NvimTreeWinSeparator = { fg = colors.darky, bg = colors.darky },
 
     -- nvim gitsigns
-    GitSignsAdd = { fg = colors.green, bg = colors.mantle },
-    GitSignsChange = { fg = colors.yellow, bg = colors.mantle },
-    GitSignsDelete = { fg = colors.red, bg = colors.mantle },
+    GitSignsAdd = { fg = colors.green, bg = colors.none },
+    GitSignsChange = { fg = colors.yellow, bg = colors.none },
+    GitSignsDelete = { fg = colors.red, bg = colors.none },
 
-    -- which key
+    -- noice
+    NoiceDark = { bg = colors.mantle },
+
+    -- which-key
     WhichKey = { bg = colors.crust },
     WhichKeyNormal = { bg = colors.crust },
 
     -- trouble
-    TroubleNormal = { bg = colors.mantle },
-    TroubleNormalNC = { bg = colors.mantle },
+    TroubleNormal = { bg = colors.crust },
+    TroubleNormalNC = { bg = colors.crust },
     TroublePos = { fg = colors.subtext1, bg = colors.none },
     TroubleCount = { fg = colors.green, bg = colors.none },
 
+    -- blink
+    BlinkCmpMenu = { bg = colors.base },
+    BlinkCmpMenuBorder = { fg = colors.sapphire, bg = colors.base },
+    BlinkCmpDoc = { bg = colors.base },
+    BlinkCmpDocBorder = { fg = colors.sapphire, bg = colors.base },
+
     -- nvim fzf-lua
     FzfLuaNormal = { fg = colors.text, bg = colors.mantle },
-    FzfLuaBorder = { fg = colors.mantle, bg = colors.mantle },
-    FzfLuaCursorLine = { bg = colors.black },
+    FzfLuaBorder = { fg = colors.blue, bg = colors.mantle },
+    FzfLuaCursorLine = { bg = colors.darky },
 
     FzfLuaPreviewNormal = { bg = colors.crust },
     FzfLuaPreviewBorder = { fg = colors.crust, bg = colors.crust },
     FzfLuaPreviewTitle = { fg = colors.blue, bg = colors.black },
-
-    FzfLuaScrollFloatFull  = { bg = colors.peach },
-    FzfLuaScrollFloatEmpty = { link = "NormalFloat" },
-    FzfLuaScrollBorderFull = { fg = colors.peach, bg = colors.peach },
-    FzfLuaScrollBorderEmpty = { fg = colors.mantle, bg = colors.mantle },
 
     FzfLuaFzfNormal = { bg = colors.mantle },
     FzfLuaFzfMatch = { fg = colors.blue },
@@ -499,7 +531,9 @@ function Dark.editor(colors)
   }
 end
 
-function Dark.syntax(colors)
+function Dark.syntax()
+  local colors = Dark.colors
+
   return {
     -- nvim
     Include = { fg = colors.pink },
@@ -529,16 +563,18 @@ function Dark.syntax(colors)
     -- dotnet tree-sitter
     ["@type.c_sharp"] = { fg = colors.trick },
     ["@type.qualifier.c_sharp"] = { link = "@keyword" },
+    ["@keyword.modifier.c_sharp"] = { fg = colors.mauve },
     ["@keyword.operator.c_sharp"] = { fg = colors.yellow },
     ["@keyword.coroutine.c_sharp"] = { fg = colors.yellow },
 
     -- dotnet lsp semantic tokens
+    ["@lsp.type.class.cs"] = { link = "@lsp" }, -- disable styling attributes as classes
     ["@lsp.type.keyword.cs"] = { link = "@lsp" }, -- disable "keyword" since everything is a "keyword" and uses only 1 color
-    ["@lsp.type.class.cs"] = { fg = colors.trick },
     ["@lsp.type.struct.cs"] = { fg = colors.peach },
-    ["@lsp.type.interface.cs"] = { fg = colors.green },
     ["@lsp.type.enum.cs"] = { fg = colors.flamingo },
-    ["@lsp.type.namespace.cs"] = { fg = colors.peach, style = { "italic" } },
+    ["@lsp.type.interface.cs"] = { fg = colors.rosewater },
+    -- ["@lsp.typemod.class.static.cs"] = { fg = colors.softcyan },
+    -- ["@lsp.type.namespace.cs"] = { fg = colors.peach, style = { "italic" } },
 
     -- css
     ["cssPseudo"] = { fg = colors.mauve },
@@ -672,6 +708,7 @@ Lazy.use {
       mini = true,
       noice = true,
       nvimtree = true,
+      diffview = true,
       blink_cmp = true,
       which_key = true,
       lsp_trouble = true,
@@ -679,7 +716,7 @@ Lazy.use {
     color_overrides = { mocha = Dark.colors },
     highlight_overrides = {
       mocha = function(colors)
-        return vim.tbl_extend("error", Dark.editor(colors), Dark.syntax(colors))
+        return vim.tbl_extend("error", Dark.editor(), Dark.syntax())
       end
     },
   },
