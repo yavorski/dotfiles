@@ -987,13 +987,15 @@ Lazy.use {
 }
 
 -- fzf
-local vertical = {
-  preview = {
-    layout = "vertical",
-    vertical = "down:75%",
-    border = "border-top",
+local function vertical(border)
+  return {
+    preview = {
+      layout = "vertical",
+      vertical = "down:75%",
+      border = border ~= nil and border or "solid"
+    }
   }
-}
+end
 
 -- fzf
 Lazy.use {
@@ -1006,26 +1008,23 @@ Lazy.use {
     defaults = {
       multiprocess = true,
       preview_pager = false,
-      jump_to_single_result = true,
       file_ignore_patterns = { "package%-lock%.json" }
     },
     fzf_colors = true,
     fzf_opts = {
       ["--cycle"] = "",
-      ["--scrollbar"] = "█",
-      ["--preview-window"] = "bottom:75%,border-top", -- ["--preview-window"] = "right:50%,border-left",
-      ["--color"] = string.format("preview-bg:%s,preview-scrollbar:%s", Dark.colors.mantle, Dark.colors.peach), -- FzfLuaBorder border is applied to native fzf window...
+      ["--scrollbar"] = "█"
     },
     winopts = {
       row = 0.45,
-      col = 0.495,
+      col = 0.50,
       width = 0.80,
       height = 0.87,
-      border = "thicc",
+      border = "solid",
       backdrop = 100,
       preview = {
         default = "builtin",
-        border = "border",
+        border = "solid",
         vertical = "down:50%",
         horizontal = "right:51%",
         scrollbar = "float",
@@ -1043,20 +1042,19 @@ Lazy.use {
       }
     },
     lsp = {
-      winopts = vertical,
-      code_actions = { winopts = vertical },
+      winopts = vertical(),
+      code_actions = { winopts = vertical() },
     },
-    grep = { winopts = vertical },
-    git = { status = { winopts = vertical } },
-    files = { fd_opts = nil, find_opts = nil },
-    diagnostics = { winopts = vertical, multiline = false },
-    -- manpages = { cmd = "man -s 1 -k ." },
-    helptags = {
-      fzf_opts = {
-        ["--tac"] = "",
-        ["--tiebreak"] = "begin,length,index",
-      }
+    git = {
+      tags = { winopts = vertical("border-top") },
+      blame = { winopts = vertical("border-top") },
+      stash = { winopts = vertical("border-top") },
+      status = { winopts = vertical("border-top") },
+      commits = { winopts = vertical("border-top") },
+      branches = { winopts = vertical("border-top") },
     },
+    grep = { winopts = vertical() },
+    diagnostics = { winopts = vertical(), multiline = false },
   },
   keys = {
     { "<leader>tt", "<cmd>FzfLua<cr>", silent = true, desc = "FZF Lua" },
@@ -1065,24 +1063,15 @@ Lazy.use {
     { "<leader>f", "<cmd>FzfLua files header=false<cr>", silent = true, desc = "FZF Files" },
     { "<leader>j", "<cmd>FzfLua jumps<cr>", silent = true, desc = "FZF Jumps List" },
     { "<leader>h", "<cmd>FzfLua helptags<cr>", silent = true, desc = "FZF Help Tags" },
-    { "<leader>M", "<cmd>FzfLua manpages<cr>", silent = true, desc = "FZF Man Pages" },
+    { "<leader>m", "<cmd>FzfLua manpages<cr>", silent = true, desc = "FZF Man Pages" },
     { "<leader>g", "<cmd>FzfLua git_status<cr>", silent = true, desc = "FZF Git Status" },
     { "<leader>'", "<cmd>FzfLua resume<cr>", silent = true, desc = "FZF Resume" },
   },
   config = function(_, options)
-    local A = require("fzf-lua.actions")
-
-    --- @diagnostic disable-next-line
-    A.file_tabedit = function(selected, opts)
-      local vimcmd = "tabnew | <auto>"
-      A.vimcmd_entry(vimcmd, selected, opts)
-    end
-
     require("fzf-lua").setup(options)
-
     require("fzf-lua").register_ui_select(function(opts)
       local ui_select = { row = 0.25, width = 0.7, height = 0.42 }
-      return { winopts = opts.kind == "codeaction" and vertical or ui_select }
+      return { winopts = opts.kind == "codeaction" and vertical() or ui_select }
     end)
   end
 }
