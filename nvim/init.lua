@@ -845,19 +845,16 @@ Lazy.use {
 -- show marks in the sign column
 Lazy.use {
   "chentoast/marks.nvim",
-  event = { "BufReadPre", "BufNewFile" },
-  opts = {
-    refresh_interval = 5000,
-    default_mappings = false,
+  keys = {
+    { "gmm", function() require("marks").next() end, silent = true, desc = "Go to next mark" },
+    { "gmp", function() require("marks").prev() end, silent = true, desc = "Go to prev mark" },
+    { "gmd", function() require("marks").delete_buf() end, silent = true, desc = "Delete marks" },
+    { "<leader>M", function() vim.defer_fn(require("marks").toggle, 0) end, silent = true, desc = "Mark Toggle" }
   },
-  config = function(_, options)
-    local marks = require("marks")
-    marks.setup(options)
-    vim.keymap.set("n", "gmm", marks.next, { silent = true, desc = "Go to next mark" })
-    vim.keymap.set("n", "gmp", marks.prev, { silent = true, desc = "Go to prev mark" })
-    vim.keymap.set("n", "gmd", marks.delete_buf, { silent = true, desc = "Delete marks" })
-    vim.keymap.set("n", "<leader>m", marks.toggle, { silent = true, desc = "Mark Toggle" })
-  end
+  opts = {
+    refresh_interval = 2^14,
+    default_mappings = false,
+  }
 }
 
 -- git status signs
