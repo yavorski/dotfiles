@@ -23,9 +23,6 @@ vim.opt.termguicolors = true
 -- set colorscheme
 -- vim.cmd[[colorscheme catppuccin]]
 
--- syntax highlighting
-vim.opt.syntax = "enable"
-
 -- syntax highlighting until match column
 vim.opt.synmaxcol = 512
 
@@ -48,19 +45,28 @@ vim.opt.cursorline = true
 vim.opt.foldmethod = "marker"
 
 -- intro / messages / hit-enter prompts / ins-completion-menu
-vim.opt.shortmess = "actIsoOFW"
+vim.opt.shortmess = "actIsoOFCW"
+
+-- improve comment editing
+vim.opt.formatoptions = "rqnl1j"
 
 -- line lenght marker
 -- vim.opt.colorcolumn = "128"
 
 -- signcolumn
-vim.opt.signcolumn = "auto"
+vim.opt.signcolumn = "yes"
 
 -- enable mouse
 vim.opt.mouse = "a"
 
 -- min number of screen lines above/below the cursor
 vim.opt.scrolloff = 4
+
+-- min number of screen columns left/right the cursor
+vim.opt.sidescrolloff = 4
+
+-- screen line scrolling
+vim.opt.smoothscroll = true
 
 -- horizontal splits will be below
 vim.opt.splitbelow = true
@@ -83,8 +89,11 @@ vim.opt.smartcase = true
 -- show search results while typing
 vim.opt.incsearch = true
 
--- complete menu
-vim.opt.completeopt = "menu,menuone,noselect"
+-- popup/complete menu
+vim.opt.pumheight = 24
+
+-- built-in complete menu - popup,preview
+vim.opt.completeopt = "menu,menuone,noselect,fuzzy"
 
 -- reload file on external change
 vim.opt.autoread = true
@@ -122,7 +131,12 @@ vim.cmd[[autocmd FileType make setlocal noexpandtab]]
 -- list
 ------------------------------------------------------------
 vim.opt.list = false
-vim.opt.listchars = { space = "·", eol = " ", tab = "» ", trail = "~" }
+vim.opt.listchars = {
+  eol = " ",
+  tab = "» ",
+  trail = "~",
+  space = "·",
+}
 
 ------------------------------------------------------------
 -- grep/vimgrep/ripgrep
@@ -147,18 +161,22 @@ vim.g.maplocalleader = [[ ]]
 -- vim.g.maplocalleader = [[\]]
 
 ------------------------------------------------------------
--- sysname
+-- Providers
 ------------------------------------------------------------
 
-local sysname = vim.loop.os_uname().sysname
-local is_linux = sysname == "Linux"
-local is_windows = sysname == "Windows_NT"
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_python3_provider = 0
 
 ------------------------------------------------------------
 -- Filetypes Auto Detection
 ------------------------------------------------------------
 
 vim.filetype.add({
+  extension = {
+    razor = "razor",
+    cshtml = "razor",
+  },
   pattern = {
     [ ".*/waybar/config" ] = "jsonc",
     [ ".*/ghostty/config" ] = "conf",
@@ -167,11 +185,24 @@ vim.filetype.add({
 })
 
 ------------------------------------------------------------
+-- sysname
+------------------------------------------------------------
+
+local sysname = vim.loop.os_uname().sysname
+local is_linux = sysname == "Linux"
+local is_windows = sysname == "Windows_NT"
+local is_wsl = vim.fn.has("wsl") == 1
+local is_wsl_or_windows = is_wsl or is_windows
+
+------------------------------------------------------------
 -- edit cmd
 ------------------------------------------------------------
 
 -- enable all filetype plugins
 -- vim.cmd[[filetype plugin indent on]]
+
+-- enable syntax highlighting
+-- if vim.fn.exists("syntax_on") ~= 1 then vim.cmd("syntax enable") end
 
 -- trim trailing whitespace on save
 -- vim.cmd[[autocmd BufWritePre * :%s/\s\+$//e]]
@@ -181,20 +212,17 @@ local tws_autocmd_id = vim.api.nvim_create_autocmd("BufWritePre", {
   command = [[:%s/\s\+$//e]]
 })
 
--- treat json files as jsonc
--- vim.cmd[[autocmd BufEnter *.json set filetype=jsonc]]
+-- disable sign column
+vim.cmd[[autocmd FileType help setlocal signcolumn=no]]
 
 -- disable relative numbers
-vim.cmd[[autocmd FileType qf,lhelp,lquickfix setlocal norelativenumber]]
+vim.cmd[[autocmd FileType qf,lhelp,lquickfix,dbout setlocal norelativenumber]]
 
 -- don't auto comment new lines
 vim.cmd[[autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o]]
 
 -- highlight on yank
-vim.cmd[[autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "YankHighlight" })]]
-
--- 2 spaces for selected filetypes
--- vim.cmd[[autocmd FileType xml,html,xhtml,css,scss,javascript,json,lua,yaml setlocal shiftwidth=2 tabstop=2]]
+vim.cmd[[autocmd TextYankPost * silent! lua vim.hl.on_yank({ higroup = "YankHighlight" })]]
 
 -- Normalize Line Endings
 -- HACK to detect visual mode
@@ -247,15 +275,15 @@ local function buffer_only(discard_modified_buffers)
 
   local buffers = vim.api.nvim_list_bufs()
   local current_buffer = vim.api.nvim_get_current_buf()
-  local current_buffer_filetype = vim.api.nvim_get_option_value("filetype", { buf = current_buffer })
+  local current_buffer_ft = vim.api.nvim_get_option_value("filetype", { buf = current_buffer })
 
-  if current_buffer_filetype == "NvimTree" then
-    return vim.api.nvim_notify("NvimTree", vim.log.levels.INFO, {})
+  if current_buffer_ft == "NvimTree" or current_buffer_ft == "dbui" or current_buffer_ft == "dbout" then
+    return vim.notify(current_buffer_ft, vim.log.levels.INFO)
   end
 
   for _, buffer in ipairs(buffers) do
     local ft = vim.api.nvim_get_option_value("filetype", { buf = buffer })
-    local stopper = buffer == current_buffer or ft == "minimap" or ft == "NvimTree" or not vim.api.nvim_buf_is_valid(buffer)
+    local stopper = buffer == current_buffer or ft == "minimap" or ft == "NvimTree" or ft == "dbui" or ft == "dbout" or not vim.api.nvim_buf_is_valid(buffer)
 
     if not stopper then
       if discard_modified_buffers then
@@ -284,6 +312,9 @@ vim.keymap.set({ "n", "v", "x" }, "m", "<Nop>", { silent = true })
 -- disable built in |s| key - deletes char under cursor
 -- vim.keymap.set({ "n", "v", "x" }, "s", "<Nop>", { silent = true })
 
+-- save file/buffer
+vim.keymap.set("n", "<Leader>w", "<cmd>write<CR>", { desc = "Write File" })
+
 -- match brackets remap
 -- vim.keymap.set({ "n", "v", "x" }, "mm", "%", { silent = true })
 vim.keymap.set("n", "mm", "<Plug>(MatchitNormalForward)", { silent = true })
@@ -294,15 +325,14 @@ vim.api.nvim_set_keymap("v", "<C-c>", "gc", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-c>", "gcc", { silent = true })
 
 -- copy/paste system clipboard
-vim.keymap.set("n" , "<leader>%y", "<cmd>silent! %y+<cr>", { silent = true, desc = "[sc] Yank Buffer" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", [["+y]], { silent = true, desc = "[sc] Yank" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>Y", [["+yy]], { silent = true, desc = "[sc] Yank Line" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>p", [["+p]], { silent = true, desc = "[sc] Paste After" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>P", [["+P]], { silent = true, desc = "[sc] Paste Before" })
+vim.keymap.set({ "v", "x" }, "<leader>d", [["+d]], { silent = true, desc = "[sc] Yank Delete" })
+vim.keymap.set({ "n" }, "<leader>%y", "<cmd>silent! %y+<cr>", { silent = true, desc = "[sc] Yank Buffer" })
 
 -- buffer navigation -standard prev/next
-vim.keymap.set("n", "[b", "<cmd>bprev<cr>", { silent = true })
-vim.keymap.set("n", "]b", "<cmd>bnext<cr>", { silent = true })
 vim.keymap.set("n", "gp", "<cmd>bprev<cr>", { silent = true })
 vim.keymap.set("n", "gn", "<cmd>bnext<cr>", { silent = true })
 
@@ -771,7 +801,7 @@ Lazy.use {
   cmd = { "Bdelete", "Bwipeout" },
   keys = {
     { "<leader>q", "<cmd>Bdelete<cr>", silent = true, desc = "Quit Buffer" },
-    { "<leader>w", "<cmd>Bwipeout<cr>", silent = true, desc = "Wipeout Buffer" }
+    { "<leader>e", "<cmd>Bwipeout<cr>", silent = true, desc = "Wipeout Buffer" }
   },
   init = function()
     -- override native bd
@@ -1827,8 +1857,14 @@ vim.keymap.set("n", "<esc>", escape, { silent = true, noremap = true, desc = "Es
 ------------------------------------------------------------
 
 if vim.g.neovide then
-  vim.opt.linespace = is_linux and 0 or 2
   vim.g.neovide_remember_window_size = true
+
+  -- intel one mono
+  vim.opt.linespace = is_wsl_or_windows and 2 or 1
+
+  -- jet brains mono
+  -- vim.opt.linespace = is_wsl_or_windows and 2 or 3
+
   -- fzf-lua paste fix
   vim.keymap.set({ "n", "v", "s", "x", "o", "i", "l", "c", "t" }, "<C-S-v>", function() vim.api.nvim_paste(vim.fn.getreg("+"), true, -1) end, { noremap = true, silent = true })
 end
@@ -1836,6 +1872,7 @@ end
 --------------------------------------------------------------------------------
 -- Troubleshoot
 --------------------------------------------------------------------------------
+
 -- :Rust
 -- :LspInfo
 -- :checkhealth
@@ -1844,29 +1881,32 @@ end
 -- :set completeopt?
 -- :verbose imap <tab>
 -- :verbose set completeopt?
---------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 -- Required in path
 --------------------------------------------------------------------------------
--- npm i -g @angular/language-server
--- npm i -g emmet-ls [ issues/outdated ]
--- npm i -g @olrtg/emmet-language-server
--- npm i -g azure-pipelines-language-server
--- npm i -g dockerfile-language-server-nodejs
--- npm i -g bash-language-server
--- pacman -S bash-language-server
 
--- npm i -g typescript typescript-language-server
--- pacman -S typescript typescript-language-server
-
--- [ html, css, json, eslint, markdown ]
+-- html, css, json, eslint!
 -- npm i -g vscode-langservers-extracted
--- pacman -S eslint-language-server
 -- pacman -S vscode-css-languageserver
 -- pacman -S vscode-html-languageserver
 -- pacman -S vscode-json-languageserver
--- pacman -S vscode-markdown-languageserver
+
+-- npm i -g emmet-ls [ issues/outdated ]
+-- npm i -g @olrtg/emmet-language-server
+
+-- npm i -g @angular/language-server
+-- angularls needs "@angular/language-service" locally installed per project
+
+-- npm i -g bash-language-server
+-- pacman -S bash-language-server
+
+-- npm i -g azure-pipelines-language-server
+-- npm i -g dockerfile-language-server-nodejs
+
+-- use with typescript-tools lua plugin!
+-- npm i -g typescript typescript-language-server
+-- pacman -S typescript typescript-language-server
 
 -- pacman -S zig zls
 -- pacman -S gcc clang
@@ -1874,23 +1914,22 @@ end
 -- pacman -S rust rust-analyzer
 -- pacman -S lua-language-server
 -- pacman -S yaml-language-server
--- pacman -S shellcheck
+
 -- pacman -S [AUR] shellcheck-bin
--- pacman -S gopls
--- pacman -S pyright python-lsp-server
 -- pacman -S tree-sitter tree-sitter-cli
 -- pacman -S fd ripgrep curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
---------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 -- Roslyn
 --------------------------------------------------------------------------------
 
--- Download `Microsoft.CodeAnalysis.LanguageServer.linux-x64` pkg from https://dev.azure.com/azure-public/vside/_artifacts/feed/vs-impl
--- extract and move the contents of <zip-root>/content/LanguageServer/<yourArch> inside:
+-- bin/roslyn-update.sh
+-- Download `Microsoft.CodeAnalysis.LanguageServer.linux-x64` from
+-- https://dev.azure.com/azure-public/vside/_artifacts/feed/vs-impl
+-- Extract <zip-root>/content/LanguageServer/<yourArch> and move to:
 -- Linux: ~/.local/share/nvim/roslyn
 -- Windows: %LOCALAPPDATA%\nvim-data\roslyn
--- Verify by running `dotnet Microsoft.CodeAnalysis.LanguageServer.dll --version` in `roslyn` directory
+-- Verify with `dotnet Microsoft.CodeAnalysis.LanguageServer.dll --version`
 
 --------------------------------------------------------------------------------
 -- LSP server configurations
