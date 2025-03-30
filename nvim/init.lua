@@ -41,9 +41,6 @@ vim.opt.relativenumber = true
 -- highlight current line
 vim.opt.cursorline = true
 
--- enable folding (default "foldmarker")
-vim.opt.foldmethod = "marker"
-
 -- intro / messages / hit-enter prompts / ins-completion-menu
 vim.opt.shortmess = "actIsoOFCW"
 
@@ -137,6 +134,33 @@ vim.opt.listchars = {
   trail = "~",
   space = "·",
 }
+
+------------------------------------------------------------
+-- Folds -> vim.opt.statuscolumn = "%C%s%l "
+------------------------------------------------------------
+
+vim.opt.fillchars = {
+  fold = " ", -- filling foldtext
+  foldsep = " ", -- fold middle marker
+  foldopen = "", -- arrow for open folds
+  foldclose = "" -- arrow for closed folds
+}
+
+vim.opt.foldenable = false     -- Enable manually
+
+vim.opt.foldcolumn = "0"       -- Fold column width
+vim.opt.foldmethod = "indent"  -- Set folding method
+
+vim.opt.foldtext = ""          -- Off fold text
+vim.opt.foldlevel = 99         -- Don't fold on start
+vim.opt.foldnestmax = 5        -- Fold depth max level
+vim.opt.foldlevelstart = 99    -- Auto fold start level
+
+vim.g.markdown_folding = 1     -- Fold by heading in markdown files
+
+-- tree-sitter folds
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 ------------------------------------------------------------
 -- grep/vimgrep/ripgrep
