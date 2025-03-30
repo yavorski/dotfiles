@@ -754,17 +754,8 @@ Lazy.use { "rust-lang/rust.vim", ft = "rust" }
 -- stylus syntax
 Lazy.use { "wavded/vim-stylus", ft = "stylus" }
 
--- razor syntax -> adamclerk/vim-razor
-Lazy.use { "jlcrochet/vim-razor", ft = { "razor", "cshtml" } }
-
--- roslyn.nvim -> c-sharp dotnet lsp -> Microsoft.CodeAnalysis.LanguageServer
-Lazy.use { "seblj/roslyn.nvim", ft = "cs", opts = { config = { filetypes = { "cs" } } } }
-
--- auto close/rename html tag
--- Lazy.use { "andrewradev/tagalong.vim", ft = { "html", "cshtml", "razor", "markdown" }, enabled = false }
-
--- auto close/rename html tag
-Lazy.use { "windwp/nvim-ts-autotag", ft = { "html", "cshtml", "razor", "markdown" }, opts = { opts = { enable_close_on_slash = true } } }
+-- Microsoft.CodeAnalysis.LanguageServer
+Lazy.use { "seblyng/roslyn.nvim", ft = "cs", config = true }
 
 -- scope buffers to tabs
 Lazy.use { "tiagovla/scope.nvim", event = "VeryLazy", config = true }
@@ -1384,37 +1375,60 @@ Lazy.use {
 -- LSP - setup
 -- neovim/nvim-lspconfig
 ------------------------------------------------------------
-local LSP = {
-  opts = {
-    border = "single",
+local LSP = {}
 
-    diagnostics = {
-      signs = true,
-      underline = false,
-      virtual_text = true,
-      severity_sort = true,
-      update_in_insert = false,
-      float = { border = "single" },
-      icons = { Info = "▪", Hint = "★", Warn = "◮", Error = "✖" }
-    },
+--- @type "none"|"single"|"double"|"rounded"|"solid"|"shadow"
+LSP.border = "single"
 
-    servers = {
-      "html",
-      "cssls",
-      "taplo",
-      "bashls",
-      "jsonls",
-      "yamlls",
-      "nushell",
-      "dockerls",
-      -- "tsserver",
-      -- "angularls",
-      -- "powershell",
-      -- "roslyn/dotnet",
-      -- "rust_analyzer",
-      -- "azure_pipelines_ls",
-      -- "lua-language-server",
-      -- "emmet_language_server",
+--- @type table<string, vim.lsp.Config>
+LSP.servers = {
+  cssls = {},
+  taplo = {},
+  bashls = {},
+  jsonls = {},
+  yamlls = {},
+  dockerls = {},
+}
+
+LSP.servers["html"] = {
+  filetypes = { "html", "cshtml", "razor", "htmlangular" }
+}
+
+LSP.servers["emmet_language_server"] = {
+  filetypes = { "html", "cshtml", "razor", "htmlangular" }
+}
+
+LSP.servers["angularls"] = {
+  filetypes = { "html", "htmlangular" },
+  root_markers = { "angular.json" },
+  workspace_required = true
+}
+
+LSP.servers["lua_ls"] = {
+  settings = {
+    Lua = {
+      format = { enable = true },
+      runtime = { version = "LuaJIT" },
+      diagnostics = { globals = { "vim" } },
+      completion = { callSnippet = "Replace" },
+      workspace = { checkThirdParty = "Disable" }
+    }
+  }
+}
+
+LSP.servers["azure_pipelines_ls"] = {
+  filetypes = { "yaml" },
+  root_markers = { "azure/", "pipelines/" },
+  settings = {
+    yaml = {
+      schemas = {
+        ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
+          "azure*.yml",
+          "azure/*.yml",
+          "*pipeline.yml",
+          "pipelines/*.yml",
+        }
+      }
     }
   }
 }
@@ -1423,32 +1437,10 @@ local LSP = {
 -- LSP init settings and servers
 ------------------------------------------------------------
 LSP.init = function()
-  LSP.UI()
   LSP.keymaps()
   LSP.overloads()
-  LSP.setup_lua()
-  LSP.setup_emmet()
-  LSP.setup_angular()
+  LSP.setup_servers()
   LSP.setup_powershell()
-  LSP.setup_listed_servers()
-  LSP.setup_azure_pipelines()
-end
-
-------------------------------------------------------------
--- LSP user interface settings
-------------------------------------------------------------
-LSP.UI = function()
-  vim.diagnostic.config(LSP.opts.diagnostics)
-
-  for type, icon in pairs(LSP.opts.diagnostics.icons) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-  end
-
-  require("lspconfig.ui.windows").default_options.border = LSP.opts.border
-
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = LSP.opts.border })
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = LSP.opts.border })
 end
 
 ------------------------------------------------------------
@@ -1460,46 +1452,60 @@ LSP.buffer_keymaps = function(buffer)
 
   -- key map fn
   local function keymap(mode, lhs, rhs, desc)
-    vim.keymap.set(mode, lhs, rhs, { silent = true, buffer = buffer, desc = desc })
+    vim.keymap.set(mode, lhs, rhs, { silent = true, buffer = buffer, desc = desc, nowait = true })
   end
 
-  -- keymap("n", "gr", vim.lsp.buf.references, "LSP References")
+  -- vim.lsp.buf.references - default is <grr>
   keymap("n", "gr", "<cmd>FzfLua lsp_references<cr>", "LSP References")
 
-  -- keymap("n", "gd", vim.lsp.buf.definition, "LSP Definition")
+  -- vim.lsp.buf.definition
   keymap("n", "gd", "<cmd>FzfLua lsp_definitions<cr>", "LSP Definition")
 
-  -- keymap("n", "gD", vim.lsp.buf.declaration, "LSP Declaration")
+  -- vim.lsp.buf.declaration
   keymap("n", "gD", "<cmd>FzfLua lsp_declarations<cr>", "LSP Declaration")
 
-  -- keymap("n", "gi", vim.lsp.buf.implementation, "LSP Implementation")
+  -- vim.lsp.buf.implementation - default is <gri>
   keymap("n", "gi", "<cmd>FzfLua lsp_implementations<cr>", "LSP Implementation")
 
-  -- keymap("n", "g<space>", vim.lsp.buf.type_definition, "LSP Type Definition")
+  -- vim.lsp.buf.type_definition
   keymap("n", "g<space>", "<cmd>FzfLua lsp_typedefs<cr>", "LSP Type Definition")
 
-  -- default is K
-  keymap({ "n", "v" }, "<leader>k", vim.lsp.buf.hover, "LSP Hover")
-  keymap({ "n", "v" }, "<C-k>", vim.lsp.buf.signature_help, "LSP Signature Help")
-
+  -- default is <grn>
   keymap({ "n", "v" }, "<leader>r", vim.lsp.buf.rename, "LSP Rename")
-  keymap({ "n", "v" }, "<leader>R", vim.lsp.buf.rename, "LSP Rename")
 
+  -- vim.lsp.buf.format with async = true
+  keymap({ "n", "v" }, "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format")
+
+  -- default is <K>
+  keymap({ "n", "v" }, "K", function() vim.lsp.buf.hover({ border = "rounded" }) end, "LSP Hover")
+  keymap({ "n", "v" }, "<leader>k", function() vim.lsp.buf.hover({ border = "rounded" }) end, "LSP Hover")
+
+  -- default is <CTRL-s> in insert mode
+  keymap({ "n", "v" }, "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, "LSP Signature Help")
+  keymap({ "n", "v", "i" }, "<C-s>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, "LSP Signature Help")
+
+  -- default is <gra>
   keymap({ "n", "v" }, "<leader>A", vim.lsp.buf.code_action, "LSP Code Action") -- with preview
   keymap({ "n", "v" }, "<leader>a", "<cmd>FzfLua lsp_code_actions previewer=false winopts.row=0.25 winopts.width=0.7 winopts.height=0.42<cr>", "LSP Code Action") -- no preview
 
-  -- <CTRL-W-d> is default
-  keymap("n", "<leader>er", vim.diagnostic.open_float, "LSP Diagnostic Open Float")
+  -- toggle inlay hints
+  keymap("n", "<leader>;", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, "LSP Toggle Inlay Hints")
 
-  keymap("n", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format")
-  keymap("v", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format Visual")
+  -- toggle view diagnostics
+  keymap("n", "<leader>,", function()
+    local c = vim.diagnostic.config()
+    vim.diagnostic.config({
+      virtual_text = not c.virtual_text and { current_line = true } or false,
+      virtual_lines = not c.virtual_lines and { current_line = true } or false
+    })
+  end, "LSP Toggle diagnostics")
 
+  -- diagnostics <CTRL-W-d> is default
+  keymap("n", "<leader>E", vim.diagnostic.open_float, "LSP Diagnostic Float")
   keymap("n", "<leader>d", "<cmd>FzfLua diagnostics_document<cr>", "LSP Document Diagnostics")
   keymap("n", "<leader>D", "<cmd>FzfLua diagnostics_workspace<cr>", "LSP Workspace Diagnostics")
 
-  -- toggle inlay hints
-  keymap("n", "<leader>;", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, "LSP Inlay Hints")
-
+  -- workspace
   keymap("n", "<leader>Wa", vim.lsp.buf.add_workspace_folder, "LSP Add Workspace Folder")
   keymap("n", "<leader>Wr", vim.lsp.buf.remove_workspace_folder, "LSP Remove Workspace Folder")
   keymap("n", "<leader>Wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "LSP Workspace List Folders")
@@ -1525,7 +1531,7 @@ LSP.capabilities = function()
   local client_capabilities = vim.lsp.protocol.make_client_capabilities()
 
   -- additional capabilities
-  local lsp_capabilities = require("blink.cmp").get_lsp_capabilities()
+  local blink_lsp_capabilities = require("blink.cmp").get_lsp_capabilities()
 
   -- @perf: didChangeWatchedFiles is too slow
   -- @todo: Remove this when https://www.github.com/neovim/neovim/issues/23291#issuecomment-1686709265 is fixed
@@ -1535,7 +1541,7 @@ LSP.capabilities = function()
     }
   }
 
-  local capabilities = vim.tbl_deep_extend("force", {}, client_capabilities, lsp_capabilities, workarround_perf_fix)
+  local capabilities = vim.tbl_deep_extend("force", {}, client_capabilities, blink_lsp_capabilities, workarround_perf_fix)
 
   return capabilities
 end
@@ -1558,89 +1564,27 @@ LSP.overloads = function()
         require("lsp-overloads").setup(client, {
           silent = true,
           display_automatically = false,
-          ui = {
-            silent = true,
-            border = "single"
-          },
-          keymaps = {
-            next_signature = "<A-n>",
-            previous_signature = "<A-p>",
-            close_signature = "<esc>"
-          }
+          ui = { silent = true, border = "single" }, --- @diagnostic disable-line
+          keymaps = { next_signature = "<A-n>", previous_signature = "<A-p>", close_signature = "<A-o>" } --- @diagnostic disable-line
         })
 
-        vim.keymap.set({ "n", "i" }, "<A-o>", show_lsp_signature_overloads, { silent = false });
-        -- vim.keymap.set({ "n", "i" }, "<C-S-Space>", show_lsp_signature_overloads, { silent = false });
+        vim.keymap.set({ "n", "i" }, "<A-o>", show_lsp_signature_overloads, { silent = true, desc = "LSP Overloads" });
       end
     end
   })
 end
 
 ------------------------------------------------------------
--- LSP - setup listed servers from options
+-- LSP - setup listed servers
 ------------------------------------------------------------
-LSP.setup_listed_servers = function()
-  local lsp = require("lspconfig")
-  local servers = LSP.opts.servers
-
-  for _, server in ipairs(servers) do
-    lsp[server].setup({
+LSP.setup_servers = function()
+  for server, settings in pairs(LSP.servers) do
+    local options = vim.tbl_extend("force", settings or {}, {
       capabilities = LSP.capabilities()
     })
+    vim.lsp.config(server, options)
+    vim.lsp.enable(server)
   end
-end
-
-------------------------------------------------------------
--- LSP Angular
-------------------------------------------------------------
-LSP.setup_angular = function()
-  local npm = is_windows and "$APPDATA/npm" or "$HOME/.npm/lib"
-  local ts_path = vim.fn.expand(npm .. "/node_modules/typescript/lib")
-  local als_path = vim.fn.expand(npm .. "/node_modules/@angular/language-server/bin")
-  local server_cmd = { "ngserver", "--stdio", "--tsProbeLocations", ts_path, "--ngProbeLocations", als_path }
-
-  require("lspconfig").angularls.setup({
-    cmd = server_cmd,
-    filetypes = { "html" },
-    capabilities = LSP.capabilities(),
-    on_new_config = function(new_config)
-      new_config.cmd = server_cmd
-    end
-  })
-end
-
-------------------------------------------------------------
--- LSP Lua lus_ls -- sumneko/lua-language-server
-------------------------------------------------------------
-LSP.setup_lua = function()
-  require("lspconfig").lua_ls.setup({
-    capabilities = LSP.capabilities(),
-    settings = {
-      Lua = {
-        format = { enable = true },
-        runtime = { version = "LuaJIT" },
-        completion = { callSnippet = "Replace" },
-        workspace = { checkThirdParty = "Disable" },
-        diagnostics = {
-          globals = { "vim" },
-          -- disable = { "missing-fields" },
-        }
-      }
-    }
-  })
-end
-
-------------------------------------------------------------
--- LSP Emmet
-------------------------------------------------------------
-LSP.setup_emmet = function()
-  require("lspconfig").emmet_language_server.setup({
-    filetypes = {
-      "html", "pug", "eruby", "cshtml", "razor",
-      -- "css", "less", "sass", "scss", "stylus",
-      -- "javascript", "javascriptreact", "typescriptreact",
-    }
-  })
 end
 
 ------------------------------------------------------------
@@ -1659,29 +1603,7 @@ LSP.setup_powershell = function()
 end
 
 ------------------------------------------------------------
--- LSP azure pipelines
-------------------------------------------------------------
-LSP.setup_azure_pipelines = function()
-  local lsp = require("lspconfig")
-  local patterns = { "azure*.yml", ".azure/*.yml", "pipelines/*.yml", "azure-pipelines/*.yml" }
-  local service_schema = "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"
-
-  lsp.azure_pipelines_ls.setup({
-    capabilities = LSP.capabilities(),
-    root_dir = lsp.util.root_pattern(patterns),
-    single_file_support = true,
-    settings = {
-      yaml = {
-        schemas = {
-          [service_schema] = patterns
-        }
-      }
-    }
-  })
-end
-
-------------------------------------------------------------
--- Lazy LSP setup
+-- LSP setup
 ------------------------------------------------------------
 Lazy.use {
   "neovim/nvim-lspconfig",
