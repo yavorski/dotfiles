@@ -38,8 +38,9 @@ vim.opt.number = true
 -- show relative line number
 vim.opt.relativenumber = true
 
--- highlight current line
+-- highlight line
 vim.opt.cursorline = true
+vim.opt.cursorlineopt = "number"
 
 -- intro / messages / hit-enter prompts / ins-completion-menu
 vim.opt.shortmess = "actIsoOFCW"
@@ -89,8 +90,8 @@ vim.opt.incsearch = true
 -- popup/complete menu
 vim.opt.pumheight = 24
 
--- built-in complete menu - popup,preview
-vim.opt.completeopt = "menu,menuone,noselect,fuzzy"
+-- built-in complete menu - popup
+vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy" }
 
 -- reload file on external change
 vim.opt.autoread = true
@@ -113,20 +114,9 @@ vim.opt.expandtab = true      -- use spaces instead of tabs
 vim.opt.smartindent = true    -- autoindent new lines
 
 ------------------------------------------------------------
--- Reset "expandtab" in order to use "hard tabs"
-------------------------------------------------------------
-
--- rust enable tabs and user settings
--- vim.g.rust_recommended_style = 0
-
--- enable tabs for the following filetypes
-vim.cmd[[autocmd FileType make setlocal noexpandtab]]
--- vim.cmd[[autocmd FileType ps1 setlocal noexpandtab]]
--- vim.cmd[[autocmd FileType rust setlocal noexpandtab]]
-
-------------------------------------------------------------
 -- list
 ------------------------------------------------------------
+
 vim.opt.list = false
 vim.opt.listchars = {
   eol = " ",
@@ -219,7 +209,7 @@ local is_wsl = vim.fn.has("wsl") == 1
 local is_wsl_or_windows = is_wsl or is_windows
 
 ------------------------------------------------------------
--- edit cmd
+-- Auto CMD
 ------------------------------------------------------------
 
 -- enable all filetype plugins
@@ -230,6 +220,9 @@ local is_wsl_or_windows = is_wsl or is_windows
 
 -- trim trailing whitespace on save
 -- vim.cmd[[autocmd BufWritePre * :%s/\s\+$//e]]
+
+-- use tabs
+vim.cmd[[autocmd FileType make setlocal noexpandtab]]
 
 -- disable sign column
 vim.cmd[[autocmd FileType help setlocal signcolumn=no]]
@@ -243,9 +236,14 @@ vim.cmd[[autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-
 -- highlight on yank
 vim.cmd[[autocmd TextYankPost * silent! lua vim.hl.on_yank({ higroup = "YankHighlight" })]]
 
+-- 2 spaces for selected filetypes
+vim.cmd[[autocmd FileType xml,html,css,json,lua,yaml,markdown setlocal shiftwidth=2 tabstop=2 expandtab]]
+
+------------------------------------------------------------
+-- LF CMD
+------------------------------------------------------------
+
 -- Normalize Line Endings
--- HACK to detect visual mode
--- https://www.petergundel.de/neovim/lua/hack/2023/12/17/get-neovim-mode-when-executing-a-command.html
 -- Executing a command with : in visual line/block mode changes mode to normal mode, making it unclear what the previous mode was.
 -- Checking the count option helps: -1 indicates "no range," implying the command was executed from normal mode (if only considering normal and visual modes).
 local function normalize_line_endings(options)
