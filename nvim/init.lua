@@ -574,8 +574,12 @@ local Lazy = {
   path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim",
   repository = "https://github.com/folke/lazy.nvim.git",
   config = {
+    ui = {
+      border = "rounded",
+      backdrop = 100
+    },
     rocks = {
-      enabled = false,
+      enabled = false
     },
     defaults = {
       lazy = true, -- lazy load plugins by default
@@ -583,14 +587,7 @@ local Lazy = {
     },
     performance = {
       rtp = {
-        disabled_plugins = {
-          "gzip",
-          "tutor",
-          "tohtml",
-          "tarPlugin",
-          "zipPlugin",
-          "netrwPlugin",
-        }
+        disabled_plugins = { "gzip", "tutor", "tohtml", "tarPlugin", "zipPlugin", "netrwPlugin" }
       }
     }
   }
