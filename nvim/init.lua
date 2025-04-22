@@ -199,6 +199,28 @@ vim.filetype.add({
 })
 
 ------------------------------------------------------------
+-- system
+------------------------------------------------------------
+
+local sysname = vim.loop.os_uname().sysname
+local is_linux = sysname == "Linux"
+local is_windows = sysname == "Windows_NT"
+local is_wsl = vim.fn.has("wsl") == 1
+local is_wsl_or_windows = is_wsl or is_windows
+local is_neovide = vim.g.neovide == true
+local is_ghostty = vim.env.TERM_PROGRAM == "ghostty"
+
+------------------------------------------------------------
+-- window border
+------------------------------------------------------------
+
+--- @type "bold"|"double"|"none"|"rounded"|"shadow"|"single"|"solid"
+local win_border = (is_ghostty or is_neovide) and "rounded" or "bold"
+
+-- global
+vim.opt.winborder = win_border
+
+------------------------------------------------------------
 -- Diagnostics Config
 ------------------------------------------------------------
 
@@ -208,7 +230,6 @@ vim.diagnostic.config({
   update_in_insert = false,
   virtual_lines = false,
   virtual_text = { current_line = true },
-  float = { border = "rounded" },
   signs = {
     text = {
       [ vim.diagnostic.severity.HINT ] = "★",
@@ -218,16 +239,6 @@ vim.diagnostic.config({
     }
   }
 })
-
-------------------------------------------------------------
--- sysname
-------------------------------------------------------------
-
-local sysname = vim.loop.os_uname().sysname
-local is_linux = sysname == "Linux"
-local is_windows = sysname == "Windows_NT"
-local is_wsl = vim.fn.has("wsl") == 1
-local is_wsl_or_windows = is_wsl or is_windows
 
 ------------------------------------------------------------
 -- Auto CMD
@@ -672,7 +683,7 @@ local Lazy = {
   repository = "https://github.com/folke/lazy.nvim.git",
   config = {
     ui = {
-      border = "rounded",
+      border = win_border,
       backdrop = 100
     },
     rocks = {
@@ -1390,9 +1401,6 @@ Lazy.use {
 ------------------------------------------------------------
 local LSP = {}
 
---- @type "none"|"single"|"double"|"rounded"|"solid"|"shadow"
-LSP.border = "single"
-
 --- @type table<string, vim.lsp.Config>
 LSP.servers = {
   cssls = {},
@@ -1556,12 +1564,12 @@ LSP.buffer_keymaps = function(buffer)
   keymap({ "n", "v" }, "<leader>F", function() vim.lsp.buf.format({ async = true }) end, "LSP Format")
 
   -- default is <K>
-  keymap({ "n", "v" }, "K", function() vim.lsp.buf.hover({ border = "rounded" }) end, "LSP Hover")
-  keymap({ "n", "v" }, "<leader>k", function() vim.lsp.buf.hover({ border = "rounded" }) end, "LSP Hover")
+  -- keymap({ "n", "v" }, "K", vim.lsp.buf.hover, "LSP Hover")
+  keymap({ "n", "v" }, "<leader>k", vim.lsp.buf.hover, "LSP Hover")
 
   -- default is <CTRL-s> in insert mode
-  keymap({ "n", "v" }, "<C-k>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, "LSP Signature Help")
-  keymap({ "n", "v", "i" }, "<C-s>", function() vim.lsp.buf.signature_help({ border = "rounded" }) end, "LSP Signature Help")
+  keymap({ "n", "v" }, "<C-k>", vim.lsp.buf.signature_help, "LSP Signature Help")
+  keymap({ "n", "v", "i" }, "<C-s>", vim.lsp.buf.signature_help, "LSP Signature Help")
 
   -- default is <gra>
   keymap({ "n", "v" }, "<leader>A", vim.lsp.buf.code_action, "LSP Code Action") -- with preview
@@ -1609,7 +1617,7 @@ LSP.overloads = function()
         require("lsp-overloads").setup(client, {
           silent = true,
           display_automatically = false,
-          ui = { silent = true, border = "single" }, --- @diagnostic disable-line
+          ui = { silent = true, border = win_border }, --- @diagnostic disable-line
           keymaps = { next_signature = "<A-n>", previous_signature = "<A-p>", close_signature = "<A-o>" } --- @diagnostic disable-line
         })
 
@@ -1671,7 +1679,6 @@ Lazy.use {
       tools = {
         float_win_config = {
           relative = "cursor",
-          border = LSP.border
         }
       },
       server = {
@@ -1772,7 +1779,6 @@ Lazy.use {
 
     signature = {
       enabled = true,
-      window = { border = "single" }
     },
 
     term = { enabled = false },
@@ -1808,7 +1814,6 @@ Lazy.use {
       menu = {
         auto_show = true,
         max_height = 18,
-        border = "single",
         draw = { align_to = "none" }
       },
       list = {
@@ -1831,7 +1836,6 @@ Lazy.use {
           max_width = 128,
           max_height = 32,
           desired_min_width = 64,
-          border = "single"
         }
       },
       keyword = { range = "prefix" },
