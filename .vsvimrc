@@ -28,3 +28,13 @@ set backspace=indent,eol,start
 
 " Clear highlighting of :set hlsearch
 nnoremap <silent> <C-L> :nohlsearch<CR>
+
+" Disable the 'm' key in normal, visual, and select modes
+nnoremap <silent> m <Nop>
+vnoremap <silent> m <Nop>
+xnoremap <silent> m <Nop>
+
+" Remap 'mm' to match brackets
+nmap mm %
+vmap mm %
+xmap mm %
