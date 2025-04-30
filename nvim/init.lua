@@ -296,24 +296,31 @@ vim.api.nvim_create_user_command("NormalizeLineEndings", normalize_line_endings,
 -- Force convert file to LF
 local function forcelf(options)
   local cursor_position = vim.api.nvim_win_get_cursor(0)
-  local is_gitsigns_loaded = pcall(require, "gitsigns")
-
-  if is_gitsigns_loaded then
-    vim.cmd("Gitsigns detach")
-  end
-
   vim.cmd("set fileformat=unix")
   normalize_line_endings(options)
-
-  if is_gitsigns_loaded then
-    vim.cmd("Gitsigns attach")
-  end
-
   vim.api.nvim_win_set_cursor(0, cursor_position)
 end
 
 -- user command
 vim.api.nvim_create_user_command("ForceLF", forcelf, { nargs = "?", range = "%", addr = "lines", desc = "Set LF Line Endings" })
+
+-- Toggle Conceal CRLF ^M
+local function toggle_conceal_crlf()
+  if vim.wo.conceallevel > 0 then
+    vim.opt_local.conceallevel = 0
+    vim.opt_local.concealcursor = ""
+    vim.cmd("syntax clear ExtraCR")
+    vim.notify("Conceal CRLF -> OFF")
+  else
+    vim.opt_local.conceallevel = 2
+    vim.opt_local.concealcursor = "n"
+    vim.cmd("syntax match ExtraCR /\\r/ conceal")
+    vim.notify("Conceal CRLF -> ON")
+  end
+end
+
+-- user command
+vim.api.nvim_create_user_command("ToggleConcealCRLF", toggle_conceal_crlf, { desc = "Toggle conceal of carriage return (^M) characters" })
 
 ------------------------------------------------------------
 -- Buffer Only CMD
