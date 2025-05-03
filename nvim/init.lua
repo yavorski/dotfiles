@@ -1034,7 +1034,13 @@ local function show_macro()
 end
 
 local function show_lsp_clients()
-  return table.concat(vim.tbl_map(function(client) return client.name end, vim.lsp.get_clients({ bufnr = 0 })), " | ") .. " ★"
+  return table.concat(vim.tbl_map(function(client) return client.name end, vim.lsp.get_clients({ bufnr = 0 })), " | ")
+end
+
+local function show_copilot()
+  if not vim.g.loaded_copilot then return "★" end
+  if not vim.g.copilot_enabled then return "" end
+  return vim.b.copilot_enabled == false and "" or ""
 end
 
 -- statusline
@@ -1054,7 +1060,7 @@ Lazy.use {
       lualine_a = { "mode" },
       lualine_b = { "branch", "diff", "diagnostics" },
       lualine_c = { { "filename", path = 3 }, show_macro, "%S" },
-      lualine_x = { "selectioncount", "searchcount", show_lsp_clients, "encoding", "fileformat", "filesize", "filetype" },
+      lualine_x = { "selectioncount", "searchcount", show_lsp_clients, show_copilot, "encoding", "fileformat", "filesize", "filetype" },
       lualine_y = { "progress" },
       lualine_z = { "%2v:%l/%L" }
     },
@@ -1230,6 +1236,7 @@ Lazy.use {
       { "gm", group = "Go to Mark" },
       { "gb", group = "Go to Buffer" },
       { "sj", mode = { "n", "x" }, desc = "Split/Join" },
+      { "<leader>c", group = "Copilot" },
       { "<leader>\\", group = "NvimTree" },
       { "<leader>W", group = "LSP Workspace" },
       { "<leader>?", "<cmd>WhichKey<cr>", desc = "Which Key" },
@@ -1268,8 +1275,9 @@ Lazy.use {
     routes = {
       { view = "mini", filter = { event = "msg_showmode" } },
       { view = "popup", filter = { min_height = 7 } },
-      { view = "split", filter = { cmdline = "^:", min_height = 7 } },
       { view = "popup", filter = { event = "msg_show", min_height = 7 } },
+      { view = "split", filter = { cmdline = "^:", min_height = 7 } },
+      { filter = { event = "lsp", kind = "progress", find = "GitHub Copilot", min_length = 17, max_length = 17 }, opts = { skip = true } },
     },
     views = {
       split = { size = "24%" },
@@ -1402,6 +1410,99 @@ Lazy.use {
         }
       }
     })
+  end
+}
+
+------------------------------------------------------------
+-- Copilot
+-- TODO olimorris/codecompanion.nvim
+------------------------------------------------------------
+
+local Copilot = {}
+
+Copilot.enable = function()
+  vim.cmd("Copilot enable")
+  vim.g.copilot_enabled = true
+  vim.notify("Copilot: Enabled")
+end
+
+Copilot.disable = function()
+  vim.cmd("Copilot disable")
+  vim.g.copilot_enabled = false
+  vim.notify("Copilot: Disabled")
+end
+
+Copilot.toggle = function()
+  if vim.g.copilot_enabled then
+    Copilot.disable()
+    Copilot.buf_disable()
+  else
+    Copilot.enable()
+    Copilot.buf_enable()
+  end
+end
+
+Copilot.buf_enable = function()
+  vim.b.copilot_enabled = true
+  vim.cmd[[silent! call copilot#Suggest()]]
+end
+
+Copilot.buf_disable = function()
+  vim.b.copilot_enabled = false
+  vim.cmd[[silent! call copilot#Dismiss()]]
+end
+
+Lazy.use {
+  "github/copilot.vim",
+  cmd = "Copilot",
+  keys = {
+    { "<leader>ct", Copilot.toggle, silent = true, desc = "Copilot Toggle" },
+    { "<leader>ca", "<cmd>Copilot<CR>", mode = { "n", "v" }, silent = true, desc = "Copilot" },
+  },
+  config = function()
+    vim.keymap.set("i", "<A-t>", Copilot.toggle, { silent = true, desc = "Copilot Toggle"})
+    vim.keymap.set("i", "<A-]>", "<Plug>(copilot-next)", { silent = true, desc = "Copilot Next" })
+    vim.keymap.set("i", "<A-[>", "<Plug>(copilot-previous)", { silent = true, desc = "Copilot Prev" })
+    vim.keymap.set("i", "<A-ESC>", "<Plug>(copilot-dismiss)", { silent = true, desc = "Copilot Dismiss" })
+    vim.keymap.set("i", "<A-F13>", "<Plug>(copilot-dismiss)", { silent = true, desc = "Copilot Dismiss" })
+    vim.keymap.set("i", "<A-\\>", "<Plug>(copilot-suggest)", { silent = true, desc = "Copilot Request Suggestion" })
+    vim.keymap.set("i", "<A-CR>", "copilot#Accept('<CR>')", { expr = true, replace_keycodes = false, silent = true, desc = "Copilot Accept" })
+  end,
+  init = function()
+    vim.g.copilot_enabled = true
+    vim.g.copilot_no_tab_map = true
+    vim.cmd[[autocmd FileType copilot setlocal norelativenumber]]
+    vim.api.nvim_create_autocmd("User", { pattern = "BlinkCmpMenuOpen", callback = Copilot.buf_disable })
+    vim.api.nvim_create_autocmd("User", { pattern = "BlinkCmpMenuClose", callback = Copilot.buf_enable })
+  end
+}
+
+Lazy.use {
+  "CopilotC-Nvim/CopilotChat.nvim",
+  dependencies = { "github/copilot.vim", "nvim-lua/plenary.nvim" },
+  build = is_linux and "make tiktoken" or nil,
+  cmd = { "CopilotChat" },
+  keys = {
+    { "<leader>cc", mode = { "n", "v" }, "<cmd>CopilotChatToggle<cr>", silent = true, desc = "Copilot Chat" },
+    { "<leader>cs", mode = { "n", "v" }, "<cmd>CopilotChatStop<cr>", silent = true, desc = "Copilot Chat Stop" },
+    { "<leader>cm", mode = { "n", "v" }, "<cmd>CopilotChatModels<cr>", silent = true, desc = "Copilot Models" },
+    { "<leader>cp", mode = { "n", "v" }, "<cmd>CopilotChatPrompts<cr>", silent = true, desc = "Copilot Prompts" },
+    { "<leader>cf", mode = { "n", "v" }, "<cmd>CopilotChatFix<cr>", silent = true, desc = "Copilot Fix" },
+    { "<leader>cr", mode = { "n", "v" }, "<cmd>CopilotChatReview<cr>", silent = true, desc = "Copilot Review" },
+    { "<leader>ce", mode = { "n", "v" }, "<cmd>CopilotChatExplain<cr>", silent = true, desc = "Copilot Explain" },
+    { "<leader>co", mode = { "n", "v" }, "<cmd>CopilotChatOptimize<cr>", silent = true, desc = "Copilot Optimize" },
+    {
+      "<leader>cq", mode = { "n", "v" }, desc = "Copilot Quick Chat",
+      function()
+        vim.ui.input({ prompt = "Quick Chat: " }, function(input)
+          if input and input ~= "" then require("CopilotChat").ask(input) end
+        end)
+      end
+    },
+  },
+  opts = {},
+  init = function()
+    vim.cmd[[autocmd BufEnter copilot-chat,copilot-overlay setlocal nonumber norelativenumber signcolumn=no foldcolumn=0 concealcursor=nvic]]
   end
 }
 
