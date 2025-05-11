@@ -1853,20 +1853,15 @@ Lazy.use {
   --- @module "blink.cmp"
   --- @type blink.cmp.Config
   opts = {
-    appearance = {
-      nerd_font_variant = "mono",
-      use_nvim_cmp_as_default = false
-    },
-
-    signature = {
-      enabled = true,
-    },
-
     term = { enabled = false },
+    signature = { enabled = true },
 
     sources = {
       default = { "lsp", "path", "buffer" },
-      per_filetype = { sql = { "dadbod", "buffer" } },
+      per_filetype = {
+        sql = { "dadbod", "buffer" },
+        codecompanion = { "codecompanion" },
+      },
       providers = {
         lsp = {
           name = "LSP",
@@ -1893,9 +1888,9 @@ Lazy.use {
 
     completion = {
       menu = {
-        auto_show = true,
         max_height = 18,
-        draw = { align_to = "none" }
+        draw = { align_to = "none" },
+        auto_show = function(context, items) return not (Copilot.is_enabled() and Copilot.is_active()) end
       },
       list = {
         selection = {
@@ -1920,7 +1915,9 @@ Lazy.use {
         }
       },
       keyword = { range = "prefix" },
-      ghost_text = { enabled = true },
+      ghost_text = {
+        enabled = function() return not (Copilot.is_enabled() and Copilot.is_active()) end
+      }
     },
 
     keymap = {
@@ -1950,18 +1947,18 @@ Lazy.use {
     cmdline = {
       enabled = true,
       completion = {
-        menu = {
-          auto_show = false
-        }
+        menu = { auto_show = false },
+        ghost_text = { enabled = true },
       },
       keymap = {
         preset = "none",
-        ["<C-a>"] = { "hide" },
-        ["<C-c>"] = { "cancel" },
-        ["<C-w>"] = { "hide", "cancel", "fallback" },
         ["<C-e>"] = { "select_and_accept", "fallback" },
-        ["<C-n>"] = { "show", "select_next", "fallback" },
-        ["<C-p>"] = { "show", "select_prev", "fallback" },
+        ["<C-y>"] = { "select_and_accept", "fallback" },
+        ["<C-a>"] = { "cancel", "fallback_to_mappings" },
+        ["<C-c>"] = { "cancel", "fallback", "fallback_to_mappings" },
+        ["<C-w>"] = { "cancel", "fallback", "fallback_to_mappings" },
+        ["<C-n>"] = { "show_and_insert", "select_next", "fallback" },
+        ["<C-p>"] = { "show_and_insert", "select_prev", "fallback" },
         ["<Tab>"] = { "show_and_insert", "select_next", "fallback" },
         ["<S-Tab>"] = { "show_and_insert", "select_prev", "fallback" },
         ["<C-space>"] = { "show", "hide", "fallback" },
