@@ -93,6 +93,9 @@ vim.opt.pumheight = 24
 -- built-in complete menu - popup
 vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy" }
 
+-- better diff alignment by considering indentation changes
+vim.opt.diffopt:append("indent-heuristic")
+
 -- reload file on external change
 vim.opt.autoread = true
 
@@ -1055,6 +1058,7 @@ Lazy.use {
   event = { "BufReadPost", "BufNewFile" },
   opts = {
     trouble = false,
+    diff_opts = { indent_heuristic = true },
     on_attach = function(buffer)
       local gs = package.loaded.gitsigns
       vim.keymap.set("n", "[g", function() gs.nav_hunk("prev") end, { buffer = buffer, silent = true, desc = "Prev Hunk" })
@@ -1063,6 +1067,7 @@ Lazy.use {
       vim.keymap.set("n", "gsn", function() gs.nav_hunk("next") end, { buffer = buffer, silent = true, desc = "Next Hunk" })
       vim.keymap.set("n", "gsl", function() gs.nav_hunk("last") end, { buffer = buffer, silent = true, desc = "Last Hunk" })
       vim.keymap.set("n", "gsf", function() gs.nav_hunk("first") end, { buffer = buffer, silent = true, desc = "First Hunk" })
+      vim.keymap.set("n", "gsR", gs.reset_buffer, { buffer = buffer, silent = true, desc = "Reset Buffer" })
       vim.keymap.set("n", "gsr", gs.reset_hunk, { buffer = buffer, silent = true, desc = "Reset Hunk" })
       vim.keymap.set("n", "gsb", gs.blame_line, { buffer = buffer, silent = true, desc = "Blame Line" })
       vim.keymap.set("n", "gss", gs.stage_hunk, { buffer = buffer, silent = true, desc = "Stage Hunk" })
