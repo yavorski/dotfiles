@@ -843,15 +843,6 @@ Lazy.use {
     { "<leader>q", "<cmd>Bdelete<cr>", silent = true, desc = "Quit Buffer" },
     { "<leader>e", "<cmd>Bwipeout<cr>", silent = true, desc = "Wipeout Buffer" }
   },
-  init = function()
-    -- override native bd
-    vim.cmd[[cabbrev bd Bdelete]]
-    vim.cmd[[cabbrev bdelete Bdelete]]
-
-    -- override native bw
-    vim.cmd[[cabbrev bw Bwipeout]]
-    vim.cmd[[cabbrev bwipeout Bwipeout]]
-  end,
   config = function()
     vim.api.nvim_create_user_command("Bdelete", function(opts) require("mini.bufremove").delete(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
     vim.api.nvim_create_user_command("Bwipeout", function(opts) require("mini.bufremove").wipeout(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
