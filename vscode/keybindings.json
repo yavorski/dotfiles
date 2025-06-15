@@ -1,0 +1,21 @@
+[
+  {
+    "key": "ctrl+q",
+    "command": "workbench.action.closeSidebar",
+    "when": "sideBarFocus"
+  },
+  {
+    "key": "ctrl+q",
+    "command": "workbench.action.closeChatView",
+    "when": "copilotChatFocused"
+  },
+  {
+    "key": "ctrl+q",
+    "command": "workbench.action.closePanel",
+    "when": "panelFocus"
+  },
+  {
+    "key": "ctrl+q",
+    "command": "workbench.action.closeActiveEditor"
+  }
+]
