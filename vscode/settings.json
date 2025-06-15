@@ -1,0 +1,20 @@
+{
+  "editor.fontFamily": "'Intel One Mono', 'Droid Sans Mono', 'monospace', monospace",
+  "workbench.settings.applyToAllProfiles": [
+    "editor.fontFamily"
+  ],
+  "editor.tabSize": 2,
+  "editor.dragAndDrop": false,
+  "editor.emptySelectionClipboard": false,
+  "editor.wordWrapColumn": 120,
+  "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
+  "editor.stickyScroll.enabled": false,
+  "breadcrumbs.enabled": false,
+  "editor.fontWeight": 500,
+  "files.eol": "\n",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "vscode-neovim.neovimInitVimPaths.linux": "~/.config/nvim/vscode.lua"
+}
