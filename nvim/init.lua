@@ -19,6 +19,7 @@ require("plugins/scope")
 require("plugins/stylus")
 require("plugins/auto-tag")
 require("plugins/git-signs")
+require("plugins/multi-cursor")
 -- require("plugins/marks")
 -- require("plugins/diff-view")
 
