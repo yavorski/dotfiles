@@ -1,5 +1,6 @@
 --- @brief
 --- Show marks in the sign column
+--- TODO - Replace this plugin with https://gh.com/dimtion/guttermarks.nvim/tree/main
 
 local Lazy = require("core/lazy")
 

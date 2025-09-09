@@ -32,6 +32,10 @@ vim.keymap.set({ "v", "x" }, "mm", "<Plug>(MatchitVisualForward)", { silent = tr
 vim.api.nvim_set_keymap("v", "<C-c>", "gc", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-c>", "gcc", { silent = true })
 
+-- Remap x X
+vim.keymap.set({ "n", "v", "x" }, "X", "x", { silent = true, desc = "Delete char" })
+vim.keymap.set({ "n", "v", "x" }, "x", [["_x]], { silent = true, desc = "Delete without yank" })
+
 -- copy/paste system clipboard
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", [["+y]], { silent = true, desc = "[sc] Yank" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>Y", [["+yy]], { silent = true, desc = "[sc] Yank Line" })
