@@ -65,6 +65,7 @@ require("modules/popup-menu")
 require("modules/buffer-only")
 require("modules/smart-close")
 require("modules/smart-escape")
+require("modules/scratch-buffer")
 
 --- Lazy init ---
 require("core/lazy").init()
