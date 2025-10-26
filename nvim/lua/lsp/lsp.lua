@@ -11,6 +11,7 @@ local servers = {
   bashls = {},
   jsonls = {},
   yamlls = {},
+  pyrefly = {},
   terraformls = {},
   html = {
     filetypes = { "html", "cshtml", "razor", "htmlangular" }
