@@ -163,7 +163,7 @@ Lazy.use {
     { "<leader>b", function() start("FzfLua buffers") end, silent = true, desc = "FZF Buffers" },
     { "<leader>j", function() start("FzfLua jumps") end, silent = true, desc = "FZF Jumps List" },
     { "<leader>h", function() start("FzfLua helptags") end, silent = true, desc = "FZF Help Tags" },
-    { "<leader>m", function() start("FzfLua manpages") end, silent = true, desc = "FZF Man Pages" },
+    { "<leader>M", function() start("FzfLua manpages") end, silent = true, desc = "FZF Man Pages" },
     { "<leader>g", function() start("FzfLua git_status") end, silent = true, desc = "FZF Git Status" },
     { "<leader>f", function() start("FzfLua files") end, silent = true, desc = "FZF Files" },
     { "<leader>/", function() start("FzfLua grep_visual") end, mode = "v", silent = true, desc = "FZF Search" },
