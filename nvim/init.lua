@@ -61,11 +61,11 @@ require("lsp/typescript-tools")
 
 --- Local Lua Modules ---
 require("modules/line-feed")
-require("modules/popup-menu")
 require("modules/buffer-only")
 require("modules/smart-close")
 require("modules/smart-escape")
 require("modules/scratch-buffer")
+-- require("modules/popup-menu")
 
 --- Lazy init ---
 require("core/lazy").init()

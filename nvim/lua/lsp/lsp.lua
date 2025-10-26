@@ -11,7 +11,9 @@ local servers = {
   bashls = {},
   jsonls = {},
   yamlls = {},
+  pyrefly = {},
   terraformls = {},
+  rust_analyzer = {},
   html = {
     filetypes = { "html", "cshtml", "razor", "htmlangular" }
   },

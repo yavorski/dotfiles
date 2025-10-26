@@ -40,7 +40,7 @@ Lazy.use {
   config = function()
     require("mini.trailspace").setup()
     enable_autocmd()
-    vim.api.nvim_create_user_command("TrimTralingWhiteSpace", trim, { desc = "Trim Trailing White Space" })
-    vim.api.nvim_create_user_command("TrimTralingWhiteSpaceToggle", toggle_autocmd, { desc = "Trim Trailing White Space - Enable/Disable" })
+    vim.api.nvim_create_user_command("TrimTrailingWhiteSpace", trim, { desc = "Trim Trailing White Space" })
+    vim.api.nvim_create_user_command("TrimTrailingWhiteSpaceToggle", toggle_autocmd, { desc = "Trim Trailing White Space - Enable/Disable" })
   end
 }
