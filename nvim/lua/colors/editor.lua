@@ -47,6 +47,9 @@ return {
   MiniMapSymbolLine = { fg = colors.pink, bg = colors.none },
   MiniMapSymbolView = { fg = colors.black, bg = colors.none },
 
+  -- multi-cursors
+  MultiCursorCursor = { fg = colors.base, bg = colors.softcyan },
+
   -- nvim marks -- not working
   -- MarkSignHL = { bg = colors.none },
   -- MarkSignNumHL = { fg = colors.none, bg = colors.none },
