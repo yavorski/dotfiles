@@ -2,7 +2,8 @@
 -- Diagnostics Config
 ------------------------------------------------------------
 
-vim.diagnostic.config({
+---@type vim.diagnostic.Opts
+local options = {
   underline = false,
   severity_sort = true,
   update_in_insert = false,
@@ -16,4 +17,7 @@ vim.diagnostic.config({
       [ vim.diagnostic.severity.ERROR ] = "",
     }
   }
-})
+}
+
+-- Setup later to avoid sourcing `vim.diagnostic` on startup
+vim.schedule(function() vim.diagnostic.config(options) end)

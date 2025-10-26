@@ -14,16 +14,20 @@ vim.g.maplocalleader = [[ ]]
 -- Keymaps
 ------------------------------------------------------------
 
--- disable built in |m| key - marks operations
+-- Map <F1> to Escape
+vim.cmd("map <F1> <esc>")
+vim.cmd("map! <F1> <esc>")
+
+-- Disable built in |m| key - marks operations
 vim.keymap.set({ "n", "v", "x" }, "m", "<Nop>", { silent = true })
 
--- disable built in |s| key - deletes char under cursor
+-- Disable built in |s| key - deletes char under cursor
 -- vim.keymap.set({ "n", "v", "x" }, "s", "<Nop>", { silent = true })
 
--- save file/buffer
+-- Save file/buffer
 vim.keymap.set("n", "<Leader>w", "<cmd>write<CR>", { desc = "Write File" })
 
--- match brackets remap
+-- Match brackets remap
 -- vim.keymap.set({ "n", "v", "x" }, "mm", "%", { silent = true })
 vim.keymap.set("n", "mm", "<Plug>(MatchitNormalForward)", { silent = true })
 vim.keymap.set({ "v", "x" }, "mm", "<Plug>(MatchitVisualForward)", { silent = true })
@@ -32,6 +36,10 @@ vim.keymap.set({ "v", "x" }, "mm", "<Plug>(MatchitVisualForward)", { silent = tr
 vim.api.nvim_set_keymap("v", "<C-c>", "gc", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-c>", "gcc", { silent = true })
 
+-- Remap x X
+vim.keymap.set({ "n", "v", "x" }, "X", "x", { silent = true, desc = "Delete char" })
+vim.keymap.set({ "n", "v", "x" }, "x", [["_x]], { silent = true, desc = "Delete without yank" })
+
 -- copy/paste system clipboard
 vim.keymap.set({ "n", "v", "x" }, "<leader>y", [["+y]], { silent = true, desc = "[sc] Yank" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>Y", [["+yy]], { silent = true, desc = "[sc] Yank Line" })
@@ -39,6 +47,11 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>p", [["+p]], { silent = true, desc = 
 vim.keymap.set({ "n", "v", "x" }, "<leader>P", [["+P]], { silent = true, desc = "[sc] Paste Before" })
 vim.keymap.set({ "v", "x" }, "<leader>d", [["+d]], { silent = true, desc = "[sc] Yank Delete" })
 vim.keymap.set({ "n" }, "<leader>%y", "<cmd>silent! %y+<cr>", { silent = true, desc = "[sc] Yank Buffer" })
+
+-- Paste linewise before/after current line
+-- Usage: `yiw` to yank a word and `]p` to put it on the next line.
+vim.keymap.set("n", "[p", [[<Cmd>exe "put! " . v:register<CR>]], { silent = true, desc = "Paste Above" })
+vim.keymap.set("n", "]p", [[<Cmd>exe "put "  . v:register<CR>]], { silent = true, desc = "Paste Below" })
 
 -- buffer navigation prev/next ]b and [b is default
 vim.keymap.set("n", "gp", "<cmd>bprev<cr>", { silent = true })
