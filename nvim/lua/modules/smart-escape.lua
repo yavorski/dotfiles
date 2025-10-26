@@ -1,34 +1,20 @@
-------------------------------------------------------------
 -- Map <esc>
--- Map <F1> to <ESC>
--- close all floating windows
--- close quickfix list, location list, trouble & noice
-------------------------------------------------------------
-
-vim.cmd("map <F1> <esc>")
-vim.cmd("map! <F1> <esc>")
-
--- close quickfix/location list
-local function close_qf_loc_list()
-  -- Check if the quickfix list is open
-  if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
-    vim.cmd("cclose")
-  end
-  -- Check if the location list is open
-  if vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 then
-    vim.cmd("lclose")
-  end
-end
+-- Close all floating windows
+-- Close quickfix list, location list, noice, trouble
 
 -- escape fn
 local function escape()
-  close_qf_loc_list()
-
   vim.cmd("Noice dismiss")
-  vim.cmd(vim.g.NvimTreeRequired == 1 and "silent! fclose" or "silent! fclose!")
+  vim.cmd("silent! cclose | lclose")
 
   if vim.snippet.active() then
-    vim.snippet.stop()
+    return vim.snippet.stop()
+  end
+
+  if vim.g.NvimTreeRequired == 1 then
+    vim.cmd("silent! 1fclose")
+  else
+    vim.cmd("silent! fclose!")
   end
 
   if MiniMap ~= nil then MiniMap.open() end
