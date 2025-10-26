@@ -5,6 +5,8 @@ return {
   LineNr = { bg = colors.dusk },
   CursorLineNr = { bg = colors.darky },
 
+  TabLineFill = { bg = colors.dark },
+
   SignColumn = { bg = colors.dusk },
   SignColumnSB = { bg = colors.dusk },
   CursorLineSign = { bg = colors.darky },
@@ -36,7 +38,7 @@ return {
   LspReferenceTarget = { }, -- <K> clear hover highlighting targeted word
 
   -- nvim mini
-  MiniJump = { fg = colors.stealth, bg = colors.darkpink },
+  MiniJump = { link = "SpellRare" },
   MiniTrailspace = { bg = colors.red },
   MiniIndentscopeSymbol = { fg = colors.red },
 
@@ -46,6 +48,9 @@ return {
   MiniMapNormal = { fg = colors.none, bg = colors.none },
   MiniMapSymbolLine = { fg = colors.pink, bg = colors.none },
   MiniMapSymbolView = { fg = colors.black, bg = colors.none },
+
+  -- multi-cursors
+  MultiCursorCursor = { fg = colors.base, bg = colors.softcyan },
 
   -- nvim marks -- not working
   -- MarkSignHL = { bg = colors.none },

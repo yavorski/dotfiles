@@ -1,18 +1,25 @@
 --- @brief
---- Show marks in the sign column
+--- Fork with automatic mark toggling, auto-lettering (a-z), alphabetical reordering, and enhanced actions/commands.
+--- Do not rely on using built-in 'm' key.
+--- To delete all marks you can use built-in ":delmarks!"
 
 local Lazy = require("core/lazy")
 
 Lazy.use {
-  "chentoast/marks.nvim",
-  keys = {
-    { "gmm", function() require("marks").next() end, silent = true, desc = "Go to next mark" },
-    { "gmp", function() require("marks").prev() end, silent = true, desc = "Go to prev mark" },
-    { "gmd", function() require("marks").delete_buf() end, silent = true, desc = "Delete marks" },
-    { "<leader>M", function() vim.defer_fn(require("marks").toggle, 0) end, silent = true, desc = "Mark Toggle" }
-  },
+  "yavorski/marks.nvim",
+  -- dir = "~/dev/marks.nvim",
+  -- event = { "BufNewFile", "BufReadPost", "BufWritePre" },
+  cmd = { "Marks" },
   opts = {
-    refresh_interval = 2^14,
-    default_mappings = false,
-  }
+    m_key = false,
+    global_mark = {
+      enabled = false
+    }
+  },
+  config = function(_, options)
+    require("guttermarks").setup(options)
+    vim.keymap.set("n", "<leader>m", "<cmd>Marks mark<cr>", { desc = "Mark Toggle" })
+    vim.keymap.set("n", "]m", function() require("guttermarks.actions").next_buf_mark(vim.v.count1) end, { desc = "Marks Next" })
+    vim.keymap.set("n", "[m", function() require("guttermarks.actions").prev_buf_mark(vim.v.count1) end, { desc = "Marks Prev" })
+  end
 }
