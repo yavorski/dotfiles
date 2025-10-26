@@ -11,6 +11,9 @@ vim.opt.cmdheight = 0
 -- show status line
 vim.opt.laststatus = 3
 
+-- show tab line
+vim.opt.showtabline = 2
+
 -- showcmd in statusline
 vim.opt.showcmdloc = "statusline"
 
@@ -173,13 +176,13 @@ vim.g.loaded_python3_provider = 0
 -- Set `1` to mark them as "already loaded", so neovim will skip loading them
 -----------------------------------------------------------------------------
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_gzip = 1
 vim.g.loaded_tutor = 1
 vim.g.loaded_tohtml = 1
-vim.g.loaded_tarPlugin = 1
 vim.g.loaded_zipPlugin = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 ------------------------------------------------------------
 -- Filetypes Auto Detection
