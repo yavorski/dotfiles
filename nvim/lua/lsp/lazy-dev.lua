@@ -15,6 +15,7 @@ Lazy.use {
     library = {
       { path = "lazy.nvim", words = { "Lazy" } },
       { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      { path = "deps/mini.test/lua", words = { "MiniTest" } },
     },
     integrations = {
       cmp = false,
