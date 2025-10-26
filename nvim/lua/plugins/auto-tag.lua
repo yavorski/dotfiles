@@ -1,27 +1,25 @@
 --- @brief
+--- @module "autotag.nvim"
 --- Auto close/rename html tag
+--- https://github.com/yavorski/autotag.nvim
 
 local Lazy = require("core/lazy")
 
+local filetypes = {
+  "xml",
+  "html",
+  "razor",
+  "cshtml",
+  "htmlangular",
+  "typescriptreact",
+  "javascriptreact",
+}
+
 Lazy.use {
-  "windwp/nvim-ts-autotag",
-  ft = {
-    "html",
-    "razor",
-    "cshtml",
-    "htmlangular"
-  },
-  opts = {
-    aliases = {
-      ["razor"] = "html",
-      ["cshtml"] = "html"
-    },
-    --- @module "nvim-ts-autotag"
-    --- @type nvim-ts-autotag.Opts
-    opts = {
-      enable_close = true,
-      enable_rename = true,
-      enable_close_on_slash = true
-    }
-  }
+  "git@github.com:yavorski/autotag.nvim.git",
+  -- dir = "~/dev/autotag.nvim",
+  ft = filetypes,
+  config = function()
+    require("autotag").setup()
+  end
 }
