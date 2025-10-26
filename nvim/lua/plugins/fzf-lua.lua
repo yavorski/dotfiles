@@ -6,6 +6,20 @@ local Lazy = require("core/lazy")
 local system = require("core/system")
 local window_border = require("core/border")
 
+-- ripgrep flags
+local ripgrep_flags = {
+  "--column",
+  "--line-number",
+  "--no-heading",
+  "--color=always",
+  "--hidden",
+  "--smart-case",
+  "--max-columns=1024",
+  "--glob='!.git/'",
+  "--glob='!package-lock.json'",
+  "-e"
+}
+
 -- state - before opening fzf-lua
 local cpwin, cpbuf, tree_focus = nil, nil, nil
 
@@ -74,7 +88,6 @@ end
 local fzf_lua_options = {
   defaults = {
     file_icons = "mini",
-    multiprocess = true,
     preview_pager = false,
     file_ignore_patterns = { "package%-lock%.json" }
   },
@@ -129,7 +142,10 @@ local fzf_lua_options = {
     commits = { winopts = vertical("border-top") },
     branches = { winopts = vertical("border-top") },
   },
-  grep = { winopts = vertical() },
+  grep = {
+    winopts = vertical(),
+    rg_opts = table.concat(ripgrep_flags, " ")
+  },
   diagnostics = { winopts = vertical(), multiline = false },
 }
 
@@ -147,14 +163,14 @@ Lazy.use {
     { "<leader>b", function() start("FzfLua buffers") end, silent = true, desc = "FZF Buffers" },
     { "<leader>j", function() start("FzfLua jumps") end, silent = true, desc = "FZF Jumps List" },
     { "<leader>h", function() start("FzfLua helptags") end, silent = true, desc = "FZF Help Tags" },
-    { "<leader>m", function() start("FzfLua manpages") end, silent = true, desc = "FZF Man Pages" },
+    { "<leader>M", function() start("FzfLua manpages") end, silent = true, desc = "FZF Man Pages" },
     { "<leader>g", function() start("FzfLua git_status") end, silent = true, desc = "FZF Git Status" },
     { "<leader>f", function() start("FzfLua files") end, silent = true, desc = "FZF Files" },
     { "<leader>/", function() start("FzfLua grep_visual") end, mode = "v", silent = true, desc = "FZF Search" },
     { "<leader>/", function() start("FzfLua live_grep_native") end, mode = "n", silent = true, desc = "FZF Search" },
   },
-  config = function(_, options)
-    require("fzf-lua").setup(options)
+  config = function()
+    require("fzf-lua").setup(fzf_lua_options)
     require("fzf-lua").register_ui_select(setup_ui_select)
   end
 }
