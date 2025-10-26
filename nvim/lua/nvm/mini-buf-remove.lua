@@ -14,7 +14,18 @@ Lazy.use {
     { "<leader>Q", "<cmd>Bwipeout<cr>", silent = true, desc = "Wipeout Buffer" }
   },
   config = function()
-    vim.api.nvim_create_user_command("Bdelete", function(opts) require("mini.bufremove").delete(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
-    vim.api.nvim_create_user_command("Bwipeout", function(opts) require("mini.bufremove").wipeout(tonumber(opts.args) or 0, opts.bang) end, { bang = true, nargs = "?" })
+    vim.api.nvim_create_user_command("Bdelete", function(opts)
+      if vim.bo.filetype == "NvimTree" then
+        return vim.cmd("NvimTreeClose")
+      end
+      require("mini.bufremove").delete(tonumber(opts.args) or 0, opts.bang)
+    end, { bang = true, nargs = "?" })
+
+    vim.api.nvim_create_user_command("Bwipeout", function(opts)
+      if vim.bo.filetype == "NvimTree" then
+        return vim.cmd("NvimTreeClose")
+      end
+      require("mini.bufremove").wipeout(tonumber(opts.args) or 0, opts.bang)
+    end, { bang = true, nargs = "?" })
   end
 }

@@ -64,7 +64,7 @@ vim.opt.mouse = "a"
 vim.opt.scrolloff = 4
 
 -- min number of screen columns left/right the cursor
-vim.opt.sidescrolloff = 4
+vim.opt.sidescrolloff = 16
 
 -- screen line scrolling
 vim.opt.smoothscroll = true

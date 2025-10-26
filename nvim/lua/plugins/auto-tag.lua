@@ -6,10 +6,12 @@
 local Lazy = require("core/lazy")
 
 local filetypes = {
+  "vue",
   "xml",
   "html",
   "razor",
   "cshtml",
+  "markdown",
   "htmlangular",
   "typescriptreact",
   "javascriptreact",
@@ -20,6 +22,11 @@ Lazy.use {
   -- dir = "~/dev/autotag.nvim",
   ft = filetypes,
   config = function()
-    require("autotag").setup()
+    require("autotag").setup({
+      aliases = {
+        vue = "html",
+        markdown = "html"
+      }
+    })
   end
 }
