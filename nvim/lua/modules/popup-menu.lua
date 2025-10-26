@@ -45,10 +45,10 @@ PUM.remove_listener = function()
 end
 
 -- Initialize PUM - add the event handler on popup open and remove it on close
-PUM.init = function ()
+PUM.init = function()
   vim.api.nvim_create_autocmd("CompleteChanged", { callback = PUM.add_listener })
   vim.api.nvim_create_autocmd("CompleteDone", { callback = PUM.remove_listener })
 end
 
 -- init
-PUM.init()
+vim.schedule(PUM.init)
