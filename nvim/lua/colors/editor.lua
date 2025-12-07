@@ -5,6 +5,8 @@ return {
   LineNr = { bg = colors.dusk },
   CursorLineNr = { bg = colors.darky },
 
+  TabLineFill = { bg = colors.dark },
+
   SignColumn = { bg = colors.dusk },
   SignColumnSB = { bg = colors.dusk },
   CursorLineSign = { bg = colors.darky },
