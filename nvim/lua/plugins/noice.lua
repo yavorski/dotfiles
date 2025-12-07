@@ -53,15 +53,15 @@ local options = {
       win_options = { wrap = true }
     },
     cmdline_input = {
-      border = { style = "solid", padding = { 0, 1 } },
-      win_options = { winhighlight = { Normal = "NoiceDark" } }
+      border = { style = "rounded", padding = { 0, 1 } },
+      -- win_options = { winhighlight = { Normal = "NoiceDark" } }
     },
     cmdline_popup = {
       align = "center",
       position = { row = 8, col = "50%" },
       size = { min_width = 82, max_width = 120 },
-      border = { style = "solid", padding = { 0, 1 } },
-      win_options = { winhighlight = { Normal = "NoiceDark" } }
+      border = { style = "rounded", padding = { 0, 1 } },
+      -- win_options = { winhighlight = { Normal = "NoiceDark" } }
     },
     mini = {
       timeout = 2800,

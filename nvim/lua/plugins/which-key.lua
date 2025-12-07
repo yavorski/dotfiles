@@ -23,6 +23,7 @@ local options = {
     { "gm", group = "Go to Mark" },
     { "gb", group = "Go to Buffer" },
     { "sj", mode = { "n", "x" }, desc = "Split/Join" },
+    { "<c-w>c", desc = "Close current window" },
     { "<leader>c", group = "Copilot" },
     { "<leader>\\", group = "NvimTree" },
     { "<leader>W", group = "LSP Workspace" },
