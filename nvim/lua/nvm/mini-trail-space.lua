@@ -36,11 +36,12 @@ end
 
 Lazy.use {
   "nvim-mini/mini.trailspace",
-  event = { "BufReadPost", "InsertEnter" },
+  event = { "BufNewFile", "BufReadPost", "InsertEnter" },
   config = function()
     require("mini.trailspace").setup()
     enable_autocmd()
-    vim.api.nvim_create_user_command("TrimTralingWhiteSpace", trim, { desc = "Trim Trailing White Space" })
-    vim.api.nvim_create_user_command("TrimTralingWhiteSpaceToggle", toggle_autocmd, { desc = "Trim Trailing White Space - Enable/Disable" })
+    vim.defer_fn(require("mini.trailspace").highlight, 1024)
+    vim.api.nvim_create_user_command("TrimTrailingWhiteSpace", trim, { desc = "Trim Trailing White Space" })
+    vim.api.nvim_create_user_command("TrimTrailingWhiteSpaceToggle", toggle_autocmd, { desc = "Trim Trailing White Space - Enable/Disable" })
   end
 }

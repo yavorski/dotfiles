@@ -36,7 +36,7 @@ return {
   LspReferenceTarget = { }, -- <K> clear hover highlighting targeted word
 
   -- nvim mini
-  MiniJump = { fg = colors.stealth, bg = colors.darkpink },
+  MiniJump = { link = "SpellRare" },
   MiniTrailspace = { bg = colors.red },
   MiniIndentscopeSymbol = { fg = colors.red },
 
