@@ -47,6 +47,9 @@ local Lazy = {
   }
 }
 
+-- "LazyFile"
+-- Lazy.LazyFile = { "BufNewFile", "BufReadPost", "BufWritePre" }
+
 --- Install "lazy" plugin manager
 function Lazy.install()
   if not vim.uv.fs_stat(Lazy.path) then
