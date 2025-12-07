@@ -44,11 +44,21 @@ local function options()
         open_win_config = {
           border = window_border
         }
+      },
+      remove_file = {
+        close_window = false
       }
     },
     filters = {
       custom = { "^\\.git$" }
-    }
+    },
+    on_attach = function(bufnr)
+      require("nvim-tree.api").config.mappings.default_on_attach(bufnr)
+      vim.keymap.set("n", "]b", "<cmd>wincmd p | bnext<cr>", { buffer = bufnr })
+      vim.keymap.set("n", "[b", "<cmd>wincmd p | bprev<cr>", { buffer = bufnr })
+      vim.keymap.set("n", "gn", "<cmd>wincmd p | bnext<cr>", { buffer = bufnr })
+      vim.keymap.set("n", "gp", "<cmd>wincmd p | bprev<cr>", { buffer = bufnr })
+    end
   }
 end
 
