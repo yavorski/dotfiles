@@ -39,11 +39,12 @@ vim.opt.wrap = false
 vim.opt.number = true
 
 -- show relative line number
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 
 -- highlight line
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "number"
+if vim.wo.diff then vim.opt.cursorlineopt = "both" end
 
 -- intro / messages / hit-enter prompts / ins-completion-menu
 vim.opt.shortmess = "actIsoOFCW"
@@ -64,7 +65,7 @@ vim.opt.mouse = "a"
 vim.opt.scrolloff = 4
 
 -- min number of screen columns left/right the cursor
-vim.opt.sidescrolloff = 4
+vim.opt.sidescrolloff = 16
 
 -- screen line scrolling
 vim.opt.smoothscroll = true
@@ -192,6 +193,7 @@ vim.filetype.add({
   extension = {
     razor = "razor",
     cshtml = "razor",
+    tf = "terraform"
   },
   pattern = {
     [ "kitty.conf" ] = "kitty",
