@@ -2,6 +2,7 @@
 --- LSP servers/capabilities/keymaps setup/config
 --- NOTE vim.lsp.document_color.enable() should be available in nvim v0.12
 
+local vue = require("lsp/vue-tools")
 local system = require("core/system")
 
 --- @type table<string, vim.lsp.Config>
@@ -11,7 +12,9 @@ local servers = {
   bashls = {},
   jsonls = {},
   yamlls = {},
+  pyrefly = {},
   terraformls = {},
+  rust_analyzer = {},
   html = {
     filetypes = { "html", "cshtml", "razor", "htmlangular" }
   },
@@ -22,6 +25,9 @@ local servers = {
     bundle_path = system.is_windows and "C:/dev/ps-es-lsp" or "/opt/powershell-editor-services"
   }
 }
+
+servers["vtsls"] = vue.vtsls
+servers["vue_ls"] = vue.vue_ls
 
 servers["angularls"] = {
   filetypes = { "html", "htmlangular" },
