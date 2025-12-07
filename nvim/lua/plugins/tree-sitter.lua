@@ -55,6 +55,7 @@ local parsers = {
   "nginx",
   "passwd",
   "pem",
+  "php",
   "powershell",
   "pug",
   "python",
@@ -74,6 +75,7 @@ local parsers = {
   "tsx",
   "typescript",
   "udev",
+  "vue",
   "vim",
   "vimdoc",
   "xml",
@@ -151,6 +153,11 @@ vim.api.nvim_create_autocmd("FileType", {
 
       -- indentation, provided by nvim-treesitter -- LUA/HTML/YAML issues?
       -- buffer.indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+
+      -- set indentation for python
+      if buffer.filetype == "python" then
+        buffer.indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+      end
     end
 
     if not ok and buffer.filetype == "conf" then
