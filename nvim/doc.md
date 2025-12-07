@@ -30,7 +30,7 @@ npm i -g emmet-ls [ issues/outdated ]
 npm i -g @olrtg/emmet-language-server
 
 npm i -g @angular/language-server
-angularls needs "@angular/language-service" locally installed per project
+# angularls needs "@angular/language-service" locally installed per project
 
 npm i -g bash-language-server
 pacman -S bash-language-server
@@ -38,7 +38,7 @@ pacman -S bash-language-server
 npm i -g azure-pipelines-language-server
 npm i -g dockerfile-language-server-nodejs
 
-use with typescript-tools lua plugin!
+# use with typescript-tools lua plugin!
 npm i -g typescript typescript-language-server
 pacman -S typescript typescript-language-server
 
@@ -49,10 +49,12 @@ pacman -S rust rust-analyzer
 pacman -S lua-language-server
 pacman -S yaml-language-server
 
-pacman -S [AUR] terraform-ls-bin
+paru -S vtsls
+pacman -S vue-language-server
 
-pacman -S [AUR] shellcheck-bin
-pacman -S [AUR] powershell-bin powershell-editor-services
+paru -S shellcheck-bin
+paru -S terraform-ls-bin
+paru -S powershell-bin powershell-editor-services
 
 pacman -S tree-sitter tree-sitter-cli
 pacman -S fd ripgrep curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
