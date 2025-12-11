@@ -5,12 +5,14 @@
 local Lazy = require("core/lazy")
 local Copilot = require("ai/copilot")
 local system = require("core/system")
+local window_border = require("core/border")
 
 --- @module "blink.cmp"
 --- @type blink.cmp.Config
 local blink_config = {
-  term = { enabled = false },
-  signature = { enabled = true },
+  term = {
+    enabled = false
+  },
 
   fuzzy = {
     implementation = system.is_linux and "rust" or "lua"
@@ -46,9 +48,17 @@ local blink_config = {
     end
   },
 
+  signature = {
+    enabled = true,
+    window = {
+      border = window_border
+    }
+  },
+
   completion = {
     menu = {
       max_height = 18,
+      border = window_border,
       draw = { align_to = "none" },
       auto_show = function(context, items)
         return not (Copilot.is_enabled() and Copilot.is_active())
@@ -74,6 +84,7 @@ local blink_config = {
         max_width = 128,
         max_height = 32,
         desired_min_width = 64,
+        border = window_border,
       }
     },
     keyword = { range = "prefix" },
