@@ -32,6 +32,7 @@ return {
   IncSearch = { fg = colors.mantle, bg = mocha.red },
   CurSearch = { fg = colors.mantle, bg = mocha.sapphire },
 
+  Whitespace = { fg = mocha.surface0 }, -- list-chars
   YankHighlight = { fg = colors.base, bg = mocha.green },
   LspReferenceTarget = { }, -- <K> clear hover highlighting targeted word
 

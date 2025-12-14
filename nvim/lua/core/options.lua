@@ -126,9 +126,9 @@ vim.opt.smartindent = true    -- autoindent new lines
 vim.opt.list = false
 vim.opt.listchars = {
   eol = " ",
-  tab = "» ",
+  tab = "🡲 ",
   trail = "~",
-  space = "·",
+  space = "∙",
 }
 
 ------------------------------------------------------------
