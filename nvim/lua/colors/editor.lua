@@ -30,7 +30,7 @@ return {
 
   Search = { fg = colors.base, bg = mocha.yellow },
   IncSearch = { fg = colors.mantle, bg = mocha.red },
-  CurSearch = { fg = colors.mantle, bg = mocha.red },
+  CurSearch = { fg = colors.mantle, bg = mocha.sapphire },
 
   YankHighlight = { fg = colors.base, bg = mocha.green },
   LspReferenceTarget = { }, -- <K> clear hover highlighting targeted word
