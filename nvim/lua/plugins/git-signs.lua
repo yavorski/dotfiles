@@ -3,8 +3,17 @@ local Lazy = require("core/lazy")
 --- @param direction string: "first"|"last"|"next"|"prev"
 local function navigate(direction)
   return function()
-    require("gitsigns").nav_hunk(direction)
+    require("gitsigns").nav_hunk(direction, { target = "all" })
   end
+end
+
+--- Fix stale git-signs highlights
+local function refresh()
+  local gs = require("gitsigns")
+  local buf = vim.api.nvim_get_current_buf()
+  gs.detach(buf)
+  vim.defer_fn(function() gs.attach(buf) end, 128)
+  vim.defer_fn(function() gs.refresh() end, 256)
 end
 
 --- @module "gitsigns"
@@ -12,6 +21,8 @@ end
 --- @diagnostic disable: missing-fields
 local options = {
   trouble = false,
+  auto_attach = true,
+  signs_staged_enable = true,
   diff_opts = {
     indent_heuristic = true
   },
@@ -42,6 +53,9 @@ local options = {
 
 Lazy.use {
   "lewis6991/gitsigns.nvim",
-  event = { "BufNewFile", "BufReadPost" },
-  opts = options
+  event = { "BufNewFile", "BufReadPost", "BufWritePre" },
+  config = function()
+    require("gitsigns").setup(options)
+    vim.api.nvim_create_user_command("GitsignsRefresh", refresh, { desc = "Refresh gitsigns for current buffer" })
+  end
 }
