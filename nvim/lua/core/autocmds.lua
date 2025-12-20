@@ -64,3 +64,20 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.iskeyword:remove("-")
   end
 })
+
+-- notify start macro recording
+vim.api.nvim_create_autocmd("RecordingEnter", {
+  group = vim.api.nvim_create_augroup("local/recording-start", {}),
+  callback = function()
+    local reg = vim.fn.reg_recording()
+    vim.notify(string.format("Recording @%s", reg), vim.log.levels.INFO)
+  end,
+})
+
+-- notify stop macro recording
+vim.api.nvim_create_autocmd("RecordingLeave", {
+  group = vim.api.nvim_create_augroup("local/recording-stop", {}),
+  callback = function()
+    vim.notify("Recording stopped", vim.log.levels.INFO)
+  end,
+})
