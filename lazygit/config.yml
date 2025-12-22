@@ -1,0 +1,100 @@
+# https://github.com/jesseduffield/lazygit/issues/4258
+# https://github.com/jesseduffield/lazygit/issues/5136
+# https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+# https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Pagers.md
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jesseduffield/lazygit/master/schema/config.json
+
+gui:
+  tabWidth: 2
+  scrollHeight: 4
+  scrollOffMargin: 4
+  expandFocusedSidePanel: true
+  shortTimeFormat: 15:04
+  showRandomTip: true
+  showCommandLog: true
+  showNumstatInFilesView: true
+  nerdFontsVersion: "3"
+  useHunkModeInStagingView: true
+keybinding:
+  universal:
+    quit: q
+    quit-alt1: <c-q>
+    suspendApp: <c-z>
+    return: <esc>
+    quitWithoutChangingDirectory: Q
+    togglePanel: <tab>
+    prevItem: <up>
+    nextItem: <down>
+    prevItem-alt: k
+    nextItem-alt: j
+    prevPage: ","
+    nextPage: "."
+    scrollLeft: H
+    scrollRight: L
+    gotoTop: <
+    gotoBottom: >
+    gotoTop-alt: <home>
+    gotoBottom-alt: <end>
+    toggleRangeSelect: v
+    rangeSelectDown: <s-down>
+    rangeSelectUp: <s-up>
+    prevBlock: <left>
+    nextBlock: <right>
+    prevBlock-alt: h
+    nextBlock-alt: l
+    nextBlock-alt2: <tab>
+    prevBlock-alt2: <backtab>
+    focusMainView: "0"
+    nextMatch: n
+    prevMatch: N
+    startSearch: /
+    optionMenu: <disabled>
+    optionMenu-alt1: "?"
+    select: <space>
+    goInto: <enter>
+    confirm: <enter>
+    confirmMenu: <enter>
+    confirmSuggestion: <enter>
+    confirmInEditor: <a-enter>
+    confirmInEditor-alt: <c-s>
+    remove: d
+    new: n
+    edit: e
+    openFile: o
+    scrollUpMain: <pgup>
+    scrollDownMain: <pgdown>
+    scrollUpMain-alt1: K
+    scrollDownMain-alt1: J
+    scrollUpMain-alt2: <c-u>
+    scrollDownMain-alt2: <c-d>
+    executeShellCommand: ":"
+    createRebaseOptionsMenu: m
+    pushFiles: <c-P>
+    pullFiles: <c-p>
+    refresh: R
+    createPatchOptionsMenu: <F12>
+    nextTab: "]"
+    prevTab: "["
+    nextScreenMode: +
+    prevScreenMode: _
+    cyclePagers: "|"
+    undo: z
+    redo: Z
+    filteringMenu: <c-s>
+    diffingMenu: W
+    diffingMenu-alt: <c-e>
+    copyToClipboard: <c-y>
+    openRecentRepos: <c-r>
+    submitEditorText: <enter>
+    extrasMenu: "@"
+    toggleWhitespaceInDiffView: <c-w>
+    increaseContextInDiffView: "}"
+    decreaseContextInDiffView: "{"
+    increaseRenameSimilarityThreshold: )
+    decreaseRenameSimilarityThreshold: (
+    openDiffTool: <c-t>
+git:
+  pagers:
+    # - pager: "" # default
+    - pager: delta --paging=never --tabs=2 --no-gitconfig
+    - pager: delta --paging=never --tabs=2 --side-by-side --no-gitconfig
