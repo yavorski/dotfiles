@@ -20,8 +20,8 @@ require("plugins/stylus")
 require("plugins/auto-tag")
 require("plugins/git-signs")
 require("plugins/marks")
+require("plugins/code-diff")
 require("plugins/multi-cursor")
-require("plugins/diff-view")
 
 --- Tree-Sitter ---
 require("plugins/tree-sitter")
