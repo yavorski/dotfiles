@@ -44,6 +44,7 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
 
 # bat
 $env:BAT_THEME = "Dracula"
+$env:RIPGREP_CONFIG_PATH = "$HOME\.config\.ripgreprc"
 
 # common aliases
 function GitStatus { git status }

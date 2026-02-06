@@ -6,20 +6,6 @@ local Lazy = require("core/lazy")
 local system = require("core/system")
 local window_border = require("core/border")
 
--- ripgrep flags
-local ripgrep_flags = {
-  "--column",
-  "--line-number",
-  "--no-heading",
-  "--color=always",
-  "--hidden",
-  "--smart-case",
-  "--max-columns=1024",
-  "--glob='!.git/'",
-  "--glob='!package-lock.json'",
-  "-e"
-}
-
 -- state - before opening fzf-lua
 local cpwin, cpbuf, tree_focus = nil, nil, nil
 
@@ -144,7 +130,7 @@ local fzf_lua_options = {
   },
   grep = {
     winopts = vertical(),
-    rg_opts = table.concat(ripgrep_flags, " ")
+    RIPGREP_CONFIG_PATH = vim.fn.expand(vim.env.RIPGREP_CONFIG_PATH)
   },
   diagnostics = { winopts = vertical(), multiline = false },
 }

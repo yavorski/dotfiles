@@ -1,0 +1,39 @@
+# ~/.ripgreprc
+# RIPGREP_CONFIG_PATH environment variable is required
+# https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#configuration-file
+
+# Show column numbers. This only shows the column numbers for the first match on each line.
+--no-column
+
+# Show line numbers.
+--no-line-number
+
+# Prints the file path above clusters of matches from each file instead of printing the file path as a prefix for each matched line.
+--heading
+
+# Colors will always be used regardless of where output is sent.
+# --color=always
+--color=auto
+
+# Search hidden files and directories. By default, hidden files and directories are skipped.
+--hidden
+
+# Search case insensitively if the pattern is all lowercase. Otherwise, ripgrep will search case sensitively.
+--smart-case
+
+# When given, ripgrep will omit lines longer than this limit in bytes.
+# Instead of printing long lines, only the number of matches in that line is printed.
+--max-columns=256
+
+# Prints a preview for lines exceeding the configured max column limit.
+--max-columns-preview
+
+# Include or exclude files and directories for searching that match the given glob.
+--glob=!.git/
+--glob=!package-lock.json
+
+# Show NUM lines before and after each match.
+# --context=2
+
+# A regular expression used for searching. To match a pattern beginning with a dash, use the -e/--regexp option.
+# -e/--regexp

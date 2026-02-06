@@ -32,6 +32,9 @@ export HISTCONTROL=ignoredups
 # bat
 export BAT_THEME="Dracula"
 
+# ripgrep
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
 # Set bat as man pager
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 

@@ -10,6 +10,7 @@ set --universal fish_greeting
 set --export EDITOR nvim
 set --export SUDO_EDITOR nvim
 set --export BAT_THEME "Dracula"
+set --export RIPGREP_CONFIG_PATH "$HOME/.ripgreprc"
 
 # set --export MANPAGER "nvim +Man!"
 set --export MANPAGER "sh -c 'col -bx | bat -l man -p'"

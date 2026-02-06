@@ -4,7 +4,7 @@ source bash/.functions
 
 function bootstrap() {
   echo ""
-  rsync -avh --no-perms .vimrc .inputrc .gitconfig .shellcheckrc "$HOME"
+  rsync -avh --no-perms .vimrc .inputrc .gitconfig .ripgreprc .shellcheckrc "$HOME"
 
   echo ""
   rsync -avh --no-perms --delete bash fish "$HOME/.config"
