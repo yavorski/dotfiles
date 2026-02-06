@@ -10,7 +10,7 @@ function bootstrap() {
   rsync -avh --no-perms --delete bash fish "$HOME/.config"
 
   echo ""
-  rsync -avh --no-perms --delete nvim helix kitty alacritty starship/starship.toml "$HOME/.config"
+  rsync -avh --no-perms --delete nvim helix kitty alacritty starship/starship.toml .ripgreprc "$HOME/.config"
 
   echo ""
   rsync -avh --no-perms --delete hypr sway swaync mpv nwg-bar fuzzel waybar "$HOME/.config"
