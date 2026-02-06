@@ -28,7 +28,7 @@ set background=dark
 set termguicolors
 
 " Set color scheme
-colorscheme wildcharm
+colorscheme catppuccin
 
 " Disable word wrap
 set nowrap
