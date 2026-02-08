@@ -80,6 +80,15 @@ Set-Alias -Name .... -Value CdUp3
 Set-Alias -Name ..... -Value CdUp4
 Set-Alias -Name ...... -Value CdUp5
 
+# delta aliases - paging does not work!
+function delta-full {
+  $input | delta --no-gitconfig --navigate --line-numbers --paging=always --syntax-theme=Dracula $args
+}
+
+function delta-split {
+  $input | delta --no-gitconfig --navigate --line-numbers --side-by-side --paging=always --syntax-theme=Dracula $args
+}
+
 # set initial location
 Set-Location -Path C:\dev
 

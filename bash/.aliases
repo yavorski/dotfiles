@@ -37,13 +37,17 @@ alias grep="grep --color=auto"
 alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 
-# bat
-# bat --help | bathelp
-alias bathelp="bat --plain --language=help"
-alias batman="bat --plain --language=Manpage"
-
 # neofetch
 alias neofetch="fastfetch --config neofetch"
+
+# bat
+# bat --help | bathelp
+alias batman="bat --plain --language=Manpage"
+alias bathelp="bat --plain --language=help"
+
+# delta aliases
+alias delta-full="delta --no-gitconfig --navigate --line-numbers --syntax-theme=Dracula"
+alias delta-split="delta --no-gitconfig --navigate --line-numbers --side-by-side --syntax-theme=Dracula"
 
 # IP address
 alias rip="curl ifconfig.me"
