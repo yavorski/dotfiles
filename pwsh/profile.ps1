@@ -97,7 +97,7 @@ Set-Location -Path C:\dev
 # ----------------------------------------------------------------------------------------------
 
 $lazyModules = {
-  Import-Module mklink
+  # Import-Module mklink
   Import-Module posh-git
   Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
 }
