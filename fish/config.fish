@@ -18,13 +18,19 @@ set --export MANROFFOPT "-c"
 set --export GROFF_NO_SGR 1
 
 # Prompt
-starship init fish | source
+if type -q starship
+  starship init fish | source
+end
 
 # Fnm
-fnm env --shell fish | source
+if type -q fnm
+  fnm env --shell fish | source
+end
 
 # Zoxide
-zoxide init --cmd cd fish | source
+if type -q zoxide
+  zoxide init --cmd cd fish | source
+end
 
 # Path
 fish_add_path "$HOME/bin"
