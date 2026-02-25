@@ -75,7 +75,12 @@ local fzf_lua_options = {
   defaults = {
     file_icons = "mini",
     preview_pager = false,
-    file_ignore_patterns = { "package%-lock%.json" }
+    file_ignore_patterns = {
+      "[/\\]bin[/\\]",
+      "[/\\]obj[/\\]",
+      "wwwroot[/\\]lib",
+      "package%-lock%.json",
+    }
   },
   fzf_colors = true,
   fzf_opts = {

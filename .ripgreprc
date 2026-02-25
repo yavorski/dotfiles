@@ -31,6 +31,9 @@
 # Include or exclude files and directories for searching that match the given glob.
 --glob=!.git/
 --glob=!package-lock.json
+--glob=!**/bin/**
+--glob=!**/obj/**
+--glob=!**/wwwroot/lib/**
 
 # Show NUM lines before and after each match.
 # --context=2
