@@ -1,16 +1,24 @@
 --- @brief
 --- Microsoft.CodeAnalysis.LanguageServer
---- Use bin/roslyn-update.sh to install/update
+--- Use bin/roslyn-razor.sh to install/update (roslyn + razor extension)
+--- Use bin/roslyn-update.sh to install/update (roslyn only)
 
 local Lazy = require("core/lazy")
 local system = require("core/system")
 
 --- @module "roslyn.config"
 --- @type RoslynNvimConfig
-local options = { }
+local options = {
+  filewatching = system.is_wsl and "off" or "auto"
+}
 
 --- @type string
-local roslyn = "Microsoft.CodeAnalysis.LanguageServer.dll"
+local logs = vim.fs.joinpath(vim.uv.os_tmpdir(), "roslyn-ls/logs")
+local rdkdir = vim.fs.abspath(system.is_windows and "C:/dev/roslyn-razor" or "~/dev/roslyn-razor")
+local roslyn_ls = vim.fs.joinpath(rdkdir, "roslyn", "Microsoft.CodeAnalysis.LanguageServer.dll")
+local razor_compiler = vim.fs.joinpath(rdkdir, "razor", "Microsoft.CodeAnalysis.Razor.Compiler.dll")
+local razor_design = vim.fs.joinpath(rdkdir, "razor", "Targets", "Microsoft.NET.Sdk.Razor.DesignTime.targets")
+local razor_extension = vim.fs.joinpath(rdkdir, "razor", "Microsoft.VisualStudioCode.RazorExtension.dll")
 
 Lazy.use {
   "seblyng/roslyn.nvim",
@@ -18,10 +26,12 @@ Lazy.use {
   config = function()
     vim.lsp.config("roslyn", {
       cmd = {
-        "dotnet",
-        system.is_windows and "C:/dev/roslyn/" .. roslyn or vim.fs.abspath("~/.local/share/nvim/roslyn/" .. roslyn),
-        "--logLevel=Information",
-        "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+        "dotnet", roslyn_ls,
+        "--logLevel", "Information",
+        "--razorSourceGenerator", razor_compiler,
+        "--razorDesignTimePath", razor_design,
+        "--extension", razor_extension,
+        "--extensionLogDirectory", logs,
         "--stdio"
       }
     })

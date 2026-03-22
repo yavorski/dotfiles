@@ -64,6 +64,19 @@ pacman -S fd ripgrep curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 ## Roslyn ~
 --------------------------------------------------------------------------------
 
+### Roslyn LS & Razor Extension
+
+* Use `bin/roslyn-razor.sh`
+
+```bash
+./roslyn-razor.sh
+./roslyn-razor.sh --linux
+./roslyn-razor.sh --windows
+INSTALL_DIR=~/dev/roslyn-razor ./roslyn-razor.sh
+```
+
+### Only Roslyn LSP
+
 * Use `bin/roslyn-update.sh`
 * Download `Microsoft.CodeAnalysis.LanguageServer.linux-x64` from `https://dev.azure.com/azure-public/vside/_artifacts/feed/vs-impl`
 * Extract `<zip-root>/content/LanguageServer/<yourArch>` and move to:
