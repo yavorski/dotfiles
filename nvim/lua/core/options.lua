@@ -121,16 +121,19 @@ vim.opt.expandtab = true      -- use spaces instead of tabs
 vim.opt.smartindent = true    -- autoindent new lines
 
 ------------------------------------------------------------
--- list
+-- list chars
 ------------------------------------------------------------
 
 vim.opt.list = false
-vim.opt.listchars = {
-  eol = " ",
-  tab = "🡲 ",
-  trail = "~",
-  space = "∙",
-}
+
+vim.schedule(function()
+  vim.opt.listchars = {
+    eol = " ",
+    trail = "~",
+    space = "∙",
+    tab = require("core/system").is_wsl_or_windows and "» " or "🡲 ",
+  }
+end)
 
 ------------------------------------------------------------
 -- Folds -> vim.opt.statuscolumn = "%C%s%l "
