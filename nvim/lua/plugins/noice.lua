@@ -14,7 +14,11 @@ local options = {
   cmdline = { view = "cmdline_popup" },
 
   --- @type table<string, NoiceCommand>
-  commands = { history = { view = "popup" } },
+  commands = {
+    history = {
+      view = "popup"
+    }
+  },
 
   lsp = {
     hover = { enabled = false },
@@ -50,7 +54,10 @@ local options = {
     popup = {
       size = { width = "78%", height = "60%" },
       border = { style = "rounded", padding = { 0, 1 } },
-      win_options = { wrap = true }
+      win_options = { wrap = true },
+      close = {
+        keys = { "q", "<esc>" }
+      }
     },
     cmdline_input = {
       border = { style = "rounded", padding = { 0, 1 } },
@@ -80,7 +87,13 @@ Lazy.use {
     require("noice").setup(options)
     require("noice.config.format").builtin.lsp_progress_done[1] = { "  ", hl_group = "NoiceLspProgressSpinner" }
 
+    -- redirects command line output to noice popup
+    vim.keymap.set({ "c" }, "<S-Enter>", function()
+      require("noice").redirect(vim.fn.getcmdline());
+      vim.api.nvim_input("<esc>")
+    end)
+
+    -- debug utility helper
     _G.d = function(...) vim.notify(vim.inspect(...), vim.log.levels.DEBUG) end
-    vim.keymap.set({ "c" }, "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()); vim.api.nvim_input("<esc>") end)
   end
 }
