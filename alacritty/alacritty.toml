@@ -82,15 +82,18 @@ yellow = "#f9f655"
 # shell = { program = "/usr/bin/fish", args = [ "--login", "--interactive" ] }
 # shell = { program = "C:\\Windows\\System32\\wsl.exe", args = [ "-d Arch", "-u wrx" ] }
 
-# windows fixes
-# [keyboard]
-# bindings = [
-#   # Fix <CTRL+Space>
-#   { key = "Space", mods = "Control", chars = "\u0000" },
-#   # Fix for <ALT+Enter>
-#   { key = "Return", mods = "Alt", action = "ReceiveChar" },
-#   # Fix for <ALT+Escape>
-#   { key = "Escape", mods = "Alt", action = "ReceiveChar" },
-#   # Fix <NumpadEnter>
-#   { key = "NumpadEnter", mods = "None", action = "ReceiveChar" }
-# ]
+[keyboard]
+bindings = [
+  # Move top left
+  { key = "g", mods = "None", mode = "Vi|~Search", action = "High" }
+
+  # # Windows fixes
+  # # Fix <CTRL+Space>
+  # { key = "Space", mods = "Control", chars = "\u0000" },
+  # # Fix for <ALT+Enter>
+  # { key = "Return", mods = "Alt", action = "ReceiveChar" },
+  # # Fix for <ALT+Escape>
+  # { key = "Escape", mods = "Alt", action = "ReceiveChar" },
+  # # Fix <NumpadEnter>
+  # { key = "NumpadEnter", mods = "None", action = "ReceiveChar" }
+]
