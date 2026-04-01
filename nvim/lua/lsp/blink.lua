@@ -34,8 +34,15 @@ local blink_config = {
           return not (#items == 1 and vim.tbl_contains({ "html", "razor", "cshtml", "htmlangular" }, vim.bo.filetype) and vim.startswith(items[1].label, "</"))
         end,
         transform_items = function(_, items)
-          -- filter out text items and html closing tags
-          return vim.tbl_filter(function(item) return item.kind ~= 1 and not vim.startswith(item.label, "</") end, items)
+          local is_razor = vim.tbl_contains({ "razor", "cshtml" }, vim.bo.filetype)
+          local SnippetKind = require("blink.cmp.types").CompletionItemKind.Snippet
+          return vim.tbl_filter(function(item)
+            -- filter out text items and html closing tags
+            if item.kind == 1 or vim.startswith(item.label, "</") then return false end
+            -- filter out snippet items for razor/cshtml to avoid snippet parsing errors
+            if is_razor and item.kind == SnippetKind then return false end
+            return true
+          end, items)
         end,
       },
       path = { max_items = 10, score_offset = 512 },
