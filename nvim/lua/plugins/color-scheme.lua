@@ -1,3 +1,10 @@
+local system = require("core/system")
+
+if system.is_windows then
+  vim.cmd[[colorscheme catppuccin]]
+  return
+end
+
 local Lazy = require("core/lazy")
 local colors = require("colors/colors")
 local editor = require("colors/editor")
@@ -18,14 +25,12 @@ local options = {
     fzf = true,
     noice = true,
     nvimtree = true,
-    diffview = true,
+    diffview = false,
     blink_cmp = true,
     which_key = true,
     lsp_trouble = true,
-    copilot_vim = true,
-    semantic_tokens = true,
-    mini = { enabled = true },
-    native_lsp = { enabled = true },
+    copilot_vim = false,
+    mini = { enabled = true }
   },
   color_overrides = {
     mocha = colors
@@ -42,10 +47,9 @@ Lazy.use {
   name = "catppuccin",
   lazy = false,
   priority = 1024,
-  version = "1.11.0",
   build = ":CatppuccinCompile",
   config = function()
     require("catppuccin").setup(options)
-    vim.cmd("colorscheme catppuccin-mocha")
+    vim.cmd[[colorscheme catppuccin-nvim]]
   end
 }
