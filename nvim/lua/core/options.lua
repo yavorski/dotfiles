@@ -141,6 +141,7 @@ end)
 ------------------------------------------------------------
 
 vim.opt.fillchars = {
+  eob = " ", -- empty lines
   fold = " ", -- filling foldtext
   foldsep = " ", -- fold middle marker
   foldopen = "", -- arrow for open folds
