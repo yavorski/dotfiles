@@ -1,6 +1,6 @@
 --- @brief
 --- @module "nvim-tree"
---- File explorer tree - sidebar or floating window
+--- File explorer tree - as sidebar or floating window
 
 local Lazy = require("core/lazy")
 local window_border = require("core/border")
@@ -130,24 +130,31 @@ local function toggle(pin_or_float)
   end
 end
 
+-- initialze
+local function init()
+  attach_float_events()
+  prevent_window_takeover()
+
+  require("nvim-tree").setup(options())
+
+  vim.api.nvim_create_user_command("NvimTreeTogglePin", function() toggle("pin") end, { desc = "Toggle nvim-tree pin state" })
+  vim.api.nvim_create_user_command("NvimTreeToggleFloat", function () toggle("float") end, { desc = "Toggle nvim-tree float state" })
+end
+
 Lazy.use {
-  "nvim-tree/nvim-tree.lua",
-  -- dir = "~/dev/open-sos/nvim-tree.lua",
-  cmd = {
-    "NvimTreeOpen",
-    "NvimTreeToggle"
-  },
-  keys = {
-    { [[<leader>\r]], "<cmd>NvimTreeRefresh<cr>", silent = true, desc = "NvimTreeRefresh" },
-    { [[<leader>\f]], "<cmd>NvimTreeFindFile<cr>", silent = true, desc = "NvimTreeFindFile" },
-    { [[<leader>\F]], "<cmd>NvimTreeFindFile!<cr>", silent = true, desc = "NvimTreeFindFile!" },
-    { [[<leader>\\]], function() require("nvim-tree.api").tree.toggle({ focus = FLOAT }) end, silent = true, desc = "NvimTreeToggle" },
-  },
-  config = function()
-    attach_float_events()
-    prevent_window_takeover()
-    require("nvim-tree").setup(options())
-    vim.api.nvim_create_user_command("NvimTreeTogglePin", function() toggle("pin") end, { desc = "Toggle nvim-tree pin state" })
-    vim.api.nvim_create_user_command("NvimTreeToggleFloat", function () toggle("float") end, { desc = "Toggle nvim-tree float state" })
-  end
+  src = "https://github.com/nvim-tree/nvim-tree.lua",
+  data = {
+    lazy = true,
+    after = init,
+    cmd = {
+      "NvimTreeOpen",
+      "NvimTreeToggle"
+    },
+    keys = {
+      { [[<leader>\r]], "<cmd>NvimTreeRefresh<cr>", silent = true, desc = "NvimTreeRefresh" },
+      { [[<leader>\f]], "<cmd>NvimTreeFindFile<cr>", silent = true, desc = "NvimTreeFindFile" },
+      { [[<leader>\F]], "<cmd>NvimTreeFindFile!<cr>", silent = true, desc = "NvimTreeFindFile!" },
+      { [[<leader>\\]], function() require("nvim-tree.api").tree.toggle({ focus = FLOAT }) end, silent = true, desc = "NvimTreeToggle" },
+    }
+  }
 }

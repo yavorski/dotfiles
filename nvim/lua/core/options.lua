@@ -24,7 +24,7 @@ vim.opt.background = "dark"
 vim.opt.termguicolors = true
 
 -- set colorscheme
--- vim.cmd[[colorscheme catppuccin]]
+vim.cmd[[colorscheme catppuccin]]
 
 -- syntax highlighting until match column
 vim.opt.synmaxcol = 512
@@ -93,6 +93,7 @@ vim.opt.incsearch = true
 
 -- popup/complete menu
 vim.opt.pumheight = 24
+vim.opt.pumborder = "bold"
 
 -- built-in complete menu - popup
 vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy" }

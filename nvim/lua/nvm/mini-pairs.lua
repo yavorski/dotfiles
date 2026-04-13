@@ -4,7 +4,12 @@
 local Lazy = require("core/lazy")
 
 Lazy.use {
-  "nvim-mini/mini.pairs",
-  event = "InsertEnter",
-  opts = { }
+  src = "https://github.com/nvim-mini/mini.pairs",
+  data = {
+    lazy = true,
+    event = "InsertEnter",
+    after = function()
+      require("mini.pairs").setup()
+    end
+  }
 }

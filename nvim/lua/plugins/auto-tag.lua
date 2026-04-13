@@ -19,17 +19,22 @@ local filetypes = {
   "javascriptreact",
 }
 
+local function init()
+  require("autotag").setup({
+    aliases = {
+      php = "html",
+      vue = "html",
+      markdown = "html"
+    }
+  })
+end
+
 Lazy.use {
-  "git@github.com:yavorski/autotag.nvim.git",
+  src = "git@github.com:yavorski/autotag.nvim.git",
   -- dir = "~/dev/autotag.nvim",
-  ft = filetypes,
-  config = function()
-    require("autotag").setup({
-      aliases = {
-        php = "html",
-        vue = "html",
-        markdown = "html"
-      }
-    })
-  end
+  data = {
+    lazy = true,
+    after = init,
+    ft = filetypes,
+  }
 }

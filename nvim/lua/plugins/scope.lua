@@ -4,7 +4,12 @@
 local Lazy = require("core/lazy")
 
 Lazy.use {
-  "tiagovla/scope.nvim",
-  event = "VeryLazy",
-  opts = {}
+  src = "https://github.com/tiagovla/scope.nvim",
+  data = {
+    lazy = true,
+    event = "DeferredUIEnter",
+    after = function()
+      require("scope").setup()
+    end
+  }
 }

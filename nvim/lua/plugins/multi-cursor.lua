@@ -101,16 +101,19 @@ local function setup()
 end
 
 Lazy.use {
-  "jake-stewart/multicursor.nvim",
-  branch = "main",
-  config = setup,
-  keys = {
-    { "<C-d>", mode = { "v", "x" } },
-    { "<A-v>", mode = { "v", "x" } },
-    { "<A-d>", mode = { "n", "v", "x" } },
-    { "<A-b>", mode = { "n", "v", "x" } },
-    { "<A-s>", mode = { "n", "v", "x" } },
-    { "<A-m>", mode = { "n", "v", "x" } },
-    { "<A-/>", mode = { "n" } },
+  src = "https://github.com/jake-stewart/multicursor.nvim",
+  version = "main",
+  data = {
+    lazy = true,
+    after = setup,
+    keys = {
+      { "<C-d>", mode = { "v", "x" } },
+      { "<A-v>", mode = { "v", "x" } },
+      { "<A-d>", mode = { "n", "v", "x" } },
+      { "<A-b>", mode = { "n", "v", "x" } },
+      { "<A-s>", mode = { "n", "v", "x" } },
+      { "<A-m>", mode = { "n", "v", "x" } },
+      { "<A-/>", mode = { "n" } },
+    }
   }
 }

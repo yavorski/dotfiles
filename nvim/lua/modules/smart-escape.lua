@@ -4,7 +4,7 @@
 
 -- escape fn
 local function escape()
-  vim.cmd("Noice dismiss")
+  -- vim.cmd("Noice dismiss")
   vim.cmd("silent! cclose | lclose")
 
   if vim.snippet.active() then

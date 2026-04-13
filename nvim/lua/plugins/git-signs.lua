@@ -1,3 +1,6 @@
+--- @brief
+--- Git Signs
+
 local Lazy = require("core/lazy")
 
 --- @param direction string: "first"|"last"|"next"|"prev"
@@ -52,10 +55,14 @@ local options = {
 }
 
 Lazy.use {
-  "lewis6991/gitsigns.nvim",
-  event = { "BufNewFile", "BufReadPost", "BufWritePre" },
-  config = function()
-    require("gitsigns").setup(options)
-    vim.api.nvim_create_user_command("GitsignsRefresh", refresh, { desc = "Refresh gitsigns for current buffer" })
-  end
+  src = "https://github.com/lewis6991/gitsigns.nvim",
+  data = {
+    lazy = true,
+    event = "DeferredUIEnter",
+    -- event = { "BufNewFile", "BufReadPost", "BufWritePre" }
+    after = function()
+      require("gitsigns").setup(options)
+      vim.api.nvim_create_user_command("GitsignsRefresh", refresh, { desc = "Refresh gitsigns for current buffer" })
+    end
+  }
 }

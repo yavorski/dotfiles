@@ -142,26 +142,27 @@ local fzf_lua_options = {
 
 -- fzf
 Lazy.use {
-  "ibhagwan/fzf-lua",
-  -- dir = "~/dev/open-sos/fzf-lua",
-  dependencies = { "nvim-mini/mini.icons" },
-  cmd = "FzfLua",
-  event = system.is_windows and "VeryLazy" or nil,
-  opts = fzf_lua_options,
-  keys = {
-    { "<leader>tt", function() start("FzfLua") end, silent = true, desc = "FZF Lua" },
-    { "<leader>'", function() start("FzfLua resume") end, silent = true, desc = "FZF Resume" },
-    { "<leader>b", function() start("FzfLua buffers") end, silent = true, desc = "FZF Buffers" },
-    { "<leader>j", function() start("FzfLua jumps") end, silent = true, desc = "FZF Jumps List" },
-    { "<leader>h", function() start("FzfLua helptags") end, silent = true, desc = "FZF Help Tags" },
-    { "<leader>M", function() start("FzfLua manpages") end, silent = true, desc = "FZF Man Pages" },
-    { "<leader>g", function() start("FzfLua git_status") end, silent = true, desc = "FZF Git Status" },
-    { "<leader>f", function() start("FzfLua files") end, silent = true, desc = "FZF Files" },
-    { "<leader>/", function() start("FzfLua grep_visual") end, mode = "v", silent = true, desc = "FZF Search" },
-    { "<leader>/", function() start("FzfLua live_grep_native") end, mode = "n", silent = true, desc = "FZF Search" },
-  },
-  config = function()
-    require("fzf-lua").setup(fzf_lua_options)
-    require("fzf-lua").register_ui_select(setup_ui_select)
-  end
+  src = "https://github.com/ibhagwan/fzf-lua",
+  -- dependencies = { "nvim-mini/mini.icons" },
+  data = {
+    lazy = true,
+    cmd = "FzfLua",
+    event = system.is_windows and "DeferredUIEnter" or nil,
+    keys = {
+      { "<leader>tt", function() start("FzfLua") end, silent = true, desc = "FZF Lua" },
+      { "<leader>'", function() start("FzfLua resume") end, silent = true, desc = "FZF Resume" },
+      { "<leader>b", function() start("FzfLua buffers") end, silent = true, desc = "FZF Buffers" },
+      { "<leader>j", function() start("FzfLua jumps") end, silent = true, desc = "FZF Jumps List" },
+      { "<leader>h", function() start("FzfLua helptags") end, silent = true, desc = "FZF Help Tags" },
+      { "<leader>M", function() start("FzfLua manpages") end, silent = true, desc = "FZF Man Pages" },
+      { "<leader>g", function() start("FzfLua git_status") end, silent = true, desc = "FZF Git Status" },
+      { "<leader>f", function() start("FzfLua files") end, silent = true, desc = "FZF Files" },
+      { "<leader>/", function() start("FzfLua grep_visual") end, mode = "v", silent = true, desc = "FZF Search" },
+      { "<leader>/", function() start("FzfLua live_grep_native") end, mode = "n", silent = true, desc = "FZF Search" },
+    },
+    after = function()
+      require("fzf-lua").setup(fzf_lua_options)
+      require("fzf-lua").register_ui_select(setup_ui_select)
+    end
+  }
 }

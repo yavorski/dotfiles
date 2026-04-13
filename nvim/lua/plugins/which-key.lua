@@ -44,7 +44,11 @@ local options = {
 }
 
 Lazy.use {
-  "folke/which-key.nvim",
-  event = "VeryLazy",
-  opts = options
+  src = "https://github.com/folke/which-key.nvim",
+  data = {
+    event = "DeferredUIEnter",
+    after = function()
+      require("which-key").setup(options)
+    end
+  }
 }

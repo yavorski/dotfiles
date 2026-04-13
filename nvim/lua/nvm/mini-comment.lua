@@ -4,7 +4,12 @@
 local Lazy = require("core/lazy")
 
 Lazy.use {
-  "nvim-mini/mini.comment",
-  event = { "BufReadPost", "InsertEnter" },
-  opts = { }
+  src = "https://github.com/nvim-mini/mini.comment",
+  data = {
+    lazy = true,
+    event = { "BufReadPost", "InsertEnter" },
+    after = function()
+      require("mini.comment").setup()
+    end
+  }
 }

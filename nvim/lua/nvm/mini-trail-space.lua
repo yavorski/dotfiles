@@ -35,13 +35,16 @@ local function toggle_autocmd()
 end
 
 Lazy.use {
-  "nvim-mini/mini.trailspace",
-  event = { "BufNewFile", "BufReadPost", "InsertEnter" },
-  config = function()
-    require("mini.trailspace").setup()
-    enable_autocmd()
-    vim.defer_fn(require("mini.trailspace").highlight, 1024)
-    vim.api.nvim_create_user_command("TrimTrailingWhiteSpace", trim, { desc = "Trim Trailing White Space" })
-    vim.api.nvim_create_user_command("TrimTrailingWhiteSpaceToggle", toggle_autocmd, { desc = "Trim Trailing White Space - Enable/Disable" })
-  end
+  src = "https://github.com/nvim-mini/mini.trailspace",
+  data = {
+    lazy = true,
+    event = { "BufNewFile", "BufReadPost", "InsertEnter" },
+    after = function()
+      require("mini.trailspace").setup()
+      enable_autocmd()
+      vim.defer_fn(require("mini.trailspace").highlight, 1024)
+      vim.api.nvim_create_user_command("TrimTrailingWhiteSpace", trim, { desc = "Trim Trailing White Space" })
+      vim.api.nvim_create_user_command("TrimTrailingWhiteSpaceToggle", toggle_autocmd, { desc = "Trim Trailing White Space - Enable/Disable" })
+    end
+  }
 }

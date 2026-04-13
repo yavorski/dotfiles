@@ -116,11 +116,14 @@ local function toggle()
 end
 
 Lazy.use {
-  "nvim-mini/mini.map",
-  event = "VeryLazy",
-  config = function()
-    setup_minimal()
-    -- vim.keymap.set("n", "<leader>X", toggle, { desc = "MiniMap Toggle" })
-    vim.api.nvim_create_user_command("MiniMapToggle", toggle, { desc = "MiniMap Toggle" })
-  end
+  src = "https://github.com/nvim-mini/mini.map",
+  data = {
+    lazy = true,
+    event = "DeferredUIEnter",
+    after = function()
+      setup_minimal()
+      -- vim.keymap.set("n", "<leader>X", toggle, { desc = "MiniMap Toggle" })
+      vim.api.nvim_create_user_command("MiniMapToggle", toggle, { desc = "MiniMap Toggle" })
+    end
+  }
 }

@@ -5,10 +5,7 @@
 --- checkhealth nvim-treesitter
 --- install_dir = "~/.local/share/nvim/site"
 --- nvim --headless +TSInstallParsersSync +qa!
---- nvim --headless +"Lazy load nvim-treesitter" +TSInstallParsersSync +qa!
-
---- TODO Incremental Selection
---- incremental_selection = { keymaps = { init_selection = "<C-space>", node_incremental = "<C-space>", node_decremental = "<bs>", scope_incremental = false } }
+--- NOTE: Incremental Selection is built after v0.12.1 -> Default keys are: "v_an", "v_in", "v_]n", "v_[n",
 
 local Lazy = require("core/lazy")
 
@@ -84,22 +81,6 @@ local parsers = {
   "zig",
 }
 
-Lazy.use {
-  "nvim-treesitter/nvim-treesitter",
-  lazy = false,
-  -- event = "BufRead",
-  branch = "main",
-  build = ":TSUpdate",
-  config = function()
-    require("nvim-treesitter").setup()
-    -- require("nvim-treesitter").install(parsers)
-  end,
-  init = function()
-    vim.treesitter.language.register("bash", "kitty")
-    vim.treesitter.language.register("ini", "ghostty")
-  end
-}
-
 --- Toggle TS
 local function toggle_tree_sitter()
   local bufnr = vim.api.nvim_get_current_buf()
@@ -173,3 +154,25 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.b[bufnr].treesitter_initialized = true
   end
 })
+
+Lazy.use {
+  src = "https://github.com/nvim-treesitter/nvim-treesitter",
+  version = "main",
+  data = {
+    lazy = false,
+
+    before = function()
+      vim.treesitter.language.register("bash", "kitty")
+      vim.treesitter.language.register("ini", "ghostty")
+    end,
+
+    after = function()
+      require("nvim-treesitter").setup()
+      -- require("nvim-treesitter").install(parsers)
+    end
+  }
+}
+
+Lazy.on_pack_changed("nvim-treesitter", { "install", "update" }, function()
+  vim.cmd("TSUpdate")
+end)
