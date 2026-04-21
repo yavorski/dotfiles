@@ -75,6 +75,27 @@ pacman -S fd ripgrep curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 INSTALL_DIR=~/dev/roslyn-razor ./roslyn-razor.sh
 ```
 
+### Install `inotify-tools`
+
+In order to enable file watching (WSL)
+
+```bash
+pacman -S inotify-tools
+
+sysctl fs.inotify.max_user_watches
+sysctl fs.inotify.max_user_instances
+
+cat /proc/sys/fs/inotify/max_user_watches
+cat /proc/sys/fs/inotify/max_user_instances
+
+sudo touch /etc/sysctl.d/fs.conf
+echo 'fs.inotify.max_user_watches=1048576' >> /etc/sysctl.d/fs.conf
+echo 'fs.inotify.max_user_instances=1024' >> /etc/sysctl.d/fs.conf
+
+sudo sysctl -p --system
+sudo sysctl -p /etc/sysctl.d/fs.conf
+```
+
 ### Only Roslyn LSP
 
 * Use `bin/roslyn-update.sh`

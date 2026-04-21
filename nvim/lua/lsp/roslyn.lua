@@ -9,7 +9,8 @@ local system = require("core/system")
 --- @module "roslyn.config"
 --- @type RoslynNvimConfig
 local options = {
-  filewatching = system.is_wsl and "off" or "auto"
+  -- not needed if inotify-tools is installed
+  -- filewatching = system.is_wsl and "off" or "auto"
 }
 
 --- @type string
