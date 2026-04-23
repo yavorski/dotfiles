@@ -1,3 +1,7 @@
+/* default css */
+/* /etc/xdg/swaync/style.css */
+/* systemctl --user enable --now swaync.service */
+
 @define-color cc-bg rgba(42, 42, 42, 0.75);
 @define-color noti-border-color rgba(255, 255, 255, 0.15);
 @define-color noti-bg rgba(48, 48, 48, 0.8);
@@ -85,7 +89,6 @@
 
 .notification-row .notification-background .notification .notification-action:hover,
 .notification-row .notification-background .notification .notification-default-action:hover {
-  -gtk-icon-effect: none;
   background: @noti-bg-hover;
 }
 
@@ -110,13 +113,11 @@
 .notification-row .notification-background .notification .notification-default-action .notification-content .image {
   margin: 4px;
   border-radius: 5px;
-  -gtk-icon-effect: none;
 }
 
 /* Notification app icon (only visible when the primary image is set) */
 .notification-row .notification-background .notification .notification-default-action .notification-content .app-icon {
   margin: 6px;
-  -gtk-icon-effect: none;
   -gtk-icon-shadow: 0 1px 4px black;
 }
 
@@ -157,7 +158,6 @@
 .notification-row .notification-background .notification .notification-default-action .notification-content .body-image {
   margin-top: 4px;
   border-radius: 5px;
-  -gtk-icon-effect: none;
   background-color: #ffffff;
 }
 
@@ -324,6 +324,10 @@
   color: @text-color;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 5px;
+}
+
+.widget-title > label {
+  font-size: 1.25rem;
 }
 
 .widget-title > button {
