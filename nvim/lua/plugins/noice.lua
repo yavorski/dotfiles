@@ -42,6 +42,8 @@ local options = {
     { view = "popup", filter = { event = "msg_show", min_height = 7 } },
     { view = "split", filter = { cmdline = "^:", min_height = 7 } },
     { filter = { event = "lsp", kind = "progress", find = "GitHub Copilot", min_length = 17, max_length = 17 }, opts = { skip = true } },
+    { filter = { event = "notify", find = "An item with the same key has already been added" }, opts = { skip = true } },
+    { filter = { find = "roslyn:.*-32000" }, opts = { skip = true } },
   },
 
   --- @type NoiceConfigViews
