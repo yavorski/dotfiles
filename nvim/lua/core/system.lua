@@ -2,6 +2,7 @@
 --- @class System
 --- @field sysname string
 --- @field is_linux boolean
+--- @field is_macos boolean
 --- @field is_windows boolean
 --- @field is_wsl boolean
 --- @field is_wsl_or_windows boolean
@@ -14,6 +15,9 @@ System.sysname = vim.loop.os_uname().sysname
 
 --- @type boolean
 System.is_linux = System.sysname == "Linux"
+
+--- @type boolean
+System.is_macos = System.sysname == "Darwin"
 
 --- @type boolean
 System.is_windows = System.sysname == "Windows_NT"
