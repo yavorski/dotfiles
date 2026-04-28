@@ -80,11 +80,13 @@ local function capabilities()
   -- additional capabilities
   local blink_lsp_capabilities = require("blink.cmp").get_lsp_capabilities()
 
-  -- @perf: didChangeWatchedFiles is too slow
+  -- @perf: didChangeWatchedFiles is too slow on linux - it is disabled on linux by default
   -- @todo: Remove this when https://www.github.com/neovim/neovim/issues/23291#issuecomment-1686709265 is fixed
   local workarround_perf_fix = {
     workspace = {
-      didChangeWatchedFiles = { dynamicRegistration = false },
+      didChangeWatchedFiles = {
+        dynamicRegistration = system.is_wsl or system.is_macos or system.is_windows
+      }
     }
   }
 
