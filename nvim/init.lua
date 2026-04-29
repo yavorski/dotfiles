@@ -1,5 +1,8 @@
 --- [[ NeoVim ]] ---
 
+--- Experimental ---
+vim.loader.enable()
+
 --- Core Settings ---
 require("core/options")
 require("core/border")
