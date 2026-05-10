@@ -1,12 +1,11 @@
 --- [[ NeoVim ]] ---
 
 vim.loader.enable()
--- TODO configure
-require("vim._core.ui2").enable()
 
 --- Core Settings ---
-require("core/options")
+require("core/ui")
 require("core/border")
+require("core/options")
 require("core/neovide")
 require("core/keymaps")
 require("core/autocmds")
