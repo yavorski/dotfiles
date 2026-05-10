@@ -150,7 +150,7 @@ local blink_config = {
 
 Lazy.use {
   "saghen/blink.cmp",
-  version = "*",
+  version = vim.version.range("1.*"),
   event = { "InsertEnter", "CmdlineEnter" },
   dependencies = { "rafamadriz/friendly-snippets" },
   opts = blink_config,

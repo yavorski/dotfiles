@@ -1,4 +1,5 @@
 --- @brief
+--- ~/.local/state/nvim/lsp.log
 --- LSP servers/capabilities/keymaps setup/config
 --- NOTE vim.lsp.document_color.enable() should be available in nvim v0.12
 

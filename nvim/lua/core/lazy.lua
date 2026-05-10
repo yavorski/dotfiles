@@ -1,74 +1,58 @@
 ------------------------------------------------------------
--- Lazy
+-- Zpack Lazy
 ------------------------------------------------------------
 -- ~/.cache/nvim
--- ~/.local/share/nvim/lazy
--- ~/.local/state/nvim/lazy
--- ~/.config/nvim/lazy-lock.json
+-- ~/.local/share/nvim/...
+-- ~/.local/state/nvim/...
+-- ~/.config/nvim/nvim-pack-lock.json
 ------------------------------------------------------------
--- nvim --headless "+Lazy! sync" +qa
+-- local plugins can be symlinked in:
+-- ~/.local/share/nvim/site/pack/mine/opt/...
+------------------------------------------------------------
+-- LazyFile = { "BufNewFile", "BufReadPost", "BufWritePre" }
 ------------------------------------------------------------
 
 local Lazy = {
-  plugins = {},
-  path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim",
-  repository = "https://github.com/folke/lazy.nvim.git",
-  --- @module "lazy"
-  --- @type LazyConfig
-  config = {
-    ui = {
-      border = _G.window_border,
-      backdrop = 100
-    },
-    rocks = {
-      enabled = false
-    },
-    install = {
-      missing = true,
-      colorscheme = { "default" }
-    },
-    defaults = {
-      lazy = true, -- lazy load plugins by default
-      version = false, -- always use the latest git commit
-    },
-    lockfile = vim.fn.stdpath("data") .. "/lazy/lazy-lock.json",
-    performance = {
-      rtp = {
-        disabled_plugins = {
-          "gzip",
-          "tutor",
-          "tohtml",
-          "tarPlugin",
-          "zipPlugin",
-          "netrwPlugin",
-        }
-      }
-    }
-  }
+  plugins = {}
 }
 
--- "LazyFile"
--- Lazy.LazyFile = { "BufNewFile", "BufReadPost", "BufWritePre" }
-
---- Install "lazy" plugin manager
+--- Install "zpack" plugin manager
 function Lazy.install()
-  if not vim.uv.fs_stat(Lazy.path) then
-    vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", Lazy.repository, Lazy.path })
-  end
-
-  -- run time path
-  vim.opt.rtp:prepend(Lazy.path)
+  vim.pack.add({ "https://github.com/yavorski/zpack.nvim" })
 end
 
 --- Add lazy plugin
---- @param plugin LazyPluginSpec
+--- @param plugin zpack.Spec
 function Lazy.use(plugin)
   table.insert(Lazy.plugins, plugin)
 end
 
 --- Install and setup all configured plugins
 function Lazy.setup()
-  require("lazy").setup(Lazy.plugins, Lazy.config)
+  require("zpack").setup({
+    --- @type zpack.Spec[]
+    spec = Lazy.plugins,
+
+    --- @type string
+    cmd_name = "Lazy",
+
+    --- @type zpack.Config.Defaults
+    defaults = {
+      cond = nil,
+      confirm = true,
+    },
+
+    --- @type zpack.Config.Performance
+    performance = {
+      vim_loader = true
+    },
+
+    --- @type zpack.Config.Profiling
+    profiling = {
+      loader = false,
+      require = false
+    },
+  })
 end
 
 --- Install "lazy" and all plugins

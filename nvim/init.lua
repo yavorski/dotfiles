@@ -1,5 +1,8 @@
 --- [[ NeoVim ]] ---
 
+--- Experimental ---
+vim.loader.enable()
+
 --- Core Settings ---
 require("core/options")
 require("core/border")
@@ -12,7 +15,7 @@ require("plugins/color-scheme")
 require("plugins/lualine")
 require("plugins/fzf-lua")
 require("plugins/nvim-tree")
-require("plugins/noice")
+-- require("plugins/noice")
 require("plugins/trouble")
 require("plugins/which-key")
 require("plugins/scope")
@@ -52,7 +55,8 @@ require("nvm/mini-hi-patterns")
 require("lsp/blink")
 require("lsp/roslyn")
 require("lsp/lazy-dev")
-require("lsp/overloads")
+-- TODO fix breaking changes
+-- require("lsp/overloads")
 require("lsp/lsp-config")
 require("lsp/diagnostics")
 require("lsp/typescript-tools")

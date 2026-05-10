@@ -88,7 +88,7 @@ Lazy.use {
   "nvim-treesitter/nvim-treesitter",
   lazy = false,
   -- event = "BufRead",
-  branch = "main",
+  version = "main",
   build = ":TSUpdate",
   config = function()
     require("nvim-treesitter").setup()
