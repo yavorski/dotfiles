@@ -5,8 +5,8 @@ local Lazy = require("core/lazy")
 
 Lazy.use {
   "nvim-treesitter/nvim-treesitter-textobjects",
-  branch = "main",
-  dependencies = {{ "nvim-treesitter/nvim-treesitter", branch = "main" }},
+  version = "main",
+  dependencies = {{ "nvim-treesitter/nvim-treesitter", version = "main" }},
   keys = {
     { "]c", desc = "@class next" },
     { "[c", desc = "@class prev" },

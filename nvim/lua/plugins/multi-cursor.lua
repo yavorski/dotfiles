@@ -102,7 +102,7 @@ end
 
 Lazy.use {
   "jake-stewart/multicursor.nvim",
-  branch = "main",
+  version = "main",
   config = setup,
   keys = {
     { "<C-d>", mode = { "v", "x" } },
