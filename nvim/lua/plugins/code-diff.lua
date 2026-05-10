@@ -10,11 +10,8 @@
 
 local Lazy = require("core/lazy")
 
--- only diff viewer cannot merge
--- https://gh.com/esmuellert/vscode-diff.nvim/issues/34
 Lazy.use {
   "esmuellert/codediff.nvim",
-  -- dir = "~/dev/open-sos/vscode-diff.nvim",
   cmd = "CodeDiff",
   config = function()
     require("codediff").setup({

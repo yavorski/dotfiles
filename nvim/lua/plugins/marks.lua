@@ -6,9 +6,8 @@
 local Lazy = require("core/lazy")
 
 Lazy.use {
-  "yavorski/marks.nvim",
-  -- dir = "~/dev/marks.nvim",
-  -- event = { "FileType", "BufNewFile", "BufReadPost", "BufWritePre" },
+  -- src = vim.fn.expand("~/dev/marks.nvim"),
+  src = "https://github.com/yavorski/marks.nvim",
   cmd = { "Marks" },
   keys = {{ "<leader>m", "<cmd>Marks<cr>", silent = true, remap = false, desc = "Marks Enable" }},
   opts = {

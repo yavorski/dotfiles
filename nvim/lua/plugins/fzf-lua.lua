@@ -143,7 +143,6 @@ local fzf_lua_options = {
 -- fzf
 Lazy.use {
   "ibhagwan/fzf-lua",
-  -- dir = "~/dev/open-sos/fzf-lua",
   dependencies = { "nvim-mini/mini.icons" },
   cmd = "FzfLua",
   event = system.is_windows and "VeryLazy" or nil,

@@ -132,7 +132,6 @@ end
 
 Lazy.use {
   "nvim-tree/nvim-tree.lua",
-  -- dir = "~/dev/open-sos/nvim-tree.lua",
   cmd = {
     "NvimTreeOpen",
     "NvimTreeToggle"

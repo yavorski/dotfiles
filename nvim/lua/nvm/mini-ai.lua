@@ -8,8 +8,8 @@ local Lazy = require("core/lazy")
 Lazy.use {
   "nvim-mini/mini.ai",
   dependencies = {
-    { "nvim-treesitter/nvim-treesitter", branch = "main" },
-    { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" }
+    { "nvim-treesitter/nvim-treesitter", version = "main" },
+    { "nvim-treesitter/nvim-treesitter-textobjects", version = "main" }
   },
   keys = {
     { "a", mode = { "x", "o" } },
@@ -27,6 +27,9 @@ Lazy.use {
       f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
     }
 
-    ai.setup({ n_lines = 420, custom_textobjects = textobjects })
+    ai.setup({
+      n_lines = 420,
+      custom_textobjects = textobjects
+    })
   end
 }

@@ -6,12 +6,11 @@ local Lazy = require("core/lazy")
 
 Lazy.use {
   "olimorris/codecompanion.nvim",
-  -- dir = "~/dev/open-sos/codecompanion.nvim",
   dependencies = {
     "github/copilot.vim",
     "nvim-mini/mini.diff",
     "nvim-lua/plenary.nvim",
-    { "nvim-treesitter/nvim-treesitter", branch = "main" }
+    { "nvim-treesitter/nvim-treesitter", version = "main" }
   },
   cmd = {
     "CodeCompanion",
