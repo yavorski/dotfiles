@@ -1,7 +1,8 @@
 --- [[ NeoVim ]] ---
 
---- Experimental ---
 vim.loader.enable()
+-- TODO configure
+require("vim._core.ui2").enable()
 
 --- Core Settings ---
 require("core/options")
@@ -13,6 +14,7 @@ require("core/autocmds")
 --- Plugins ---
 require("plugins/color-scheme")
 require("plugins/lualine")
+require("plugins/cmd-line")
 require("plugins/fzf-lua")
 require("plugins/nvim-tree")
 -- require("plugins/noice")
