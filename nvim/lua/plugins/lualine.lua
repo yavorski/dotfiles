@@ -43,6 +43,18 @@ local function show_lsp_clients()
   return lsp_clients
 end
 
+
+local function progress_status()
+  -- vim.lsp.status() ??
+  for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+    if not vim.tbl_isempty(client.progress.pending) then
+      local msg = vim.tbl_values(client.progress.pending)[1]
+      return #msg > 0 and msg or "Loading"
+    end
+  end
+  return vim.ui.progress_status()
+end
+
 -- luaine statusline
 Lazy.use {
   "nvim-lualine/lualine.nvim",
@@ -63,6 +75,7 @@ Lazy.use {
       lualine_x = {
         "selectioncount",
         "searchcount",
+        progress_status,
         show_lsp_clients,
         show_copilot,
         show_tree_sitter,

@@ -7,8 +7,12 @@
 --- nvim --headless +TSInstallParsersSync +qa!
 --- nvim --headless +"Lazy load nvim-treesitter" +TSInstallParsersSync +qa!
 
---- TODO Incremental Selection
---- incremental_selection = { keymaps = { init_selection = "<C-space>", node_incremental = "<C-space>", node_decremental = "<bs>", scope_incremental = false } }
+--- Built-in incremental selection:
+--- `v` then `an` → select outward
+--- `v` then `in` → select inward
+--- `v` then `]n` → next sibling
+--- `v` then `[n` → previous sibling
+
 
 local Lazy = require("core/lazy")
 

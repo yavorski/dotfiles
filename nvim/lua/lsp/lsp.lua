@@ -123,6 +123,7 @@ local function del_default_keymaps()
   safe_del_keymap("n", "grr") -- references
   safe_del_keymap("n", "gri") -- implementations
   safe_del_keymap("n", "grt") -- type definition
+  safe_del_keymap("n", "grx") -- vim.lsp.codelens.run()
 end
 
 --- set buffer lsp keymaps
