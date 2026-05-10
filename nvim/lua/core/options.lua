@@ -91,11 +91,21 @@ vim.opt.smartcase = true
 -- show search results while typing
 vim.opt.incsearch = true
 
+-- enables built-in insert-mode auto-completion
+-- vim.o.autocomplete = true
+
 -- popup/complete menu
 vim.opt.pumheight = 24
+vim.opt.pumborder = "bold"
 
 -- built-in complete menu - popup
-vim.opt.completeopt = { "menu", "menuone", "noselect", "fuzzy" }
+vim.opt.completeopt = {
+  "menu",
+  "menuone",
+  "noselect",
+  "fuzzy",
+  -- "popup",
+}
 
 -- better diff alignment by considering indentation changes
 vim.opt.diffopt:append("indent-heuristic")
@@ -145,11 +155,12 @@ vim.opt.fillchars = {
   fold = " ", -- filling foldtext
   foldsep = " ", -- fold middle marker
   foldopen = "", -- arrow for open folds
-  foldclose = "" -- arrow for closed folds
+  foldclose = "", -- arrow for closed folds
+  foldinner = " " -- character for the inner numeric foldlevel
 }
 
 vim.opt.foldenable = false     -- Enable manually
-vim.opt.foldcolumn = "0"       -- Fold column width
+vim.opt.foldcolumn = "auto"       -- Fold column width
 vim.opt.foldmethod = "indent"  -- Set folding method
 vim.opt.foldtext = ""          -- Off fold text
 vim.opt.foldlevel = 99         -- Don't fold on start
