@@ -1,4 +1,13 @@
+local mocha = {
+  red      = "#f38ba8",
+  green    = "#a6e3a1",
+  yellow   = "#f9e2af",
+  sapphire = "#74c7ec",
+  surface0 = "#313244",
+}
+
 local colors = {
+  mocha     = mocha,
   none      = "NONE",
   white     = "#ffffff", -- [*] White
   rosewater = "#f5e0dc", -- Winbar

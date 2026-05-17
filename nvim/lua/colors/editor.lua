@@ -1,4 +1,3 @@
-local mocha = require("colors/mocha")
 local colors = require("colors/colors")
 
 return {
@@ -30,12 +29,12 @@ return {
   PmenuSbar = { bg = colors.mantle },
   PmenuThumb = { bg = colors.teal },
 
-  Search = { fg = colors.base, bg = mocha.yellow },
-  IncSearch = { fg = colors.mantle, bg = mocha.red },
-  CurSearch = { fg = colors.mantle, bg = mocha.sapphire },
+  Search = { fg = colors.base, bg = colors.mocha.yellow },
+  IncSearch = { fg = colors.mantle, bg = colors.mocha.red },
+  CurSearch = { fg = colors.mantle, bg = colors.mocha.sapphire },
 
-  Whitespace = { fg = mocha.surface0 }, -- list-chars
-  YankHighlight = { fg = colors.base, bg = mocha.green },
+  Whitespace = { fg = colors.mocha.surface0 }, -- list-chars
+  YankHighlight = { fg = colors.base, bg = colors.mocha.green },
   LspReferenceTarget = { }, -- <K> clear hover highlighting targeted word
 
   -- nvim mini
@@ -53,10 +52,6 @@ return {
   -- multi-cursors
   MultiCursorCursor = { fg = colors.base, bg = colors.softcyan },
 
-  -- nvim marks -- not working
-  -- MarkSignHL = { bg = colors.none },
-  -- MarkSignNumHL = { fg = colors.none, bg = colors.none },
-
   -- nvim tree
   NvimTreeNormal = { bg = colors.base },
   NvimTreeCursorLine = { bg = colors.mantle },
@@ -70,18 +65,9 @@ return {
   GitSignsChange = { fg = colors.yellow, bg = colors.none },
   GitSignsDelete = { fg = colors.red, bg = colors.none },
 
-  -- noice
-  NoiceDark = { bg = colors.mantle },
-
   -- which-key
   WhichKey = { bg = colors.crust },
   WhichKeyNormal = { bg = colors.crust },
-
-  -- trouble
-  TroubleNormal = { bg = colors.crust },
-  TroubleNormalNC = { bg = colors.crust },
-  TroublePos = { fg = colors.subtext1, bg = colors.none },
-  TroubleCount = { fg = colors.green, bg = colors.none },
 
   -- blink
   BlinkCmpMenu = { bg = colors.base },
