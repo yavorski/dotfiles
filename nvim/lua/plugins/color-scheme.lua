@@ -18,7 +18,7 @@ local options = {
   },
   integrations = {
     fzf = true,
-    noice = true,
+    noice = false,
     nvimtree = true,
     diffview = false,
     blink_cmp = true,
