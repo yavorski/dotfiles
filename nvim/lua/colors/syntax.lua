@@ -1,3 +1,6 @@
+-- NOTE
+-- https://github.com/catppuccin/nvim/releases/tag/v2.0.0
+
 local colors = require("colors/colors")
 
 return {
