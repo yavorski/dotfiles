@@ -10,13 +10,13 @@ require("core/keymaps")
 require("core/autocmds")
 
 --- Mini Modules ---
-require("mini!/jump")
-require("mini!/move")
-require("mini!/pairs")
-require("mini!/comment")
-require("mini!/surround")
-require("mini!/split-join")
-require("mini!/trail-space")
+require("nvm/mini-jump")
+require("nvm/mini-move")
+require("nvm/mini-pairs")
+require("nvm/mini-comment")
+require("nvm/mini-surround")
+require("nvm/mini-split-join")
+require("nvm/mini-trail-space")
 
 --- Local Lua Modules ---
 require("modules/line-feed")
