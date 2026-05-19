@@ -12,7 +12,7 @@ require("core/autocmds")
 
 --- Plugins ---
 require("plugins/color-scheme")
-require("plugins/lualine")
+-- require("plugins/lualine") -- replaced by nvm/mini-statusline
 require("plugins/cmd-line")
 require("plugins/fzf-lua")
 require("plugins/nvim-tree")
@@ -38,6 +38,8 @@ require("nvm/mini-move")
 require("nvm/mini-misc")
 require("nvm/mini-icons")
 require("nvm/mini-pairs")
+require("nvm/mini-tabline")
+require("nvm/mini-statusline")
 require("nvm/mini-comment")
 require("nvm/mini-surround")
 require("nvm/mini-buf-remove")
