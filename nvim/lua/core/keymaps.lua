@@ -57,22 +57,36 @@ vim.keymap.set("n", "]p", [[<Cmd>exe "put "  . v:register<CR>]], { silent = true
 vim.keymap.set("n", "gp", "<cmd>bprev<cr>", { silent = true })
 vim.keymap.set("n", "gn", "<cmd>bnext<cr>", { silent = true })
 
--- buffer navigation require nvim-lualine/lualine.nvim plugin
-vim.keymap.set("n", "gb$", "<cmd>LualineBuffersJump $<cr>", { silent = true })
-vim.keymap.set("n", "gb1", "<cmd>LualineBuffersJump! 1<cr>", { silent = true })
-vim.keymap.set("n", "gb2", "<cmd>LualineBuffersJump! 2<cr>", { silent = true })
-vim.keymap.set("n", "gb3", "<cmd>LualineBuffersJump! 3<cr>", { silent = true })
-vim.keymap.set("n", "gb4", "<cmd>LualineBuffersJump! 4<cr>", { silent = true })
-vim.keymap.set("n", "gb5", "<cmd>LualineBuffersJump! 5<cr>", { silent = true })
-vim.keymap.set("n", "gb6", "<cmd>LualineBuffersJump! 6<cr>", { silent = true })
-vim.keymap.set("n", "gb7", "<cmd>LualineBuffersJump! 7<cr>", { silent = true })
-vim.keymap.set("n", "gb8", "<cmd>LualineBuffersJump! 8<cr>", { silent = true })
-vim.keymap.set("n", "gb9", "<cmd>LualineBuffersJump! 9<cr>", { silent = true })
-vim.keymap.set("n", "gb0", "<cmd>LualineBuffersJump! 10<cr>", { silent = true })
-
 -- command mode - prev and next command from history
 vim.keymap.set("c", "<C-k>", "<Up>", { desc = "Prev command in history" })
 vim.keymap.set("c", "<C-j>", "<Down>", { desc = "Next command in history" })
 
 -- Toggle relative line numbers
 vim.keymap.set("n", "<leader>N", function() vim.wo.relativenumber = not vim.wo.relativenumber end, { desc = "Toggle Relative Numbers" })
+
+-- buffer navigation by tabline index
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = vim.api.nvim_create_augroup("local/tabline-jump", { clear = true }),
+  once = true,
+  callback = function()
+    local function tabline_jump(n)
+      local listed = {}
+      for _, b in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.bo[b].buflisted then table.insert(listed, b) end
+      end
+      if #listed == 0 then return end
+      local idx = (n == "$") and #listed or tonumber(n)
+      if not idx or idx < 1 or idx > #listed then return end
+      vim.api.nvim_set_current_buf(listed[idx])
+    end
+
+    -- jump 1,9
+    for i = 1, 9 do
+      vim.keymap.set("n", "gb" .. i, function() tabline_jump(i) end, { silent = true, desc = "Buffer " .. i  })
+    end
+
+    -- jump to last
+    vim.keymap.set("n", "gb$", function() tabline_jump("$") end, { silent = true, desc = "Buffer Last" })
+    vim.keymap.set("n", "gb0", function() tabline_jump("$") end, { silent = true, desc = "Buffer Last" })
+  end
+})
