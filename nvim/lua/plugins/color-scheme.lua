@@ -16,18 +16,6 @@ local options = {
     dark = "mocha",
     light = "mocha"
   },
-  -- TODO -- default_integrations = false,
-  integrations = {
-    fzf = true,
-    noice = false,
-    nvimtree = true,
-    diffview = false,
-    blink_cmp = true,
-    which_key = true,
-    lsp_trouble = true,
-    copilot_vim = false,
-    mini = { enabled = true }
-  },
   color_overrides = {
     mocha = colors
   },
@@ -35,7 +23,20 @@ local options = {
     mocha = function()
       return vim.tbl_extend("error", editor, syntax)
     end
-  }
+  },
+  auto_integrations = false,
+  default_integrations = false,
+  integrations = {
+    fzf = true,
+    gitsigns = true,
+    nvimtree = true,
+    which_key = true,
+    lsp_trouble = true,
+    copilot_vim = true,
+    treesitter_context = true,
+    mini = { enabled = true },
+    blink_cmp = { enabled = true, style = "bordered" },
+  },
 }
 
 Lazy.use {
