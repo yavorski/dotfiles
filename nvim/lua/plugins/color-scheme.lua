@@ -16,6 +16,7 @@ local options = {
     dark = "mocha",
     light = "mocha"
   },
+  -- TODO -- default_integrations = false,
   integrations = {
     fzf = true,
     noice = false,
