@@ -2,7 +2,7 @@
 
 vim.loader.enable()
 
---- Core Settings ---
+--- Settings ---
 require("core/ui")
 require("core/border")
 require("core/options")
@@ -10,19 +10,28 @@ require("core/neovide")
 require("core/keymaps")
 require("core/autocmds")
 
---- Plugins ---
+--- color-scheme ---
 require("plugins/color-scheme")
--- require("plugins/lualine") -- replaced by nvm/mini-statusline
+
+--- UI ---
 require("plugins/cmd-line")
+require("nvm/mini-tab-line")
+require("nvm/mini-status-line")
+
+--- Plugins ---
+require("plugins/scope")
 require("plugins/fzf-lua")
 require("plugins/nvim-tree")
+
+--- More UI ---
+require("plugins/marks")
 require("plugins/trouble")
 require("plugins/which-key")
-require("plugins/scope")
+require("plugins/git-signs")
+
+--- Code Plugins ---
 require("plugins/stylus")
 require("plugins/auto-tag")
-require("plugins/git-signs")
-require("plugins/marks")
 require("plugins/code-diff")
 require("plugins/multi-cursor")
 
@@ -38,8 +47,6 @@ require("nvm/mini-move")
 require("nvm/mini-misc")
 require("nvm/mini-icons")
 require("nvm/mini-pairs")
-require("nvm/mini-tabline")
-require("nvm/mini-statusline")
 require("nvm/mini-comment")
 require("nvm/mini-surround")
 require("nvm/mini-buf-remove")
