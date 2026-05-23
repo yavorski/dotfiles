@@ -3,9 +3,9 @@
 ------------------------------------------------------------
 
 local Lazy = require("core/lazy")
-local Copilot = require("ai/copilot")
 local system = require("core/system")
 local window_border = require("core/border")
+-- local Copilot = require("ai/copilot")
 
 --- @module "blink.cmp"
 --- @type blink.cmp.Config
@@ -21,7 +21,10 @@ local blink_config = {
   sources = {
     default = { "lsp", "path", "buffer" },
     per_filetype = {
-      sql = { "dadbod", "buffer" },
+      sql = {
+        "buffer",
+        -- "dadbod",
+      },
       codecompanion = { "codecompanion" },
     },
     providers = {
@@ -47,8 +50,8 @@ local blink_config = {
       },
       path = { max_items = 10, score_offset = 512 },
       buffer = { max_items = 10, score_offset = 256 },
-      snippets = { max_items = 128, score_offset = 128 },
-      dadbod = { module = "vim_dadbod_completion.blink", fallbacks = { "buffer", "snippets" } }
+      snippets = { max_items = 10, score_offset = 128 },
+      -- dadbod = { module = "vim_dadbod_completion.blink", fallbacks = { "buffer", "snippets" } }
     },
     min_keyword_length = function()
       return vim.tbl_contains({ "html", "razor", "cshtml", "htmlangular", "markdown" }, vim.bo.filetype) and 1 or 0
@@ -67,9 +70,8 @@ local blink_config = {
       max_height = 18,
       border = window_border,
       draw = { align_to = "none" },
-      auto_show = function(context, items)
-        return not (Copilot.is_enabled() and Copilot.is_active())
-      end
+      auto_show = true,
+      -- auto_show = function(context, items) return not (Copilot.is_enabled() and Copilot.is_active()) end
     },
     list = {
       selection = {
@@ -96,9 +98,8 @@ local blink_config = {
     },
     keyword = { range = "prefix" },
     ghost_text = {
-      enabled = function()
-        return not (Copilot.is_enabled() and Copilot.is_active())
-      end
+      enabled = true,
+      -- enabled = function() return not (Copilot.is_enabled() and Copilot.is_active()) end
     }
   },
 
