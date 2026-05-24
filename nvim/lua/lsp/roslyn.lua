@@ -1,30 +1,28 @@
 --- @brief
 --- Microsoft.CodeAnalysis.LanguageServer
---- Use bin/roslyn-update.sh to install/update
 
 local Lazy = require("core/lazy")
 local system = require("core/system")
 
 --- @module "roslyn.config"
 --- @type RoslynNvimConfig
-local options = { }
-
---- @type string
-local roslyn = "Microsoft.CodeAnalysis.LanguageServer.dll"
+local options = {
+  filewatching = system.is_wsl and "off" or "auto",
+}
 
 Lazy.use {
   "seblyng/roslyn.nvim",
-  ft = "cs",
+  ft = { "cs", "razor" },
   config = function()
+    -- Setup LSP <cmd>
     vim.lsp.config("roslyn", {
       cmd = {
-        "dotnet",
-        system.is_windows and "C:/dev/roslyn/" .. roslyn or vim.fs.abspath("~/.local/share/nvim/roslyn/" .. roslyn),
+        "roslyn-language-server",
         "--logLevel=Information",
-        "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
         "--stdio"
       }
     })
+    -- Setup plugin
     require("roslyn").setup(options)
   end
 }
