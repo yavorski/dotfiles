@@ -1,6 +1,4 @@
-------------------------------------------------------------
--- [[ neovim ]] -- [[ settings ]] --
-------------------------------------------------------------
+-- [[ neovim ]] --
 
 -- title filename
 vim.opt.title = true
@@ -96,7 +94,7 @@ vim.opt.incsearch = true
 
 -- popup/complete menu
 vim.opt.pumheight = 24
-vim.opt.pumborder = "bold"
+vim.opt.pumborder = require("core/border")
 
 -- built-in complete menu - popup
 vim.opt.completeopt = {

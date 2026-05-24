@@ -1,11 +1,15 @@
+--- @brief
+--- Set global window border
+--- Allowed values "bold"|"double"|"none"|"rounded"|"shadow"|"single"|"solid"
+
 --- @type System
 local system = require("core/system")
 
---- @type "bold"|"double"|"none"|"rounded"|"shadow"|"single"|"solid"
+--- @type string|string[]
 local window_border = (system.is_ghostty or system.is_neovide) and "rounded" or "bold"
 
 -- global
-_G.window_border = window_border
+-- _G.window_border = window_border
 
 -- set global option
 vim.opt.winborder = window_border
