@@ -82,3 +82,7 @@ require("modules/scratch-buffer")
 
 --- Lazy init ---
 require("core/lazy").init()
+
+--- nvim plugins ---
+-- vim.cmd[[packadd nvim.undotree]]
+-- vim.cmd[[packadd nvim.difftool]]
