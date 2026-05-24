@@ -64,25 +64,33 @@ pacman -S fd ripgrep curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 ## Roslyn ~
 --------------------------------------------------------------------------------
 
-### Roslyn LS & Razor Extension
+### Install `roslyn-language-server`
 
-* Use `bin/roslyn-razor.sh`
+`roslyn-language-server` supports razor since version `5.8.0-1.26262.10`.
+
+Install as dotnet tool from:
+
+* [nuget.org](https://www.nuget.org/packages/roslyn-language-server)
+* [Azure Devops feed](https://dev.azure.com/azure-public/vside/_artifacts/feed/vs-impl/NuGet/roslyn-language-server.linux-x64)
 
 ```bash
-./roslyn-razor.sh
-./roslyn-razor.sh --linux
-./roslyn-razor.sh --windows
-INSTALL_DIR=~/dev/roslyn-razor ./roslyn-razor.sh
+# Install from Azure Devops
+dotnet tool install -g roslyn-language-server --prerelease --source https://pkgs.dev.azure.com/azure-public/vside/_packaging/vs-impl/nuget/v3/index.json
+
+# Install from nuget.org
+dotnet tool install -g roslyn-language-server --prerelease
+
+# Check Install
+roslyn-language-server --help
+roslyn-language-server --version
+
+# Update
+dotnet tool update -g roslyn-language-server --prerelease --source https://pkgs.dev.azure.com/azure-public/vside/_packaging/vs-impl/nuget/v3/index.json
 ```
 
-### Only Roslyn LSP
-
-* Use `bin/roslyn-update.sh`
-* Download `Microsoft.CodeAnalysis.LanguageServer.linux-x64` from `https://dev.azure.com/azure-public/vside/_artifacts/feed/vs-impl`
-* Extract `<zip-root>/content/LanguageServer/<yourArch>` and move to:
-  - Linux: `~/.local/share/nvim/roslyn`
-  - Windows: `%LOCALAPPDATA%\nvim-data\roslyn`
-* Verify with `dotnet Microsoft.CodeAnalysis.LanguageServer.dll --version`
+--------------------------------------------------------------------------------
+## Roslyn WSL file watching ~
+--------------------------------------------------------------------------------
 
 ### `inotify` settings
 
