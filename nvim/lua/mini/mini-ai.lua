@@ -2,6 +2,7 @@
 --- @module "mini.ai"
 --- arround/inside text objects
 --- text-objects move to class/function/method
+--- Do NOT override Neovim built-in incremental selection mappings
 
 local Lazy = require("core/lazy")
 
@@ -29,7 +30,11 @@ Lazy.use {
 
     ai.setup({
       n_lines = 420,
-      custom_textobjects = textobjects
+      custom_textobjects = textobjects,
+      mappings = {
+        around_next = "aN", inside_next = "iN",
+        around_last = "aL", inside_last = "iL",
+      }
     })
   end
 }
