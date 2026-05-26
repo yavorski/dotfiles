@@ -76,9 +76,6 @@ return {
   BlinkCmpDocBorder = { fg = colors.sapphire, bg = colors.base },
   BlinkCmpScrollBarThumb = { bg = colors.maroon },
 
-  -- copilot
-  CopilotSuggestion = { style = { "italic" } },
-
   -- nvim fzf-lua
   FzfLuaTitle = { fg = colors.red, bg = colors.black },
   -- FzfLuaNormal = { fg = colors.text, bg = colors.mantle },

@@ -32,7 +32,6 @@ local options = {
     nvimtree = true,
     which_key = true,
     lsp_trouble = true,
-    copilot_vim = true,
     treesitter_context = true,
     mini = { enabled = true },
     blink_cmp = { enabled = true, style = "bordered" },

@@ -5,7 +5,6 @@
 local Lazy = require("core/lazy")
 local system = require("core/system")
 local window_border = require("core/border")
--- local Copilot = require("ai/copilot")
 
 --- @module "blink.cmp"
 --- @type blink.cmp.Config
@@ -71,7 +70,6 @@ local blink_config = {
       border = window_border,
       draw = { align_to = "none" },
       auto_show = true,
-      -- auto_show = function(context, items) return not (Copilot.is_enabled() and Copilot.is_active()) end
     },
     list = {
       selection = {
@@ -99,7 +97,6 @@ local blink_config = {
     keyword = { range = "prefix" },
     ghost_text = {
       enabled = true,
-      -- enabled = function() return not (Copilot.is_enabled() and Copilot.is_active()) end
     }
   },
 
