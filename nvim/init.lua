@@ -1,5 +1,6 @@
 --- [[ NeoVim ]] ---
 
+--- Perf ---
 vim.loader.enable()
 
 --- Settings ---
@@ -13,17 +14,17 @@ require("core/autocmds")
 --- color-scheme ---
 require("plugins/color-scheme")
 
---- UI ---
+--- Main UI ---
 require("plugins/cmd-line")
-require("nvm/mini-tab-line")
-require("nvm/mini-status-line")
+require("mini/mini-tab-line")
+require("mini/mini-status-line")
 
 --- Plugins ---
 require("plugins/scope")
 require("plugins/fzf-lua")
 require("plugins/nvim-tree")
 
---- More UI ---
+--- Secondary UI ---
 require("plugins/marks")
 require("plugins/trouble")
 require("plugins/which-key")
@@ -40,21 +41,19 @@ require("plugins/tree-sitter")
 require("plugins/tree-sitter-text-objects")
 
 --- Mini Modules ---
-require("nvm/mini-ai")
-require("nvm/mini-map")
-require("nvm/mini-jump")
-require("nvm/mini-move")
-require("nvm/mini-misc")
-require("nvm/mini-icons")
-require("nvm/mini-pairs")
-require("nvm/mini-comment")
-require("nvm/mini-surround")
-require("nvm/mini-buf-remove")
-require("nvm/mini-split-join")
-require("nvm/mini-trail-space")
-require("nvm/mini-hi-patterns")
--- require("nvm/mini-diff")
--- require("nvm/mini-indent-scope")
+require("mini/mini-ai")
+require("mini/mini-map")
+require("mini/mini-jump")
+require("mini/mini-move")
+require("mini/mini-misc")
+require("mini/mini-icons")
+require("mini/mini-pairs")
+require("mini/mini-comment")
+require("mini/mini-surround")
+require("mini/mini-buf-remove")
+require("mini/mini-split-join")
+require("mini/mini-trail-space")
+require("mini/mini-hi-patterns")
 
 --- LSP Modules ---
 require("lsp/blink")
