@@ -13,7 +13,8 @@ Lazy.use {
   ft = "lua",
   opts = {
     library = {
-      { path = "lazy.nvim", words = { "Lazy" } },
+      { path = "core/lazy", words = { "Lazy" } },
+      { path = "zpack.nvim", words = { "Lazy", "zpack" } },
       { path = "${3rd}/luv/library", words = { "vim%.uv" } },
       { path = "deps/mini.test/lua", words = { "MiniTest" } },
     },
