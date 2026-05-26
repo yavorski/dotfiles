@@ -36,7 +36,13 @@ end
 
 Lazy.use {
   "nvim-mini/mini.trailspace",
-  event = { "BufNewFile", "BufReadPost", "InsertEnter" },
+  event = {
+    "BufNewFile",
+    "BufReadPost",
+    "InsertEnter",
+    "TextChanged",
+    "FileChangedShellPost",
+  },
   config = function()
     require("mini.trailspace").setup()
     enable_autocmd()
