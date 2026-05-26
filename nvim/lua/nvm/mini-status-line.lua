@@ -45,13 +45,6 @@ local function show_macro(short)
   return "| Recording @" .. reg
 end
 
--- copilot status
-local function show_copilot()
-  if not vim.g.loaded_copilot then return "★" end
-  if not vim.g.copilot_enabled then return "" end
-  return vim.b.copilot_enabled == false and "" or ""
-end
-
 -- tree-sitter status
 local function show_tree_sitter()
   local bufnr = vim.api.nvim_get_current_buf()
@@ -373,14 +366,13 @@ local function init_status_line()
     local filename = show_filename(MiniStatusline.is_truncated(140))
     local macro = show_macro(MiniStatusline.is_truncated(140))
 
-    -- Section X: selectioncount, searchcount, progress, lsp, copilot, treesitter, encoding, fileformat, filesize, filetype
+    -- Section X: selectioncount, searchcount, progress, lsp, treesitter, encoding, fileformat, filesize, filetype
     -- Join non-empty pieces with double spaces for visual separation.
     local x_parts = {
       show_selection_count(),
       show_search_count(),
       progress_status(),
       show_lsp_clients(),
-      show_copilot(),
       show_tree_sitter(),
       show_encoding(),
       show_fileformat(),

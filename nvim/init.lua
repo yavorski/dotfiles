@@ -56,10 +56,6 @@ require("nvm/mini-hi-patterns")
 -- require("nvm/mini-diff")
 -- require("nvm/mini-indent-scope")
 
---- AI Modules ---
--- require("ai/copilot-vim")
--- require("ai/code-companion")
-
 --- LSP Modules ---
 require("lsp/blink")
 require("lsp/roslyn")
