@@ -187,16 +187,19 @@ vim.g.loaded_python3_provider = 0
 
 -----------------------------------------------------------------------------
 -- Disable built in plugins
--- Set `1` to mark them as "already loaded", so neovim will skip loading them
 -----------------------------------------------------------------------------
 
 vim.g.loaded_gzip = 1
-vim.g.loaded_tutor = 1
-vim.g.loaded_tohtml = 1
+vim.cmd("let loaded_gzip = 1")
+
 vim.g.loaded_zipPlugin = 1
 vim.g.loaded_tarPlugin = 1
+
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+
+vim.g.loaded_2html_plugin = 1
+vim.g.loaded_tutor_mode_plugin = 1
 
 ------------------------------------------------------------
 -- Filetypes Auto Detection
