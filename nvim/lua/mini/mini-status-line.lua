@@ -170,10 +170,14 @@ local function show_diagnostics()
 end
 
 -- filename (absolute, modified, readonly)
--- short=true returns only the basename (%t); otherwise the full path (%F).
+-- short=true returns only the basename (%t); otherwise the full path (%F)
 local function show_filename(short)
   if short then return "%t%m%r" end
-  return "%F%m%r"
+  local path = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":~")
+  if #path <= 100 then
+    return "%F%m%r"
+  end
+  return vim.fn.pathshorten(path) .. "%m%r"
 end
 
 -- file encoding
