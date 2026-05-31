@@ -1,4 +1,5 @@
---- @brief Per-target title state and kind→title resolution.
+--- @brief
+--- Per-target title state and kind→title resolution
 
 local config = require("core/ui/config")
 local util = require("core/ui/util")
@@ -18,7 +19,7 @@ function M.resolve(kind, content)
     return entry[1], entry[2]
   end
 
-  local text = vim.trim(util.content_to_text(content)):gsub("\n.*", "")
+  local text = vim.trim(util.content_to_text(content)):match("^[^\n]*") or ""
   if #text > 40 then
     text = text:sub(1, 37) .. "..."
   end

@@ -1,4 +1,5 @@
---- @brief search_count → end-of-line virtual text
+--- @brief
+--- search_count → end-of-line virtual text
 --- Neovim emits `kind = "search_count"` with payload like `[1/5]` via msg_show automatically — unless `S` is in `shortmess`.
 --- Intercept that and render it as an extmark next to the cursor instead of through the msg float.
 
@@ -30,6 +31,10 @@ function M.show(text)
   M.clear()
 
   local buf = vim.api.nvim_get_current_buf()
+
+  -- Skip prompts / scratch / quickfix
+  if vim.bo[buf].buftype ~= "" then return end
+
   local row = vim.api.nvim_win_get_cursor(0)[1] - 1
 
   local ok, id = pcall(vim.api.nvim_buf_set_extmark, buf, NS, row, 0, {
