@@ -1,4 +1,5 @@
---- @brief Global debug helper: `d(value)` to pretty-print at DEBUG level.
+--- @brief
+--- Global debug helper: `d(value)` to pretty-print at DEBUG level.
 
 local M = {}
 

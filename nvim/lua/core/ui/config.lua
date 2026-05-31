@@ -1,4 +1,5 @@
---- @brief Constants for the ui2 wrapper modules.
+--- @brief
+--- Constants for the ui2 wrapper modules.
 
 local M = {}
 

@@ -1,4 +1,5 @@
---- @brief ui2 message-routing wrapper.
+--- @brief
+--- ui2 message-routing wrapper
 --- See https://neovim.io/doc/user/lua/#_ui2
 ---
 --- Behavior:

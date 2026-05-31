@@ -1,4 +1,5 @@
---- @brief Wrappers around `vim._core.ui2.messages` functions.
+--- @brief
+--- Wrappers around `vim._core.ui2.messages` functions
 
 local ui2 = require("vim._core.ui2")
 local msgs = require("vim._core.ui2.messages")
@@ -56,7 +57,7 @@ function M.setup()
   msgs.show_msg = function(target, kind, content, replace_last, append, id)
     if target == "msg" then
       local text = util.content_to_text(content)
-      local lines = vim.split(text, "\n", { plain = true })
+      local lines = vim.split(text, "\n", { plain = true, trimempty = true })
       local width = 0
 
       for _, line in ipairs(lines) do
@@ -64,7 +65,7 @@ function M.setup()
         if w > width then width = w end
       end
 
-      if width > math.floor(vim.o.columns * config.PAGER_WIDTH_RATIO) or #lines > config.PAGER_MAX_LINES then
+      if width >= math.floor(vim.o.columns * config.PAGER_WIDTH_RATIO) or #lines >= config.PAGER_MAX_LINES then
         orig_show_msg("pager", kind, content, replace_last, append, id)
         msgs.set_pos("pager")
         return
