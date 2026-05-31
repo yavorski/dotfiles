@@ -67,14 +67,21 @@ require("lsp/typescript-tools")
 -- require("lsp/rust-tools")
 
 --- Local Lua Modules ---
-require("modules/line-feed")
-require("modules/buffer-only")
-require("modules/smart-close")
-require("modules/smart-escape")
-require("modules/scratch-buffer")
--- require("modules/popup-menu")
+vim.api.nvim_create_autocmd({ "VimEnter" }, {
+  once = true,
+  group = vim.api.nvim_create_augroup("local/modules", { clear = true }),
+  callback = function()
+    require("modules/line-feed")
+    require("modules/buffer-only")
+    require("modules/smart-close")
+    require("modules/smart-escape")
+    require("modules/scratch-buffer")
+    require("modules/popup-menu")
+    require("modules/pack-info")
+  end
+})
 
---- Lazy init ---
+--- Lazy/Zpack init ---
 require("core/lazy").init()
 
 --- nvim plugins ---
