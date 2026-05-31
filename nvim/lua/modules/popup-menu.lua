@@ -20,10 +20,10 @@ PUM.on_key = function(key)
 
   if key == PUM.keys.CTRL_C then
     PUM.is_canceled = true
-    vim.api.nvim_feedkeys(PUM.keys.CTRL_E, "i", false)
+    vim.api.nvim_feedkeys(PUM.keys.CTRL_E, "in", false)
     return ""
   elseif key == PUM.keys.CTRL_E and not PUM.is_canceled then
-    vim.api.nvim_feedkeys(PUM.keys.CTRL_Y, "i", false)
+    vim.api.nvim_feedkeys(PUM.keys.CTRL_Y, "in", false)
     return ""
   end
 
