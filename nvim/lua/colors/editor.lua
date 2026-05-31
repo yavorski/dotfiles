@@ -28,6 +28,7 @@ return {
   Pmenu = { bg = colors.darky },
   PmenuSbar = { bg = colors.mantle },
   PmenuThumb = { bg = colors.teal },
+  PmenuBorder = { fg = colors.blue, bg = colors.base },
 
   Search = { fg = colors.base, bg = colors.mocha.yellow },
   IncSearch = { fg = colors.mantle, bg = colors.mocha.red },
