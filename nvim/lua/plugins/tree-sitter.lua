@@ -162,6 +162,11 @@ vim.api.nvim_create_autocmd("FileType", {
       if buffer.filetype == "python" then
         buffer.indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
       end
+
+      -- if buffer.filetype == "razor" then
+      --   buffer.syntax = "ON"
+      --   vim.cmd("syntax clear | unlet! b:current_syntax | setlocal syntax=html")
+      -- end
     end
 
     if not ok and buffer.filetype == "conf" then
