@@ -85,7 +85,8 @@ yellow = "#f9f655"
 [keyboard]
 bindings = [
   # Move top left
-  { key = "g", mods = "None", mode = "Vi|~Search", action = "High" }
+  { key = "g", mods = "None", mode = "Vi|~Search", action = "ScrollToTop" },
+  { key = "g", mods = "None", mode = "Vi|~Search", action = "First" }
 
   # # Windows fixes
   # # Fix <CTRL+Space>
