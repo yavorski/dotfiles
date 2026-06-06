@@ -22,6 +22,7 @@ local filetypes = {
 Lazy.use {
   -- src = vim.fn.expand("~/dev/autotag.nvim"),
   src = "https://github.com/yavorski/autotag.nvim",
+  version = "main",
   ft = filetypes,
   config = function()
     require("autotag").setup({
