@@ -144,9 +144,10 @@ vim.schedule(function()
 end)
 
 ------------------------------------------------------------
--- Folds -> vim.opt.statuscolumn = "%C%s%l "
 -- tree-sitter folds in plugins/tree-sitter
 ------------------------------------------------------------
+-- Default statuscolumn "%C%s%l "
+-- vim.opt.statuscolumn = "%C%s%l "
 
 vim.opt.fillchars = {
   eob = " ", -- empty lines
@@ -154,11 +155,11 @@ vim.opt.fillchars = {
   foldsep = " ", -- fold middle marker
   foldopen = "", -- arrow for open folds
   foldclose = "", -- arrow for closed folds
-  foldinner = " " -- character for the inner numeric foldlevel
+  foldinner = " " -- disable inner numeric fold levels
 }
 
-vim.opt.foldenable = false     -- Enable manually
-vim.opt.foldcolumn = "auto"       -- Fold column width
+vim.opt.foldenable = false     -- Toggle manually <zi>
+vim.opt.foldcolumn = "1"       -- Fold column width
 vim.opt.foldmethod = "indent"  -- Set folding method
 vim.opt.foldtext = ""          -- Off fold text
 vim.opt.foldlevel = 99         -- Don't fold on start
