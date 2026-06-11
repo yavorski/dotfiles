@@ -15,6 +15,7 @@ function extend_path() {
     "$HOME/.local/bin"
     "$HOME/.dotnet/tools"
     "$HOME/.local/share/fnm"
+    # "/mnt/c/Program Files/Git/cmd"
   )
 
   for dir in "${dirs[@]}"; do
