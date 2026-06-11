@@ -41,11 +41,21 @@ fish_add_path "$HOME/.cargo/bin"
 fish_add_path "$HOME/.local/bin"
 fish_add_path "$HOME/.dotnet/tools"
 fish_add_path "$HOME/.local/share/fnm"
+# fish_add_path "/mnt/c/Program Files/Git/cmd"
 
 # Pretty path
 function pretty_path
   printf "%s\n" $PATH
 end
+
+# Use git.exe from wsl when in /mnt/c/
+# function git
+#   if pwd -P | rg --quiet "^/mnt/c/"
+#     git.exe $argv
+#   else
+#     command git $argv
+#   end
+# end
 
 # Navigation
 abbr --add ... "cd ../.."
