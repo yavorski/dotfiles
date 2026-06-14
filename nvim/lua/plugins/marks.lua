@@ -63,7 +63,7 @@ end
 
 Lazy.use {
   src = "https://github.com/yavorski/marks.nvim",
-  -- src = "file://" .. vim.fn.expand("~/dev/marks.nvim"),
+  -- src = "file://" .. vim.fn.expand("~/dev/nvim-plugins/marks.nvim"),
   cmd = { "Marks" },
   keys = {{ "<leader>m", "<cmd>Marks<cr>", silent = true, remap = false, desc = "Marks Enable" }},
   config = function()
