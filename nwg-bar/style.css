@@ -1,6 +1,7 @@
 window {
   border-radius: 8px;
   background: rgba (0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 0, 0, 0.5);
 }
 
 /* Outer bar container, takes all the window width/height */
@@ -35,9 +36,11 @@ button {
   outline: none;
   border-radius: 5px;
   background: rgba (0, 0, 0, 0.50);
+  box-shadow: 0 0 2px rgba(255, 0, 0, 0.75);
 }
 
 button:focus, button:hover {
   color: #32f8f4;
-  background: rgba (255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 2px rgba(50, 248, 244, 1);
 }
