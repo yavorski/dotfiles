@@ -79,6 +79,7 @@ local fzf_lua_options = {
       "[/\\]bin[/\\]",
       "[/\\]obj[/\\]",
       "wwwroot[/\\]lib",
+      "bun%.lock",
       "package%-lock%.json",
     }
   },
