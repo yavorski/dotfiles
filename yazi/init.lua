@@ -8,3 +8,12 @@ end
 
 -- ya pkg add yazi-rs/plugins:mount
 -- Mount manager, providing disk mount, unmount, and eject functionality.
+
+-- date created
+function Linemode:creation_date()
+	local time = math.floor(self._file.cha.btime or 0)
+	if time == 0 then
+		return ""
+	end
+	return os.date("%d-%m-%Y", time)
+end

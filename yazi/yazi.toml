@@ -1,5 +1,8 @@
 # `yazi.toml` overrides settings from `yazi-default.toml`
 
+[mgr]
+linemode = "creation_date"
+
 [[opener.open-orphan]]
 run = 'xdg-open "$1"'
 orphan = true
