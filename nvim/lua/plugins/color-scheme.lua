@@ -25,7 +25,6 @@ local options = {
     end
   },
   auto_integrations = false,
-  default_integrations = false,
   integrations = {
     fzf = true,
     gitsigns = true,
