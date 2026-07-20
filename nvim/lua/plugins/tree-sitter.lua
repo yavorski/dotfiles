@@ -73,7 +73,6 @@ local parsers = {
   "ssh_config",
   "styled",
   "terraform",
-  "tmux",
   "toml",
   "tsv",
   "tsx",
@@ -84,7 +83,6 @@ local parsers = {
   "vimdoc",
   "xml",
   "yaml",
-  "zathurarc",
   "zig",
 }
 
