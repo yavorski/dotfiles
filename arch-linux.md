@@ -639,6 +639,12 @@ vulkaninfo | rg -i "vulkan api"
 
 NOTE: TODO
 
+```bash
+pacman -S mesa
+pacman -S vulkan-intel
+pacman -S intel-media-driver
+```
+
 ## PipeWire
 
 * [PipeWire - Arch Wiki](https://wiki.archlinux.org/title/PipeWire)
@@ -790,7 +796,7 @@ pacman -S fx tokei
 pacman -S fd fzf skim ripgrep the_silver_searcher
 pacman -S helix neovim neovide
 pacman -S starship
-pacman -S alacritty kitty
+pacman -S alacritty kitty ghostty
 pacman -S fastfetch
 pacman -S llvm gcc clang cmake python rust nodejs npm typescript zig
 ```
