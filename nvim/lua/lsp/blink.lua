@@ -121,7 +121,7 @@ local blink_config = {
     ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
     ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
     ["<C-space>"] = { "show", "hide", --[[ "show_documentation", "hide_documentation" ]] },
-    ["<C-S-space>"] = { function(cmp) cmp.show({ providers = { "snippets" } }) end, "hide" },
+    ["<C-A-space>"] = { function(cmp) cmp.show({ providers = { "snippets" } }) end, "hide" },
   },
 
   cmdline = {
