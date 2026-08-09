@@ -66,6 +66,10 @@ require("lsp/typescript-tools")
 -- require("lsp/dadbod")
 -- require("lsp/rust-tools")
 
+--- DAP Modules ---
+require("dap/dap")
+require("dap/dap-view")
+
 --- Local Lua Modules ---
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
   once = true,
