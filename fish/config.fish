@@ -95,7 +95,7 @@ alias neofetch="fastfetch --config neofetch"
 alias batman="bat --plain --language=Manpage"
 alias bathelp="bat --plain --language=help"
 
-# delta
+# delta; git show | delta-full; git show | delta-split;
 alias delta-full="delta --no-gitconfig --navigate --line-numbers --syntax-theme=Dracula"
 alias delta-split="delta --no-gitconfig --navigate --line-numbers --side-by-side --syntax-theme=Dracula"
 
