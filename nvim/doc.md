@@ -70,6 +70,55 @@ pacman -S fd ripgrep curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
 ```
 
 --------------------------------------------------------------------------------
+## nvim-dap (JavaScript/TypeScript) ~
+--------------------------------------------------------------------------------
+
+The `vscode-js-debug` AUR package is broken — install the DAP release manually:
+
+```bash
+mkdir -p ~/.local/bin
+url=$(curl -s https://api.github.com/repos/microsoft/vscode-js-debug/releases/latest \
+  | grep -oP '"browser_download_url":\s*"\K[^"]*js-debug-dap[^"]*\.tar\.gz')
+curl -sL "$url" | tar xz -C ~/.local/bin
+```
+
+TypeScript files require `ts-node`:
+
+```bash
+npm install -D ts-node # local
+npm install -g ts-node typescript # global
+```
+
+Browser debugging uses the `pwa-chrome` adapter - no extra install needed.
+
+--------------------------------------------------------------------------------
+## nvim-dap (Rust) ~
+--------------------------------------------------------------------------------
+
+```bash
+paru -S codelldb-bin
+cargo build
+```
+
+`Launch` auto-detects the built binary under `target/debug/`.
+
+If more than one executable is found in `target/debug/`,
+it falls back to prompting for a path.
+
+--------------------------------------------------------------------------------
+## nvim-dap (.NET) ~
+--------------------------------------------------------------------------------
+
+```bash
+paru -S netcoredbg-bin
+dotnet build
+```
+
+`Launch` auto-detects the built dll under `bin/Debug/**/`.
+
+If more than one dll is found, it falls back to prompting for a path.
+
+--------------------------------------------------------------------------------
 ## Roslyn ~
 --------------------------------------------------------------------------------
 
