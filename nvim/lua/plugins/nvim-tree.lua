@@ -8,6 +8,7 @@ local window_border = require("core/border")
 local FLOAT = true
 local PINNED = true
 local FLOAT_OFFSET = 4
+local MAX_WIDTH = 60
 local MIN_WIDTH = FLOAT and 42 or 30
 local ATTACHED_FLOAT_EVENTS = false
 
@@ -22,6 +23,7 @@ local function options()
       side = FLOAT and "right" or "left",
       width = {
         min = MIN_WIDTH,
+        max = MAX_WIDTH,
         padding = 2
       },
       adaptive_size = true,
