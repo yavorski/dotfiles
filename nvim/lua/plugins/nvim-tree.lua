@@ -55,7 +55,7 @@ local function options()
       custom = { "^\\.git$" }
     },
     on_attach = function(bufnr)
-      require("nvim-tree.api").config.mappings.default_on_attach(bufnr)
+      require("nvim-tree.api").map.on_attach.default(bufnr)
       vim.keymap.set("n", "]b", "<cmd>wincmd p | bnext<cr>", { buffer = bufnr })
       vim.keymap.set("n", "[b", "<cmd>wincmd p | bprev<cr>", { buffer = bufnr })
       vim.keymap.set("n", "gn", "<cmd>wincmd p | bnext<cr>", { buffer = bufnr })
@@ -81,12 +81,16 @@ local function align_float_right()
   end
 
   local api = require("nvim-tree.api")
+  local winid = api.tree.winid()
+
+  if winid == nil then
+    return
+  end
 
   if not api.tree.is_visible() then
     return
   end
 
-  local winid = api.tree.winid()
   local config = vim.api.nvim_win_get_config(winid)
   local desired_column = vim.o.columns - config.width - FLOAT_OFFSET
 
