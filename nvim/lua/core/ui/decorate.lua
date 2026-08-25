@@ -2,6 +2,7 @@
 --- Window decorators for the ui2 msg / pager / dialog floats.
 
 local ui2 = require("vim._core.ui2")
+local msgs = require("vim._core.ui2.messages")
 local border = require("core/border")
 local config = require("core/ui/config")
 local util = require("core/ui/util")
@@ -96,6 +97,9 @@ function M.msg(win)
     title = title,
     title_pos = title and "center" or nil,
   })
+
+  -- We just shrank the float; tell ui2 its new width too, otherwise ui2 still thinks it's the old (wider) size and re-expands it on the next indicator.
+  if msgs.msg then msgs.msg.width = width end
 end
 
 function M.all()

@@ -24,6 +24,30 @@ function M.content_to_text(content)
   return table.concat(parts)
 end
 
+--- Strip trailing carriage returns / newlines from content chunks, so a message
+--- terminator (e.g. `:!cmd` emits `":!cmd\r\n"`) doesn't add a blank last line.
+--- Returns the same table when nothing changed. Does not touch inner newlines.
+--- @param content table
+--- @return table
+function M.trim_trailing_newline(content)
+  if type(content) ~= "table" then return content end
+
+  for i = #content, 1, -1 do
+    local chunk = content[i]
+    local text = type(chunk) == "table" and chunk[2]
+    if type(text) == "string" and text ~= "" then
+      local trimmed = text:gsub("[\r\n]+$", "")
+      if trimmed == text then return content end
+      -- Copy only the chunk we modify; leave earlier chunks shared.
+      local out = { unpack(content) }
+      out[i] = { chunk[1], trimmed, chunk[3] }
+      return out
+    end
+  end
+
+  return content
+end
+
 --- @param win integer?
 --- @return integer? win  non-nil only when the window is valid
 function M.valid_win(win)

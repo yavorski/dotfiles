@@ -20,21 +20,18 @@ function M.resolve(kind, content)
   end
 
   local text = vim.trim(util.content_to_text(content)):match("^[^\n]*") or ""
-  if #text > 40 then
-    text = text:sub(1, 37) .. "..."
+  if vim.fn.strcharlen(text) > 40 then
+    text = vim.fn.strcharpart(text, 0, 37) .. "..."
   end
 
   return text ~= "" and text or "Message", "Normal"
 end
 
---- Set the same title entry on every sink.
---- We can't know upstream's final routing, so set all three?
---- The window that actually opens will display the right one.
+--- Set the title for a single sink.
+--- @param target "msg"|"pager"|"dialog"
 --- @param entry TitleEntry
-function M.set_all(entry)
-  M.state.msg = entry
-  M.state.pager = entry
-  M.state.dialog = entry
+function M.set(target, entry)
+  M.state[target] = entry
 end
 
 function M.reset()
