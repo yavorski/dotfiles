@@ -26,16 +26,32 @@
 local ui2 = require("vim._core.ui2")
 local config = require("core/ui/config")
 
-ui2.enable({
+-- ui2 v0.13 moved the msg-window timeout out of enable() (the removed msg.msg.timeout key is now rejected) into the 'messagesopt' "timeout:" item.
+local MSG_TIMEOUT = 3000
+local has_013 = vim.fn.has("nvim-0.13") == 1
+
+local opts = {
   enable = true,
   msg = {
     targets = config.MSG_TARGETS,
-    cmd = { height = 0.5 },
     dialog = { height = 0.5 },
-    msg = { height = 0.5, timeout = 2800 },
+    msg = { height = 0.5 },
     pager = { height = 0.8 },
   },
-})
+}
+
+if has_013 then
+  vim.opt.messagesopt:append("timeout:" .. MSG_TIMEOUT)
+else
+  opts.msg.msg.timeout = MSG_TIMEOUT -- v0.12.x legacy enable() key
+end
+
+ui2.enable(opts)
+
+-- v0.13+ uses `targets.default`; older ui2 has no such key and falls back to `cfg.msg.target` (defaults to "cmd"), so pin it to the mini float there.
+if ui2.cfg.msg.target ~= nil then
+  ui2.cfg.msg.target = "msg"
+end
 
 require("core/ui/wrap").setup()
 require("core/ui/search_count").setup()

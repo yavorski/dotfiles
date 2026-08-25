@@ -22,14 +22,7 @@ function M.setup()
       local detail = value.message or value.title or (is_end and "done" or "")
       local text = client.name .. (detail ~= "" and (": " .. detail) or "")
 
-      -- LSP spec only defines begin/report/end; some servers signal
-      -- cancellation via `value.cancellable` flips or non-standard kinds.
-      local status
-      if kind == "end" then
-        status = (value.cancelled or value.cancellable == false and value.message and value.message:lower():match("cancel")) and "cancelled" or "success"
-      else
-        status = "running"
-      end
+      local status = is_end and "success" or "running"
 
       vim.api.nvim_echo({ { text } }, false, {
         id = "lsp." .. ev.data.client_id,

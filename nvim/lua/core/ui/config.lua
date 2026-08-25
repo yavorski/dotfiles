@@ -67,7 +67,9 @@ M.KIND_TITLES = {
 
 --- ui2.enable target map: kind -> sink window.
 M.MSG_TARGETS = {
-  [""] = "msg",
+  -- Fallback for unmapped kinds (older ui2 also needs cfg.msg.target pinned, see init.lua).
+  -- Don't add "" / typed_cmd keys: triggers win over kinds and would hijack the pager routes.
+  default = "msg",
   empty = "msg",
   bufwrite = "msg",
   echo = "msg",
@@ -81,6 +83,7 @@ M.MSG_TARGETS = {
   confirm_sub = "msg",
   echoerr = "msg",
   emsg = "msg",
+  -- List output of informational commands: `:set foo?`, `:ls`, `:map`, `:reg` ...
   list_cmd = "pager",
   lua_error = "msg",
   lua_print = "msg",
@@ -92,7 +95,6 @@ M.MSG_TARGETS = {
   shell_cmd = "msg",
   shell_err = "msg",
   shell_out = "pager",
-  typed_cmd = "msg",
   verbose = "pager",
   wildlist = "msg",
 }
