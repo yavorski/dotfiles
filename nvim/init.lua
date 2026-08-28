@@ -7,9 +7,11 @@ vim.loader.enable()
 require("core/ui")
 require("core/border")
 require("core/options")
-require("core/neovide")
 require("core/keymaps")
 require("core/autocmds")
+
+--- neovide ---
+require("neovide/init")
 
 --- color-scheme ---
 require("plugins/color-scheme")
