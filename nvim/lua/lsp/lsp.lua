@@ -16,9 +16,6 @@ local servers = {
   pyrefly = {},
   terraformls = {},
   rust_analyzer = {},
-  html = {
-    filetypes = { "html", "cshtml", "razor", "htmlangular" }
-  },
   emmet_language_server = {
     filetypes = { "html", "cshtml", "razor", "htmlangular" }
   },
@@ -36,10 +33,30 @@ servers["angularls"] = {
   workspace_required = true
 }
 
+servers["html"] = {
+  filetypes = { "html", "cshtml", "razor", "htmlangular" },
+  settings = {
+    html = {
+      format = {
+        unformatted = "a",
+        wrapLineLength = 160,
+      }
+    }
+  }
+}
+
 servers["lua_ls"] = {
   settings = {
     Lua = {
-      format = { enable = true },
+      format = {
+        enable = true,
+        defaultConfig = {
+          align_array_table = "false",
+          trailing_table_separator = "never",
+          align_continuous_assign_statement = "false",
+          align_continuous_rect_table_field = "false",
+        }
+      },
       runtime = { version = "LuaJIT" },
       workspace = { checkThirdParty = false },
       completion = { callSnippet = "Replace" },
