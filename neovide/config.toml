@@ -1,7 +1,7 @@
 # ------------------------------------------
 # Intel One Mono
-# set size = 10.25 for windows
-# set linespace = 1 (linux), 2 (windows)
+# set size/linespace = 11.25/1 linux
+# set size/linespace = 10.25/2 for windows
 # ------------------------------------------
 
 [font]
@@ -28,8 +28,8 @@ family = "Intel One Mono"
 
 # ------------------------------------------
 # JetBrains Mono NL
-# set size = 10.25 for JBM windows
-# set linespace = 3 (linux), 2 (windows)
+# set size/linespace = 10.75/3 linux
+# set size/linespace = 10.25/2 windows
 # ------------------------------------------
 
 # [font]
