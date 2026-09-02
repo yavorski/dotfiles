@@ -17,84 +17,80 @@ gui:
   useHunkModeInStagingView: true
 keybinding:
   universal:
-    quit: q
-    quit-alt1: <c-q>
-    suspendApp: <c-z>
+    quit: [ q, <ctrl+q> ]
+    suspendApp: <disabled>
     return: <esc>
     quitWithoutChangingDirectory: Q
     togglePanel: <tab>
-    prevItem: <up>
-    nextItem: <down>
-    prevItem-alt: k
-    nextItem-alt: j
+    prevItem: [ <up>, k ]
+    nextItem: [ <down>, j ]
     prevPage: ","
     nextPage: "."
     scrollLeft: H
     scrollRight: L
-    gotoTop: <
-    gotoBottom: >
-    gotoTop-alt: <home>
-    gotoBottom-alt: <end>
+    gotoTop: [ "<", <home> ]
+    gotoBottom: [ ">", <end> ]
     toggleRangeSelect: v
-    rangeSelectDown: <s-down>
-    rangeSelectUp: <s-up>
-    prevBlock: <left>
-    nextBlock: <right>
-    prevBlock-alt: h
-    nextBlock-alt: l
-    nextBlock-alt2: <tab>
-    prevBlock-alt2: <backtab>
+    rangeSelectDown: <shift+down>
+    rangeSelectUp: <shift+up>
+    prevBlock: [ <left>, h, <backtab> ]
+    nextBlock: [ <right>, l, <tab> ]
+    jumpToBlock:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+      - "5"
     focusMainView: "0"
-    nextMatch: n
-    prevMatch: N
+    nextMatch: "n"
+    prevMatch: "N"
     startSearch: /
-    optionMenu: <disabled>
-    optionMenu-alt1: "?"
+    moveWordLeft: <ctrl+left>
+    moveWordRight: <ctrl+right>
+    backspaceWord: <ctrl+backspace>
+    forwardDeleteWord: <ctrl+delete>
+    optionMenu: "?"
     select: <space>
     goInto: <enter>
     confirm: <enter>
     confirmMenu: <enter>
     confirmSuggestion: <enter>
-    confirmInEditor: <a-enter>
-    confirmInEditor-alt: <c-s>
+    confirmInEditor: [ <alt+enter>, <ctrl+s> ]
     remove: d
-    new: n
+    new: "n"
+    newWorktree: w
     edit: e
     openFile: o
-    scrollUpMain: <pgup>
-    scrollDownMain: <pgdown>
-    scrollUpMain-alt1: K
-    scrollDownMain-alt1: J
-    scrollUpMain-alt2: <c-u>
-    scrollDownMain-alt2: <c-d>
+    scrollUpMain: [ <pgup>, K, <ctrl+u> ]
+    scrollDownMain: [ <pgdown>, J, <ctrl+d> ]
     executeShellCommand: ":"
     createRebaseOptionsMenu: m
-    pushFiles: <c-P>
-    pullFiles: <c-p>
+    pushFiles: <alt+shift+p>
+    pullFiles: <alt+p>
     refresh: R
-    createPatchOptionsMenu: <F12>
+    createPatchOptionsMenu: <f12>
     nextTab: "]"
     prevTab: "["
     nextScreenMode: +
     prevScreenMode: _
-    cyclePagers: "|"
+    cycleDiffRenderers: "|"
     undo: z
     redo: Z
-    filteringMenu: <c-s>
-    diffingMenu: W
-    diffingMenu-alt: <c-e>
-    copyToClipboard: <c-y>
-    openRecentRepos: <c-r>
+    filteringMenu: <ctrl+s>
+    diffingMenu: [ W, <ctrl+e> ]
+    copyToClipboard: <ctrl+y>
+    openRecentRepos: <ctrl+r>
     submitEditorText: <enter>
     extrasMenu: "@"
-    toggleWhitespaceInDiffView: <c-w>
+    toggleWhitespaceInDiffView: <ctrl+w>
     increaseContextInDiffView: "}"
     decreaseContextInDiffView: "{"
     increaseRenameSimilarityThreshold: )
     decreaseRenameSimilarityThreshold: (
-    openDiffTool: <c-t>
+    openDiffTool: <ctrl+t>
+    editConfig: <alt+shift+c>
 git:
-  pagers:
+  diffRenderers:
     # - pager: "" # default
-    - pager: delta --paging=never --tabs=2 --no-gitconfig
-    - pager: delta --paging=never --tabs=2 --side-by-side --no-gitconfig
+    - command: delta --paging=never --tabs=2 --no-gitconfig
+    - command: delta --paging=never --tabs=2 --side-by-side --no-gitconfig
