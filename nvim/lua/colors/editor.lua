@@ -50,7 +50,11 @@ return {
   MiniMapSymbolLine = { fg = colors.pink, bg = colors.none },
   MiniMapSymbolView = { fg = colors.black, bg = colors.none },
 
-  -- multi-cursors
+  -- multi-cursor - native
+  MCursor = { fg = colors.base, bg = colors.softcyan },
+  MCursorVisual = { fg = colors.base, bg = colors.softcyan },
+
+  -- multi-cursor - jake-stewart plugin
   MultiCursorCursor = { fg = colors.base, bg = colors.softcyan },
 
   -- nvim tree
