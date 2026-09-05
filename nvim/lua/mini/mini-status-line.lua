@@ -401,7 +401,7 @@ local function init_status_line()
     return MiniStatusline.combine_groups({
       { hl = mode_hl, strings = { mode } },
       { hl = "MiniStatuslineDevinfo", strings = { branch, diff, diagnostics } },
-      { hl = filename_hl_map[mode_hl] or "MiniStatuslineFilenameNormal", strings = { filename, macro, "%S" } },
+      { hl = filename_hl_map[mode_hl] or "MiniStatuslineFilenameNormal", strings = { filename, macro, "%([ %S ]%)" } },
 
       "%<", -- if still too narrow, truncate filename rather than right side
       "%=", -- separator: pushes following groups to the right edge of the statusline
