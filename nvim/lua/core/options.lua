@@ -103,6 +103,7 @@ vim.opt.completeopt = {
   "noselect",
   "fuzzy",
   -- "popup",
+  -- "preselect"
 }
 
 -- better diff alignment by considering indentation changes
@@ -171,11 +172,8 @@ vim.g.markdown_folding = 1     -- Fold by heading in markdown files
 -- grep/vimgrep/ripgrep
 ------------------------------------------------------------
 
--- default grep program
--- vim.opt.grepprg = "grep -n $* /dev/null"
-
--- use ripgrep instead of grep
-vim.opt.grepprg = "rg --vimgrep --smart-case --hidden --follow"
+-- set ripgrep options
+vim.opt.grepprg = "rg --vimgrep --smart-case --hidden --follow --column --line-number --no-heading --max-columns=0 --color=never $*"
 
 ------------------------------------------------------------
 -- Disable providers
