@@ -36,8 +36,15 @@ require("plugins/git-signs")
 require("plugins/stylus")
 require("plugins/auto-tag")
 require("plugins/code-diff")
-require("plugins/multi-cursor")
 require("plugins/render-markdown")
+
+if vim.fn.has("nvim-0.13") == 1 then
+  require("modules/multi-cursor")
+  vim.notify("nvim-13")
+else
+  require("plugins/multi-cursor")
+  vim.notify("nvim-12")
+end
 
 --- Tree-Sitter ---
 require("plugins/tree-sitter")
