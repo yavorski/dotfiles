@@ -133,10 +133,17 @@ local fzf_lua_options = {
     status = { winopts = vertical("border-top") },
     commits = { winopts = vertical("border-top") },
     branches = { winopts = vertical("border-top") },
+    files = { fzf_opts = { ["--scheme"] = "default" } },
   },
   grep = {
     winopts = vertical(),
     RIPGREP_CONFIG_PATH = vim.fn.expand(vim.env.RIPGREP_CONFIG_PATH)
+  },
+  files = {
+    -- sort exact filenames first - e.g. `README.md` above `**/*/README.md`
+    fzf_opts = {
+      ["--scheme"] = "default"
+    },
   },
   diagnostics = { winopts = vertical(), multiline = false },
 }
