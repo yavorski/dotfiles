@@ -1,8 +1,11 @@
 [alias]
   # View abbreviated SHA, description, and history graph of latest commits
   l = log -n 24 --graph --pretty=oneline --abbrev-commit
-  ll = log -n 48 --graph --pretty=format:'%C(auto)%h%d %s %C(green)%an%C(reset) (%cr)' --abbrev-commit --date=relative
-  lll = log --all --graph --pretty=format:'%C(auto)%h%d %s %C(green)%an%C(reset) (%cr)' --abbrev-commit --date=relative
+  ll = log -n 48 --graph --pretty=format:'%C(auto)%h%d %s %C(green)[%an]%C(reset) (%cr)' --abbrev-commit --date=relative
+  lll = log --all --graph --pretty=format:'%C(auto)%h%d %s %C(green)[%an]%C(reset) (%cr)' --abbrev-commit --date=relative
+
+  # View commits for the last git pull
+  lp = log ORIG_HEAD..HEAD --graph --pretty=format:'%C(auto)%h%d %s %C(green)[%an]%C(reset) (%cr)' --abbrev-commit --date=relative --decorate
 
   # View the current working tree status
   s = status
@@ -10,20 +13,14 @@
   # Show changes between commits, commit and working tree, etc
   d = diff
 
-  # `git di $number` shows the diff between the state `$number` revisions ago and the current state
+  # Show diff for the last git pull
+  dp = diff ORIG_HEAD..HEAD
+
+  # `git di 3` shows combined diff from 3 commits ago to working tree incl. uncommitted changes
   di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
 
-  # Pull in remote changes for the current repository and all its submodules
-  pr = !"git pull; git submodule foreach git pull origin master"
-
-  # Clone a repository including all submodules
-  cr = clone --recursive
-
-  # Commit all changes
-  ca = !git add -A && git commit -av
-
   # Switch to a branch, creating it if necessary
-  go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+  go = "!f() { git switch \"$1\" 2> /dev/null || git switch -c \"$1\"; }; f"
 
   # Checkout Shortcut
   co = checkout
@@ -68,28 +65,8 @@
   # Find commits by contributor/author
   fa = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --author=\"$1\"; }; f"
 
-  # Remove branches that have already been merged with master
-  # a.k.a. ‘delete merged’
-  dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
-
   # List contributors with number of commits
   contributors = shortlog --summary --numbered
-
-  # Merge GitHub pull request on top of the current branch or,
-  # if a branch name is specified, on top of the specified branch
-  mpr = "!f() { \
-    declare currentBranch=\"$(git symbolic-ref --short HEAD)\"; \
-    declare branch=\"${2:-$currentBranch}\"; \
-    if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
-      git fetch origin refs/pull/$1/head:pr/$1 && \
-      git checkout -B $branch && \
-      git rebase $branch pr/$1 && \
-      git checkout -B $branch && \
-      git merge pr/$1 && \
-      git branch -D pr/$1 && \
-      git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
-    fi \
-  }; f"
 
   # Change commits name and author
   # git change-commits GIT_AUTHOR_NAME "prev name" "new name"
