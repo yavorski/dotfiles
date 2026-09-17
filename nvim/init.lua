@@ -37,6 +37,7 @@ require("plugins/stylus")
 require("plugins/auto-tag")
 require("plugins/code-diff")
 require("plugins/multi-cursor")
+require("plugins/render-markdown")
 
 --- Tree-Sitter ---
 require("plugins/tree-sitter")
