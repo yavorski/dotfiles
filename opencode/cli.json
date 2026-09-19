@@ -1,0 +1,28 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "leader": {
+    "timeout": 2000
+  },
+  "keybinds": {
+    "leader": "ctrl+x",
+    "app.exit": "ctrl+q",
+    "session.child.first": "none",
+    "session.parent": "none",
+    "agent.cycle": "tab",
+    "agent.cycle.reverse": "shift+tab",
+    "session.page.up": "pageup",
+    "session.page.down": "pagedown",
+    "session.half.page.up": "ctrl+u",
+    "session.half.page.down": "ctrl+d",
+    "prompt.paste": [
+      { "key": "ctrl+v", "preventDefault": false },
+      { "key": "ctrl+shift+v", "preventDefault": false }
+    ],
+    "input.buffer.home": "home",
+    "input.buffer.end": "end",
+    "input.delete.to.line.end": "ctrl+k,ctrl+shift+d",
+    "prompt.history.previous": "shift+up",
+    "prompt.history.next": "shift+down",
+    "plugins.toggle": "space,return"
+  }
+}

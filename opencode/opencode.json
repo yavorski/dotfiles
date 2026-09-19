@@ -1,7 +1,4 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "share": "disabled",
-  "experimental": {
-    "openTelemetry": false
-  }
+  "share": "disabled"
 }
