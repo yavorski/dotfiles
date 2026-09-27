@@ -16,6 +16,9 @@ vim.opt.linespace = system.is_wsl_or_windows and 2 or 1
 -- jet brains mono
 -- vim.opt.linespace = is_wsl_or_windows and 2 or 3
 
+-- fix path
+require("neovide/path")
+
 -- neovide session
 require("neovide.session")
 
