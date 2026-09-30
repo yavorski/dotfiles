@@ -49,6 +49,7 @@ $env:RIPGREP_CONFIG_PATH = "$HOME\.config\.ripgreprc"
 # common aliases
 function GitStatus { git status }
 function CdDev { Set-Location -Path C:\dev }
+function Resize-Windows { & "C:\dev\gh\dotfiles\pwsh\resize-windows.ps1" }
 function AlacrittyWindows { alacritty.exe --config-file "C:\Users\$env:USERNAME\AppData\Roaming\alacritty\alacritty-xl-win.toml" }
 
 Set-Alias -Name d -Value CdDev
@@ -57,8 +58,8 @@ Set-Alias -Name gs -Value GitStatus
 Set-Alias -Name l -Value eza
 Set-Alias -Name ls -Value eza
 Set-Alias -Name exa -Value eza
-Set-Alias -Name uu -Value coreutils
 Set-Alias -Name helix -Value hx
+Set-Alias -Name uu -Value coreutils
 
 # navigation bash like aliases
 function CdUp {
