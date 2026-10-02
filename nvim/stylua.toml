@@ -1,8 +1,20 @@
+# stylua
+
 syntax = "LuaJIT"
-column_width = 128
 indent_width = 2
-indent_type = "Spaces"
+column_width = 140
 line_endings = "Unix"
+indent_type = "Spaces"
 quote_style = "AutoPreferDouble"
-call_parentheses = "Always"
-collapse_simple_statement = "Always"
+call_parentheses = "Input"
+block_newline_gaps = "Never"
+collapse_simple_statement = "Never"
+space_after_function_names = "Never"
+# trailing_comma = "Never" # not available
+
+[sort_requires]
+enabled = false
+
+# pipe to delta
+# stylua --check --output-format Unified nvim | delta
+# stylua --check --output-format Unified nvim 2>/dev/null | delta
