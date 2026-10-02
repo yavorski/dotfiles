@@ -39,24 +39,26 @@
   ],
 
   "widget-config": {
-    "inhibitors": {
-      "text": "Inhibitors",
-      "button-text": "Clear All",
-      "clear-all-button": true
-    },
     "title": {
       "text": "Notifications",
-      "clear-all-button": true,
-      "button-text": "Clear"
+      "button-text": "",
+      "clear-all-button": true
     },
     "dnd": {
-      "text": "Do Not Disturb"
+      "text": "Do not disturb"
+    },
+    "inhibitors": {
+      "text": "Inhibitors",
+      "button-text": "",
+      "clear-all-button": true
     },
     "label": {
       "max-lines": 5,
       "text": "Label Text"
     },
-    "mpris": {},
+    "mpris": {
+      "autohide": true
+    },
     "notifications": {}
   }
 }
