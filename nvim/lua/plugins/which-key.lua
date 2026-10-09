@@ -26,7 +26,7 @@ local options = {
     { "<c-w>c", desc = "Close current window" },
     { "<leader>\\", group = "NvimTree" },
     { "<leader>W", group = "LSP Workspace" },
-    { "<leader>?", "<cmd>WhichKey<cr>", desc = "Which Key" },
+    -- { "<leader>?", "<cmd>WhichKey<cr>", desc = "Which Key" },
   },
 
   --- @type wk.Spec

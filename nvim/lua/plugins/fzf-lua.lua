@@ -13,7 +13,7 @@ local cpwin, cpbuf, tree_focus = nil, nil, nil
 -- if nvim-tree is open go to prev window before opening fzf-lua
 -- this will prevent opening the selected fzf-lua file in the nvim-tree window
 -- fzf-lua will default to opening splits if winfixbuf is set on nvim-tree or any window from which it was started
---- @param cmd string The fzf-lua command to execute (e.g., "FzfLua files", "FzfLua buffers")
+--- @param cmd string|function The fzf-lua command to execute ("FzfLua files", "FzfLua buffers") or a picker function
 local function start(cmd)
   cpwin, cpbuf, tree_focus = nil, nil, nil
 
@@ -26,7 +26,11 @@ local function start(cmd)
     end
   end
 
-  vim.cmd(cmd)
+  if type(cmd) == "function" then
+    cmd()
+  else
+    vim.cmd(cmd)
+  end
 end
 
 -- on fzf-lua close handler
@@ -148,6 +152,15 @@ local fzf_lua_options = {
   diagnostics = { winopts = vertical(), multiline = false },
 }
 
+-- literal search without regex
+local function live_grep_literal()
+  local literal_rg_opts = "--column --line-number --no-heading --color=always --smart-case --fixed-strings --max-columns=4096 -e"
+  require("fzf-lua").live_grep_native({
+    rg_opts = literal_rg_opts,
+    winopts = { title = " Grep Literal " },
+  })
+end
+
 -- fzf
 Lazy.use {
   "ibhagwan/fzf-lua",
@@ -166,6 +179,7 @@ Lazy.use {
     { "<leader>f", function() start("FzfLua files") end, silent = true, desc = "FZF Files" },
     { "<leader>/", function() start("FzfLua grep_visual") end, mode = "v", silent = true, desc = "FZF Search" },
     { "<leader>/", function() start("FzfLua live_grep_native") end, mode = "n", silent = true, desc = "FZF Search" },
+    { "<leader>?", function() start(live_grep_literal) end, mode = "n", silent = true, desc = "FZF Search Literal" },
   },
   config = function()
     require("fzf-lua").setup(fzf_lua_options)
