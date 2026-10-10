@@ -9,13 +9,19 @@ function M.setup()
   vim.api.nvim_create_autocmd("LspProgress", {
     group = augroup,
     callback = function(ev)
-      if not (ev.data and ev.data.client_id) then return end
+      if not (ev.data and ev.data.client_id) then
+        return
+      end
 
       local value = ev.data.params and ev.data.params.value
-      if type(value) ~= "table" then return end
+      if type(value) ~= "table" then
+        return
+      end
 
       local client = vim.lsp.get_client_by_id(ev.data.client_id)
-      if not client then return end
+      if not client then
+        return
+      end
 
       local kind = value.kind
       local is_end = kind == "end"
@@ -32,7 +38,7 @@ function M.setup()
         status = status,
         percent = value.percentage,
       })
-    end
+    end,
   })
 end
 

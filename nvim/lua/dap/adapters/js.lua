@@ -51,7 +51,9 @@ local node_configurations = {
     request = "launch",
     name = "Launch npm run-script",
     runtimeExecutable = "npm",
-    runtimeArgs = function() return { "run-script", npm_script() } end,
+    runtimeArgs = function()
+      return { "run-script", npm_script() }
+    end,
     cwd = "${workspaceFolder}",
     console = "integratedTerminal",
     sourceMaps = true,
@@ -88,7 +90,9 @@ local ts_configurations = {
     request = "launch",
     name = "Launch npm run-script",
     runtimeExecutable = "npm",
-    runtimeArgs = function() return { "run-script", npm_script() } end,
+    runtimeArgs = function()
+      return { "run-script", npm_script() }
+    end,
     cwd = "${workspaceFolder}",
     console = "integratedTerminal",
     sourceMaps = true,
@@ -114,7 +118,9 @@ local chrome_configurations = {
     type = "pwa-chrome",
     request = "launch",
     name = "Launch Chrome against localhost",
-    url = function() return vim.fn.input("URL: ", "http://localhost:3000") end,
+    url = function()
+      return vim.fn.input("URL: ", "http://localhost:3000")
+    end,
     webRoot = "${workspaceFolder}",
     sourceMaps = true,
   },
@@ -122,20 +128,20 @@ local chrome_configurations = {
 
 dap.configurations.javascript = {
   unpack(node_configurations),
-  unpack(chrome_configurations)
+  unpack(chrome_configurations),
 }
 
 dap.configurations.javascriptreact = {
   unpack(node_configurations),
-  unpack(chrome_configurations)
+  unpack(chrome_configurations),
 }
 
 dap.configurations.typescript = {
   unpack(ts_configurations),
-  unpack(chrome_configurations)
+  unpack(chrome_configurations),
 }
 
 dap.configurations.typescriptreact = {
   unpack(ts_configurations),
-  unpack(chrome_configurations)
+  unpack(chrome_configurations),
 }

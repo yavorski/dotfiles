@@ -17,12 +17,12 @@ Lazy.use {
     require("codediff").setup({
       -- Highlight configuration
       highlights = {
-        line_insert = "DiffAdd",      -- Line-level insertions
-        line_delete = "DiffDelete",   -- Line-level deletions
-        char_insert = nil,            -- Character-level insertions (nil = auto-derive)
-        char_delete = nil,            -- Character-level deletions (nil = auto-derive)
-        char_brightness = nil,        -- Auto-adjust based on your colorscheme
-        conflict_sign = nil,          -- Unresolved: DiagnosticSignWarn
+        line_insert = "DiffAdd", -- Line-level insertions
+        line_delete = "DiffDelete", -- Line-level deletions
+        char_insert = nil, -- Character-level insertions (nil = auto-derive)
+        char_delete = nil, -- Character-level deletions (nil = auto-derive)
+        char_brightness = nil, -- Auto-adjust based on your colorscheme
+        conflict_sign = nil, -- Unresolved: DiagnosticSignWarn
         conflict_sign_resolved = nil, -- Resolved: Comment
         conflict_sign_accepted = nil, -- Accepted: GitSignsAdd -> DiagnosticSignOk
         conflict_sign_rejected = nil, -- Rejected: GitSignsDelete -> DiagnosticSignError
@@ -30,11 +30,11 @@ Lazy.use {
 
       -- Diff view behavior
       diff = {
-        disable_inlay_hints = true,         -- Disable inlay hints in diff windows
-        max_computation_time_ms = 5000,     -- Maximum time for diff computation
-        hide_merge_artifacts = false,       -- Hide merge tool temp files *.orig, *.BACKUP.*, *.BASE.*, *.LOCAL.*, *.REMOTE.*
-        original_position = "left",         -- Position of original (old) content: "left" or "right"
-        conflict_ours_position = "right",   -- Position of ours (:2) in conflict view: "left" or "right"
+        disable_inlay_hints = true, -- Disable inlay hints in diff windows
+        max_computation_time_ms = 5000, -- Maximum time for diff computation
+        hide_merge_artifacts = false, -- Hide merge tool temp files *.orig, *.BACKUP.*, *.BASE.*, *.LOCAL.*, *.REMOTE.*
+        original_position = "left", -- Position of original (old) content: "left" or "right"
+        conflict_ours_position = "right", -- Position of ours (:2) in conflict view: "left" or "right"
       },
 
       -- Explorer panel configuration
@@ -56,36 +56,36 @@ Lazy.use {
       -- Keymaps in diff view
       keymaps = {
         view = {
-          quit = "<C-q>",                   -- Close diff tab
-          next_hunk = "]c",                 -- Jump to next change
-          prev_hunk = "[c",                 -- Jump to previous change
-          next_file = "]f",                 -- Next file in explorer mode
-          prev_file = "[f",                 -- Previous file in explorer mode
-          diff_get = "do",                  -- Get change from other buffer (like vimdiff)
-          diff_put = "dp",                  -- Put change to other buffer (like vimdiff)
+          quit = "<C-q>", -- Close diff tab
+          next_hunk = "]c", -- Jump to next change
+          prev_hunk = "[c", -- Jump to previous change
+          next_file = "]f", -- Next file in explorer mode
+          prev_file = "[f", -- Previous file in explorer mode
+          diff_get = "do", -- Get change from other buffer (like vimdiff)
+          diff_put = "dp", -- Put change to other buffer (like vimdiff)
           toggle_explorer = [[<leader>\\]], -- Toggle explorer visibility (explorer mode only)
         },
         explorer = {
-          select = "<CR>",        -- Open diff for selected file
-          hover = "K",            -- Show file diff preview
-          refresh = "R",          -- Refresh git status
-          stage_all = "S",        -- Stage all files
-          unstage_all = "U",      -- Unstage all files
-          restore = "X",          -- Discard changes (restore file)
-          toggle_stage = "-",     -- Stage/unstage selected file
+          select = "<CR>", -- Open diff for selected file
+          hover = "K", -- Show file diff preview
+          refresh = "R", -- Refresh git status
+          stage_all = "S", -- Stage all files
+          unstage_all = "U", -- Unstage all files
+          restore = "X", -- Discard changes (restore file)
+          toggle_stage = "-", -- Stage/unstage selected file
           toggle_view_mode = "i", -- Toggle between 'list' and 'tree' views
         },
         conflict = {
           accept_incoming = "<leader>ct", -- Accept incoming (theirs/left) change
-          accept_current = "<leader>co",  -- Accept current (ours/right) change
-          accept_both = "<leader>cb",     -- Accept both changes (incoming first)
-          discard = "<leader>cx",         -- Discard both, keep base
-          next_conflict = "]x",           -- Jump to next conflict
-          prev_conflict = "[x",           -- Jump to previous conflict
-          diffget_incoming = "2do",       -- Get hunk from incoming (left/theirs) buffer
-          diffget_current = "3do",        -- Get hunk from current (right/ours) buffer
+          accept_current = "<leader>co", -- Accept current (ours/right) change
+          accept_both = "<leader>cb", -- Accept both changes (incoming first)
+          discard = "<leader>cx", -- Discard both, keep base
+          next_conflict = "]x", -- Jump to next conflict
+          prev_conflict = "[x", -- Jump to previous conflict
+          diffget_incoming = "2do", -- Get hunk from incoming (left/theirs) buffer
+          diffget_current = "3do", -- Get hunk from current (right/ours) buffer
         },
       },
     })
-  end
+  end,
 }

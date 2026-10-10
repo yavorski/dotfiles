@@ -19,10 +19,10 @@ Lazy.use {
       cmd = {
         "roslyn-language-server",
         "--logLevel=Information",
-        "--stdio"
-      }
+        "--stdio",
+      },
     })
     -- Setup plugin
     require("roslyn").setup(options)
-  end
+  end,
 }

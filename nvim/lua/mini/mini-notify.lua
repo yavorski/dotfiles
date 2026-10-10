@@ -17,12 +17,12 @@ Lazy.use {
       config = {
         border = "solid",
         row = 2,
-        col = vim.o.columns - 2
-      }
-    }
+        col = vim.o.columns - 2,
+      },
+    },
   },
   config = function(_, options)
     require("mini.notify").setup(options)
     vim.notify = require("mini.notify").make_notify()
-  end
+  end,
 }

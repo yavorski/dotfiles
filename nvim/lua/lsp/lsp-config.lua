@@ -15,5 +15,5 @@ Lazy.use {
   },
   config = function()
     LSP.init()
-  end
+  end,
 }

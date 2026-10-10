@@ -12,22 +12,22 @@
 -- vim.cmd[[autocmd BufWritePre * :%s/\s\+$//e]]
 
 -- use tabs
-vim.cmd[[autocmd FileType make setlocal noexpandtab]]
+vim.cmd [[autocmd FileType make setlocal noexpandtab]]
 
 -- disable sign column
-vim.cmd[[autocmd FileType help setlocal signcolumn=no]]
+vim.cmd [[autocmd FileType help setlocal signcolumn=no]]
 
 -- disable relative numbers
-vim.cmd[[autocmd FileType qf,lhelp,lquickfix,dbout setlocal norelativenumber]]
+vim.cmd [[autocmd FileType qf,lhelp,lquickfix,dbout setlocal norelativenumber]]
 
 -- don't auto comment new lines
-vim.cmd[[autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o]]
+vim.cmd [[autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o]]
 
 -- highlight on yank
-vim.cmd[[autocmd TextYankPost * silent! lua vim.hl.on_yank({ higroup = "YankHighlight" })]]
+vim.cmd [[autocmd TextYankPost * silent! lua vim.hl.on_yank({ higroup = "YankHighlight" })]]
 
 -- 2 spaces for selected filetypes
-vim.cmd[[autocmd FileType xml,html,css,json,lua,yaml,markdown setlocal shiftwidth=2 tabstop=2 expandtab]]
+vim.cmd [[autocmd FileType xml,html,css,json,lua,yaml,markdown setlocal shiftwidth=2 tabstop=2 expandtab]]
 
 -- fix indentation with =
 vim.api.nvim_create_autocmd("FileType", {
@@ -35,8 +35,8 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "razor", "cshtml", "htmlangular" },
   callback = function()
     vim.bo.indentexpr = ""
-    vim.cmd[[runtime! indent/html.vim]]
-  end
+    vim.cmd [[runtime! indent/html.vim]]
+  end,
 })
 
 -- fix matchit in razor files
@@ -46,14 +46,14 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     -- Load matchit plugin first
     if not vim.g.loaded_matchit then
-      vim.cmd[[runtime! plugin/matchit.vim]]
+      vim.cmd [[runtime! plugin/matchit.vim]]
     end
 
     -- Load HTML ftplugin to get proper HTML tag matching
     if not vim.b.did_ftplugin then
-      vim.cmd[[runtime! ftplugin/html.vim]]
+      vim.cmd [[runtime! ftplugin/html.vim]]
     end
-  end
+  end,
 })
 
 -- stop on dashes when using "w"
@@ -62,7 +62,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "css", "less", "sass", "scss", "stylus" },
   callback = function()
     vim.opt_local.iskeyword:remove("-")
-  end
+  end,
 })
 
 -- notify start macro recording

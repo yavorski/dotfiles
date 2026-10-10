@@ -1,3 +1,4 @@
+-- stylua: ignore
 local mocha = {
   red      = "#f38ba8",
   green    = "#a6e3a1",
@@ -6,6 +7,7 @@ local mocha = {
   surface0 = "#313244",
 }
 
+-- stylua: ignore
 local colors = {
   mocha     = mocha,
   none      = "NONE",

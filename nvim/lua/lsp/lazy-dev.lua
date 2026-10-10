@@ -21,6 +21,6 @@ Lazy.use {
     integrations = {
       cmp = false,
       lspconfig = true,
-    }
-  }
+    },
+  },
 }

@@ -9,7 +9,7 @@ local Lazy = require("core/lazy")
 
 Lazy.use {
   "MeanderingProgrammer/render-markdown.nvim",
-  dependencies = {{ "nvim-treesitter/nvim-treesitter", version = "main" }},
+  dependencies = { { "nvim-treesitter/nvim-treesitter", version = "main" } },
   -- ft = { "markdown" },
   cmd = { "RenderMarkdown" },
   --- @module "render-markdown"
@@ -43,6 +43,6 @@ Lazy.use {
       style = "full",
       cell = "padded",
       alignment_indicator = "━",
-    }
-  }
+    },
+  },
 }

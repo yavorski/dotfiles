@@ -33,6 +33,7 @@ local function start(cmd)
   end
 end
 
+-- stylua: ignore
 -- on fzf-lua close handler
 -- remove split for winfixbuf
 -- if nvim-tree was opened and focused when fzf-lua started
@@ -53,8 +54,8 @@ local function vertical(border)
     preview = {
       layout = "vertical",
       vertical = "down:75%",
-      border = border ~= nil and border or window_border -- or "solid"
-    }
+      border = border ~= nil and border or window_border,
+    },
   }
 end
 
@@ -68,8 +69,8 @@ local function setup_ui_select(opts)
     winopts = {
       row = 0.25,
       width = 0.7,
-      height = 0.42
-    }
+      height = 0.42,
+    },
   }
 end
 
@@ -85,7 +86,7 @@ local fzf_lua_options = {
       "wwwroot[/\\]lib",
       "bun%.lock",
       "package%-lock%.json",
-    }
+    },
   },
   fzf_colors = true,
   fzf_opts = {
@@ -107,8 +108,8 @@ local fzf_lua_options = {
       vertical = "down:50%",
       horizontal = "right:51%",
       scrollbar = "border", -- or "float"
-      winopts = { number = false }
-    }
+      winopts = { number = false },
+    },
   },
   keymap = {
     builtin = {
@@ -123,8 +124,8 @@ local fzf_lua_options = {
     },
     fzf = {
       ["ctrl-u"] = "preview-page-up",
-      ["ctrl-d"] = "preview-page-down"
-    }
+      ["ctrl-d"] = "preview-page-down",
+    },
   },
   lsp = {
     winopts = vertical(),
@@ -141,12 +142,12 @@ local fzf_lua_options = {
   },
   grep = {
     winopts = vertical(),
-    RIPGREP_CONFIG_PATH = vim.fn.expand(vim.env.RIPGREP_CONFIG_PATH)
+    RIPGREP_CONFIG_PATH = vim.fn.expand(vim.env.RIPGREP_CONFIG_PATH),
   },
   files = {
     -- sort exact filenames first - e.g. `README.md` above `**/*/README.md`
     fzf_opts = {
-      ["--scheme"] = "default"
+      ["--scheme"] = "default",
     },
   },
   diagnostics = { winopts = vertical(), multiline = false },
@@ -162,6 +163,7 @@ local function live_grep_literal()
 end
 
 -- fzf
+-- stylua: ignore
 Lazy.use {
   "ibhagwan/fzf-lua",
   dependencies = { "nvim-mini/mini.icons" },
@@ -184,5 +186,5 @@ Lazy.use {
   config = function()
     require("fzf-lua").setup(fzf_lua_options)
     require("fzf-lua").register_ui_select(setup_ui_select)
-  end
+  end,
 }

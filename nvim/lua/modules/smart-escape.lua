@@ -16,7 +16,7 @@ local function escape()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     if vim.api.nvim_win_get_config(win).relative ~= "" then
       local ft = vim.api.nvim_get_option_value("filetype", {
-        buf = vim.api.nvim_win_get_buf(win)
+        buf = vim.api.nvim_win_get_buf(win),
       })
 
       if not KEEP_FILETYPES[ft] then

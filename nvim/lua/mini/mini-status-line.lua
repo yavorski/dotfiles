@@ -13,7 +13,9 @@ local hl_cache = {}
 --- Create (once) a highlight group with given fg and bg.
 --- Returns the highlight group name.
 local function make_hl(name, fg, bg)
-  if hl_cache[name] then return name end
+  if hl_cache[name] then
+    return name
+  end
   vim.api.nvim_set_hl(0, name, { fg = fg, bg = bg or colors.dark, bold = true })
   hl_cache[name] = true
   return name
@@ -21,13 +23,17 @@ end
 
 --- Wrap `text` with `%#HL#...%#Restore#` so it shows colored on Fileinfo bg.
 local function colorize(text, hl)
-  if text == nil or text == "" then return "" end
+  if text == nil or text == "" then
+    return ""
+  end
   return string.format("%%#%s#%s%%#MiniStatuslineFileinfo#", hl, text)
 end
 
 --- Wrap text with hl on DevInfo bg (for branch/diff/diagnostics group).
 local function colorize_dev(text, hl)
-  if text == nil or text == "" then return "" end
+  if text == nil or text == "" then
+    return ""
+  end
   return string.format("%%#%s#%s%%#MiniStatuslineDevinfo#", hl, text)
 end
 
@@ -38,7 +44,9 @@ end
 -- show macro recording
 local function show_macro(short)
   local reg = vim.fn.reg_recording()
-  if reg == "" then return "" end
+  if reg == "" then
+    return ""
+  end
   if short then
     return "| Rec @" .. reg
   end
@@ -70,7 +78,7 @@ vim.api.nvim_create_autocmd({ "LspAttach", "LspDetach", "BufEnter" }, {
       update_lsp_clients()
       vim.cmd("redrawstatus")
     end)
-  end
+  end,
 })
 
 local function show_lsp_clients()
@@ -84,14 +92,18 @@ local function progress_status()
       return (type(msg) == "string" and #msg > 0) and msg or "Loading"
     end
   end
-  local ok, status = pcall(function() return vim.ui.progress_status() end)
+  local ok, status = pcall(function()
+    return vim.ui.progress_status()
+  end)
   return ok and status or ""
 end
 
 -- selection count
 local function show_selection_count()
   local mode = vim.fn.mode()
-  if not (mode:find("[vVsS\22\19]")) then return "" end
+  if not (mode:find("[vVsS\22\19]")) then
+    return ""
+  end
   local s_start = vim.fn.line("v")
   local s_end = vim.fn.line(".")
   local lines = math.abs(s_end - s_start) + 1
@@ -104,17 +116,25 @@ end
 
 -- search count
 local function show_search_count()
-  if vim.v.hlsearch == 0 then return "" end
+  if vim.v.hlsearch == 0 then
+    return ""
+  end
   local ok, s = pcall(vim.fn.searchcount, { recompute = true })
-  if not ok or s.total == 0 or s.current == nil then return "" end
-  if s.incomplete == 1 then return "?/?" end
+  if not ok or s.total == 0 or s.current == nil then
+    return ""
+  end
+  if s.incomplete == 1 then
+    return "?/?"
+  end
   return string.format("[%d/%d]", s.current, s.total)
 end
 
 -- diff lewis6991/gitsigns -- added=green, modified=yellow, removed=red
 local function show_diff()
   local s = vim.b.gitsigns_status_dict
-  if not s then return "" end
+  if not s then
+    return ""
+  end
 
   local parts = {}
 
@@ -146,17 +166,19 @@ local function show_branch()
       head = h:match("ref: refs/heads/(.+)$") or h:sub(1, 7)
     end
   end
-  if not head or head == "" then return "" end
+  if not head or head == "" then
+    return ""
+  end
   return " " .. head
 end
 
 -- diagnostics with icons + per-severity colors
 local function show_diagnostics()
   local levels = {
-    { icon = "󰅚", sev = vim.diagnostic.severity.ERROR, hl = make_hl("MiniStatuslineDiagError", colors.red,    colors.surface1) },
-    { icon = "󰀪", sev = vim.diagnostic.severity.WARN,  hl = make_hl("MiniStatuslineDiagWarn",  colors.yellow, colors.surface1) },
-    { icon = "󰋽", sev = vim.diagnostic.severity.INFO,  hl = make_hl("MiniStatuslineDiagInfo",  colors.blue,   colors.surface1) },
-    { icon = "󰌶", sev = vim.diagnostic.severity.HINT,  hl = make_hl("MiniStatuslineDiagHint",  colors.teal,   colors.surface1) },
+    { icon = "󰅚", sev = vim.diagnostic.severity.ERROR, hl = make_hl("MiniStatuslineDiagError", colors.red, colors.surface1) },
+    { icon = "󰀪", sev = vim.diagnostic.severity.WARN, hl = make_hl("MiniStatuslineDiagWarn", colors.yellow, colors.surface1) },
+    { icon = "󰋽", sev = vim.diagnostic.severity.INFO, hl = make_hl("MiniStatuslineDiagInfo", colors.blue, colors.surface1) },
+    { icon = "󰌶", sev = vim.diagnostic.severity.HINT, hl = make_hl("MiniStatuslineDiagHint", colors.teal, colors.surface1) },
   }
   local count = vim.diagnostic.count(0)
   local out = {}
@@ -172,7 +194,9 @@ end
 -- filename (absolute, modified, readonly)
 -- short=true returns only the basename (%t); otherwise the full path (%F)
 local function show_filename(short)
-  if short then return "%t%m%r" end
+  if short then
+    return "%t%m%r"
+  end
   local path = vim.fn.fnamemodify(vim.fn.expand("%:p"), ":~")
   if #path <= 100 then
     return "%F%m%r"
@@ -183,15 +207,17 @@ end
 -- file encoding
 local function show_encoding()
   local enc = vim.bo.fileencoding
-  if enc == "" then enc = vim.o.encoding end
+  if enc == "" then
+    enc = vim.o.encoding
+  end
   return enc
 end
 
 -- file format with icons
 local fileformat_icons = {
   unix = "",
-  dos  = "",
-  mac  = "",
+  dos = "",
+  mac = "",
 }
 local function show_fileformat()
   local ff = vim.bo.fileformat
@@ -201,19 +227,29 @@ end
 -- filesize
 local function show_filesize()
   local size = math.max(vim.fn.line2byte(vim.fn.line("$") + 1) - 1, 0)
-  if size <= 0 then return "" end
-  if size < 1024 then return string.format("%dB", size) end
-  if size < 1048576 then return string.format("%.1fk", size / 1024) end
+  if size <= 0 then
+    return ""
+  end
+  if size < 1024 then
+    return string.format("%dB", size)
+  end
+  if size < 1048576 then
+    return string.format("%.1fk", size / 1024)
+  end
   return string.format("%.1fM", size / 1048576)
 end
 
 -- filetype + colored icon via mini.icons
 local function show_filetype()
   local ft = vim.bo.filetype
-  if ft == "" then return "" end
+  if ft == "" then
+    return ""
+  end
 
   local ok, MiniIcons = pcall(require, "mini.icons")
-  if not ok then return ft end
+  if not ok then
+    return ft
+  end
 
   -- Prefer file-based icon to get language-specific color, fall back to filetype
   local fname = vim.fn.expand("%:t")
@@ -224,7 +260,9 @@ local function show_filetype()
   if not icon then
     icon, icon_hl = MiniIcons.get("filetype", ft)
   end
-  if not icon then return ft end
+  if not icon then
+    return ft
+  end
 
   -- Re-create hl that uses MiniIcons fg on Fileinfo bg
   if icon_hl then
@@ -246,8 +284,12 @@ end
 local function show_progress()
   local cur = vim.fn.line(".")
   local total = vim.fn.line("$")
-  if cur == 1 then return "Top" end
-  if cur == total then return "Bot" end
+  if cur == 1 then
+    return "Top"
+  end
+  if cur == total then
+    return "Bot"
+  end
   return string.format("%2d%%%%", math.floor(cur / total * 100))
 end
 
@@ -261,12 +303,12 @@ end
 ---------------------------------------------------------------------------
 
 local mode_colors = {
-  Normal   = colors.blue,
-  Insert   = colors.green,
-  Visual   = colors.softcyan,
-  Select   = colors.yellow,
-  Replace  = colors.red,
-  Command  = colors.pink,
+  Normal = colors.blue,
+  Insert = colors.green,
+  Visual = colors.softcyan,
+  Select = colors.yellow,
+  Replace = colors.red,
+  Command = colors.pink,
   Terminal = colors.softpink,
 }
 
@@ -274,40 +316,40 @@ local function set_base_hls()
   local function hl(name, fg)
     vim.api.nvim_set_hl(0, name, { bg = fg, fg = colors.dark, bold = true })
   end
-  hl("MiniStatuslineModeNormal",  mode_colors.Normal)
-  hl("MiniStatuslineModeInsert",  mode_colors.Insert)
-  hl("MiniStatuslineModeVisual",  mode_colors.Visual)
-  hl("MiniStatuslineModeSelect",  mode_colors.Select)
+  hl("MiniStatuslineModeNormal", mode_colors.Normal)
+  hl("MiniStatuslineModeInsert", mode_colors.Insert)
+  hl("MiniStatuslineModeVisual", mode_colors.Visual)
+  hl("MiniStatuslineModeSelect", mode_colors.Select)
   hl("MiniStatuslineModeReplace", mode_colors.Replace)
   hl("MiniStatuslineModeCommand", mode_colors.Command)
-  hl("MiniStatuslineModeOther",   mode_colors.Terminal)
+  hl("MiniStatuslineModeOther", mode_colors.Terminal)
 
   -- y-section variants: dark bg with mode-color fg (progress block)
   local function hl_y(name, fg)
     vim.api.nvim_set_hl(0, name, { bg = colors.dark, fg = fg, bold = true })
   end
-  hl_y("MiniStatuslineProgNormal",  mode_colors.Normal)
-  hl_y("MiniStatuslineProgInsert",  mode_colors.Insert)
-  hl_y("MiniStatuslineProgVisual",  mode_colors.Visual)
-  hl_y("MiniStatuslineProgSelect",  mode_colors.Select)
+  hl_y("MiniStatuslineProgNormal", mode_colors.Normal)
+  hl_y("MiniStatuslineProgInsert", mode_colors.Insert)
+  hl_y("MiniStatuslineProgVisual", mode_colors.Visual)
+  hl_y("MiniStatuslineProgSelect", mode_colors.Select)
   hl_y("MiniStatuslineProgReplace", mode_colors.Replace)
   hl_y("MiniStatuslineProgCommand", mode_colors.Command)
-  hl_y("MiniStatuslineProgOther",   mode_colors.Terminal)
+  hl_y("MiniStatuslineProgOther", mode_colors.Terminal)
 
   -- c-section variants: dark bg with mode-color fg (filename); Normal stays neutral
   local function hl_c(name, fg)
     vim.api.nvim_set_hl(0, name, { bg = colors.dark, fg = fg })
   end
-  hl_c("MiniStatuslineFilenameNormal",  colors.text)
-  hl_c("MiniStatuslineFilenameInsert",  mode_colors.Insert)
-  hl_c("MiniStatuslineFilenameVisual",  mode_colors.Visual)
-  hl_c("MiniStatuslineFilenameSelect",  mode_colors.Select)
+  hl_c("MiniStatuslineFilenameNormal", colors.text)
+  hl_c("MiniStatuslineFilenameInsert", mode_colors.Insert)
+  hl_c("MiniStatuslineFilenameVisual", mode_colors.Visual)
+  hl_c("MiniStatuslineFilenameSelect", mode_colors.Select)
   hl_c("MiniStatuslineFilenameReplace", mode_colors.Replace)
   hl_c("MiniStatuslineFilenameCommand", mode_colors.Command)
-  hl_c("MiniStatuslineFilenameOther",   mode_colors.Terminal)
+  hl_c("MiniStatuslineFilenameOther", mode_colors.Terminal)
 
   -- b-like section (branch/diff/diagnostics)
-  vim.api.nvim_set_hl(0, "MiniStatuslineDevinfo",  { bg = colors.surface1, fg = colors.white, bold = true })
+  vim.api.nvim_set_hl(0, "MiniStatuslineDevinfo", { bg = colors.surface1, fg = colors.white, bold = true })
 
   -- c-like section (filename / middle)
   vim.api.nvim_set_hl(0, "MiniStatuslineFilename", { bg = colors.dark, fg = colors.text })
@@ -324,24 +366,24 @@ end
 
 -- Map mode_hl (a-style) -> y-style progress hl (dark bg, mode-color fg)
 local prog_hl_map = {
-  MiniStatuslineModeNormal  = "MiniStatuslineProgNormal",
-  MiniStatuslineModeInsert  = "MiniStatuslineProgInsert",
-  MiniStatuslineModeVisual  = "MiniStatuslineProgVisual",
-  MiniStatuslineModeSelect  = "MiniStatuslineProgSelect",
+  MiniStatuslineModeNormal = "MiniStatuslineProgNormal",
+  MiniStatuslineModeInsert = "MiniStatuslineProgInsert",
+  MiniStatuslineModeVisual = "MiniStatuslineProgVisual",
+  MiniStatuslineModeSelect = "MiniStatuslineProgSelect",
   MiniStatuslineModeReplace = "MiniStatuslineProgReplace",
   MiniStatuslineModeCommand = "MiniStatuslineProgCommand",
-  MiniStatuslineModeOther   = "MiniStatuslineProgOther",
+  MiniStatuslineModeOther = "MiniStatuslineProgOther",
 }
 
 -- Map mode_hl (a-style) -> c-style filename hl (dark bg, mode-color fg)
 local filename_hl_map = {
-  MiniStatuslineModeNormal  = "MiniStatuslineFilenameNormal",
-  MiniStatuslineModeInsert  = "MiniStatuslineFilenameInsert",
-  MiniStatuslineModeVisual  = "MiniStatuslineFilenameVisual",
-  MiniStatuslineModeSelect  = "MiniStatuslineFilenameSelect",
+  MiniStatuslineModeNormal = "MiniStatuslineFilenameNormal",
+  MiniStatuslineModeInsert = "MiniStatuslineFilenameInsert",
+  MiniStatuslineModeVisual = "MiniStatuslineFilenameVisual",
+  MiniStatuslineModeSelect = "MiniStatuslineFilenameSelect",
   MiniStatuslineModeReplace = "MiniStatuslineFilenameReplace",
   MiniStatuslineModeCommand = "MiniStatuslineFilenameCommand",
-  MiniStatuslineModeOther   = "MiniStatuslineFilenameOther",
+  MiniStatuslineModeOther = "MiniStatuslineFilenameOther",
 }
 
 ---------------------------------------------------------------------------
@@ -387,7 +429,9 @@ local function init_status_line()
     local x_filtered = {}
 
     for _, v in ipairs(x_parts) do
-      if v and v ~= "" then table.insert(x_filtered, v) end
+      if v and v ~= "" then
+        table.insert(x_filtered, v)
+      end
     end
 
     local x = table.concat(x_filtered, "  ")
@@ -427,8 +471,10 @@ local function init_status_line()
   -- Apply highlights AFTER mini.statusline. Re-apply on every ColorScheme + VimEnter
   set_base_hls()
   vim.api.nvim_create_autocmd({ "ColorScheme", "VimEnter" }, {
-    group = vim.api.nvim_create_augroup("local/status-line", { clear  = true }),
-    callback = function() vim.schedule(set_base_hls) end,
+    group = vim.api.nvim_create_augroup("local/status-line", { clear = true }),
+    callback = function()
+      vim.schedule(set_base_hls)
+    end,
   })
 end
 
@@ -436,5 +482,5 @@ Lazy.use {
   "nvim-mini/mini.statusline",
   lazy = false,
   priority = 512,
-  config = init_status_line
+  config = init_status_line,
 }

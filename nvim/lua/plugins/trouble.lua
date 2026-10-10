@@ -31,8 +31,8 @@ Lazy.use {
     preview = { border = "none" }, -- override winborder
     modes = {
       lsp_base = { params = { include_current = true } },
-      lsp_references = { params = { include_declaration = true } }
-    }
+      lsp_references = { params = { include_declaration = true } },
+    },
   },
   config = function(_, options)
     require("trouble").setup(options)
@@ -41,5 +41,5 @@ Lazy.use {
   init = function()
     vim.api.nvim_create_user_command("TroubleFocus", "Trouble focus", { desc = "Trouble Focus" })
     vim.api.nvim_create_user_command("TroubleClose", "Trouble close", { desc = "Trouble Close" })
-  end
+  end,
 }

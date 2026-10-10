@@ -14,15 +14,15 @@ local options = {
   transparent_background = false,
   background = {
     dark = "mocha",
-    light = "mocha"
+    light = "mocha",
   },
   color_overrides = {
-    mocha = colors
+    mocha = colors,
   },
   highlight_overrides = {
     mocha = function()
       return vim.tbl_extend("error", editor, syntax)
-    end
+    end,
   },
   auto_integrations = false,
   integrations = {
@@ -45,6 +45,6 @@ Lazy.use {
   build = ":CatppuccinCompile",
   config = function()
     require("catppuccin").setup(options)
-    vim.cmd[[colorscheme catppuccin-nvim]]
-  end
+    vim.cmd("colorscheme catppuccin-nvim")
+  end,
 }

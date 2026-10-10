@@ -12,6 +12,7 @@ local function set_signs()
   vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DiagnosticOk", linehl = "CursorLine", numhl = "" })
 end
 
+-- stylua: ignore
 local keys = {
   { "<F5>", function() require("dap").continue() end, desc = "DAP Continue/Start" },
   { "<F8>", function() require("dap").continue() end, desc = "DAP Continue/Start" },
@@ -33,11 +34,10 @@ local keys = {
   -- { "<leader>Bc", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = "DAP Conditional Breakpoint", },
 }
 
-
 Lazy.use {
   "mfussenegger/nvim-dap",
   dependencies = {
-    "igorlfs/nvim-dap-view"
+    "igorlfs/nvim-dap-view",
   },
   keys = keys,
   config = function()
@@ -45,5 +45,5 @@ Lazy.use {
     require("dap/adapters/js")
     require("dap/adapters/rust")
     require("dap/adapters/dotnet")
-  end
+  end,
 }

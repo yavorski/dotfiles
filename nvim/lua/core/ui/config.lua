@@ -16,6 +16,7 @@ M.IGNORED_KINDS = {
   bufwrite = true,
 }
 
+-- stylua: ignore
 --- Lua patterns matched against the full message text.
 M.SKIP_PATTERNS = {
   "%d+L, %d+B",       -- ":w" file written summary
@@ -40,6 +41,7 @@ M.SKIP_FUNCS = {
   end,
 }
 
+-- stylua: ignore
 --- @type table<string, [string, string]>  kind -> { title, highlight }
 M.KIND_TITLES = {
   emsg         = { "Error",    "ErrorMsg" },

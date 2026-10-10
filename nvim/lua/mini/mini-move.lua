@@ -3,9 +3,10 @@
 
 local Lazy = require("core/lazy")
 
+-- stylua: ignore
 Lazy.use {
   "nvim-mini/mini.move",
-  opts = { },
+  opts = {},
   keys = {
     { "<A-k>", function() require("mini.move").move_line("up") end, mode = "n", desc = "Move line up" },
     { "<A-j>", function() require("mini.move").move_line("down") end, mode = "n", desc = "Move line down" },

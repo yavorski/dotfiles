@@ -16,8 +16,13 @@ local M = {}
 function M.float(target, win)
   win = util.valid_win(win)
 
-  if not win then return end
-  if vim.api.nvim_win_get_config(win).hide then return end
+  if not win then
+    return
+  end
+
+  if vim.api.nvim_win_get_config(win).hide then
+    return
+  end
 
   local title = util.title_chunks(titles.state[target])
   local cfg = {
@@ -48,7 +53,9 @@ function M.float(target, win)
     -- Re-apply on the next event tick so the popup actually moves.
     -- Recompute layout inside the callback in case the editor was resized or the dialog grew between calls.
     vim.schedule(function()
-      if not vim.api.nvim_win_is_valid(win) then return end
+      if not vim.api.nvim_win_is_valid(win) then
+        return
+      end
       local width = math.min(86, vim.o.columns - 4)
       local height = vim.api.nvim_win_get_height(win)
       cfg.width = width
@@ -66,8 +73,13 @@ end
 function M.msg(win)
   win = util.valid_win(win)
 
-  if not win then return end
-  if vim.api.nvim_win_get_config(win).hide then return end
+  if not win then
+    return
+  end
+
+  if vim.api.nvim_win_get_config(win).hide then
+    return
+  end
 
   -- NOTE: this will NOT shrink the window
   -- local content_width = vim.api.nvim_win_get_width(win)
@@ -80,7 +92,9 @@ function M.msg(win)
   local content_width = 0
   for _, line in ipairs(lines) do
     local w = vim.api.nvim_strwidth(line)
-    if w > content_width then content_width = w end
+    if w > content_width then
+      content_width = w
+    end
   end
 
   local max_width = math.floor(vim.o.columns * config.PAGER_WIDTH_RATIO)
@@ -99,11 +113,15 @@ function M.msg(win)
   })
 
   -- We just shrank the float; tell ui2 its new width too, otherwise ui2 still thinks it's the old (wider) size and re-expands it on the next indicator.
-  if msgs.msg then msgs.msg.width = width end
+  if msgs.msg then
+    msgs.msg.width = width
+  end
 end
 
 function M.all()
-  if not ui2.wins then return end
+  if not ui2.wins then
+    return
+  end
   M.msg(ui2.wins.msg)
   M.float("pager", ui2.wins.pager)
   M.float("dialog", ui2.wins.dialog)

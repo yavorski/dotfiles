@@ -13,9 +13,9 @@ local function sJ()
   require("mini.splitjoin").toggle({
     join = {
       hooks_post = {
-        require("mini.splitjoin").gen_hook.del_trailing_separator()
-      }
-    }
+        require("mini.splitjoin").gen_hook.del_trailing_separator(),
+      },
+    },
   })
 end
 
@@ -24,14 +24,14 @@ local function init_split_join()
 
   splitjoin.setup({
     mappings = {
-      toggle = "sj"
+      toggle = "sj",
     },
     join = {
       hooks_post = {
         splitjoin.gen_hook.pad_brackets(),
         splitjoin.gen_hook.del_trailing_separator(),
-      }
-    }
+      },
+    },
   })
 end
 
@@ -39,7 +39,7 @@ Lazy.use {
   "nvim-mini/mini.splitjoin",
   keys = {
     { "sj", sj, silent = true, desc = "Split/Join" },
-    { "sJ", sJ, silent = true, desc = "Split/Join" }
+    { "sJ", sJ, silent = true, desc = "Split/Join" },
   },
-  config = init_split_join
+  config = init_split_join,
 }

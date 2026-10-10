@@ -32,8 +32,8 @@ local ts_tools_config = {
       includeInlayVariableTypeHints = true,
       includeInlayParameterNameHints = "all",
       includeInlayFunctionLikeReturnTypeHints = true,
-    }
-  }
+    },
+  },
 }
 
 -- LSP TypeScript TS Server
@@ -45,7 +45,7 @@ Lazy.use {
   },
   event = {
     "BufReadPre *.ts,*.tsx,*.js,*.jsx,*.mjs",
-    "BufNewFile *.ts,*.tsx,*.js,*.jsx,*.mjs"
+    "BufNewFile *.ts,*.tsx,*.js,*.jsx,*.mjs",
   },
-  opts = ts_tools_config
+  opts = ts_tools_config,
 }

@@ -13,16 +13,16 @@ local options = {
   winbar = {
     default_section = "scopes",
     controls = {
-      enabled = true
-    }
+      enabled = true,
+    },
   },
   virtual_text = {
     enabled = true,
-    position = "eol"
-  }
+    position = "eol",
+  },
 }
 
 Lazy.use {
   "igorlfs/nvim-dap-view",
-  opts = options
+  opts = options,
 }

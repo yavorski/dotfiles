@@ -13,7 +13,6 @@
 --- `v` then `]n` → next sibling
 --- `v` then `[n` → previous sibling
 
-
 local Lazy = require("core/lazy")
 
 local parsers = {
@@ -99,7 +98,7 @@ Lazy.use {
   init = function()
     vim.treesitter.language.register("bash", "kitty")
     vim.treesitter.language.register("ini", "ghostty")
-  end
+  end,
 }
 
 --- Toggle TS
@@ -117,34 +116,38 @@ end
 --- Toggle keymap
 vim.keymap.set("n", "<leader>T", toggle_tree_sitter, { silent = true, desc = "Toggle tree-sitter" })
 
---- User commands
+-- User commands
+-- stylua: ignore start
+
 vim.api.nvim_create_user_command("TSBufToggle", toggle_tree_sitter, { desc = "Toggle tree-sitter" })
 vim.api.nvim_create_user_command("TSBufEnable", function() vim.treesitter.start() end, { desc = "Start tree-sitter" })
 vim.api.nvim_create_user_command("TSBufDisable", function() vim.treesitter.stop() end, { desc = "Stop tree-sitter" })
 vim.api.nvim_create_user_command("TSInstallParsers", function() require("nvim-treesitter").install(parsers) end, { desc = "Install tree-sitter specified parsers" })
 
+-- stylua: ignore end
+
 --- Install parsers sync
-vim.api.nvim_create_user_command(
-  "TSInstallParsersSync",
-  function()
-    require("nvim-treesitter").install(parsers, { summary = true }):wait(5 * 60 * 1000)
-  end,
-  { desc = "Install tree-sitter specified parsers sync" }
-)
+vim.api.nvim_create_user_command("TSInstallParsersSync", function()
+  require("nvim-treesitter").install(parsers, { summary = true }):wait(5 * 60 * 1000)
+end, { desc = "Install tree-sitter specified parsers sync" })
 
 --- Start tree-sitter
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   group = vim.api.nvim_create_augroup("enable-tree-sitter", { clear = true }),
   callback = function(args)
-    local bufnr = args.buf;
+    local bufnr = args.buf
     local buffer = vim.bo[bufnr]
 
     -- Skip special buffers
-    if buffer.buftype ~= "" then return end
+    if buffer.buftype ~= "" then
+      return
+    end
 
     -- Execute once per buffer
-    if vim.b[bufnr].treesitter_initialized then return end
+    if vim.b[bufnr].treesitter_initialized then
+      return
+    end
 
     local ok, _ = pcall(vim.treesitter.start, bufnr)
 
@@ -179,5 +182,5 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 
     vim.b[bufnr].treesitter_initialized = true
-  end
+  end,
 })

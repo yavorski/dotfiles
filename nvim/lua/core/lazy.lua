@@ -13,7 +13,7 @@
 ------------------------------------------------------------
 
 local Lazy = {
-  plugins = {}
+  plugins = {},
 }
 
 --- Install "zpack" plugin manager
@@ -45,13 +45,13 @@ function Lazy.setup()
 
     --- @type zpack.Config.Performance
     performance = {
-      vim_loader = true
+      vim_loader = true,
     },
 
     --- @type zpack.Config.Profiling
     profiling = {
       loader = false,
-      require = false
+      require = false,
     },
   })
 end

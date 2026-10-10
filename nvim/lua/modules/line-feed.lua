@@ -18,6 +18,7 @@ local function normalize_line_endings(options)
 end
 
 -- user command
+-- stylua: ignore
 vim.api.nvim_create_user_command("NormalizeLineEndings", normalize_line_endings, { nargs = "?", range = "%", addr = "lines", desc = "Normalize Line Endings" })
 
 -- Force convert file to LF

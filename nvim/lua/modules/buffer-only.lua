@@ -44,4 +44,5 @@ local function buffer_only(force_close)
 end
 
 -- user command
+-- stylua: ignore
 vim.api.nvim_create_user_command("BufferOnly", function(opts) buffer_only(opts.bang) end, { bang = true })

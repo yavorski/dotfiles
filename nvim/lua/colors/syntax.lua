@@ -65,5 +65,5 @@ return {
   ["stylusProperty"] = { link = "@property" },
 
   -- xml
-  ["xmlAttrib"] = { fg = colors.peach }
+  ["xmlAttrib"] = { fg = colors.peach },
 }

@@ -5,7 +5,7 @@ local Lazy = require("core/lazy")
 
 Lazy.use {
   "nvim-mini/mini.misc",
-  opts = { },
+  opts = {},
   init = function()
     _G.put = function(...)
       require("mini.misc").put(...)
@@ -14,5 +14,5 @@ Lazy.use {
     _G.put_text = function(...)
       require("mini.misc").put_text(...)
     end
-  end
+  end,
 }

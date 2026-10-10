@@ -11,13 +11,15 @@ local options = {
   virtual_text = { current_line = true },
   signs = {
     text = {
-      [ vim.diagnostic.severity.HINT ] = "★",
-      [ vim.diagnostic.severity.INFO ] = "▪",
-      [ vim.diagnostic.severity.WARN ] = "◮",
-      [ vim.diagnostic.severity.ERROR ] = "",
-    }
-  }
+      [vim.diagnostic.severity.HINT] = "★",
+      [vim.diagnostic.severity.INFO] = "▪",
+      [vim.diagnostic.severity.WARN] = "◮",
+      [vim.diagnostic.severity.ERROR] = "",
+    },
+  },
 }
 
 -- Setup later to avoid sourcing `vim.diagnostic` on startup
-vim.schedule(function() vim.diagnostic.config(options) end)
+vim.schedule(function()
+  vim.diagnostic.config(options)
+end)

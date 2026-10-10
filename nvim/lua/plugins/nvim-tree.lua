@@ -24,7 +24,7 @@ local function options()
       width = {
         min = MIN_WIDTH,
         max = MAX_WIDTH,
-        padding = 2
+        padding = 2,
       },
       adaptive_size = true,
       float = {
@@ -34,25 +34,25 @@ local function options()
           col = vim.o.columns - MIN_WIDTH - FLOAT_OFFSET, -- align to right
           height = vim.o.lines - FLOAT_OFFSET, -- use full height
           zindex = 1, -- stay under other floating windows
-          border = window_border
-        }
-      }
+          border = window_border,
+        },
+      },
     },
     update_focused_file = {
-      enable = true
+      enable = true,
     },
     actions = {
       file_popup = {
         open_win_config = {
-          border = window_border
-        }
+          border = window_border,
+        },
       },
       remove_file = {
-        close_window = false
-      }
+        close_window = false,
+      },
     },
     filters = {
-      custom = { "^\\.git$" }
+      custom = { "^\\.git$" },
     },
     on_attach = function(bufnr)
       require("nvim-tree.api").map.on_attach.default(bufnr)
@@ -60,7 +60,7 @@ local function options()
       vim.keymap.set("n", "[b", "<cmd>wincmd p | bprev<cr>", { buffer = bufnr })
       vim.keymap.set("n", "gn", "<cmd>wincmd p | bnext<cr>", { buffer = bufnr })
       vim.keymap.set("n", "gp", "<cmd>wincmd p | bprev<cr>", { buffer = bufnr })
-    end
+    end,
   }
 end
 
@@ -102,8 +102,13 @@ end
 
 -- keep menu aligned to the right
 local function attach_float_events()
-  if not FLOAT then return end
-  if ATTACHED_FLOAT_EVENTS then return end
+  if not FLOAT then
+    return
+  end
+
+  if ATTACHED_FLOAT_EVENTS then
+    return
+  end
 
   local api = require("nvim-tree.api")
 
@@ -136,11 +141,12 @@ local function toggle(pin_or_float)
   end
 end
 
+-- stylua: ignore
 Lazy.use {
   "nvim-tree/nvim-tree.lua",
   cmd = {
     "NvimTreeOpen",
-    "NvimTreeToggle"
+    "NvimTreeToggle",
   },
   keys = {
     { [[<leader>\r]], "<cmd>NvimTreeRefresh<cr>", silent = true, desc = "NvimTreeRefresh" },

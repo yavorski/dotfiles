@@ -100,7 +100,7 @@ Lazy.use {
         for _, lhs in ipairs({ "<A-n>", "<A-p>", "<A-l>", "<A-h>" }) do
           vim.keymap.set({ "n", "i", "s" }, lhs, navigate_overloads(lhs), { buffer = buf, silent = true })
         end
-      end
+      end,
     })
-  end
+  end,
 }

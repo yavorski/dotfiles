@@ -29,8 +29,8 @@ Lazy.use {
       aliases = {
         php = "html",
         vue = "html",
-        markdown = "html"
-      }
+        markdown = "html",
+      },
     })
-  end
+  end,
 }

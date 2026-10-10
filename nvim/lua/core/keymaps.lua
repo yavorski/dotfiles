@@ -61,9 +61,11 @@ vim.keymap.set("n", "gn", "<cmd>bnext<cr>", { silent = true })
 vim.keymap.set("c", "<C-k>", "<Up>", { desc = "Prev command in history" })
 vim.keymap.set("c", "<C-j>", "<Down>", { desc = "Next command in history" })
 
+-- stylua: ignore
 -- Toggle relative line numbers
 vim.keymap.set("n", "<leader>N", function() vim.wo.relativenumber = not vim.wo.relativenumber end, { desc = "Toggle Relative Numbers" })
 
+-- stylua: ignore
 -- buffer navigation by tabline index
 vim.api.nvim_create_autocmd("VimEnter", {
   group = vim.api.nvim_create_augroup("local/tabline-jump", { clear = true }),
@@ -72,11 +74,17 @@ vim.api.nvim_create_autocmd("VimEnter", {
     local function tabline_jump(n)
       local listed = {}
       for _, b in ipairs(vim.api.nvim_list_bufs()) do
-        if vim.bo[b].buflisted then table.insert(listed, b) end
+        if vim.bo[b].buflisted then
+          table.insert(listed, b)
+        end
       end
-      if #listed == 0 then return end
+      if #listed == 0 then
+        return
+      end
       local idx = (n == "$") and #listed or tonumber(n)
-      if not idx or idx < 1 or idx > #listed then return end
+      if not idx or idx < 1 or idx > #listed then
+        return
+      end
       vim.api.nvim_set_current_buf(listed[idx])
     end
 

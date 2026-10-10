@@ -14,7 +14,7 @@ return {
   FoldColumn = { bg = colors.dusk },
   CursorLineFold = { fg = colors.red, bg = colors.darky },
 
-  MsgArea = { bg = colors.darky},
+  MsgArea = { bg = colors.darky },
   CursorLine = { bg = colors.matter },
   VertSplit = { fg = colors.darky, bg = colors.darky },
   WinSeparator = { fg = colors.darky, bg = colors.darky },
@@ -36,7 +36,7 @@ return {
 
   Whitespace = { fg = colors.mocha.surface0 }, -- list-chars
   YankHighlight = { fg = colors.base, bg = colors.mocha.green },
-  LspReferenceTarget = { }, -- <K> clear hover highlighting targeted word
+  LspReferenceTarget = {}, -- <K> clear hover highlighting targeted word
 
   -- nvim mini
   MiniJump = { link = "SpellRare" },

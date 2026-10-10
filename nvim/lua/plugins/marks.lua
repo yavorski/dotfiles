@@ -10,14 +10,14 @@ local options = {
   -- disable plugin override `m` key
   m_key = false,
   global_mark = {
-    enabled = false
+    enabled = false,
   },
   special_mark = {
-    enabled = false
+    enabled = false,
   },
   local_mark = {
-    enabled = true
-  }
+    enabled = true,
+  },
 }
 
 local attached = false
@@ -32,6 +32,7 @@ local function init_marks()
     vim.keymap.set("n", "<leader>m", "<cmd>Marks mark<cr>", { desc = "Mark Toggle" })
   end)
 
+  -- stylua: ignore
   -- attach `]m` and `[m` keys
   vim.api.nvim_create_autocmd("User", {
     group = marks_group,
@@ -43,7 +44,7 @@ local function init_marks()
         vim.keymap.set("n", "]m", function() require("guttermarks.actions").next_buf_mark(vim.v.count1) end, { desc = "Marks Next" })
         vim.keymap.set("n", "[m", function() require("guttermarks.actions").prev_buf_mark(vim.v.count1) end, { desc = "Marks Prev" })
       end
-    end
+    end,
   })
 
   -- detach `]m` and `[m` keys
@@ -57,7 +58,7 @@ local function init_marks()
         vim.keymap.del("n", "]m")
         vim.keymap.del("n", "[m")
       end
-    end
+    end,
   })
 end
 
@@ -65,8 +66,10 @@ Lazy.use {
   src = "https://github.com/yavorski/marks.nvim",
   -- src = "file://" .. vim.fn.expand("~/dev/nvim-plugins/marks.nvim"),
   cmd = { "Marks" },
-  keys = {{ "<leader>m", "<cmd>Marks<cr>", silent = true, remap = false, desc = "Marks Enable" }},
+  keys = {
+    { "<leader>m", "<cmd>Marks<cr>", silent = true, remap = false, desc = "Marks Enable" },
+  },
   config = function()
     init_marks()
-  end
+  end,
 }

@@ -10,7 +10,7 @@ Lazy.use {
   "nvim-mini/mini.ai",
   dependencies = {
     { "nvim-treesitter/nvim-treesitter", version = "main" },
-    { "nvim-treesitter/nvim-treesitter-textobjects", version = "main" }
+    { "nvim-treesitter/nvim-treesitter-textobjects", version = "main" },
   },
   keys = {
     { "a", mode = { "x", "o" } },
@@ -32,9 +32,11 @@ Lazy.use {
       n_lines = 420,
       custom_textobjects = textobjects,
       mappings = {
-        around_next = "aN", inside_next = "iN",
-        around_last = "aL", inside_last = "iL",
-      }
+        around_next = "aN",
+        inside_next = "iN",
+        around_last = "aL",
+        inside_last = "iL",
+      },
     })
-  end
+  end,
 }

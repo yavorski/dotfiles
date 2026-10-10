@@ -21,24 +21,32 @@ local function git_signs_staged_hunks_integration()
         MiniMap.refresh(nil, { lines = false, scrollbar = false, integrations = true })
       end
     end,
-    desc = "Refresh MiniMap on GitSignsUpdate for staged hunks"
+    desc = "Refresh MiniMap on GitSignsUpdate for staged hunks",
   })
 
   -- Return the integration function
   return function()
     local bufnr = MiniMap.current.buf_data.source
-    if not bufnr then return {} end
+    if not bufnr then
+      return {}
+    end
 
     -- Get staged hunks from gitsigns cache using the internal method
     local has_cache, gsc = pcall(require, "gitsigns.cache")
-    if not has_cache or not gsc or not gsc.cache then return {} end
+    if not has_cache or not gsc or not gsc.cache then
+      return {}
+    end
 
     local cache_entry = gsc.cache[bufnr]
-    if not cache_entry then return {} end
+    if not cache_entry then
+      return {}
+    end
 
     -- Use the cache entry's get_hunks method with staged=true
     local hunks_staged = cache_entry:get_hunks(nil, true)
-    if not hunks_staged then return {} end
+    if not hunks_staged then
+      return {}
+    end
 
     -- Convert to line highlights - same as H.hunks_to_line_hl in mini.map
     local res = {}
@@ -68,12 +76,12 @@ local function setup_minimal()
     window = {
       width = 1,
       winblend = 25,
-      show_integration_count = false
+      show_integration_count = false,
     },
     symbols = {
       scroll_line = "┃",
       scroll_view = "┃",
-    }
+    },
   }
 
   map.setup(options)
@@ -86,18 +94,18 @@ local function setup_with_features()
   local options = {
     integrations = {
       map.gen_integration.gitsigns(),
-      git_signs_staged_hunks_integration()
+      git_signs_staged_hunks_integration(),
     },
     window = {
       width = 11,
       winblend = 25,
-      show_integration_count = false
+      show_integration_count = false,
     },
     symbols = {
       scroll_line = "┃",
       scroll_view = "┃",
-      encode = map.gen_encode_symbols.dot("4x2")
-    }
+      encode = map.gen_encode_symbols.dot("4x2"),
+    },
   }
 
   map.setup(options)
@@ -122,5 +130,5 @@ Lazy.use {
     setup_minimal()
     -- vim.keymap.set("n", "<leader>X", toggle, { desc = "MiniMap Toggle" })
     vim.api.nvim_create_user_command("MiniMapToggle", toggle, { desc = "MiniMap Toggle" })
-  end
+  end,
 }

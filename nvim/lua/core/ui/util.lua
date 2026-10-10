@@ -30,14 +30,18 @@ end
 --- @param content table
 --- @return table
 function M.trim_trailing_newline(content)
-  if type(content) ~= "table" then return content end
+  if type(content) ~= "table" then
+    return content
+  end
 
   for i = #content, 1, -1 do
     local chunk = content[i]
     local text = type(chunk) == "table" and chunk[2]
     if type(text) == "string" and text ~= "" then
       local trimmed = text:gsub("[\r\n]+$", "")
-      if trimmed == text then return content end
+      if trimmed == text then
+        return content
+      end
       -- Copy only the chunk we modify; leave earlier chunks shared.
       local out = { unpack(content) }
       out[i] = { chunk[1], trimmed, chunk[3] }
@@ -66,7 +70,9 @@ end
 --- @param entry TitleEntry?
 --- @return table?
 function M.title_chunks(entry)
-  if not entry then return nil end
+  if not entry then
+    return nil
+  end
   return { { " " .. vim.trim(entry[1]) .. " ", entry[2] } }
 end
 

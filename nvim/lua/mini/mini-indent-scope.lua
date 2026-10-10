@@ -13,7 +13,7 @@ Lazy.use {
   opts = {
     draw = {
       delay = 128,
-      animation = animate
+      animation = animate,
     },
     mappings = {
       goto_top = "",
@@ -24,9 +24,9 @@ Lazy.use {
     options = {
       n_lines = 128,
       try_as_border = false,
-    }
+    },
   },
   init = function()
-    vim.cmd[[autocmd FileType NvimTree lua vim.b.miniindentscope_disable = true]]
-  end
+    vim.cmd [[autocmd FileType NvimTree lua vim.b.miniindentscope_disable = true]]
+  end,
 }

@@ -36,7 +36,11 @@ local function setup()
   vim.keymap.set({ "v", "x" }, "<A-v>", mc.visualToCursors, { desc = "[MC] Visual to Cursor" })
 
   -- Add or skip adding a new cursor by matching word/selection
+
+  -- stylua: ignore
   vim.keymap.set({ "v", "x" }, "<C-d>", function() mc.matchAddCursor(1) end, { desc = "[MC] Match Add Cursor" })
+
+  -- stylua: ignore
   vim.keymap.set({ "n", "x" }, "<A-d>", function() mc.matchAddCursor(1) end, { desc = "[MC] Match Add Cursor" })
 
   -- vim.keymap.set({ "n", "x" }, "<A-b>", function() mc.matchAddCursor(-1) end, { desc = "[MC] Match Add Cursor" })
@@ -112,5 +116,5 @@ Lazy.use {
     { "<A-s>", mode = { "n", "v", "x" } },
     { "<A-m>", mode = { "n", "v", "x" } },
     { "<A-/>", mode = { "n" } },
-  }
+  },
 }

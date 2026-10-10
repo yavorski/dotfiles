@@ -10,11 +10,11 @@ local window_border = require("core/border")
 --- @type blink.cmp.Config
 local blink_config = {
   term = {
-    enabled = false
+    enabled = false,
   },
 
   fuzzy = {
-    implementation = system.is_linux and "rust" or "lua"
+    implementation = system.is_linux and "rust" or "lua",
   },
 
   sources = {
@@ -33,16 +33,24 @@ local blink_config = {
         score_offset = 1024,
         should_show_items = function(_, items)
           -- remove always suggested closing tag by html server
-          return not (#items == 1 and vim.tbl_contains({ "html", "razor", "cshtml", "htmlangular" }, vim.bo.filetype) and vim.startswith(items[1].label, "</"))
+          return not (
+            #items == 1
+            and vim.tbl_contains({ "html", "razor", "cshtml", "htmlangular" }, vim.bo.filetype)
+            and vim.startswith(items[1].label, "</")
+          )
         end,
         transform_items = function(_, items)
           local is_razor = vim.tbl_contains({ "razor", "cshtml" }, vim.bo.filetype)
           local SnippetKind = require("blink.cmp.types").CompletionItemKind.Snippet
           return vim.tbl_filter(function(item)
             -- filter out text items and html closing tags
-            if item.kind == 1 or vim.startswith(item.label, "</") then return false end
+            if item.kind == 1 or vim.startswith(item.label, "</") then
+              return false
+            end
             -- filter out snippet items for razor/cshtml to avoid snippet parsing errors
-            if is_razor and item.kind == SnippetKind then return false end
+            if is_razor and item.kind == SnippetKind then
+              return false
+            end
             return true
           end, items)
         end,
@@ -54,14 +62,14 @@ local blink_config = {
     },
     min_keyword_length = function()
       return vim.tbl_contains({ "html", "razor", "cshtml", "htmlangular", "markdown" }, vim.bo.filetype) and 1 or 0
-    end
+    end,
   },
 
   signature = {
     enabled = true,
     window = {
-      border = window_border
-    }
+      border = window_border,
+    },
   },
 
   completion = {
@@ -74,13 +82,13 @@ local blink_config = {
     list = {
       selection = {
         preselect = true,
-        auto_insert = true
-      }
+        auto_insert = true,
+      },
     },
     accept = {
       auto_brackets = {
-        enabled = true
-      }
+        enabled = true,
+      },
     },
     documentation = {
       auto_show = true,
@@ -92,14 +100,15 @@ local blink_config = {
         max_height = 32,
         desired_min_width = 64,
         border = window_border,
-      }
+      },
     },
     keyword = { range = "prefix" },
     ghost_text = {
       enabled = true,
-    }
+    },
   },
 
+  -- stylua: ignore
   keymap = {
     preset = "none",
     ["<CR>"] = { "accept", "fallback" },
@@ -120,7 +129,7 @@ local blink_config = {
     ["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
     ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
     ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
-    ["<C-space>"] = { "show", "hide", --[[ "show_documentation", "hide_documentation" ]] },
+    ["<C-space>"] = { "show", "hide" },
     ["<C-A-space>"] = { function(cmp) cmp.show({ providers = { "snippets" } }) end, "hide" },
   },
 
@@ -142,8 +151,8 @@ local blink_config = {
       ["<Tab>"] = { "show_and_insert", "select_next", "fallback" },
       ["<S-Tab>"] = { "show_and_insert", "select_prev", "fallback" },
       ["<C-space>"] = { "show", "hide", "fallback" },
-    }
-  }
+    },
+  },
 }
 
 Lazy.use {
@@ -152,5 +161,5 @@ Lazy.use {
   event = { "InsertEnter", "CmdlineEnter" },
   dependencies = { "rafamadriz/friendly-snippets" },
   opts = blink_config,
-  opts_extend = { "sources.default" }
+  opts_extend = { "sources.default" },
 }

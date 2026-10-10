@@ -84,7 +84,7 @@ local function set_autowrite(buf)
           vim.cmd("silent! write")
         end)
       end
-    end
+    end,
   })
 end
 
@@ -126,7 +126,7 @@ local function make_float_win(buf)
     col = col,
     border = defaults.border,
     title_pos = "center",
-    title = " [ Scratch Buffer ] "
+    title = " [ Scratch Buffer ] ",
   })
 
   vim.wo[win].rnu = false
@@ -145,7 +145,7 @@ local function make_float_win(buf)
     pattern = tostring(win),
     callback = function()
       scratch_win = nil
-    end
+    end,
   })
 
   return win

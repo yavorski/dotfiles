@@ -42,7 +42,9 @@ vim.opt.relativenumber = false
 -- highlight line
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "number"
-if vim.wo.diff then vim.opt.cursorlineopt = "both" end
+if vim.wo.diff then
+  vim.opt.cursorlineopt = "both"
+end
 
 -- intro / messages / hit-enter prompts / ins-completion-menu
 vim.opt.shortmess = "actIsoOFCW"
@@ -123,11 +125,11 @@ vim.opt.undofile = false
 vim.opt.writebackup = false
 
 -- tabs, indent
-vim.opt.tabstop = 2           -- 1 tab == 2 spaces
-vim.opt.shiftwidth = 2        -- indent is 2 spaces
-vim.opt.softtabstop = 2       -- insert 2 spaces when tab is pressed
-vim.opt.expandtab = true      -- use spaces instead of tabs
-vim.opt.smartindent = true    -- autoindent new lines
+vim.opt.tabstop = 2 -- 1 tab == 2 spaces
+vim.opt.shiftwidth = 2 -- indent is 2 spaces
+vim.opt.softtabstop = 2 -- insert 2 spaces when tab is pressed
+vim.opt.expandtab = true -- use spaces instead of tabs
+vim.opt.smartindent = true -- autoindent new lines
 
 ------------------------------------------------------------
 -- list chars
@@ -156,17 +158,17 @@ vim.opt.fillchars = {
   foldsep = " ", -- fold middle marker
   foldopen = "", -- arrow for open folds
   foldclose = "", -- arrow for closed folds
-  foldinner = " " -- disable inner numeric fold levels
+  foldinner = " ", -- disable inner numeric fold levels
 }
 
-vim.opt.foldenable = false     -- Toggle manually <zi>
-vim.opt.foldcolumn = "1"       -- Fold column width
-vim.opt.foldmethod = "indent"  -- Set folding method
-vim.opt.foldtext = ""          -- Off fold text
-vim.opt.foldlevel = 99         -- Don't fold on start
-vim.opt.foldnestmax = 5        -- Fold depth max level
-vim.opt.foldlevelstart = 99    -- Auto fold start level
-vim.g.markdown_folding = 1     -- Fold by heading in markdown files
+vim.opt.foldenable = false -- Toggle manually <zi>
+vim.opt.foldcolumn = "1" -- Fold column width
+vim.opt.foldmethod = "indent" -- Set folding method
+vim.opt.foldtext = "" -- Off fold text
+vim.opt.foldlevel = 99 -- Don't fold on start
+vim.opt.foldnestmax = 5 -- Fold depth max level
+vim.opt.foldlevelstart = 99 -- Auto fold start level
+vim.g.markdown_folding = 1 -- Fold by heading in markdown files
 
 ------------------------------------------------------------
 -- grep/vimgrep/ripgrep
@@ -208,12 +210,12 @@ vim.filetype.add({
   extension = {
     razor = "razor",
     cshtml = "razor",
-    tf = "terraform"
+    tf = "terraform",
   },
   pattern = {
-    [ "kitty.conf" ] = "kitty",
-    [ ".*/waybar/config" ] = "jsonc",
-    [ ".*/ghostty/config" ] = "ghostty",
-    [ ".*/hypr/.*%.conf" ] = "hyprlang",
-  }
+    ["kitty.conf"] = "kitty",
+    [".*/waybar/config"] = "jsonc",
+    [".*/ghostty/config"] = "ghostty",
+    [".*/hypr/.*%.conf"] = "hyprlang",
+  },
 })

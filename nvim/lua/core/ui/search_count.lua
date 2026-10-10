@@ -33,7 +33,9 @@ function M.show(text)
   local buf = vim.api.nvim_get_current_buf()
 
   -- Skip prompts / scratch / quickfix
-  if vim.bo[buf].buftype ~= "" then return end
+  if vim.bo[buf].buftype ~= "" then
+    return
+  end
 
   local row = vim.api.nvim_win_get_cursor(0)[1] - 1
 
@@ -57,13 +59,15 @@ function M.setup()
     group = group,
     pattern = "hlsearch",
     callback = function()
-      if vim.v.hlsearch == 0 then M.clear() end
-    end
+      if vim.v.hlsearch == 0 then
+        M.clear()
+      end
+    end,
   })
 
   vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave", "InsertEnter", "TextChanged", "FileChangedShellPost" }, {
     group = group,
-    callback = M.clear
+    callback = M.clear,
   })
 end
 

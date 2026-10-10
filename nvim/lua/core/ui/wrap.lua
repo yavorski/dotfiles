@@ -14,7 +14,9 @@ local M = {}
 local installed = false
 
 function M.setup()
-  if installed then return end
+  if installed then
+    return
+  end
   installed = true
 
   --- set_pos: re-apply decorations after upstream positioning.
@@ -63,8 +65,7 @@ function M.setup()
     local cleared = false
     if config.MSG_TARGETS[kind] == "pager" then
       local pager = ui2.wins.pager
-      local shown = pager and pager ~= -1 and vim.api.nvim_win_is_valid(pager)
-        and not vim.api.nvim_win_get_config(pager).hide
+      local shown = pager and pager ~= -1 and vim.api.nvim_win_is_valid(pager) and not vim.api.nvim_win_get_config(pager).hide
       if not shown and vim.api.nvim_buf_is_valid(ui2.bufs.pager) then
         vim.api.nvim_buf_set_lines(ui2.bufs.pager, 0, -1, false, {})
         cleared = true
@@ -96,7 +97,9 @@ function M.setup()
 
       for _, line in ipairs(lines) do
         local w = vim.api.nvim_strwidth(line)
-        if w > width then width = w end
+        if w > width then
+          width = w
+        end
       end
 
       if width >= math.floor(vim.o.columns * config.PAGER_WIDTH_RATIO) or #lines >= config.PAGER_MAX_LINES then

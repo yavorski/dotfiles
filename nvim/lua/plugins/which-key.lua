@@ -38,12 +38,12 @@ local options = {
   icons = {
     rules = false,
     mappings = false,
-    keys = { BS = "⇠ " }
+    keys = { BS = "⇠ " },
   },
 }
 
 Lazy.use {
   "folke/which-key.nvim",
   event = "VeryLazy",
-  opts = options
+  opts = options,
 }

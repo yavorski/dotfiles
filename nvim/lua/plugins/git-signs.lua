@@ -1,19 +1,15 @@
 local Lazy = require("core/lazy")
 
---- @param direction string: "first"|"last"|"next"|"prev"
+--- @param direction "first"|"last"|"next"|"prev"
 local function navigate(direction)
   return function()
+    --- @diagnostic disable-next-line: missing-fields
     require("gitsigns").nav_hunk(direction, { target = "all" })
   end
 end
 
---- Fix stale git-signs highlights
-local function refresh()
-  local gs = require("gitsigns")
-  local buf = vim.api.nvim_get_current_buf()
-  gs.detach(buf)
-  vim.defer_fn(function() gs.attach(buf) end, 128)
-  vim.defer_fn(function() gs.refresh() end, 256)
+local function blame_line_full()
+  require("gitsigns").blame_line({ full = true })
 end
 
 --- @module "gitsigns"
@@ -24,7 +20,7 @@ local options = {
   auto_attach = true,
   signs_staged_enable = true,
   diff_opts = {
-    indent_heuristic = true
+    indent_heuristic = true,
   },
   on_attach = function(buffer)
     local gs = require("gitsigns")
@@ -47,8 +43,8 @@ local options = {
     vim.keymap.set("n", "gsv", gs.preview_hunk, { buffer = buffer, silent = true, desc = "Preview Hunk" })
 
     vim.keymap.set("n", "gsb", gs.blame_line, { buffer = buffer, silent = true, desc = "Blame Line" })
-    vim.keymap.set("n", "gsB", function() gs.blame_line({ full = true }) end, { buffer = buffer, silent = true, desc = "Blame Line Full" })
-  end
+    vim.keymap.set("n", "gsB", blame_line_full, { buffer = buffer, silent = true, desc = "Blame Line Full" })
+  end,
 }
 
 Lazy.use {
@@ -56,6 +52,5 @@ Lazy.use {
   event = { "BufNewFile", "BufReadPost", "BufWritePre" },
   config = function()
     require("gitsigns").setup(options)
-    vim.api.nvim_create_user_command("GitsignsRefresh", refresh, { desc = "Refresh gitsigns for current buffer" })
-  end
+  end,
 }

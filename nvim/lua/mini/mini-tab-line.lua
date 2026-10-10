@@ -100,7 +100,7 @@ local function init_tabline()
     callback = function()
       apply_tabline_hls()
       vim.cmd.redrawtabline()
-    end
+    end,
   })
 
   -- Re-apply after colorscheme change

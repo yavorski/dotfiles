@@ -12,11 +12,13 @@ local PUM = {
     CTRL_C = vim.keycode("<C-c>"),
     CTRL_E = vim.keycode("<C-e>"),
     CTRL_Y = vim.keycode("<C-y>"),
-  }
+  },
 }
 
 PUM.on_key = function(key)
-  if vim.fn.pumvisible() ~= 1 then return end
+  if vim.fn.pumvisible() ~= 1 then
+    return
+  end
 
   if key == PUM.keys.CTRL_C then
     PUM.is_canceled = true

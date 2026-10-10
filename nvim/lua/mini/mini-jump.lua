@@ -11,5 +11,5 @@ Lazy.use {
     { "F", mode = "n", desc = "Jump backward" },
     { "t", mode = "n", desc = "Jump forward till" },
     { "T", mode = "n", desc = "Jump backward till" },
-  }
+  },
 }

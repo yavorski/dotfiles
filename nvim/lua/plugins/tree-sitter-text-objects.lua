@@ -3,10 +3,11 @@
 
 local Lazy = require("core/lazy")
 
+-- stylua: ignore
 Lazy.use {
   "nvim-treesitter/nvim-treesitter-textobjects",
   version = "main",
-  dependencies = {{ "nvim-treesitter/nvim-treesitter", version = "main" }},
+  dependencies = { { "nvim-treesitter/nvim-treesitter", version = "main" } },
   keys = {
     { "]k", desc = "@class next" },
     { "[k", desc = "@class prev" },

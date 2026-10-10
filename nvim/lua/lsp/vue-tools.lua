@@ -35,14 +35,14 @@ end
 local vue_ls = {
   init_options = {
     typescript = {
-      tsdk = ""  -- Will auto-detect local project typescript
-    }
+      tsdk = "", -- Will auto-detect local project typescript
+    },
   },
   filetypes = {
     "vue",
-    "markdown"
+    "markdown",
   },
-  root_dir = vitepress_root_dir
+  root_dir = vitepress_root_dir,
 }
 
 --- vtsls with Vue support via @vue/typescript-plugin
@@ -59,16 +59,16 @@ local vtsls = {
             languages = { "vue", "markdown" },
             configNamespace = "typescript",
             enableForWorkspaceTypeScriptVersions = true,
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   },
   filetypes = {
     "vue",
-    "markdown"
+    "markdown",
   },
-  root_dir = vitepress_root_dir
+  root_dir = vitepress_root_dir,
 }
 
 return {

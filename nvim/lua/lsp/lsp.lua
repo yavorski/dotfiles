@@ -17,11 +17,11 @@ local servers = {
   terraformls = {},
   rust_analyzer = {},
   emmet_language_server = {
-    filetypes = { "html", "cshtml", "razor", "htmlangular" }
+    filetypes = { "html", "cshtml", "razor", "htmlangular" },
   },
   powershell_es = {
-    bundle_path = system.is_windows and "C:/dev/ps-es-lsp" or "/opt/powershell-editor-services"
-  }
+    bundle_path = system.is_windows and "C:/dev/ps-es-lsp" or "/opt/powershell-editor-services",
+  },
 }
 
 servers["vtsls"] = vue.vtsls
@@ -30,7 +30,7 @@ servers["vue_ls"] = vue.vue_ls
 servers["angularls"] = {
   filetypes = { "html", "htmlangular" },
   root_markers = { "angular.json" },
-  workspace_required = true
+  workspace_required = true,
 }
 
 servers["html"] = {
@@ -40,9 +40,9 @@ servers["html"] = {
       format = {
         unformatted = "a",
         wrapLineLength = 160,
-      }
-    }
-  }
+      },
+    },
+  },
 }
 
 servers["lua_ls"] = {
@@ -55,14 +55,14 @@ servers["lua_ls"] = {
           trailing_table_separator = "never",
           align_continuous_assign_statement = "false",
           align_continuous_rect_table_field = "false",
-        }
+        },
       },
       runtime = { version = "LuaJIT" },
       workspace = { checkThirdParty = false },
       completion = { callSnippet = "Replace" },
       diagnostics = { globals = { "vim", "require" } },
-    }
-  }
+    },
+  },
 }
 
 servers["azure_pipelines_ls"] = {
@@ -77,17 +77,17 @@ servers["azure_pipelines_ls"] = {
   settings = {
     yaml = {
       schemas = {
-        [ "https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json" ] = {
+        ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
           -- "azure*.yml",
           "azure/*.yml",
           "*pipeline.yml",
           "pipelines/*.yml",
           "azure-cicd/*.yml",
           "azure-pipelines/*.yml",
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 
 --- lsp client capabilities
@@ -103,9 +103,9 @@ local function capabilities()
   local workarround_perf_fix = {
     workspace = {
       didChangeWatchedFiles = {
-        dynamicRegistration = system.is_wsl or system.is_macos or system.is_windows
-      }
-    }
+        dynamicRegistration = system.is_wsl or system.is_macos or system.is_windows,
+      },
+    },
   }
 
   return vim.tbl_deep_extend("force", {}, client_capabilities, blink_lsp_capabilities, workarround_perf_fix)
@@ -114,7 +114,7 @@ end
 --- config and enable servers
 local function setup_servers()
   vim.lsp.config("*", {
-    capabilities = capabilities()
+    capabilities = capabilities(),
   })
 
   for server, options in pairs(servers) do
@@ -122,7 +122,9 @@ local function setup_servers()
     --- BUG ---
     --- use timeout as temporary fix
     --- neovim 0.11.2 not setting "filetype" on first opened buffer
-    vim.schedule(function() vim.lsp.enable(server) end)
+    vim.schedule(function()
+      vim.lsp.enable(server)
+    end)
   end
 end
 
@@ -143,6 +145,7 @@ local function del_default_keymaps()
   safe_del_keymap("n", "grx") -- vim.lsp.codelens.run()
 end
 
+-- stylua: ignore
 --- set buffer lsp keymaps
 local function set_buffer_keymaps(buffer)
   -- enable completion triggered by <c-x><c-o>
@@ -195,7 +198,7 @@ local function set_buffer_keymaps(buffer)
     local c = vim.diagnostic.config()
     vim.diagnostic.config({
       virtual_text = not c.virtual_text and { current_line = true } or false,
-      virtual_lines = not c.virtual_lines and { current_line = true } or false
+      virtual_lines = not c.virtual_lines and { current_line = true } or false,
     })
   end, "LSP Toggle diagnostics")
 
@@ -217,7 +220,7 @@ local function setup_keymaps()
     group = vim.api.nvim_create_augroup("usr-lsp-keymaps", { clear = true }),
     callback = function(event)
       set_buffer_keymaps(event.buf)
-    end
+    end,
   })
 end
 

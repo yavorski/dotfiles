@@ -23,15 +23,14 @@ Lazy.use {
       },
 
       title = {
-        enabled = true
+        enabled = true,
       },
 
       border = border,
       menu_col_offset = 0,
       native_types = { "/", "?" },
-      -- on_reposition = require("tiny-cmdline").adapters.blink,
     }
 
     require("tiny-cmdline").setup(options)
-  end
+  end,
 }
