@@ -6,13 +6,13 @@ if not vim.g.neovide then
 end
 
 -- neovide default animations
-local neovide_position_animation_length = vim.g.neovide_position_animation_length;
-local neovide_cursor_animation_length = vim.g.neovide_cursor_animation_length;
-local neovide_cursor_trail_size = vim.g.neovide_cursor_trail_size;
-local neovide_cursor_animate_in_insert_mode = vim.g.neovide_cursor_animate_in_insert_mode;
-local neovide_cursor_animate_command_line = vim.g.neovide_cursor_animate_command_line;
-local neovide_scroll_animation_far_lines = vim.g.neovide_scroll_animation_far_lines;
-local neovide_scroll_animation_length = vim.g.neovide_scroll_animation_length;
+local neovide_position_animation_length = vim.g.neovide_position_animation_length
+local neovide_cursor_animation_length = vim.g.neovide_cursor_animation_length
+local neovide_cursor_trail_size = vim.g.neovide_cursor_trail_size
+local neovide_cursor_animate_in_insert_mode = vim.g.neovide_cursor_animate_in_insert_mode
+local neovide_cursor_animate_command_line = vim.g.neovide_cursor_animate_command_line
+local neovide_scroll_animation_far_lines = vim.g.neovide_scroll_animation_far_lines
+local neovide_scroll_animation_length = vim.g.neovide_scroll_animation_length
 
 local animations = true
 local function toggle_animations()

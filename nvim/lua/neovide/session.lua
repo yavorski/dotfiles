@@ -44,15 +44,23 @@ local skip_filetypes = {
 }
 
 local function should_track(buf)
-  if not vim.api.nvim_buf_is_loaded(buf) then return false end
-  if vim.bo[buf].buftype ~= "" then return false end
-  if skip_filetypes[vim.bo[buf].filetype] then return false end
+  if not vim.api.nvim_buf_is_loaded(buf) then
+    return false
+  end
+  if vim.bo[buf].buftype ~= "" then
+    return false
+  end
+  if skip_filetypes[vim.bo[buf].filetype] then
+    return false
+  end
   return true
 end
 
 local function buffer_cursor(buf)
   local mark = vim.api.nvim_buf_get_mark(buf, '"')
-  if mark[1] > 0 then return mark end
+  if mark[1] > 0 then
+    return mark
+  end
   return { 1, 0 }
 end
 
@@ -63,7 +71,9 @@ local function build_buf_to_tab()
   local map = {}
   local tabs = vim.api.nvim_list_tabpages()
   local tab_to_index = {}
-  for i, t in ipairs(tabs) do tab_to_index[t] = i end
+  for i, t in ipairs(tabs) do
+    tab_to_index[t] = i
+  end
 
   -- scope's cache covers every tab except the current one
   local ok, scope_core = pcall(require, "scope.core")
@@ -71,7 +81,9 @@ local function build_buf_to_tab()
     for tab, bufs in pairs(scope_core.cache) do
       local idx = tab_to_index[tab]
       if idx then
-        for _, b in ipairs(bufs) do map[b] = idx end
+        for _, b in ipairs(bufs) do
+          map[b] = idx
+        end
       end
     end
   end
@@ -128,7 +140,7 @@ local function save()
             path = unnamed and vim.NIL or name,
             filetype = vim.bo[buf].filetype,
             cursor = buffer_cursor(buf),
-            tab_index = buf_to_tab[buf] or 1
+            tab_index = buf_to_tab[buf] or 1,
           })
         end
       end
@@ -157,13 +169,19 @@ local function load()
       vim.cmd("silent! source " .. vim.fn.fnameescape(session_file))
     end
 
-    if vim.fn.filereadable(manifest_file) ~= 1 then return end
+    if vim.fn.filereadable(manifest_file) ~= 1 then
+      return
+    end
 
     local raw = table.concat(vim.fn.readfile(manifest_file), "\n")
-    if raw == "" then return end
+    if raw == "" then
+      return
+    end
 
     local manifest = vim.json.decode(raw)
-    if type(manifest) ~= "table" then return end
+    if type(manifest) ~= "table" then
+      return
+    end
 
     local saved_tab = vim.api.nvim_get_current_tabpage()
     local tabs = vim.api.nvim_list_tabpages()
@@ -213,7 +231,9 @@ local function load()
       local cache = {}
       for idx, bufs in pairs(tab_bufs) do
         local tab = tabs[idx]
-        if tab then cache[tab] = bufs end
+        if tab then
+          cache[tab] = bufs
+        end
       end
       scope_core.cache = cache
       scope_core.last_tab = saved_tab
@@ -247,20 +267,21 @@ vim.api.nvim_create_autocmd("VimEnter", {
   nested = true,
   once = true,
   callback = function()
-    if vim.fn.argc() == 0 then load() end
-  end
+    if vim.fn.argc() == 0 then
+      load()
+    end
+  end,
 })
 
 -- Auto-save on clean exit.
 vim.api.nvim_create_autocmd("VimLeavePre", {
   group = vim.api.nvim_create_augroup("neovide/session-save", { clear = true }),
-  callback = save
+  callback = save,
 })
 
 -- User commands
 vim.api.nvim_create_user_command("NeovideSessionSave", save, { desc = "Neovide Save Session" })
 vim.api.nvim_create_user_command("NeovideSessionLoad", load, { desc = "Neovide Load Session" })
-
 vim.api.nvim_create_user_command("NeovideSessionDelete", function()
   vim.fn.delete(session_dir, "rf")
   vim.fn.mkdir(buffers_dir, "p")

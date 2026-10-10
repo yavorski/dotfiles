@@ -25,5 +25,14 @@ require("neovide.session")
 -- neovide animations
 require("neovide/animations")
 
--- fzf-lua paste fix
-vim.keymap.set({ "n", "v", "s", "x", "o", "i", "l", "c", "t" }, "<C-S-v>", function() vim.api.nvim_paste(vim.fn.getreg("+"), true, -1) end, { noremap = true, silent = true })
+-- copy/paste
+local function copy()
+  vim.cmd([[normal! "+y]])
+end
+
+local function paste()
+  vim.api.nvim_paste(vim.fn.getreg("+"), true, -1)
+end
+
+vim.keymap.set({ "v" }, "<C-S-c>", copy, { silent = true, desc = "Copy" })
+vim.keymap.set({ "n", "i", "v", "c", "t" }, "<C-S-v>", paste, { silent = true, desc = "Paste" })
