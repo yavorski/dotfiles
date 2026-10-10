@@ -1,0 +1,6 @@
+init.lua
+lua/core/keymaps.lua
+lua/plugins/fzf-lua.lua
+lua/plugins/multi-cursor.lua
+lua/plugins/tree-sitter.lua
+lua/plugins/tree-sitter-text-objects.lua
