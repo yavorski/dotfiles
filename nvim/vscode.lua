@@ -3,6 +3,9 @@
 --- cp ../vscode/{settings,keybindings}.json ~/.config/Code/User/
 --- cp ../vscode/{settings,keybindings}.json %APPDATA%/Code/User/
 
+--- Perf ---
+vim.loader.enable()
+
 --- Core Settings ---
 require("core/options")
 require("core/border")

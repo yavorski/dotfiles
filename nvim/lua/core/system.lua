@@ -11,7 +11,7 @@
 local System = {}
 
 --- @type string
-System.sysname = vim.loop.os_uname().sysname
+System.sysname = vim.uv.os_uname().sysname
 
 --- @type boolean
 System.is_linux = System.sysname == "Linux"

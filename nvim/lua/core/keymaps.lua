@@ -15,8 +15,8 @@ vim.g.maplocalleader = [[ ]]
 ------------------------------------------------------------
 
 -- Map <F1> to Escape
-vim.cmd("map <F1> <esc>")
-vim.cmd("map! <F1> <esc>")
+vim.keymap.set("", "<F1>", "<Esc>", { remap = true, silent = true })
+vim.keymap.set("!", "<F1>", "<Esc>", { remap = true, silent = true })
 
 -- Disable built in |m| key - marks operations
 vim.keymap.set({ "n", "v", "x" }, "m", "<Nop>", { silent = true })
@@ -33,8 +33,8 @@ vim.keymap.set("n", "mm", "<Plug>(MatchitNormalForward)", { silent = true })
 vim.keymap.set({ "v", "x" }, "mm", "<Plug>(MatchitVisualForward)", { silent = true })
 
 -- comment - additional keymaps
-vim.api.nvim_set_keymap("v", "<C-c>", "gc", { silent = true })
-vim.api.nvim_set_keymap("n", "<C-c>", "gcc", { silent = true })
+vim.keymap.set("v", "<C-c>", "gc", { remap = true, silent = true, desc = "Comment" })
+vim.keymap.set("n", "<C-c>", "gcc", { remap = true, silent = true, desc = "Comment Line" })
 
 -- Remap x X
 vim.keymap.set({ "n", "v", "x" }, "X", "x", { silent = true, desc = "Delete char" })
@@ -54,7 +54,9 @@ vim.keymap.set("n", "[p", [[<Cmd>exe "put! " . v:register<CR>]], { silent = true
 vim.keymap.set("n", "]p", [[<Cmd>exe "put "  . v:register<CR>]], { silent = true, desc = "Paste Below" })
 
 -- buffer navigation prev/next ]b and [b is default
+-- built-in - gp (put + select pasted)
 vim.keymap.set("n", "gp", "<cmd>bprev<cr>", { silent = true })
+-- built-in - gn (select next search match)
 vim.keymap.set("n", "gn", "<cmd>bnext<cr>", { silent = true })
 
 -- command mode - prev and next command from history

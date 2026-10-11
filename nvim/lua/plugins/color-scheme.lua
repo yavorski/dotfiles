@@ -1,5 +1,3 @@
-local system = require("core/system")
-
 local Lazy = require("core/lazy")
 local colors = require("colors/colors")
 local editor = require("colors/editor")

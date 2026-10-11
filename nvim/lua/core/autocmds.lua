@@ -21,7 +21,7 @@ vim.cmd [[autocmd FileType help setlocal signcolumn=no]]
 vim.cmd [[autocmd FileType qf,lhelp,lquickfix,dbout setlocal norelativenumber]]
 
 -- don't auto comment new lines
-vim.cmd [[autocmd BufEnter * set formatoptions-=c formatoptions-=r formatoptions-=o]]
+vim.cmd [[autocmd BufEnter * setlocal formatoptions-=c formatoptions-=r formatoptions-=o]]
 
 -- highlight on yank
 vim.cmd [[autocmd TextYankPost * silent! lua vim.hl.on_yank({ higroup = "YankHighlight" })]]
