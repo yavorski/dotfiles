@@ -5,7 +5,7 @@
   },
   "keybinds": {
     "leader": "ctrl+x",
-    "app.exit": "ctrl+q",
+    "app.exit": "ctrl+shift+q",
     "session.child.first": "none",
     "session.parent": "none",
     "agent.cycle": "tab",
