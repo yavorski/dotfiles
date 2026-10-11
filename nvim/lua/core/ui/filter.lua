@@ -1,5 +1,5 @@
 --- @brief
---- Predicate: should a (kind, content) pair be dropped before routing?
+--- Drop this (kind, content) before routing?
 
 local config = require("core/ui/config")
 local util = require("core/ui/util")

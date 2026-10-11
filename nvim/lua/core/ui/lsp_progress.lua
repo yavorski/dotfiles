@@ -30,13 +30,17 @@ function M.setup()
 
       local status = is_end and "success" or "running"
 
+      -- Sanitize: nvim_echo throws unless percent is absent or 0-100.
+      local pct = value.percentage
+      pct = type(pct) == "number" and math.min(100, math.max(0, math.floor(pct))) or nil
+
       vim.api.nvim_echo({ { text } }, false, {
         id = "lsp." .. ev.data.client_id,
         kind = "progress",
         source = "vim.lsp",
         title = value.title,
         status = status,
-        percent = value.percentage,
+        percent = pct,
       })
     end,
   })

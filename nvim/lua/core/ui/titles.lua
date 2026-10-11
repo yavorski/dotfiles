@@ -6,7 +6,7 @@ local util = require("core/ui/util")
 
 local M = {}
 
---- Per-target title state. Reset by `msg_clear`.
+--- Per-target titles. Reset by msg_clear.
 --- @type table<"msg"|"pager"|"dialog", TitleEntry?>
 M.state = { msg = nil, pager = nil, dialog = nil }
 

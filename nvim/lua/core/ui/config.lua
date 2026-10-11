@@ -3,21 +3,21 @@
 
 local M = {}
 
---- Minimum width for the top-right "mini" msg float.
+--- Min width of the mini msg float.
 M.MSG_MIN_WIDTH = 42
 
---- Promote msg → pager when content exceeds these thresholds.
+--- msg→pager promotion thresholds.
 M.PAGER_MAX_LINES = 24
 M.PAGER_WIDTH_RATIO = 0.75
 
---- Kinds dropped unconditionally before any other filter.
+--- Kinds always dropped.
 M.IGNORED_KINDS = {
   empty = true,
   bufwrite = true,
 }
 
 -- stylua: ignore
---- Lua patterns matched against the full message text.
+--- Drop when the full text matches.
 M.SKIP_PATTERNS = {
   "%d+L, %d+B",       -- ":w" file written summary
   "; after #%d+",     -- undo/redo trailing change id (after)
@@ -27,16 +27,16 @@ M.SKIP_PATTERNS = {
   "roslyn:.*%-32000", -- roslyn LSP shutdown chatter
 }
 
---- Plain substring matches.
+--- Drop on substring.
 M.SKIP_SUBSTRINGS = {
   "An item with the same key has already been added",
 }
 
---- Predicate filters: return true to drop the message.
+--- Drop when fn(text) is true.
 M.SKIP_FUNCS = {
-  -- Hide "N lines yanked" for small yanks; surface for >= 3 lines (noice-style).
+  -- Hide yanks under 3 lines (all register.c shapes).
   function(text)
-    local n = text:match("^(%d+) lines yanked")
+    local n = text:match("^(%d+) lines? yanked") or text:match("^block of (%d+) lines? yanked")
     return n ~= nil and tonumber(n) < 3
   end,
 }
@@ -65,12 +65,14 @@ M.KIND_TITLES = {
   verbose      = { "Verbose",  "Comment" },
   confirm      = { "Confirm",  "Question" },
   confirm_sub  = { "Confirm",  "Question" },
+  completion   = { "Completion", "Normal" },
+  wildlist     = { "Wildmenu", "Normal" },
 }
 
---- ui2.enable target map: kind -> sink window.
+--- kind -> sink window.
 M.MSG_TARGETS = {
-  -- Fallback for unmapped kinds (older ui2 also needs cfg.msg.target pinned, see init.lua).
-  -- Don't add "" / typed_cmd keys: triggers win over kinds and would hijack the pager routes.
+  -- default: fallback for unmapped kinds (old ui2 also needs cfg.msg.target, see init.lua).
+  -- No "" / typed_cmd keys: triggers beat kinds and would hijack pager routes.
   default = "msg",
   empty = "msg",
   bufwrite = "msg",
@@ -79,13 +81,12 @@ M.MSG_TARGETS = {
   undo = "msg",
   wmsg = "msg",
   completion = "msg",
-  -- `confirm`/`confirm_sub` are auto-routed to the internal dialog
-  -- window when a prompt is active; this is just the fallback target.
+  -- fallback only; active prompts auto-route to dialog.
   confirm = "msg",
   confirm_sub = "msg",
   echoerr = "msg",
   emsg = "msg",
-  -- List output of informational commands: `:set foo?`, `:ls`, `:map`, `:reg` ...
+  -- :set? :ls :map :reg ...
   list_cmd = "pager",
   lua_error = "msg",
   lua_print = "msg",
@@ -93,7 +94,7 @@ M.MSG_TARGETS = {
   quickfix = "msg",
   rpc_error = "msg",
   search_cmd = "msg",
-  search_count = "msg", -- intercepted in msg_show -> virtual text
+  search_count = "msg", -- shown as virtual text
   shell_cmd = "msg",
   shell_err = "msg",
   shell_out = "pager",

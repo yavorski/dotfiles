@@ -1,7 +1,5 @@
 --- @brief
---- search_count → end-of-line virtual text
---- Neovim emits `kind = "search_count"` with payload like `[1/5]` via msg_show automatically — unless `S` is in `shortmess`.
---- Intercept that and render it as an extmark next to the cursor instead of through the msg float.
+--- search_count [1/5] as end-of-line virtual text (not the msg float).
 
 local M = {}
 
@@ -32,7 +30,7 @@ function M.show(text)
 
   local buf = vim.api.nvim_get_current_buf()
 
-  -- Skip prompts / scratch / quickfix
+  -- Normal buffers only.
   if vim.bo[buf].buftype ~= "" then
     return
   end
@@ -54,7 +52,7 @@ end
 function M.setup()
   local group = vim.api.nvim_create_augroup("local/ui-search", { clear = true })
 
-  -- Clear when hlsearch goes off (e.g. `<C-l>`, `:nohlsearch`).
+  -- Clear when the hlsearch option goes off.
   vim.api.nvim_create_autocmd("OptionSet", {
     group = group,
     pattern = "hlsearch",

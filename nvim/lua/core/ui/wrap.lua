@@ -7,11 +7,50 @@ local config = require("core/ui/config")
 local util = require("core/ui/util")
 local filter = require("core/ui/filter")
 local titles = require("core/ui/titles")
+local routing = require("core/ui/routing")
 local decorate = require("core/ui/decorate")
 local search_count = require("core/ui/search_count")
 
 local M = {}
 local installed = false
+
+--- Wipe the hidden pager buffer so outputs don't stack (later chunks still append).
+--- @return boolean cleared
+local function wipe_hidden_pager()
+  if not vim.api.nvim_buf_is_valid(ui2.bufs.pager) then
+    return false
+  end
+  local pager = ui2.wins.pager
+  local shown = pager and pager ~= -1 and vim.api.nvim_win_is_valid(pager) and not vim.api.nvim_win_get_config(pager).hide
+  if shown then
+    return false
+  end
+  vim.api.nvim_buf_set_lines(ui2.bufs.pager, 0, -1, false, {})
+  return true
+end
+
+--- First content line of ui2 message chunks.
+---@param content table
+---@return string
+local function first_line(content)
+  return util.content_to_text(content):match("^[^\n]*") or ""
+end
+
+--- Drop the wipe's leftover blank line, unless the output itself starts blank.
+---@param first string first content line
+local function trim_leading_blank(first)
+  if first == "" then
+    return
+  end
+  if not vim.api.nvim_buf_is_valid(ui2.bufs.pager) then
+    return
+  end
+  local topline = vim.api.nvim_buf_get_lines(ui2.bufs.pager, 0, 1, false)[1]
+  local count = vim.api.nvim_buf_line_count(ui2.bufs.pager)
+  if topline == "" and count > 1 then
+    vim.api.nvim_buf_set_lines(ui2.bufs.pager, 0, 1, false, {})
+  end
+end
 
 function M.setup()
   if installed then
@@ -22,8 +61,13 @@ function M.setup()
   --- set_pos: re-apply decorations after upstream positioning.
   local orig_set_pos = msgs.set_pos
 
-  msgs.set_pos = function(target, ...)
-    orig_set_pos(target, ...)
+  msgs.set_pos = function(target, focus)
+    if focus == nil then
+      orig_set_pos(target)
+    else
+      ---@diagnostic disable-next-line: redundant-parameter -- (tgt, focus) is 0.13+;
+      orig_set_pos(target, focus)
+    end
 
     if target == nil then
       decorate.all()
@@ -38,7 +82,7 @@ function M.setup()
 
   --- msg_show: filter + title tracking + search_count intercept.
   local orig_msg_show = msgs.msg_show
-  msgs.msg_show = function(kind, content, replace_last, history, append, id, trigger)
+  msgs.msg_show = function(kind, content, replace_last, _, append, id, trigger)
     if filter.should_skip(kind, content) then
       return
     end
@@ -48,40 +92,32 @@ function M.setup()
       return
     end
 
-    -- Trailing newline is a message terminator (e.g. `:!ls` -> `":!ls\r\n"`),
-    -- not content; drop it so floats/pager don't gain a blank last line.
+    -- Trailing newline is a terminator, not content (`:!ls` -> `":!ls\r\n"`).
     content = util.trim_trailing_newline(content)
 
     local title, hl = titles.resolve(kind, content)
-    -- Set the title only on the sink this kind routes to, so e.g. the pager
-    -- title doesn't get overwritten by an unrelated msg-float message.
-    -- Prompts are routed to the dialog, so also title the dialog for those.
-    local target = config.MSG_TARGETS[kind] or "msg"
-    titles.set(target, { title, hl })
-    titles.set("dialog", { title, hl })
-
-    -- Start a fresh pager view per command: when a pager-routed message arrives while the pager is hidden, wipe the (persistent) buffer so old output (previous `:!ls`, `:set?`, ...) doesn't stack.
-    -- Later chunks of the same command still append, since the pager is then visible.
-    local cleared = false
-    if config.MSG_TARGETS[kind] == "pager" then
-      local pager = ui2.wins.pager
-      local shown = pager and pager ~= -1 and vim.api.nvim_win_is_valid(pager) and not vim.api.nvim_win_get_config(pager).hide
-      if not shown and vim.api.nvim_buf_is_valid(ui2.bufs.pager) then
-        vim.api.nvim_buf_set_lines(ui2.bufs.pager, 0, -1, false, {})
-        cleared = true
-      end
+    -- Title only the sink actually used (nil = cmd window, no title).
+    local target = routing.resolve(kind, id, trigger)
+    if target then
+      titles.set(target, { title, hl })
     end
 
-    local ret = orig_msg_show(kind, content, replace_last, history, append, id, trigger)
+    -- Fresh pager per command: wipe the hidden pager buffer so outputs don't stack.
+    local cleared = false
+    if target == "pager" then
+      cleared = wipe_hidden_pager()
+    end
 
-    -- Clearing leaves an empty first line that upstream writes *after* (unless the
-    -- message replaced it), producing a leading blank. Drop it if present.
-    if cleared and vim.api.nvim_buf_is_valid(ui2.bufs.pager) then
-      local first = vim.api.nvim_buf_get_lines(ui2.bufs.pager, 0, 1, false)[1]
-      local count = vim.api.nvim_buf_line_count(ui2.bufs.pager)
-      if first == "" and count > 1 then
-        vim.api.nvim_buf_set_lines(ui2.bufs.pager, 0, 1, false, {})
-      end
+    local ret = orig_msg_show(kind, content, replace_last, _, append, id, trigger)
+
+    -- Drop the leading blank line the wipe leaves behind.
+    if cleared then
+      trim_leading_blank(first_line(content))
+    end
+
+    -- Re-shrink: indicator placement can re-grow the float after set_pos.
+    if target == "msg" then
+      decorate.msg(ui2.wins.msg)
     end
 
     return ret
@@ -103,10 +139,16 @@ function M.setup()
       end
 
       if width >= math.floor(vim.o.columns * config.PAGER_WIDTH_RATIO) or #lines >= config.PAGER_MAX_LINES then
-        -- Promoted from msg to pager: carry the title over to the pager sink.
-        titles.state.pager = titles.state.msg
+        -- Fresh-pager wipe + title copy (no alias) for promoted output.
+        local cleared = wipe_hidden_pager()
+        local msg_title = titles.state.msg
+        titles.state.pager = msg_title and { msg_title[1], msg_title[2] } or nil
         -- orig_show_msg positions the pager itself, no set_pos needed here.
-        return orig_show_msg("pager", kind, content, replace_last, append, id)
+        local ret = orig_show_msg("pager", kind, content, replace_last, append, id)
+        if cleared then
+          trim_leading_blank(first_line(content))
+        end
+        return ret
       end
     end
 
@@ -125,10 +167,10 @@ function M.setup()
   --- msg_clear: reset per-target title state + search virt text.
   local orig_msg_clear = msgs.msg_clear
   if orig_msg_clear then
-    msgs.msg_clear = function(...)
+    msgs.msg_clear = function()
       titles.reset()
       search_count.clear()
-      return orig_msg_clear(...)
+      return orig_msg_clear()
     end
   end
 end
