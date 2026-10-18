@@ -71,8 +71,8 @@ return {
   GitSignsDelete = { fg = colors.red, bg = colors.none },
 
   -- which-key
-  WhichKey = { bg = colors.crust },
-  WhichKeyNormal = { bg = colors.crust },
+  -- WhichKey = { bg = colors.crust },
+  -- WhichKeyNormal = { bg = colors.crust },
 
   -- blink
   BlinkCmpMenu = { bg = colors.base },
