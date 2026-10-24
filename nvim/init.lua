@@ -64,9 +64,6 @@ require("lsp/lazy-dev")
 require("lsp/overloads")
 require("lsp/lsp-config")
 require("lsp/diagnostics")
-require("lsp/typescript-tools")
--- require("lsp/dadbod")
--- require("lsp/rust-tools")
 
 --- DAP Modules ---
 require("dap/dap")

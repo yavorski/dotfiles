@@ -47,9 +47,8 @@ pacman -S bash-language-server
 npm i -g azure-pipelines-language-server
 npm i -g dockerfile-language-server-nodejs
 
-# use with typescript-tools lua plugin!
-npm i -g typescript typescript-language-server
-pacman -S typescript typescript-language-server
+npm i -g typescript # this is new v7
+# pacman -S typescript # this is still v6
 
 pacman -S zig zls
 pacman -S gcc clang

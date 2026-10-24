@@ -8,6 +8,7 @@ local system = require("core/system")
 
 --- @type table<string, vim.lsp.Config>
 local servers = {
+  tsc = {},
   cssls = {},
   taplo = {},
   bashls = {},
@@ -145,6 +146,14 @@ local function del_default_keymaps()
   safe_del_keymap("n", "grx") -- vim.lsp.codelens.run()
 end
 
+--- code action context
+--- tsc returns source actions (organize imports, fix all) only when requested via `only`
+local function code_action_context()
+  if #vim.lsp.get_clients({ bufnr = 0, name = "tsc" }) > 0 then
+    return { only = { "quickfix", "source" } }
+  end
+end
+
 -- stylua: ignore
 --- set buffer lsp keymaps
 local function set_buffer_keymaps(buffer)
@@ -187,8 +196,8 @@ local function set_buffer_keymaps(buffer)
   keymap({ "n", "x", "i", "s" }, "<C-s>", vim.lsp.buf.signature_help, "LSP Signature Help")
 
   -- default is <gra>
-  keymap({ "n", "v" }, "<leader>A", vim.lsp.buf.code_action, "LSP Code Action") -- with preview
-  keymap({ "n", "v" }, "<leader>a", "<cmd>FzfLua lsp_code_actions previewer=false winopts.row=0.25 winopts.width=0.7 winopts.height=0.42<cr>", "LSP Code Action") -- no preview
+  keymap({ "n", "v" }, "<leader>A", function() vim.lsp.buf.code_action({ context = code_action_context() }) end, "LSP Code Action") -- with preview
+  keymap({ "n", "v" }, "<leader>a", function() require("fzf-lua").lsp_code_actions({ context = code_action_context(), previewer = false, winopts = { row = 0.25, width = 0.7, height = 0.42 } }) end, "LSP Code Action") -- no preview
 
   -- toggle inlay hints
   keymap("n", "<leader>;", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, "LSP Toggle Inlay Hints")
