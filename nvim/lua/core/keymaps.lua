@@ -21,6 +21,9 @@ vim.keymap.set("!", "<F1>", "<Esc>", { remap = true, silent = true })
 -- Disable built in |m| key - marks operations
 vim.keymap.set({ "n", "v", "x" }, "m", "<Nop>", { silent = true })
 
+-- Set context mark manually
+vim.keymap.set("n", "<leader>`", "<cmd>normal! m'<cr>", { desc = "Set Context Mark" })
+
 -- Disable built in |s| key - deletes char under cursor
 -- vim.keymap.set({ "n", "v", "x" }, "s", "<Nop>", { silent = true })
 
