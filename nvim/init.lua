@@ -5,7 +5,6 @@ vim.loader.enable()
 
 --- Settings ---
 require("core/ui")
-require("core/border")
 require("core/options")
 require("core/keymaps")
 require("core/autocmds")

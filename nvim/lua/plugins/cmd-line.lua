@@ -2,7 +2,6 @@
 --- Repositions the cmdline as a centered floating window powered ui2
 
 local Lazy = require("core/lazy")
-local border = require("core/border")
 
 Lazy.use {
   src = "https://github.com/yavorski/tiny-cmdline.nvim",
@@ -26,7 +25,6 @@ Lazy.use {
         enabled = true,
       },
 
-      border = border,
       menu_col_offset = 0,
       native_types = { "/", "?" },
     }

@@ -2,8 +2,6 @@
 --- Fast toggle floating window for quick notes or todos
 --- Saved automatically per cwd in '~/.local/share/nvim/scratch'
 
-local window_border = require("core/border")
-
 local M = {}
 
 local defaults = {
@@ -12,7 +10,6 @@ local defaults = {
   filetype = "markdown",
   extension = "md",
   autowrite = true,
-  border = window_border,
   root = vim.fn.stdpath("data") .. "/scratch",
 }
 
@@ -124,7 +121,6 @@ local function make_float_win(buf)
     height = height,
     row = row,
     col = col,
-    border = defaults.border,
     title_pos = "center",
     title = " [ Scratch Buffer ] ",
   })

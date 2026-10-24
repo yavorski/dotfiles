@@ -582,7 +582,6 @@ function M.open()
     row = math.floor((screen_lines - height) / 2),
     col = math.floor((columns - width) / 2),
     style = "minimal",
-    border = require("core/border"),
     title = " pack info ",
     title_pos = "center",
   })

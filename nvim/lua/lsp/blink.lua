@@ -4,7 +4,6 @@
 
 local Lazy = require("core/lazy")
 local system = require("core/system")
-local window_border = require("core/border")
 
 --- @module "blink.cmp"
 --- @type blink.cmp.Config
@@ -67,15 +66,11 @@ local blink_config = {
 
   signature = {
     enabled = true,
-    window = {
-      border = window_border,
-    },
   },
 
   completion = {
     menu = {
       max_height = 18,
-      border = window_border,
       draw = { align_to = "none" },
       auto_show = true,
     },
@@ -99,7 +94,6 @@ local blink_config = {
         max_width = 128,
         max_height = 32,
         desired_min_width = 64,
-        border = window_border,
       },
     },
     keyword = { range = "prefix" },

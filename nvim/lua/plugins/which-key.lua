@@ -2,14 +2,12 @@
 --- Shows key bindings in popup
 
 local Lazy = require("core/lazy")
-local border = require("core/border")
 
 --- @module "which-key"
 --- @type wk.Opts
 local options = {
   --- @type wk.Win.opts
   win = {
-    border = border,
     no_overlap = false,
   },
 

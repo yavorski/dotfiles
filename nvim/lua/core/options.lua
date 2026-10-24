@@ -91,12 +91,15 @@ vim.opt.smartcase = true
 -- show search results while typing
 vim.opt.incsearch = true
 
--- enables built-in insert-mode auto-completion
--- vim.o.autocomplete = true
+-- set global option
+vim.opt.winborder = require("core/border")
 
 -- popup/complete menu
 vim.opt.pumheight = 24
 vim.opt.pumborder = require("core/border")
+
+-- enables built-in insert-mode auto-completion
+-- vim.o.autocomplete = true
 
 -- built-in complete menu - popup
 vim.opt.completeopt = {
