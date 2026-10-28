@@ -146,12 +146,18 @@ dotnet tool update -g roslyn-language-server --prerelease --source https://pkgs.
 ```
 
 --------------------------------------------------------------------------------
-## Roslyn WSL file watching ~
+## LSP file watching under WSL (roslyn, tsc, ...) ~
 --------------------------------------------------------------------------------
 
-### `inotify` settings
+`didChangeWatchedFiles` is disabled on Linux/WSL by default (planned to be re-enabled after nvim 0.13).
+While disabled, servers miss changes to files not open in buffers (git checkout, npm install ...), use `:lsp restart`.
+When enabled, without `inotifywait` nvim falls back to a polling watcher that scans the whole watched tree on the main thread (multi-second freezes, e.g. tsc watches `~/dev/**/*`).
 
-For `LSP` to work properly under `WSL`, the `inotify` limits need to be raised.
+```sh
+pacman -S inotify-tools # nvim auto-detects `inotifywait`
+```
+
+### `inotify` limits
 
 Check the current values:
 
@@ -161,26 +167,19 @@ cat /proc/sys/fs/inotify/max_user_watches
 ```
 
 They should be at least `8192` and `524288` respectively.
-Set them via `/etc/wsl.conf`, since WSL does not currently autoload `/etc/sysctl.conf`.
 
-Add the following to your `/etc/wsl.conf`:
+With `systemd=true` in `/etc/wsl.conf`, `/etc/sysctl.d/*.conf` is applied at boot:
+
+```sh
+printf '%s\n' 'fs.inotify.max_user_instances=8192' 'fs.inotify.max_user_watches=524288' | sudo tee /etc/sysctl.d/99-inotify.conf
+sudo sysctl --system # apply now
+```
+
+Without systemd, use the `[boot]` command in `/etc/wsl.conf` instead:
 
 ```ini
 [boot]
 command="sysctl --write fs.inotify.max_user_instances=8192 && sysctl --write fs.inotify.max_user_watches=524288"
-```
-
-In WSL do:
-
-```sh
-touch /etc/sysctl.d/99-inotify.conf
-echo 'fs.inotify.max_user_instances=8192' >> /etc/sysctl.d/99-inotify.conf
-echo 'fs.inotify.max_user_watches=524288' >> /etc/sysctl.d/99-inotify.conf
-```
-
-```sh
-# will manually re-apply all sysctl.d files
-sysctl --system
 ```
 
 --------------------------------------------------------------------------------
