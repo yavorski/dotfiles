@@ -15,7 +15,7 @@ local neovide_scroll_animation_far_lines = vim.g.neovide_scroll_animation_far_li
 local neovide_scroll_animation_length = vim.g.neovide_scroll_animation_length
 
 local animations = true
-local function toggle_animations()
+local function toggle_animations(notify)
   animations = not animations
 
   if animations then
@@ -36,8 +36,13 @@ local function toggle_animations()
     vim.g.neovide_scroll_animation_length = 0.00
   end
 
-  vim.notify("Neovide Animations " .. (animations and "ON" or "OFF"))
+  if notify then
+    vim.notify("Neovide Animations " .. (animations and "ON" or "OFF"))
+  end
 end
 
+-- toggle OFF
+toggle_animations()
+
 -- user cmd
-vim.api.nvim_create_user_command("NeovideToggleAnimations", toggle_animations, { desc = "Neovide Toggle Animations" })
+vim.api.nvim_create_user_command("NeovideToggleAnimations", function() toggle_animations(true) end, { desc = "Neovide Toggle Animations" })
