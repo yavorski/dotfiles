@@ -211,14 +211,6 @@ vim.g.loaded_tutor_mode_plugin = 1
 
 vim.filetype.add({
   extension = {
-    razor = "razor",
-    cshtml = "razor",
     tf = "terraform",
-  },
-  pattern = {
-    ["kitty.conf"] = "kitty",
-    [".*/waybar/config"] = "jsonc",
-    [".*/ghostty/config"] = "ghostty",
-    [".*/hypr/.*%.conf"] = "hyprlang",
   },
 })
