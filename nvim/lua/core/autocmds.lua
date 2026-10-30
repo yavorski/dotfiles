@@ -81,3 +81,20 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
     vim.notify("Recording stopped", vim.log.levels.INFO)
   end,
 })
+
+-- ghostty option docs in a hover float instead of :terminal (keywordprg)
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("local/ghostty-hover", {}),
+  pattern = "ghostty",
+  callback = function(args)
+    vim.keymap.set({ "n", "x" }, "K", function()
+      local word = vim.fn.expand("<cword>")
+      local out = vim.system({ "ghostty", "+explain-config", word }, { text = true }):wait()
+      local text = vim.trim(out.stdout or "")
+      if out.code ~= 0 or text == "" then
+        return vim.notify("No docs for " .. word, vim.log.levels.WARN)
+      end
+      vim.lsp.util.open_floating_preview(vim.split(text, "\n"), "markdown")
+    end, { buffer = args.buf, desc = "Ghostty option docs" })
+  end,
+})
