@@ -1,13 +1,13 @@
-# -----------------------------------------
-# [[ ghostty ]]
-# -----------------------------------------
+# --- [[ ghostty ]] ---
+# ~/.config/ghostty/config.ghostty
 
 class = "ghostty.terminal"
 
 gtk-wide-tabs = true
-gtk-tabs-location = "bottom"
+gtk-tabs-location = "top"
 gtk-custom-css = "~/.config/ghostty/style.css"
 
+scrollbar = "never"
 resize-overlay = "never"
 confirm-close-surface = false
 quit-after-last-window-closed = true
@@ -48,7 +48,7 @@ cursor-style = "block"
 adjust-cursor-height = +2
 adjust-cursor-thickness = +1
 
-copy-on-select = false
+copy-on-select = "none"
 mouse-hide-while-typing = true
 
 shell-integration = "detect"
