@@ -62,7 +62,7 @@ pacman -S vue-language-server
 
 paru -S shellcheck-bin
 paru -S terraform-ls-bin
-paru -S powershell-bin powershell-editor-services
+paru -S powershell-bin powershell-editor-services-bin
 
 pacman -S tree-sitter tree-sitter-cli
 pacman -S fd ripgrep curl nodejs tree-sitter ttf-nerd-fonts-symbols-mono
