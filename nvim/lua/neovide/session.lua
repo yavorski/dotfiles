@@ -64,38 +64,48 @@ local function buffer_cursor(buf)
   return { 1, 0 }
 end
 
--- Build a map: bufnr -> tab_index (1-based) describing which tab each buffer belongs to.
--- scope.nvim unlists buffers from tabs they don't belong to, so its cache is the source of truth for the non-current tabs;
--- the current tab's listed buffers aren't cached yet.
-local function build_buf_to_tab()
-  local map = {}
+-- Build a map: bufnr -> sorted list of tab indexes (1-based) the buffer belongs to.
+-- A buffer can belong to several tabs. scope.nvim's cache is the source of truth for the non-current tabs;
+-- the current tab's cache entry may be stale, so its live listed buffers are used instead.
+local function build_buf_to_tabs()
+  local sets = {}
   local tabs = vim.api.nvim_list_tabpages()
+  local current_tab = vim.api.nvim_get_current_tabpage()
   local tab_to_index = {}
   for i, t in ipairs(tabs) do
     tab_to_index[t] = i
   end
 
-  -- scope's cache covers every tab except the current one
+  local function add(buf, idx)
+    sets[buf] = sets[buf] or {}
+    sets[buf][idx] = true
+  end
+
   local ok, scope_core = pcall(require, "scope.core")
   if ok and type(scope_core.cache) == "table" then
     for tab, bufs in pairs(scope_core.cache) do
       local idx = tab_to_index[tab]
-      if idx then
+      if idx and tab ~= current_tab then
         for _, b in ipairs(bufs) do
-          map[b] = idx
+          add(b, idx)
         end
       end
     end
   end
 
-  -- Current tab's listed buffers (only fill if not already mapped)
-  local current_idx = tab_to_index[vim.api.nvim_get_current_tabpage()]
+  local current_idx = tab_to_index[current_tab]
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.bo[buf].buflisted and not map[buf] then
-      map[buf] = current_idx
+    if vim.bo[buf].buflisted then
+      add(buf, current_idx)
     end
   end
 
+  local map = {}
+  for buf, set in pairs(sets) do
+    local list = vim.tbl_keys(set)
+    table.sort(list)
+    map[buf] = list
+  end
   return map
 end
 
@@ -107,12 +117,12 @@ local function save()
 
     local manifest = {}
     local counter = 0
-    local buf_to_tab = build_buf_to_tab()
+    local buf_to_tabs = build_buf_to_tabs()
 
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
       -- Only track buffers that belong to a tab (listed now, or cached by scope in another tab).
       -- This includes buffers scope unlisted.
-      if buf_to_tab[buf] and should_track(buf) then
+      if buf_to_tabs[buf] and should_track(buf) then
         local name = vim.api.nvim_buf_get_name(buf)
         local modified = vim.bo[buf].modified
         local unnamed = name == ""
@@ -140,7 +150,7 @@ local function save()
             path = unnamed and vim.NIL or name,
             filetype = vim.bo[buf].filetype,
             cursor = buffer_cursor(buf),
-            tab_index = buf_to_tab[buf] or 1,
+            tab_indexes = buf_to_tabs[buf],
           })
         end
       end
@@ -219,9 +229,12 @@ local function load()
           pcall(vim.api.nvim_buf_set_mark, buf, '"', entry.cursor[1], entry.cursor[2], {})
         end
 
-        local idx = entry.tab_index or 1
-        tab_bufs[idx] = tab_bufs[idx] or {}
-        table.insert(tab_bufs[idx], buf)
+        -- `tab_index` is the legacy single-tab manifest format
+        local indexes = type(entry.tab_indexes) == "table" and entry.tab_indexes or { entry.tab_index or 1 }
+        for _, idx in ipairs(indexes) do
+          tab_bufs[idx] = tab_bufs[idx] or {}
+          table.insert(tab_bufs[idx], buf)
+        end
       end)
     end
 
