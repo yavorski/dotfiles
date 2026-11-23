@@ -59,6 +59,8 @@ if ui2.cfg.msg.target ~= nil then
 end
 
 require("core/ui/wrap").setup()
+-- Pager border fix (decorate.setup); disabled until 0.13 release, see ui-review.md.
+-- require("core/ui/decorate").setup()
 require("core/ui/search_count").setup()
 require("core/ui/lsp_progress").setup()
 require("core/ui/debug").setup()

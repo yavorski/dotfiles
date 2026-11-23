@@ -112,6 +112,26 @@ function M.msg(win)
   end
 end
 
+--- Upstream enter_pager installs a WinEnter/WinResized autocmd that rewrites the pager
+--- border ('none' or separator) after our set_pos decoration; re-apply after it.
+--- Currently unused (call commented out in init.lua): waiting for the 0.13 release to
+--- see if upstream fixes it (border lost whenever the pager opens at a new size).
+function M.setup()
+  local group = vim.api.nvim_create_augroup("local/ui-pager-border", { clear = true })
+  vim.api.nvim_create_autocmd({ "WinEnter", "WinResized" }, {
+    group = group,
+    desc = "Re-apply pager border after upstream reposition",
+    callback = function()
+      if not util.valid_win(ui2.wins.pager) then
+        return
+      end
+      vim.schedule(function()
+        M.float("pager", ui2.wins.pager)
+      end)
+    end,
+  })
+end
+
 function M.all()
   M.msg(ui2.wins.msg)
   M.float("pager", ui2.wins.pager)
