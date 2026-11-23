@@ -21,7 +21,7 @@ function M.resolve(kind, id, trigger)
   if type(id) == "string" then
     local k, v = next(targets)
     while k and not id_target do
-      id_target = id:match(k) and v
+      id_target = id:find(k) == 1 and v or nil
       k, v = next(targets, k)
     end
   end
