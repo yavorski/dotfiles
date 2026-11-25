@@ -18,7 +18,7 @@ local Lazy = {
 
 --- Install "zpack" plugin manager
 function Lazy.install()
-  vim.pack.add({ "https://github.com/yavorski/zpack.nvim" })
+  vim.pack.add({ "https://github.com/zuqini/zpack.nvim" })
 end
 
 --- Add lazy plugin
