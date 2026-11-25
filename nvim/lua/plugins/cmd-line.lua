@@ -3,32 +3,29 @@
 
 local Lazy = require("core/lazy")
 
+--- @type TinyCmdlineConfig
+local options = {
+  width = {
+    min = 86,
+    max = 96,
+    value = 86,
+  },
+  position = {
+    x = "50%",
+    y = "20%",
+  },
+  title = {
+    enabled = true,
+  },
+  menu_col_offset = 0,
+  native_types = vim.fn.has("nvim-0.13") and { } or { "/", "?" },
+}
+
 Lazy.use {
   src = "https://github.com/rachartier/tiny-cmdline.nvim",
   -- src = "file://" .. vim.fn.expand("~/dev/nvim-plugins/tiny-cmdline.nvim"),
   event = "VeryLazy",
   config = function()
-    --- @type TinyCmdlineConfig
-    local options = {
-      width = {
-        value = 86,
-        min = 86,
-        max = 96,
-      },
-
-      position = {
-        x = "50%",
-        y = "20%",
-      },
-
-      title = {
-        enabled = true,
-      },
-
-      menu_col_offset = 0,
-      native_types = { "/", "?" },
-    }
-
     require("tiny-cmdline").setup(options)
   end,
 }
